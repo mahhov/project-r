@@ -13,9 +13,9 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 public class Cube {
     private static final int LEFT = 0, RIGHT = 1, FRONT = 2, BACK = 3, BOTTOM = 4, TOP = 5;
-    private float[][] vertices;
-    private FloatBuffer[] buffers;
-    private int[] vaoIds, vboIds;
+    private float[] vertices;
+    private FloatBuffer buffer;
+    private int vaoId, vboId;
 
     Cube(float x, float y, float z) {
         createVertices(x, y, z);
@@ -26,54 +26,39 @@ public class Cube {
     private void createVertices(float x, float y, float z) {
         float left = x - .5f, right = x + .5f, front = y - .5f, back = y + .5f, top = z - .5f, bottom = z + .5f;
 
-        vertices = new float[6][];
+        vertices = new float[6 * 6 * 3];
 
-        vertices[LEFT] = new float[] {
+        vertices = new float[] {
                 left, front, top,
                 left, back, top,
                 left, back, bottom,
                 left, front, top,
                 left, back, bottom,
-                left, front, bottom
-        };
-
-        vertices[RIGHT] = new float[] {
+                left, front, bottom,
                 right, back, top,
                 right, front, top,
                 right, front, bottom,
                 right, back, top,
                 right, front, bottom,
-                right, back, bottom
-        };
-
-        vertices[FRONT] = new float[] {
+                right, back, bottom,
                 left, front, top,
                 left, front, bottom,
                 right, front, bottom,
                 left, front, top,
                 right, front, bottom,
-                right, front, top
-        };
-
-        vertices[BACK] = new float[] {
+                right, front, top,
                 right, back, top,
                 right, back, bottom,
                 left, back, bottom,
                 right, back, top,
                 left, back, bottom,
-                left, back, top
-        };
-
-        vertices[BOTTOM] = new float[] {
+                left, back, top,
                 right, back, bottom,
                 right, front, bottom,
                 left, front, bottom,
                 right, back, bottom,
                 left, front, bottom,
-                left, back, bottom
-        };
-
-        vertices[TOP] = new float[] {
+                left, back, bottom,
                 left, back, top,
                 left, front, top,
                 right, front, top,
@@ -84,33 +69,24 @@ public class Cube {
     }
 
     private void createBuffers() {
-        buffers = new FloatBuffer[6];
-
-        for (int i = 0; i < 6; i++) {
-            buffers[i] = MemoryUtil.memAllocFloat(18);
-            buffers[i].put(vertices[i]).flip();
-        }
+        buffer = MemoryUtil.memAllocFloat(vertices.length);
+        buffer.put(vertices).flip();
     }
 
     private void createVaos() {
-        vaoIds = new int[6];
-        vboIds = new int[6];
-
-        for (int i = 0; i < 6; i++) {
-            vaoIds[i] = glGenVertexArrays();
-            glBindVertexArray(vaoIds[i]);
-            vboIds[i] = glGenBuffers();
-            glBindBuffer(GL_ARRAY_BUFFER, vboIds[i]);
-            glBufferData(GL_ARRAY_BUFFER, buffers[i], GL_STATIC_DRAW);
-            glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
-            glEnableVertexAttribArray(0);
-        }
+        vaoId = glGenVertexArrays();
+        glBindVertexArray(vaoId);
+        vboId = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, vboId);
+        glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+        glEnableVertexAttribArray(0);
     }
 
     public void draw() {
         for (int i = 0; i < 6; i++) {
-            glBindVertexArray(vaoIds[i]);
-            glDrawArrays(GL_TRIANGLES, 0, 6);
+            glBindVertexArray(vaoId);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
         }
     }
 }
