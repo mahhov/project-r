@@ -25,7 +25,7 @@ class Engine {
         camera = new Camera(shaderProgram.getProgramId());
         controller = new Controller(window);
         painter = new Painter();
-        world = new World(16, 16, 4);
+        world = new World(32, 32, 4);
     }
 
     private void initLwjgl() {
