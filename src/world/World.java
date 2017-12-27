@@ -1,23 +1,16 @@
 package world;
 
-import util.LList;
-import world.particle.Particle;
-
 public class World {
-    private static final int CHUNK_SIZE = 16;
-    private WorldChunk[][][] worldChunks;
-    private Character character;
-    private LList<Particle> particles;
+    private Cube cube;
 
-    public World(int width, int length, int height) {
-        worldChunks = new WorldChunk[width / CHUNK_SIZE][length / CHUNK_SIZE][height / CHUNK_SIZE];
-        character = new Character();
-        particles = new LList<>();
+    public World(int width, int length, int height, int programId) {
+        cube = new Cube(0, 0, -10);
     }
-    
-    public void update(){
-        
+
+    public void update(int programId) {
     }
-    
-    public void draw(){}
+
+    public void draw(int programId) {
+        cube.draw();
+    }
 }
