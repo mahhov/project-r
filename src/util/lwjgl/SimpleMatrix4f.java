@@ -1,6 +1,6 @@
 package util.lwjgl;
 
-import util.Math3D;
+import util.MathAngles;
 
 import java.nio.FloatBuffer;
 
@@ -63,8 +63,8 @@ public class SimpleMatrix4f {
     public static SimpleMatrix4f rotate(float radian, float x, float y, float z) {
         SimpleMatrix4f rotation = new SimpleMatrix4f();
 
-        float c = Math3D.cos(radian);
-        float s = Math3D.sin(radian);
+        float c = MathAngles.cos(radian);
+        float s = MathAngles.sin(radian);
 
         rotation.m00 = x * x * (1f - c) + c;
         rotation.m10 = y * x * (1f - c) + z * s;
@@ -83,7 +83,7 @@ public class SimpleMatrix4f {
     public static SimpleMatrix4f perspective(float fovy, float aspect, float near, float far) {
         SimpleMatrix4f perspective = new SimpleMatrix4f();
 
-        float f = (1f / Math3D.tan(fovy / 2f));
+        float f = (1f / MathAngles.tan(fovy / 2f));
 
         perspective.m00 = f / aspect;
         perspective.m11 = f;

@@ -1,7 +1,7 @@
 package engine;
 
 import org.lwjgl.system.MemoryUtil;
-import util.Math3D;
+import util.MathAngles;
 import util.lwjgl.SimpleMatrix4f;
 
 import java.nio.FloatBuffer;
@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 class Camera {
+    private static final float FIELD_OF_VIEW = MathAngles.toRadians(60);
     private static final float MOVE_SEED = .4f, ROTATE_SPEED = .03f;
 
     private float x, y, z;
@@ -63,7 +64,7 @@ class Camera {
     }
 
     private void setupProjectionMatrix() {
-        SimpleMatrix4f projectionMatrix = SimpleMatrix4f.perspective(Math3D.toRadians(60), 1, 0, 100);
+        SimpleMatrix4f projectionMatrix = SimpleMatrix4f.perspective(FIELD_OF_VIEW, 1, 0, 100);
         FloatBuffer projectionMatrixBuffer = MemoryUtil.memAllocFloat(16);
         projectionMatrix.toBuffer(projectionMatrixBuffer);
         glUniformMatrix4fv(projectionMatrixLoc, false, projectionMatrixBuffer);
@@ -71,8 +72,8 @@ class Camera {
     }
 
     private void setViewMatrix() {
-        thetaMatrix = SimpleMatrix4f.rotate(-theta, 0, 1, 0);
         thetaZMatrix = SimpleMatrix4f.rotate(-thetaZ, 1, 0, 0);
+        thetaMatrix = SimpleMatrix4f.rotate(-theta, 0, 1, 0);
         moveMatrix = SimpleMatrix4f.translate(-x, -y, -z);
         viewMatrix = thetaZMatrix.multiply(thetaMatrix).multiply(moveMatrix);
         viewMatrix.toBuffer(viewMatrixBuffer);

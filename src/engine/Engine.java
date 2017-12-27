@@ -25,7 +25,7 @@ class Engine {
         camera = new Camera(shaderProgram.getProgramId());
         controller = new Controller(window);
         painter = new Painter();
-        world = new World(160, 160, 32, shaderProgram.getProgramId());
+        world = new World(16, 16, 4);
     }
 
     private void initLwjgl() {
@@ -97,9 +97,9 @@ class Engine {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             camera.update(controller);
-            
-            world.update(shaderProgram.getProgramId());
-            world.draw(shaderProgram.getProgramId());
+
+            world.update();
+            world.draw();
 
             glfwSwapBuffers(window);
             glfwPollEvents();

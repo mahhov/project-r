@@ -1,6 +1,6 @@
 package util;
 
-public class Math3D {
+public class MathAngles {
     public static final float PI = (float) Math.PI;
 
     private static float sinTable[];
@@ -40,7 +40,6 @@ public class Math3D {
         return sign * sinTable[(int) (x * TRIG_ACCURACY)];
 
     }
-
 
     public static float cos(float x) {
         return sin(x + PI / 2);
