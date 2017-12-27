@@ -12,14 +12,14 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 public class Cube {
-    private static final int LEFT = 0, RIGHT = 1, FRONT = 2, BACK = 3, BOTTOM = 4, TOP = 5;
-    private float[] vertices;
-    private FloatBuffer buffer;
-    private int vaoId, vboId;
+    private float[] vertices, colors;
+    private FloatBuffer verticesBuffer, colorsBuffer;
+    private int vaoId;
 
     Cube(float x, float y, float z) {
         createVertices(x, y, z);
-        createBuffer();
+        createColors();
+        createBuffers();
         createVao();
     }
 
@@ -66,20 +66,48 @@ public class Cube {
         };
     }
 
-    private void createBuffer() {
-        buffer = MemoryUtil.memAllocFloat(vertices.length);
-        buffer.put(vertices).flip();
+    private void createColors() {
+        float[][] color = new float[6][];
+        color[0] = new float[] {1, 0, 0};
+        color[1] = new float[] {0, 1, 0};
+        color[2] = new float[] {1, 0, 1};
+        color[3] = new float[] {1, 1, 0};
+        color[4] = new float[] {0, 0, 1};
+        color[5] = new float[] {1, 1, 1};
+
+        colors = new float[vertices.length];
+        for (int side = 0; side < 6; side++) {
+            for (int point = 0; point < 6; point++)
+                for (int rgb = 0; rgb < 3; rgb++)
+                    colors[side * 18 + point * 3 + rgb] = color[side][rgb];
+        }
+    }
+
+    private void createBuffers() {
+        verticesBuffer = MemoryUtil.memAllocFloat(vertices.length);
+        verticesBuffer.put(vertices).flip();
+
+        colorsBuffer = MemoryUtil.memAllocFloat(colors.length);
+        colorsBuffer.put(colors).flip();
     }
 
     private void createVao() {
         vaoId = glGenVertexArrays();
         glBindVertexArray(vaoId);
-        vboId = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, vboId);
-        glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
+
+        int verticesVboId = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, verticesVboId);
+        glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(0);
-        MemoryUtil.memFree(buffer);
+        MemoryUtil.memFree(verticesBuffer);
+
+        int colorsVboId = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, colorsVboId);
+        glBufferData(GL_ARRAY_BUFFER, colorsBuffer, GL_STATIC_DRAW);
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
+        glEnableVertexAttribArray(1);
+        MemoryUtil.memFree(colorsBuffer);
     }
 
     public void draw() {
