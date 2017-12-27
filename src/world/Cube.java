@@ -19,14 +19,12 @@ public class Cube {
 
     Cube(float x, float y, float z) {
         createVertices(x, y, z);
-        createBuffers();
-        createVaos();
+        createBuffer();
+        createVao();
     }
 
     private void createVertices(float x, float y, float z) {
         float left = x - .5f, right = x + .5f, front = y - .5f, back = y + .5f, top = z - .5f, bottom = z + .5f;
-
-        vertices = new float[6 * 6 * 3];
 
         vertices = new float[] {
                 left, front, top,
@@ -68,12 +66,12 @@ public class Cube {
         };
     }
 
-    private void createBuffers() {
+    private void createBuffer() {
         buffer = MemoryUtil.memAllocFloat(vertices.length);
         buffer.put(vertices).flip();
     }
 
-    private void createVaos() {
+    private void createVao() {
         vaoId = glGenVertexArrays();
         glBindVertexArray(vaoId);
         vboId = glGenBuffers();
@@ -81,6 +79,7 @@ public class Cube {
         glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(0);
+        MemoryUtil.memFree(buffer);
     }
 
     public void draw() {
