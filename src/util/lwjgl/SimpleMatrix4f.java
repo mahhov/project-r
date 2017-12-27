@@ -48,6 +48,10 @@ public class SimpleMatrix4f {
     public static SimpleMatrix4f translate(float x, float y, float z) {
         SimpleMatrix4f translation = new SimpleMatrix4f();
 
+        translation.m00 = 1f;
+        translation.m11 = 1f;
+        translation.m22 = 1f;
+        translation.m33 = 1f;
         translation.m03 = x;
         translation.m13 = y;
         translation.m23 = z;
@@ -55,18 +59,12 @@ public class SimpleMatrix4f {
         return translation;
     }
 
+    // axis x, y, z must be normalized
     public static SimpleMatrix4f rotate(float radian, float x, float y, float z) {
         SimpleMatrix4f rotation = new SimpleMatrix4f();
 
         float c = Math3D.cos(radian);
         float s = Math3D.sin(radian);
-        Vector3f vec = new Vector3f(x, y, z);
-        if (vec.length() != 1f) {
-            vec = vec.normalize();
-            x = vec.x;
-            y = vec.y;
-            z = vec.z;
-        }
 
         rotation.m00 = x * x * (1f - c) + c;
         rotation.m10 = y * x * (1f - c) + z * s;
@@ -77,10 +75,10 @@ public class SimpleMatrix4f {
         rotation.m02 = x * z * (1f - c) + y * s;
         rotation.m12 = y * z * (1f - c) - x * s;
         rotation.m22 = z * z * (1f - c) + c;
+        rotation.m33 = 1f;
 
         return rotation;
     }
-
 
     public static SimpleMatrix4f perspective(float fovy, float aspect, float near, float far) {
         SimpleMatrix4f perspective = new SimpleMatrix4f();
