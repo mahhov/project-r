@@ -32,12 +32,16 @@ public class Cube {
                 left, front, top,
                 left, back, top,
                 left, back, bottom,
+                left, front, top,
+                left, back, bottom,
                 left, front, bottom
         };
 
         vertices[RIGHT] = new float[] {
                 right, back, top,
                 right, front, top,
+                right, front, bottom,
+                right, back, top,
                 right, front, bottom,
                 right, back, bottom
         };
@@ -46,12 +50,16 @@ public class Cube {
                 left, front, top,
                 left, front, bottom,
                 right, front, bottom,
+                left, front, top,
+                right, front, bottom,
                 right, front, top
         };
 
         vertices[BACK] = new float[] {
                 right, back, top,
                 right, back, bottom,
+                left, back, bottom,
+                right, back, top,
                 left, back, bottom,
                 left, back, top
         };
@@ -60,12 +68,16 @@ public class Cube {
                 right, back, bottom,
                 right, front, bottom,
                 left, front, bottom,
+                right, back, bottom,
+                left, front, bottom,
                 left, back, bottom
         };
 
         vertices[TOP] = new float[] {
                 left, back, top,
                 left, front, top,
+                right, front, top,
+                left, back, top,
                 right, front, top,
                 right, back, top
         };
@@ -75,7 +87,7 @@ public class Cube {
         buffers = new FloatBuffer[6];
 
         for (int i = 0; i < 6; i++) {
-            buffers[i] = MemoryUtil.memAllocFloat(12);
+            buffers[i] = MemoryUtil.memAllocFloat(18);
             buffers[i].put(vertices[i]).flip();
         }
     }
@@ -98,7 +110,7 @@ public class Cube {
     public void draw() {
         for (int i = 0; i < 6; i++) {
             glBindVertexArray(vaoIds[i]);
-            glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+            glDrawArrays(GL_TRIANGLES, 0, 6);
         }
     }
 }
