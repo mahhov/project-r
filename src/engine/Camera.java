@@ -21,6 +21,10 @@ class Camera {
     private FloatBuffer viewMatrixBuffer;
 
     Camera(int programId) {
+        x = 16;
+        y = 14;
+        z = 30;
+        
         projectionMatrixLoc = glGetUniformLocation(programId, "projection");
         setupProjectionMatrix();
 
