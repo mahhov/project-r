@@ -13,14 +13,15 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 class Cube {
-    private float[] vertices;
-    private byte[] elements;
-    private FloatBuffer verticesBuffer;
-    private ByteBuffer elementsBuffer;
+    private float[] vertices, colors;
+    private byte[] indicies;
+    private FloatBuffer verticesBuffer, colorsBuffer;
+    private ByteBuffer indiciesBuffer;
     private int vaoId;
 
     Cube(float x, float y, float z) {
         createVertices(x, y, z);
+        createColors();
         createElements();
         createBuffers();
         createVao();
@@ -41,8 +42,21 @@ class Cube {
         };
     }
 
+    private void createColors() {
+        colors = new float[] {
+                0, .6f, .3f, // left, front, top
+                0, .6f, .3f, // left, front, bottom
+                0, .6f, .3f, // left, back, top
+                0, .6f, .3f, // left, back, bottom
+                0, .6f, .3f, // right, front, top
+                0, .6f, .3f, // right, front, bottom
+                0, .6f, .3f, // right, back, top
+                0, .6f, .3f, // right, back, bottom
+        };
+    }
+
     private void createElements() {
-        elements = new byte[] {
+        indicies = new byte[] {
                 0, 2, 3, 0, 3, 1, // left
                 4, 7, 6, 4, 5, 7, // right
                 0, 1, 5, 0, 5, 4, // front
@@ -56,8 +70,11 @@ class Cube {
         verticesBuffer = MemoryUtil.memAllocFloat(vertices.length);
         verticesBuffer.put(vertices).flip();
 
-        elementsBuffer = MemoryUtil.memAlloc(elements.length);
-        elementsBuffer.put(elements).flip();
+        colorsBuffer = MemoryUtil.memAllocFloat(colors.length);
+        colorsBuffer.put(colors).flip();
+
+        indiciesBuffer = MemoryUtil.memAlloc(indicies.length);
+        indiciesBuffer.put(indicies).flip();
     }
 
     private void createVao() {
@@ -71,14 +88,21 @@ class Cube {
         glEnableVertexAttribArray(0);
         MemoryUtil.memFree(verticesBuffer);
 
+        int colorsVboId = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, colorsVboId);
+        glBufferData(GL_ARRAY_BUFFER, colorsBuffer, GL_STATIC_DRAW);
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
+        glEnableVertexAttribArray(1);
+        MemoryUtil.memFree(colorsBuffer);
+
         int elementsVboId = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementsVboId);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, elementsBuffer, GL_STATIC_DRAW);
-        MemoryUtil.memFree(elementsBuffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indiciesBuffer, GL_STATIC_DRAW);
+        MemoryUtil.memFree(indiciesBuffer);
     }
 
     void draw() {
         glBindVertexArray(vaoId);
-        glDrawElements(GL_TRIANGLES, elements.length, GL_UNSIGNED_BYTE, 0);
+        glDrawElements(GL_TRIANGLES, indicies.length, GL_UNSIGNED_BYTE, 0);
     }
 }
