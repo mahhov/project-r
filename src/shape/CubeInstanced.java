@@ -37,7 +37,7 @@ public class CubeInstanced {
     }
 
     private void createVertices() {
-        float s = 1f;
+        float s = .5f;
 
         vertices = new float[] {
                 -s, -s, -s, // 0 : (left, front, top)
@@ -111,7 +111,7 @@ public class CubeInstanced {
     }
 
     public void add(float x, float y, float z) {
-        models[instances++] = SimpleMatrix4f.translate(x * 2, y * 2, z * 2);
+        models[instances++] = SimpleMatrix4f.translate(x, y, z);
     }
 
     public void doneAdding() {

@@ -20,7 +20,7 @@ public class Engine {
     private Controller controller;
     private World world;
 
-    Engine() {
+    private Engine() {
         initLwjgl();
         camera = new Camera(shaderProgram.getProgramId());
         controller = new Controller(window);

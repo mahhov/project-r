@@ -53,7 +53,7 @@ class WorldChunk {
     }
 
     int draw() {
-        cubeInstanced.draw();
+               cubeInstanced.draw();
         return 0;
     }
 }

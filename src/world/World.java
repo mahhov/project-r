@@ -63,6 +63,7 @@ public class World {
                 for (int z = 0; z < chunkHeight; z++)
                     if (chunks[x][y][z] != null)
                         count += chunks[x][y][z].draw();
+        
         if (Engine.DEBUG_PRINT_DRAW_COUNT)
             System.out.println("drew " + count);
     }
