@@ -14,12 +14,15 @@ public class World {
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
 
+        int count = 0;
         for (int x = 0; x < width; x++)
             for (int y = 0; y < length; y++) {
                 int h = MathRandom.random(1, height);
+                count += h;
                 for (int z = 0; z < h; z++)
                     insertCube(new CoordinateI3(x, y, z));
             }
+        System.out.println("cube count: " + count);
     }
 
     public void update() {
