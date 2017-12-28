@@ -40,38 +40,43 @@ public class CubeInstanced {
         float s = .5f;
 
         vertices = new float[] {
-                -s, -s, -s, // 0 : (left, front, top)
+                -s, s, s, // 0 : (left, front, top)
                 -s, -s, s, // 1 : (left, front, bottom)
                 -s, s, -s, // 2 : (left, back, top)
-                -s, s, s, // 3 : (left, back, bottom)
-                s, -s, -s, // 4 : (right, front, top)
+                -s, -s, -s, // 3 : (left, back, bottom)
+                s, s, s, // 4 : (right, front, top)
                 s, -s, s, // 5 : (right, front, bottom)
                 s, s, -s, // 6 : (right, back, top)
-                s, s, s, // 7 : (right, back, bottom)
+                s, -s, -s, // 7 : (right, back, bottom)
         };
     }
 
     private void createColors() {
         colors = new float[] {
-                0, .6f, .3f, // left, front, top
-                0, .6f, .3f, // left, front, bottom
-                0, .6f, .3f, // left, back, top
-                0, .6f, .3f, // left, back, bottom
-                0, .6f, .3f, // right, front, top
-                0, .6f, .3f, // right, front, bottom
-                0, .6f, .3f, // right, back, top
-                0, .6f, .3f, // right, back, bottom
+                0, .6f, .3f,
+                0, .6f, .3f,
+                0, .6f, .3f,
+                0, .6f, .3f,
+                0, .6f, .3f,
+                0, .6f, .3f,
+                0, .6f, .3f,
+                0, .6f, .3f,
         };
     }
 
     private void createElements() {
+        // A   B
+        // | \ |
+        // C   D
+        // A C D B A D
+
         indicies = new byte[] {
-                0, 2, 3, 0, 3, 1, // left
-                4, 7, 6, 4, 5, 7, // right
-                0, 1, 5, 0, 5, 4, // front
-                2, 3, 7, 2, 7, 6, // back
-                0, 4, 6, 0, 6, 2, // top
-                1, 5, 7, 1, 7, 3, // bottom
+                2, 3, 1, 0, 2, 1, // left: 2, 0, 3, 1
+                4, 5, 7, 6, 4, 7, // right: 4, 6, 5, 7
+                0, 1, 5, 4, 0, 5, // front: 0, 4, 1, 5
+                6, 7, 3, 2, 6, 3, // back: 6, 2, 7, 3
+                2, 0, 4, 6, 2, 4, // top: 2, 6, 0, 4
+                1, 3, 7, 5, 1, 7, // bottom: 1, 5, 3, 7
         };
     }
 
