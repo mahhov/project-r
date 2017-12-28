@@ -12,7 +12,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
     public static final boolean DEBUG_PRINT_DRAW_COUNT = false;
-    public static final int SCALE = 5;
+    static final int SCALE = 1;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
     private long window;
@@ -79,9 +79,8 @@ public class Engine {
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
 
-        //        glFrontFace(GL_CCW);
-        //        glEnable(GL_CULL_FACE);
-        //        glCullFace(GL_BACK);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK); // todo is this by default? can we remove this line
 
         shaderProgram = new ShaderProgram();
         shaderProgram.bind();
