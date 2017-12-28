@@ -1,4 +1,4 @@
-package world;
+package shape;
 
 import org.lwjgl.system.MemoryUtil;
 
@@ -12,14 +12,14 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-class Cube {
+public class Cube {
     private float[] vertices, colors;
     private byte[] indicies;
     private FloatBuffer verticesBuffer, colorsBuffer;
     private ByteBuffer indiciesBuffer;
     private int vaoId;
 
-    Cube(float x, float y, float z) {
+    public Cube(float x, float y, float z) {
         createVertices(x, y, z);
         createColors();
         createElements();
@@ -101,7 +101,7 @@ class Cube {
         MemoryUtil.memFree(indiciesBuffer);
     }
 
-    void draw() {
+    public void draw() {
         glBindVertexArray(vaoId);
         glDrawElements(GL_TRIANGLES, indicies.length, GL_UNSIGNED_BYTE, 0);
     }

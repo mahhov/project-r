@@ -1,6 +1,7 @@
 package world;
 
 import geometry.CoordinateI3;
+import shape.Cube;
 
 class WorldChunk {
     private int offsetX, offsetY, offsetZ;
