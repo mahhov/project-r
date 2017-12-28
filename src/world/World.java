@@ -47,10 +47,12 @@ public class World {
     }
 
     public void draw() {
+        int count = 0;
         for (int x = 0; x < chunkWidth; x++)
             for (int y = 0; y < chunkLength; y++)
                 for (int z = 0; z < chunkHeight; z++)
                     if (chunks[x][y][z] != null)
-                        chunks[x][y][z].draw();
+                        count += chunks[x][y][z].draw();
+        //        System.out.println("drew " + count);
     }
 }

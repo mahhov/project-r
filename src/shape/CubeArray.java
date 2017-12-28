@@ -1,4 +1,4 @@
-package world;
+package shape;
 
 import org.lwjgl.system.MemoryUtil;
 
@@ -16,7 +16,7 @@ public class CubeArray {
     private FloatBuffer verticesBuffer, colorsBuffer;
     private int vaoId;
 
-    CubeArray(float x, float y, float z) {
+    public CubeArray(float x, float y, float z) {
         createVertices(x, y, z);
         createColors();
         createBuffers();
