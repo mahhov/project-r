@@ -2,6 +2,7 @@ package engine;
 
 import org.lwjgl.system.MemoryUtil;
 import util.MathAngles;
+import util.MathNumbers;
 import util.lwjgl.SimpleMatrix4f;
 
 import java.nio.FloatBuffer;
@@ -60,9 +61,9 @@ class Camera {
         if (controller.isKeyDown(Controller.KEY_E))
             theta -= ROTATE_SPEED;
         if (controller.isKeyDown(Controller.KEY_R))
-            thetaZ += ROTATE_SPEED;
+            thetaZ = MathNumbers.min(thetaZ + ROTATE_SPEED, MathAngles.PI / 2);
         if (controller.isKeyDown(Controller.KEY_F))
-            thetaZ -= ROTATE_SPEED;
+            thetaZ = MathNumbers.max(thetaZ - ROTATE_SPEED, -MathAngles.PI / 2);
 
         setViewMatrix();
     }
