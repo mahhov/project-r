@@ -1,6 +1,5 @@
 package engine;
 
-import draw.Painter;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
@@ -11,20 +10,20 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-class Engine {
+public class Engine {
+    public static final boolean DEBUG_PRINT_DRAW_COUNT = false;
+
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
     private long window;
     private ShaderProgram shaderProgram;
     private Camera camera;
     private Controller controller;
-    private Painter painter;
     private World world;
 
     Engine() {
         initLwjgl();
         camera = new Camera(shaderProgram.getProgramId());
         controller = new Controller(window);
-        painter = new Painter();
         world = new World(32, 32, 16);
     }
 
@@ -78,6 +77,10 @@ class Engine {
 
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
+
+        //        glFrontFace(GL_CCW);
+        //        glEnable(GL_CULL_FACE);
+        //        glCullFace(GL_BACK);
 
         shaderProgram = new ShaderProgram();
         shaderProgram.bind();

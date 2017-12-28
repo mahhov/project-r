@@ -1,10 +1,11 @@
 package world;
 
+import engine.Engine;
 import geometry.CoordinateI3;
 import util.MathRandom;
 
 public class World {
-    static final int CHUNK_SIZE = 16;
+    static final int CHUNK_SIZE = 16, CHUNK_VOLUME = CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE;
     private int chunkWidth, chunkLength, chunkHeight;
     private WorldChunk[][][] chunks;
 
@@ -22,6 +23,13 @@ public class World {
                 for (int z = 0; z < h; z++)
                     insertCube(new CoordinateI3(x, y, z));
             }
+
+        for (int x = 0; x < chunkWidth; x++)
+            for (int y = 0; y < chunkLength; y++)
+                for (int z = 0; z < chunkHeight; z++)
+                    if (chunks[x][y][z] != null)
+                        chunks[x][y][z].doneAddingCubes();
+
         System.out.println("cube count: " + count);
     }
 
@@ -35,7 +43,7 @@ public class World {
         if (getChunk(chunkCoordinate) == null)
             setChunk(chunkCoordinate, new WorldChunk(chunkCoordinate));
 
-        getChunk(chunkCoordinate).insertCube(cubeCoordinate);
+        getChunk(chunkCoordinate).addCube(cubeCoordinate);
     }
 
     private WorldChunk getChunk(CoordinateI3 chunkCoordinate) {
@@ -53,6 +61,7 @@ public class World {
                 for (int z = 0; z < chunkHeight; z++)
                     if (chunks[x][y][z] != null)
                         count += chunks[x][y][z].draw();
-        //        System.out.println("drew " + count);
+        if (Engine.DEBUG_PRINT_DRAW_COUNT)
+            System.out.println("drew " + count);
     }
 }
