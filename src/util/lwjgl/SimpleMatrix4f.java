@@ -19,6 +19,13 @@ public class SimpleMatrix4f {
         buffer.flip();
     }
 
+    public void toBufferSub(FloatBuffer buffer) {
+        buffer.put(m00).put(m10).put(m20).put(m30);
+        buffer.put(m01).put(m11).put(m21).put(m31);
+        buffer.put(m02).put(m12).put(m22).put(m32);
+        buffer.put(m03).put(m13).put(m23).put(m33);
+    }
+
     public SimpleMatrix4f multiply(SimpleMatrix4f other) {
         SimpleMatrix4f result = new SimpleMatrix4f();
 
@@ -44,7 +51,18 @@ public class SimpleMatrix4f {
 
         return result;
     }
+    
+    public static SimpleMatrix4f identity() {
+        SimpleMatrix4f ident = new SimpleMatrix4f();
 
+        ident.m00 = 1f;
+        ident.m11 = 1f;
+        ident.m22 = 1f;
+        ident.m33 = 1f;
+
+        return ident;
+    }
+    
     public static SimpleMatrix4f translate(float x, float y, float z) {
         SimpleMatrix4f translation = new SimpleMatrix4f();
 
