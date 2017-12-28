@@ -12,6 +12,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
     public static final boolean DEBUG_PRINT_DRAW_COUNT = false;
+    public static final int SCALE = 5;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
     private long window;
@@ -24,7 +25,7 @@ public class Engine {
         initLwjgl();
         camera = new Camera(shaderProgram.getProgramId());
         controller = new Controller(window);
-        world = new World(64, 64, 16);
+        world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE);
     }
 
     private void initLwjgl() {

@@ -14,6 +14,7 @@ public class World {
         chunkLength = (length - 1) / CHUNK_SIZE + 1;
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
+        System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
 
         int count = 0;
         for (int x = 0; x < width; x++)
@@ -63,7 +64,7 @@ public class World {
                 for (int z = 0; z < chunkHeight; z++)
                     if (chunks[x][y][z] != null)
                         count += chunks[x][y][z].draw();
-        
+
         if (Engine.DEBUG_PRINT_DRAW_COUNT)
             System.out.println("drew " + count);
     }
