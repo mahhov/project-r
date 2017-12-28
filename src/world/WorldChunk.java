@@ -18,11 +18,30 @@ class WorldChunk {
 
     void addCube(CoordinateI3 coordinate) {
         cubes[coordinate.x][coordinate.y][coordinate.z] = 1;
-        cubeInstanced.add(coordinate.x + .5f + offsetX, coordinate.z + .5f + offsetZ, coordinate.y + .5f + offsetY);
     }
 
     void doneAddingCubes() {
+        for (int x = 0; x < World.CHUNK_SIZE; x++)
+            for (int y = 0; y < World.CHUNK_SIZE; y++)
+                for (int z = 0; z < World.CHUNK_SIZE; z++)
+                    checkAddCube(x, y, z);
         cubeInstanced.doneAdding();
+    }
+
+    private void checkAddCube(int x, int y, int z) {
+        if (!hasCube(x, y, z))
+            return;
+
+        for (int xx = -1; xx <= 1; xx++)
+            for (int yy = -1; yy <= 1; yy++)
+                for (int zz = -1; zz <= 1; zz++) {
+                    if (xx == 0 || yy == 0 || zz == 0)
+                        continue;
+                    if (!hasCube(x + xx, y + yy, z + zz)) {
+                        cubeInstanced.add(x + .5f + offsetX, z + .5f + offsetZ, y + .5f + offsetY);
+                        return;
+                    }
+                }
     }
 
     private boolean inBounds(int x, int y, int z) {
@@ -30,7 +49,7 @@ class WorldChunk {
     }
 
     private boolean hasCube(int x, int y, int z) {
-        return cubes[x][y][z] != 0;
+        return inBounds(x, y, z) && cubes[x][y][z] != 0;
     }
 
     int draw() {

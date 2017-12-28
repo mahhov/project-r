@@ -11,7 +11,7 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 class Camera {
     private static final float FIELD_OF_VIEW = MathAngles.toRadians(60);
-    private static final float MOVE_SEED = .4f, ROTATE_SPEED = .03f;
+    private static final float MOVE_SEED = 3f, ROTATE_SPEED = .03f;
 
     private float x, y, z;
     private float theta, thetaZ;
@@ -22,9 +22,9 @@ class Camera {
 
     Camera(int programId) {
         x = 32;
-        y = 28;
-        z = 60;
-        
+        y = 36;
+        z = 200;
+
         projectionMatrixLoc = glGetUniformLocation(programId, "projection");
         setupProjectionMatrix();
 
@@ -68,7 +68,7 @@ class Camera {
     }
 
     private void setupProjectionMatrix() {
-        SimpleMatrix4f projectionMatrix = SimpleMatrix4f.perspective(FIELD_OF_VIEW, 1, 1, 100);
+        SimpleMatrix4f projectionMatrix = SimpleMatrix4f.perspective(FIELD_OF_VIEW, 1, 1, 1000);
         FloatBuffer projectionMatrixBuffer = MemoryUtil.memAllocFloat(16);
         projectionMatrix.toBuffer(projectionMatrixBuffer);
         glUniformMatrix4fv(projectionMatrixLoc, false, projectionMatrixBuffer);

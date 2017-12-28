@@ -9,7 +9,7 @@ public class World {
     private int chunkWidth, chunkLength, chunkHeight;
     private WorldChunk[][][] chunks;
 
-    public World(int width, int length, int height) {
+    public World(int width, int length, int height) { // todo multithread & extract generation
         chunkWidth = (width - 1) / CHUNK_SIZE + 1;
         chunkLength = (length - 1) / CHUNK_SIZE + 1;
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
@@ -23,6 +23,8 @@ public class World {
                 for (int z = 0; z < h; z++)
                     insertCube(new CoordinateI3(x, y, z));
             }
+
+        // todo try having only 1 cube inseted, and a bunch of null chunks
 
         for (int x = 0; x < chunkWidth; x++)
             for (int y = 0; y < chunkLength; y++)
