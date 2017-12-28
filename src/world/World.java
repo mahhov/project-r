@@ -1,6 +1,5 @@
 package world;
 
-import engine.Engine;
 import geometry.CoordinateI3;
 import util.MathRandom;
 
@@ -58,14 +57,10 @@ public class World {
     }
 
     public void draw() {
-        int count = 0;
         for (int x = 0; x < chunkWidth; x++)
             for (int y = 0; y < chunkLength; y++)
                 for (int z = 0; z < chunkHeight; z++)
                     if (chunks[x][y][z] != null)
-                        count += chunks[x][y][z].draw();
-
-        if (Engine.DEBUG_PRINT_DRAW_COUNT)
-            System.out.println("drew " + count);
+                        chunks[x][y][z].draw();
     }
 }

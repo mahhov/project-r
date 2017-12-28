@@ -11,7 +11,6 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
-    public static final boolean DEBUG_PRINT_DRAW_COUNT = false;
     static final int SCALE = 1;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;

@@ -1,15 +1,15 @@
 package world;
 
 import geometry.CoordinateI3;
-import shape.CubeInstanced;
+import shape.CubeInstancedFaces;
 
 class WorldChunk {
     private int offsetX, offsetY, offsetZ;
-    private CubeInstanced cubeInstanced;
+    private CubeInstancedFaces cubeInstancedFaces;
     private int[][][] cubes;
 
     WorldChunk(CoordinateI3 coordinate) {
-        cubeInstanced = new CubeInstanced(World.CHUNK_VOLUME);
+        cubeInstancedFaces = new CubeInstancedFaces();
         offsetX = coordinate.x * World.CHUNK_SIZE;
         offsetY = coordinate.y * World.CHUNK_SIZE;
         offsetZ = coordinate.z * World.CHUNK_SIZE;
@@ -25,7 +25,7 @@ class WorldChunk {
             for (int y = 0; y < World.CHUNK_SIZE; y++)
                 for (int z = 0; z < World.CHUNK_SIZE; z++)
                     checkAddCube(x, y, z);
-        cubeInstanced.doneAdding();
+        cubeInstancedFaces.doneAdding();
     }
 
     private void checkAddCube(int x, int y, int z) {
@@ -38,7 +38,8 @@ class WorldChunk {
                     if (xx == 0 || yy == 0 || zz == 0)
                         continue;
                     if (!hasCube(x + xx, y + yy, z + zz)) {
-                        cubeInstanced.add(x + .5f + offsetX, z + .5f + offsetZ, y + .5f + offsetY);
+                        for (int side = 0; side < 6; side++)
+                            cubeInstancedFaces.add(side, x + .5f + offsetX, z + .5f + offsetZ, y + .5f + offsetY);
                         return;
                     }
                 }
@@ -52,8 +53,7 @@ class WorldChunk {
         return inBounds(x, y, z) && cubes[x][y][z] != 0;
     }
 
-    int draw() {
-        cubeInstanced.draw();
-        return 0;
+    void draw() {
+        cubeInstancedFaces.draw();
     }
 }
