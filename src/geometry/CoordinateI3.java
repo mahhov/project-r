@@ -12,6 +12,22 @@ public class CoordinateI3 {
         this.z = z;
     }
 
+    public CoordinateI3 add(int addend) {
+        return new CoordinateI3(x + addend, y + addend, z + addend);
+    }
+
+    public CoordinateI3 add(CoordinateI3 addend) {
+        return new CoordinateI3(x + addend.x, y + addend.y, z + addend.z);
+    }
+
+    public CoordinateI3 add(CoordinateI3 addend, int addendScale) {
+        return new CoordinateI3(x + addend.x * addendScale, y + addend.y * addendScale, z + addend.z * addendScale);
+    }
+
+    public CoordinateI3 subtract(int subtrahend) {
+        return new CoordinateI3(x - subtrahend, y - subtrahend, z - subtrahend);
+    }
+
     public CoordinateI3 subtract(CoordinateI3 subtrahend) {
         return new CoordinateI3(x - subtrahend.x, y - subtrahend.y, z - subtrahend.z);
     }

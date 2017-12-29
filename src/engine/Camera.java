@@ -23,8 +23,8 @@ class Camera {
 
     Camera(int programId) {
         x = 32 * Engine.SCALE;
-        y = 36 * Engine.SCALE;
-        z = 200 * Engine.SCALE;
+        y = 16 * Engine.SCALE;
+        z = 64 * Engine.SCALE;
 
         projectionMatrixLoc = glGetUniformLocation(programId, "projection");
         setupProjectionMatrix();
@@ -83,5 +83,17 @@ class Camera {
         viewMatrix = thetaZMatrix.multiply(thetaMatrix).multiply(moveMatrix);
         viewMatrix.toBuffer(viewMatrixBuffer);
         glUniformMatrix4fv(viewMatrixLoc, false, viewMatrixBuffer);
+    }
+
+    float getX() {
+        return x;
+    }
+
+    float getY() {
+        return y;
+    }
+
+    float getZ() {
+        return z;
     }
 }

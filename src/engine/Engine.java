@@ -11,7 +11,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
-    static final int SCALE = 1;
+    static final int SCALE = 4;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
     private long window;
@@ -104,7 +104,7 @@ public class Engine {
             camera.update(controller);
 
             world.update();
-            world.draw();
+            world.draw((int) camera.getX(), (int) camera.getZ(), (int) camera.getY());
 
             glfwSwapBuffers(window);
             glfwPollEvents();
@@ -124,3 +124,7 @@ public class Engine {
         new Engine().run();
     }
 }
+
+// camera culling
+// lighting
+// character with collision detectin, auto climbing, gravity, camera follow, jump
