@@ -5,13 +5,17 @@ import util.MathNumbers;
 import world.generator.WorldGenerator;
 
 public class World {
-    static final int CHUNK_SIZE = 128 * 2;
+    static final int CHUNK_SIZE = 128;
     private static final int DRAW_CHUNKS = 4;
 
+    private int width, length, height;
     private int chunkWidth, chunkLength, chunkHeight;
     private WorldChunk[][][] chunks;
 
     public World(int width, int length, int height) { // todo multithread
+        this.width = width;
+        this.length = length;
+        this.height = height;
         chunkWidth = (width - 1) / CHUNK_SIZE + 1;
         chunkLength = (length - 1) / CHUNK_SIZE + 1;
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
@@ -31,7 +35,7 @@ public class World {
             for (int y = 0; y < chunkLength; y++)
                 for (int z = 0; z < chunkHeight; z++)
                     if (chunks[x][y][z] != null)
-                        chunks[x][y][z].doneAddingCubes();
+                        chunks[x][y][z].doneAddingCubes(this);
 
         System.out.println("cube count: " + count);
         WorldChunk.printDebugAggregate(count);
@@ -56,6 +60,19 @@ public class World {
 
     private void setChunk(CoordinateI3 chunkCoordinate, WorldChunk chunk) {
         chunks[chunkCoordinate.x][chunkCoordinate.y][chunkCoordinate.z] = chunk;
+    }
+
+    private boolean inBounds(CoordinateI3 coordinate) {
+        return coordinate.x >= 0 && coordinate.y >= 0 && coordinate.z >= 0 && coordinate.x < width && coordinate.y < length && coordinate.z < height;
+    }
+
+    boolean hasCube(CoordinateI3 coordinate) {
+        if (!inBounds(coordinate))
+            return true;
+
+        CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
+        CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
+        return getChunk(chunkCoordinate).hasCube(cubeCoordinate.x, cubeCoordinate.y, cubeCoordinate.z, this);
     }
 
     public void draw(int x, int y, int z) {

@@ -22,16 +22,16 @@ class WorldChunk {
         cubes[coordinate.x][coordinate.y][coordinate.z] = 1;
     }
 
-    void doneAddingCubes() {
+    void doneAddingCubes(World world) {
         for (int x = 0; x < World.CHUNK_SIZE; x++)
             for (int y = 0; y < World.CHUNK_SIZE; y++)
                 for (int z = 0; z < World.CHUNK_SIZE; z++)
-                    checkAddCube(x, y, z);
+                    checkAddCube(x, y, z, world);
         cubeInstancedFaces.doneAdding();
     }
 
-    private void checkAddCube(int x, int y, int z) {
-        if (!hasCube(x, y, z))
+    private void checkAddCube(int x, int y, int z, World world) {
+        if (cubes[x][y][z] == 0)
             return;
 
         for (int xx = -1; xx <= 1; xx++)
@@ -39,7 +39,7 @@ class WorldChunk {
                 for (int zz = -1; zz <= 1; zz++) {
                     if (xx == 0 || yy == 0 || zz == 0)
                         continue;
-                    if (!hasCube(x + xx, y + yy, z + zz)) {
+                    if (!hasCube(x + xx, y + yy, z + zz, world)) {
                         debug_aggregate_added++;
                         for (int side = 0; side < 6; side++)
                             cubeInstancedFaces.add(side, x + .5f + offsetX, z + .5f + offsetZ, y + .5f + offsetY);
@@ -54,8 +54,8 @@ class WorldChunk {
         return x >= 0 && y >= 0 && z >= 0 && x < World.CHUNK_SIZE && y < World.CHUNK_SIZE && z < World.CHUNK_SIZE;
     }
 
-    private boolean hasCube(int x, int y, int z) {
-        return !inBounds(x, y, z) || cubes[x][y][z] != 0; // todo fix chunk boundaries
+    boolean hasCube(int x, int y, int z, World world) {
+        return inBounds(x, y, z) ? cubes[x][y][z] != 0 : world.hasCube(new CoordinateI3(x + offsetX, y + offsetY, z + offsetZ));
     }
 
     void draw() {
