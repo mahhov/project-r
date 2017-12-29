@@ -29,12 +29,12 @@ public class CubeInstancedFaces {
         SIDE_VERTICIES[TOP_SIDE] = MathArrays.pluckArray3(VERTICIES, new int[] {2, 6, 0, 4});
         SIDE_VERTICIES[BOTTOM_SIDE] = MathArrays.pluckArray3(VERTICIES, new int[] {1, 5, 3, 7});
 
-        SIDE_COLORS[LEFT_SIDE] = MathArrays.repeatArray(new float[] {1, 0, 0}, 4);
-        SIDE_COLORS[RIGHT_SIDE] = MathArrays.repeatArray(new float[] {0, 1, 0}, 4);
-        SIDE_COLORS[FRONT_SIDE] = MathArrays.repeatArray(new float[] {1, 1, 0}, 4);
-        SIDE_COLORS[BACK_SIDE] = MathArrays.repeatArray(new float[] {1, 0, 1}, 4);
-        SIDE_COLORS[TOP_SIDE] = MathArrays.repeatArray(new float[] {0, 1, 1}, 4);
-        SIDE_COLORS[BOTTOM_SIDE] = MathArrays.repeatArray(new float[] {0, 0, 1}, 4);
+        SIDE_COLORS[LEFT_SIDE] = MathArrays.repeatArray(new float[] {.7f, .7f, .7f}, 4);
+        SIDE_COLORS[RIGHT_SIDE] = MathArrays.repeatArray(new float[] {.6f, .6f, .6f}, 4);
+        SIDE_COLORS[FRONT_SIDE] = MathArrays.repeatArray(new float[] {.8f, .8f, .8f}, 4);
+        SIDE_COLORS[BACK_SIDE] = MathArrays.repeatArray(new float[] {.5f, .5f, .5f}, 4);
+        SIDE_COLORS[TOP_SIDE] = MathArrays.repeatArray(new float[] {.9f, .9f, .9f}, 4);
+        SIDE_COLORS[BOTTOM_SIDE] = MathArrays.repeatArray(new float[] {.4f, .4f, .4f}, 4);
     }
 
     private ShapeInstanced[] sides;
