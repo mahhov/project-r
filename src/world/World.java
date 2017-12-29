@@ -1,7 +1,7 @@
 package world;
 
 import geometry.CoordinateI3;
-import util.MathRandom;
+import world.generator.WorldGenerator;
 
 public class World {
     static final int CHUNK_SIZE = 16, CHUNK_VOLUME = CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE;
@@ -15,10 +15,12 @@ public class World {
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
 
+        int[][] heightMap = WorldGenerator.generate(width, length, height);
+
         int count = 0;
         for (int x = 0; x < width; x++)
             for (int y = 0; y < length; y++) {
-                int h = MathRandom.random(1, height);
+                int h = heightMap[x][y]; // MathRandom.random(1, height);
                 count += h;
                 for (int z = 0; z < h; z++)
                     insertCube(new CoordinateI3(x, y, z));
