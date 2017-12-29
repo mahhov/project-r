@@ -8,7 +8,7 @@ public class World {
     private int chunkWidth, chunkLength, chunkHeight;
     private WorldChunk[][][] chunks;
 
-    public World(int width, int length, int height) { // todo multithread & extract generation
+    public World(int width, int length, int height) { // todo multithread
         chunkWidth = (width - 1) / CHUNK_SIZE + 1;
         chunkLength = (length - 1) / CHUNK_SIZE + 1;
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
@@ -16,17 +16,13 @@ public class World {
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
 
         int[][] heightMap = WorldGenerator.generate(width, length, height);
-
         int count = 0;
         for (int x = 0; x < width; x++)
             for (int y = 0; y < length; y++) {
-                int h = heightMap[x][y]; // MathRandom.random(1, height);
-                count += h;
-                for (int z = 0; z < h; z++)
+                count += heightMap[x][y];
+                for (int z = 0; z < heightMap[x][y]; z++)
                     insertCube(new CoordinateI3(x, y, z));
             }
-
-        // todo try having only 1 cube inseted, and a bunch of null chunks
 
         for (int x = 0; x < chunkWidth; x++)
             for (int y = 0; y < chunkLength; y++)
