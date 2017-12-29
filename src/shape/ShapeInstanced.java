@@ -18,27 +18,30 @@ import static org.lwjgl.opengl.GL33.glVertexAttribDivisor;
 
 class ShapeInstanced {
     private int numIndicies;
-    private FloatBuffer verticesBuffer, colorsBuffer;
+    private FloatBuffer verticesBuffer, colorsBuffer, normalsBuffer;
     private ByteBuffer indiciesBuffer;
     private int vaoId;
 
     private LList<SimpleMatrix4f> models;
     private FloatBuffer modelsBuffer;
 
-    ShapeInstanced(float[] vertices, float[] colors, byte[] indicies) {
+    ShapeInstanced(float[] vertices, float[] colors, float[] normals, byte[] indicies) {
         numIndicies = indicies.length;
-        createBuffers(vertices, colors, indicies);
+        createBuffers(vertices, colors, normals, indicies);
         createVao();
 
         models = new LList<>();
     }
 
-    private void createBuffers(float[] vertices, float[] colors, byte[] indicies) {
+    private void createBuffers(float[] vertices, float[] colors, float[] normals, byte[] indicies) {
         verticesBuffer = MemoryUtil.memAllocFloat(vertices.length);
         verticesBuffer.put(vertices).flip();
 
         colorsBuffer = MemoryUtil.memAllocFloat(colors.length);
         colorsBuffer.put(colors).flip();
+
+        normalsBuffer = MemoryUtil.memAllocFloat(normals.length);
+        normalsBuffer.put(normals).flip();
 
         indiciesBuffer = MemoryUtil.memAlloc(indicies.length);
         indiciesBuffer.put(indicies).flip();
@@ -61,6 +64,13 @@ class ShapeInstanced {
         glVertexAttribPointer(5, 3, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(5);
         MemoryUtil.memFree(colorsBuffer);
+
+        int normalsVboId = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, normalsVboId);
+        glBufferData(GL_ARRAY_BUFFER, normalsBuffer, GL_STATIC_DRAW);
+        glVertexAttribPointer(6, 3, GL_FLOAT, false, 0, 0);
+        glEnableVertexAttribArray(6);
+        MemoryUtil.memFree(normalsBuffer);
 
         int elementsVboId = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementsVboId);

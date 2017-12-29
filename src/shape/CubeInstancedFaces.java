@@ -17,8 +17,7 @@ public class CubeInstancedFaces {
             S, -S, -S, // 7 : (right, back, bottom)
     };
 
-    private static final float[][] SIDE_VERTICIES = new float[6][];
-    private static final float[][] SIDE_COLORS = new float[6][];
+    private static final float[][] SIDE_VERTICIES = new float[6][], SIDE_COLORS = new float[6][], SIDE_NORMALS = new float[6][];
     private static final byte[] INDICIES = new byte[] {0, 2, 3, 1, 0, 3};
 
     static {
@@ -35,6 +34,13 @@ public class CubeInstancedFaces {
         SIDE_COLORS[BACK_SIDE] = MathArrays.repeatArray(new float[] {.5f, .5f, .5f}, 4);
         SIDE_COLORS[TOP_SIDE] = MathArrays.repeatArray(new float[] {.9f, .9f, .9f}, 4);
         SIDE_COLORS[BOTTOM_SIDE] = MathArrays.repeatArray(new float[] {.4f, .4f, .4f}, 4);
+
+        SIDE_NORMALS[LEFT_SIDE] = MathArrays.repeatArray(new float[] {-1, 0, 0}, 4);
+        SIDE_NORMALS[RIGHT_SIDE] = MathArrays.repeatArray(new float[] {1, 0, 0}, 4);
+        SIDE_NORMALS[FRONT_SIDE] = MathArrays.repeatArray(new float[] {0, 0, 1}, 4);
+        SIDE_NORMALS[BACK_SIDE] = MathArrays.repeatArray(new float[] {0, 0, -1}, 4);
+        SIDE_NORMALS[TOP_SIDE] = MathArrays.repeatArray(new float[] {0, 1, 0}, 4);
+        SIDE_NORMALS[BOTTOM_SIDE] = MathArrays.repeatArray(new float[] {0, -1, 0}, 4);
     }
 
     private ShapeInstanced[] sides;
@@ -42,7 +48,7 @@ public class CubeInstancedFaces {
     public CubeInstancedFaces() {
         sides = new ShapeInstanced[6];
         for (int i = 0; i < sides.length; i++)
-            sides[i] = new ShapeInstanced(SIDE_VERTICIES[i], SIDE_COLORS[i], INDICIES);
+            sides[i] = new ShapeInstanced(SIDE_VERTICIES[i], SIDE_COLORS[i], SIDE_NORMALS[i], INDICIES);
     }
 
     public void add(int side, float x, float y, float z) {
