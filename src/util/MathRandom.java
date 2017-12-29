@@ -1,13 +1,17 @@
 package util;
 
+import java.util.Random;
+
 public class MathRandom {
+    private static final Random R = new Random();
+
     // exclusive
     public static float random(float min, float max) {
-        return (float) Math.random() * (max - min) + min;
+        return R.nextFloat() * (max - min) + min;
     }
 
     // exclusive
     public static int random(int min, int max) {
-        return (int) (Math.random() * (max - min)) + min;
+        return R.nextInt(max - min) + min;
     }
 }
