@@ -4,6 +4,8 @@ import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 
 class WorldChunk {
+    private static int debug_aggregate_added, debug_aggregate_skipped;
+
     private int offsetX, offsetY, offsetZ;
     private CubeInstancedFaces cubeInstancedFaces;
     private int[][][] cubes;
@@ -38,11 +40,14 @@ class WorldChunk {
                     if (xx == 0 || yy == 0 || zz == 0)
                         continue;
                     if (!hasCube(x + xx, y + yy, z + zz)) {
+                        debug_aggregate_added++;
                         for (int side = 0; side < 6; side++)
                             cubeInstancedFaces.add(side, x + .5f + offsetX, z + .5f + offsetZ, y + .5f + offsetY);
                         return;
                     }
                 }
+
+        debug_aggregate_skipped++;
     }
 
     private boolean inBounds(int x, int y, int z) {
@@ -50,10 +55,16 @@ class WorldChunk {
     }
 
     private boolean hasCube(int x, int y, int z) {
-        return inBounds(x, y, z) && cubes[x][y][z] != 0;
+        return !inBounds(x, y, z) || cubes[x][y][z] != 0; // todo fix chunk boundaries
     }
 
     void draw() {
         cubeInstancedFaces.draw();
+    }
+
+    static void printDebugAggregate(int total) {
+        double added = 1. * debug_aggregate_added / total * 100;
+        double skipped = 1. * debug_aggregate_skipped / total * 100;
+        System.out.printf("added: %.3f%% skipped: %.1f%% %n", added, skipped);
     }
 }

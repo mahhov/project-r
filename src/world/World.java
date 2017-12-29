@@ -5,8 +5,8 @@ import util.MathNumbers;
 import world.generator.WorldGenerator;
 
 public class World {
-    static final int CHUNK_SIZE = 16;
-    private static final int DRAW_CHUNKS = 8;
+    static final int CHUNK_SIZE = 128 * 2;
+    private static final int DRAW_CHUNKS = 4;
 
     private int chunkWidth, chunkLength, chunkHeight;
     private WorldChunk[][][] chunks;
@@ -34,6 +34,7 @@ public class World {
                         chunks[x][y][z].doneAddingCubes();
 
         System.out.println("cube count: " + count);
+        WorldChunk.printDebugAggregate(count);
     }
 
     public void update() {
