@@ -28,7 +28,7 @@ public class World {
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
         heightMap = WorldGenerator.generate(width, length, height);
         Timer.time("world creation");
-        //        WorldChunk.printDebugAggregate(count);
+        // WorldChunk.printDebugAggregate(count);
     }
 
     public void setCameraCoordinate(CoordinateI3 cameraCoordinate) {
@@ -48,20 +48,11 @@ public class World {
     public void update() {
         for (int chunkX = viewStart.x; chunkX < viewEnd.x; chunkX++)
             for (int chunkY = viewStart.y; chunkY < viewEnd.y; chunkY++)
-                for (int chunkZ = viewStart.z; chunkZ < viewEnd.z; chunkZ++)
-                    if (chunks[chunkX][chunkY][chunkZ] == null) {
-                        System.out.println("GENERATE " + generatedChunks++);
-                        WorldChunk c = chunks[chunkX][chunkY][chunkZ] = new WorldChunk(new CoordinateI3(chunkX, chunkY, chunkZ));
-                        int width = MathNumbers.min(CHUNK_SIZE, this.width - c.getOffsetX());
-                        int length = MathNumbers.min(CHUNK_SIZE, this.length - c.getOffsetY());
-                        for (int x = 0; x < width; x++)
-                            for (int y = 0; y < length; y++) {
-                                int height = MathNumbers.min(heightMap[x + c.getOffsetX()][y + c.getOffsetY()] - c.getOffsetZ(), CHUNK_SIZE);
-                                for (int z = 0; z < height; z++)
-                                    c.addCube(new CoordinateI3(x, y, z));
-                            }
-                        c.doneAddingCubes(this);
-                    }
+                for (int chunkZ = viewStart.z; chunkZ < viewEnd.z; chunkZ++) {
+                    CoordinateI3 coordinate = new CoordinateI3(chunkX, chunkY, chunkZ);
+                    if (getChunk(coordinate) == null)
+                        chunks[chunkX][chunkY][chunkZ] = loadChunk(coordinate);
+                }
     }
 
     private WorldChunk getChunk(CoordinateI3 chunkCoordinate) {
@@ -91,5 +82,20 @@ public class World {
                 for (int chunkZ = viewStart.z; chunkZ < viewEnd.z; chunkZ++)
                     if (chunks[chunkX][chunkY][chunkZ] != null)
                         chunks[chunkX][chunkY][chunkZ].draw();
+    }
+
+    private WorldChunk loadChunk(CoordinateI3 coordinate) {
+        WorldChunk chunk = new WorldChunk(coordinate);
+        int maxX = MathNumbers.min(CHUNK_SIZE, width - chunk.getOffsetX());
+        int maxY = MathNumbers.min(CHUNK_SIZE, length - chunk.getOffsetY());
+        for (int x = 0; x < maxX; x++)
+            for (int y = 0; y < maxY; y++) {
+                int height = MathNumbers.min(heightMap[x + chunk.getOffsetX()][y + chunk.getOffsetY()] - chunk.getOffsetZ(), CHUNK_SIZE);
+                for (int z = 0; z < height; z++)
+                    chunk.addCube(new CoordinateI3(x, y, z));
+            }
+        chunk.doneAddingCubes(World.this);
+        System.out.println("GENERATED " + generatedChunks++);
+        return chunk;
     }
 }

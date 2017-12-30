@@ -11,7 +11,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
-    static final int SCALE = 1;
+    static final int SCALE = 4;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
     private long window;
