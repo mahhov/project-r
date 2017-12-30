@@ -11,7 +11,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
-    static final int SCALE = 8;
+    static final int SCALE = 1;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
     private long window;
@@ -103,8 +103,9 @@ public class Engine {
 
             camera.update(controller);
 
+            world.setCameraCoordinate(camera.getIntCoordinate());
             world.update();
-            world.draw((int) camera.getX(), (int) camera.getZ(), (int) camera.getY());
+            world.draw();
 
             glfwSwapBuffers(window);
             glfwPollEvents();

@@ -1,10 +1,7 @@
 package geometry;
 
 public class CoordinateI3 {
-    public int x, y, z;
-
-    public CoordinateI3() {
-    }
+    public final int x, y, z;
 
     public CoordinateI3(int x, int y, int z) {
         this.x = x;

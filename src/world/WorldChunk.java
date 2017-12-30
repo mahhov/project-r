@@ -64,6 +64,18 @@ class WorldChunk {
         return inBounds(x, y, z) ? cubes[x][y][z] != 0 : world.hasCube(new CoordinateI3(x + offsetX, y + offsetY, z + offsetZ));
     }
 
+    int getOffsetX() {
+        return offsetX;
+    }
+
+    int getOffsetY() {
+        return offsetY;
+    }
+
+    int getOffsetZ() {
+        return offsetZ;
+    }
+
     void draw() {
         if (!drawEmpty)
             cubeInstancedFaces.draw();

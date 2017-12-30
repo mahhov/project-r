@@ -1,5 +1,6 @@
 package engine;
 
+import geometry.CoordinateI3;
 import org.lwjgl.system.MemoryUtil;
 import util.MathAngles;
 import util.MathNumbers;
@@ -85,15 +86,7 @@ class Camera {
         glUniformMatrix4fv(viewMatrixLoc, false, viewMatrixBuffer);
     }
 
-    float getX() {
-        return x;
-    }
-
-    float getY() {
-        return y;
-    }
-
-    float getZ() {
-        return z;
+    CoordinateI3 getIntCoordinate() {
+        return new CoordinateI3((int) x, (int) z, (int) y);
     }
 }
