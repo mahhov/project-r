@@ -1,19 +1,20 @@
 #version 330 core
 
 in vec3 vertexColor;
-in vec3 mvVertexPosition;
-in vec3 mvVertexNormal;
+in vec3 mVertexPosition;
+in vec3 mVertexNormal;
 
 out vec3 fragColor;
 
-float calcPointLight(vec3 lightPosition, vec3 position, vec3 normal) {
-    vec3 lightDirection = lightPosition - position;
-    vec3 lightDirectionNormalized  = normalize(lightDirection);
-    float diffuseFactor = max(dot(normal, lightDirectionNormalized), 0.0);
-    return diffuseFactor;
+const float ambientFactor = .2;
+const vec3 lightPosition = vec3(128, 64, 128);
+
+float calcDiffuseFactor(vec3 lightDirection, vec3 normal) {
+    return max(dot(normal, lightDirection), 0.0);
 }
 
 void main() {
-    float diffuseFactor = calcPointLight(vec3(0, 30, 0), mvVertexPosition, mvVertexNormal);
-    fragColor = vertexColor * diffuseFactor;
+    vec3 lightDirection = normalize(lightPosition - mVertexPosition);
+    float diffuseFactor = calcDiffuseFactor(lightDirection, mVertexNormal);
+    fragColor = vertexColor * min(diffuseFactor + ambientFactor, 1);
 }

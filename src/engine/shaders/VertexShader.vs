@@ -8,14 +8,14 @@ layout (location=5) in vec3 color;
 layout (location=6) in vec3 vertexNormal;
 
 out vec3 vertexColor;
-out vec3 mvVertexPosition;
-out vec3 mvVertexNormal;
+out vec3 mVertexPosition;
+out vec3 mVertexNormal;
 
 void main() {
-    vec4 mvPosition = view * model * vec4(position, 1.0);
-    mvVertexPosition = mvPosition.xyz;
-    mvVertexNormal = normalize(view * model * vec4(vertexNormal, 0.0)).xyz;
+    vec4 mPosition = model * vec4(position, 1.0);
+    mVertexPosition = mPosition.xyz;
+    mVertexNormal = vertexNormal; // normalize(view * model * vec4(vertexNormal, 0.0)).xyz;
 
-    gl_Position = projection * mvPosition;
+    gl_Position = projection * view * mPosition;
     vertexColor = color;
 }

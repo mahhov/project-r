@@ -44,7 +44,7 @@ class WorldChunk {
                 for (int zz = -1; zz <= 1; zz++) {
                     if (xx == 0 || yy == 0 || zz == 0)
                         continue;
-                    if (!hasCube(x + xx, y + yy, z + zz, world)) {
+                    if (!hasCube(x + xx, y + yy, z + zz, world)) { // todo make this check async
                         debug_aggregate_added++;
                         drawEmpty = false;
                         for (int side = 0; side < 6; side++)

@@ -98,8 +98,8 @@ class ShapeInstanced {
         for (int i = 0; i < 4; i++) {
             int loc = i + 1;
             glVertexAttribPointer(loc, 4, GL_FLOAT, false, 16 * floatBytes, i * 4 * floatBytes);
-            glEnableVertexAttribArray(loc);
             glVertexAttribDivisor(loc, 1);
+            glEnableVertexAttribArray(loc);
         }
 
         MemoryUtil.memFree(modelsBuffer);

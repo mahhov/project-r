@@ -25,7 +25,7 @@ class Camera {
     Camera(int programId) {
         x = 32 * Engine.SCALE;
         y = 16 * Engine.SCALE;
-        z = 64 * Engine.SCALE;
+        theta = MathAngles.PI;
 
         projectionMatrixLoc = glGetUniformLocation(programId, "projection");
         setupProjectionMatrix();

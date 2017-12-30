@@ -126,6 +126,10 @@ public class Engine {
     }
 }
 
+// todo
 // camera culling
 // lighting
 // character with collision detectin, auto climbing, gravity, camera follow, jump
+// timer to have nano precision
+// normal and color to be instanced
+// light to be fixed
