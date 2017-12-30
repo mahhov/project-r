@@ -3,6 +3,7 @@ package engine;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import world.Character;
 import world.World;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -25,6 +26,7 @@ public class Engine {
         camera = new Camera(shaderProgram.getProgramId());
         controller = new Controller(window);
         world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE);
+        world.addWorldElement(new Character());
     }
 
     private void initLwjgl() {

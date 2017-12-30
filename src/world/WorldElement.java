@@ -1,4 +1,7 @@
 package world;
 
-public interface WorldElement {
+interface WorldElement {
+    void update();
+
+    void draw();
 }

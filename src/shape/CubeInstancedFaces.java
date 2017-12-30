@@ -51,6 +51,11 @@ public class CubeInstancedFaces {
             sides[i] = new ShapeInstanced(SIDE_VERTICIES[i], SIDE_COLORS[i], SIDE_NORMALS[i], INDICIES);
     }
 
+    public void add(float x, float y, float z) {
+        for (int i = 0; i < 6; i++)
+            sides[i].add(x, y, z);
+    }
+
     public void add(int side, float x, float y, float z) {
         sides[side].add(x, y, z);
     }

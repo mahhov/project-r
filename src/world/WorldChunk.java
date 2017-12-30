@@ -30,30 +30,25 @@ class WorldChunk {
         for (int x = 0; x < World.CHUNK_SIZE; x++)
             for (int y = 0; y < World.CHUNK_SIZE; y++)
                 for (int z = 0; z < World.CHUNK_SIZE; z++)
-                    checkAddCube(x, y, z, world);
+                    if (checkAddCube(x, y, z, world)) {
+                        drawEmpty = false;
+                        cubeInstancedFaces.add(x + .5f + offsetX, z + .5f + offsetZ, y + .5f + offsetY);
+                    }
         if (!drawEmpty)
             cubeInstancedFaces.doneAdding();
     }
 
-    private void checkAddCube(int x, int y, int z, World world) {
-        if (cubes[x][y][z] == 0)
-            return;
+    private static final int MAX = World.CHUNK_SIZE - 1;
 
-        for (int xx = -1; xx <= 1; xx++)
-            for (int yy = -1; yy <= 1; yy++)
-                for (int zz = -1; zz <= 1; zz++) {
-                    if (xx == 0 || yy == 0 || zz == 0)
-                        continue;
-                    if (!hasCube(x + xx, y + yy, z + zz, world)) { // todo make this check async
-                        debug_aggregate_added++;
-                        drawEmpty = false;
-                        for (int side = 0; side < 6; side++)
-                            cubeInstancedFaces.add(side, x + .5f + offsetX, z + .5f + offsetZ, y + .5f + offsetY);
-                        return;
-                    }
-                }
+    private boolean checkAddCube(int x, int y, int z, World world) {
+        return cubes[x][y][z] != 0 &&
+                !(hasCube(x - 1, y, z, world) &&
+                        hasCube(x + 1, y, z, world) &&
+                        hasCube(x, y - 1, z, world) &&
+                        hasCube(x, y + 1, z, world) &&
+                        hasCube(x, y, z - 1, world) &&
+                        hasCube(x, y, z + 1, world));
 
-        debug_aggregate_skipped++;
     }
 
     private boolean inBounds(int x, int y, int z) {
