@@ -9,6 +9,7 @@ class WorldChunk {
     private int offsetX, offsetY, offsetZ;
     private CubeInstancedFaces cubeInstancedFaces;
     private int[][][] cubes;
+    private boolean worldEmpty, drawEmpty;
 
     WorldChunk(CoordinateI3 coordinate) {
         cubeInstancedFaces = new CubeInstancedFaces();
@@ -16,9 +17,12 @@ class WorldChunk {
         offsetY = coordinate.y * World.CHUNK_SIZE;
         offsetZ = coordinate.z * World.CHUNK_SIZE;
         cubes = new int[World.CHUNK_SIZE][World.CHUNK_SIZE][World.CHUNK_SIZE];
+        worldEmpty = true;
+        drawEmpty = true;
     }
 
     void addCube(CoordinateI3 coordinate) {
+        worldEmpty = false;
         cubes[coordinate.x][coordinate.y][coordinate.z] = 1;
     }
 
@@ -27,7 +31,8 @@ class WorldChunk {
             for (int y = 0; y < World.CHUNK_SIZE; y++)
                 for (int z = 0; z < World.CHUNK_SIZE; z++)
                     checkAddCube(x, y, z, world);
-        cubeInstancedFaces.doneAdding();
+        if (!drawEmpty)
+            cubeInstancedFaces.doneAdding();
     }
 
     private void checkAddCube(int x, int y, int z, World world) {
@@ -41,6 +46,7 @@ class WorldChunk {
                         continue;
                     if (!hasCube(x + xx, y + yy, z + zz, world)) {
                         debug_aggregate_added++;
+                        drawEmpty = false;
                         for (int side = 0; side < 6; side++)
                             cubeInstancedFaces.add(side, x + .5f + offsetX, z + .5f + offsetZ, y + .5f + offsetY);
                         return;
@@ -59,7 +65,8 @@ class WorldChunk {
     }
 
     void draw() {
-        cubeInstancedFaces.draw();
+        if (!drawEmpty)
+            cubeInstancedFaces.draw();
     }
 
     static void printDebugAggregate(int total) {

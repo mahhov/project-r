@@ -2,6 +2,7 @@ package world;
 
 import geometry.CoordinateI3;
 import util.MathNumbers;
+import util.Timer;
 import world.generator.WorldGenerator;
 
 public class World {
@@ -13,6 +14,7 @@ public class World {
     private WorldChunk[][][] chunks;
 
     public World(int width, int length, int height) { // todo multithread
+        Timer.restart();
         this.width = width;
         this.length = length;
         this.height = height;
@@ -37,6 +39,7 @@ public class World {
                     if (chunks[x][y][z] != null)
                         chunks[x][y][z].doneAddingCubes(this);
 
+        Timer.time("world creation");
         System.out.println("cube count: " + count);
         WorldChunk.printDebugAggregate(count);
     }
@@ -72,7 +75,7 @@ public class World {
 
         CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
         CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
-        return getChunk(chunkCoordinate).hasCube(cubeCoordinate.x, cubeCoordinate.y, cubeCoordinate.z, this);
+        return getChunk(chunkCoordinate) != null && getChunk(chunkCoordinate).hasCube(cubeCoordinate.x, cubeCoordinate.y, cubeCoordinate.z, this);
     }
 
     public void draw(int x, int y, int z) {
