@@ -8,9 +8,14 @@ public class Timer {
         beginTime = System.nanoTime();
     }
 
-    public static void time(String message) {
+    public static long time(String message) {
         long endTime = System.nanoTime();
-        long difTime = (endTime - beginTime) / NANOSECONDS_IN__MILLISECOND;
-        System.out.println(message + " (" + difTime + "ms)");
+        long difTime = endTime - beginTime;
+        if (message != null) {
+            String displayTime = difTime < 4 * NANOSECONDS_IN__MILLISECOND ? difTime + "ns" : difTime / NANOSECONDS_IN__MILLISECOND + "ms";
+            System.out.println(message + " (" + displayTime + ")");
+        }
+        beginTime = System.nanoTime();
+        return difTime;
     }
 }
