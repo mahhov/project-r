@@ -78,7 +78,7 @@ public class Engine {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-        window = glfwCreateWindow(300, 300, "title", NULL, NULL);
+        window = glfwCreateWindow(800, 800, "Project R", NULL, NULL);
 
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
