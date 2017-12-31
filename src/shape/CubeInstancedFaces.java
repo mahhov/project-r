@@ -64,13 +64,27 @@ public class CubeInstancedFaces {
         add(SimpleMatrix4f.translate(x, y, z));
     }
 
+    public void add(float x, float y, float z, boolean sides[]) {
+        add(SimpleMatrix4f.translate(x, y, z), sides);
+    }
+
     public void add(float x, float y, float z, float theta, float thetaZ) {
         add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ));
+    }
+
+    public void add(float x, float y, float z, float theta, float thetaZ, boolean sides[]) {
+        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ), sides);
     }
 
     private void add(SimpleMatrix4f modelMatrix) {
         for (int i = 0; i < 6; i++)
             sides[i].add(modelMatrix);
+    }
+
+    private void add(SimpleMatrix4f modelMatrix, boolean sides[]) {
+        for (int i = 0; i < 6; i++)
+            if (sides[i])
+                this.sides[i].add(modelMatrix);
     }
 
     public void doneAdding() {

@@ -86,6 +86,7 @@ public class World {
     }
 
     private void generateChunks() {
+        Timer.restart();
         LList<WorldChunk> generatedChunks = new LList<>();
 
         for (int chunkX = viewStart.x; chunkX < viewEnd.x; chunkX++)
@@ -102,7 +103,7 @@ public class World {
             chunk.doneAddingCubes(this);
 
         if (generatedChunks.size() > 0)
-            System.out.println("Cubes " + WorldChunk.debugCubeCount);
+            Timer.time("Cubes " + WorldChunk.debugCubeCount);
     }
 
     private WorldChunk createChunk(CoordinateI3 coordinate) {
