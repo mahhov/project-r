@@ -1,11 +1,11 @@
-package engine;
+package control;
 
 import org.lwjgl.glfw.GLFWKeyCallbackI;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class Controller implements GLFWKeyCallbackI {
-    public static final int UP = 0, DOWN = 1, PRESSED = 2, RELEASED = 3;
+public class KeyControl implements GLFWKeyCallbackI {
+    private static final int UP = 0, DOWN = 1, PRESSED = 2, RELEASED = 3;
     private static final int NUM_KEYS;
     public static final int
             KEY_W, KEY_A, KEY_S, KEY_D,
@@ -29,7 +29,7 @@ public class Controller implements GLFWKeyCallbackI {
 
     private Key[] keys;
 
-    Controller(long window) {
+    public KeyControl(long window) {
         glfwSetKeyCallback(window, this);
         keys = new Key[NUM_KEYS];
         keys[KEY_W] = new Key(GLFW_KEY_W);
@@ -49,7 +49,6 @@ public class Controller implements GLFWKeyCallbackI {
         if (key != null)
             key.state = state;
     }
-
 
     public boolean isKeyPressed(int keyIndex) {
         Key key = keys[keyIndex];

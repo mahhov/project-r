@@ -1,6 +1,8 @@
 package engine;
 
 import camera.Camera;
+import control.KeyControl;
+import control.MousePosControl;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
@@ -20,13 +22,15 @@ public class Engine {
     private ShaderProgram shaderProgram;
     private Camera camera;
     Character character;
-    private Controller controller;
+    private KeyControl keyControl;
+    private MousePosControl mousePosControl;
     private World world;
 
     private Engine() {
         initLwjgl();
         camera = new Camera(shaderProgram.getProgramId());
-        controller = new Controller(window);
+        keyControl = new KeyControl(window);
+        mousePosControl = new MousePosControl(window);
         world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE);
         character = new Character(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0);
         world.addWorldElement(character);
@@ -101,12 +105,12 @@ public class Engine {
         int drawFrame = 0, engineFrame = 0;
         long beginTime = 0, endTime;
 
-        controller = new Controller(window);
+        keyControl = new KeyControl(window);
 
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            character.updateControls(controller);
+            character.updateControls(keyControl, mousePosControl);
             camera.update();
 
             world.setCameraCoordinate(camera.getWorldCoordinate());

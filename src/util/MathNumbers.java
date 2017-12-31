@@ -15,11 +15,15 @@ public class MathNumbers {
     public static float min(float v1, float v2) {
         return v1 < v2 ? v1 : v2;
     }
-    
+
     public static int min(int v1, int v2) {
         return v1 < v2 ? v1 : v2;
     }
 
+    public static float maxMin(float v, float max, float min) {
+        return v > max ? max : (v < min ? min : v);
+    }
+    
     public static float log2(float x) {
         return (float) Math.log(x) / LOG2;
     }

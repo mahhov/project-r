@@ -1,14 +1,15 @@
 package world;
 
 import camera.Follow;
-import engine.Controller;
+import control.KeyControl;
+import control.MousePosControl;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.MathAngles;
 import util.MathNumbers;
 
 public class Character implements WorldElement, Follow {
-    private static final float MOVE_SEED = 3f, ROTATE_SPEED = .03f;
+    private static final float MOVE_SEED = 1.5f, ROTATE_SPEED = .03f, ROTATE_SPEED_MOUSE = .008f;
     private static final float FOLLOW_DISTANCE = 20;
     private static final float[] COLOR = new float[] {0, 1, 0};
 
@@ -35,36 +36,43 @@ public class Character implements WorldElement, Follow {
             z--;
     }
 
-    public void updateControls(Controller controller) {
-        if (controller.isKeyDown(Controller.KEY_W)) {
+    public void updateControls(KeyControl keyControl, MousePosControl mousePosControl) {
+        // keyboard horizontal
+        if (keyControl.isKeyDown(KeyControl.KEY_W)) {
             x -= MOVE_SEED * MathAngles.sin(theta);
             y += MOVE_SEED * MathAngles.cos(theta);
         }
-        if (controller.isKeyDown(Controller.KEY_S)) {
+        if (keyControl.isKeyDown(KeyControl.KEY_S)) {
             x += MOVE_SEED * MathAngles.sin(theta);
             y -= MOVE_SEED * MathAngles.cos(theta);
         }
-        if (controller.isKeyDown(Controller.KEY_A)) {
+        if (keyControl.isKeyDown(KeyControl.KEY_A)) {
             x -= MOVE_SEED * MathAngles.cos(theta);
             y -= MOVE_SEED * MathAngles.sin(theta);
         }
-        if (controller.isKeyDown(Controller.KEY_D)) {
+        if (keyControl.isKeyDown(KeyControl.KEY_D)) {
             x += MOVE_SEED * MathAngles.cos(theta);
             y += MOVE_SEED * MathAngles.sin(theta);
         }
 
-        if (controller.isKeyDown(Controller.KEY_SHIFT))
+        // keyboard vertical
+        if (keyControl.isKeyDown(KeyControl.KEY_SHIFT))
             z -= MOVE_SEED;
-        if (controller.isKeyDown(Controller.KEY_SPACE))
+        if (keyControl.isKeyDown(KeyControl.KEY_SPACE))
             z += MOVE_SEED;
 
-        if (controller.isKeyDown(Controller.KEY_Q))
+        // mouse rotation
+        theta -= ROTATE_SPEED_MOUSE * mousePosControl.getX();
+        thetaZ = MathNumbers.maxMin(thetaZ - ROTATE_SPEED_MOUSE * mousePosControl.getY(), MathAngles.PI / 2, -MathAngles.PI / 2);
+
+        // keyboard rotation
+        if (keyControl.isKeyDown(KeyControl.KEY_Q))
             theta += ROTATE_SPEED;
-        if (controller.isKeyDown(Controller.KEY_E))
+        if (keyControl.isKeyDown(KeyControl.KEY_E))
             theta -= ROTATE_SPEED;
-        if (controller.isKeyDown(Controller.KEY_R))
+        if (keyControl.isKeyDown(KeyControl.KEY_R))
             thetaZ = MathNumbers.min(thetaZ + ROTATE_SPEED, MathAngles.PI / 2);
-        if (controller.isKeyDown(Controller.KEY_F))
+        if (keyControl.isKeyDown(KeyControl.KEY_F))
             thetaZ = MathNumbers.max(thetaZ - ROTATE_SPEED, -MathAngles.PI / 2);
     }
 
