@@ -4,7 +4,6 @@ import camera.Camera;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
-import util.MathAngles;
 import world.Character;
 import world.World;
 
@@ -29,7 +28,7 @@ public class Engine {
         camera = new Camera(shaderProgram.getProgramId());
         controller = new Controller(window);
         world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE);
-        character = new Character(32 * Engine.SCALE, 16 * Engine.SCALE, 0, MathAngles.PI, 0);
+        character = new Character(32 * Engine.SCALE, 0, 16 * Engine.SCALE, 0, 0);
         world.addWorldElement(character);
         camera.setFollow(character);
     }

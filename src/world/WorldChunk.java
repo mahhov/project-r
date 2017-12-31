@@ -32,7 +32,7 @@ class WorldChunk {
                 for (int z = 0; z < World.CHUNK_SIZE; z++)
                     if (checkAddCube(x, y, z, world)) {
                         drawEmpty = false;
-                        cubeInstancedFaces.add(x + .5f + offsetX, z + .5f + offsetZ, y + .5f + offsetY);
+                        cubeInstancedFaces.add(x + .5f + offsetX, z + .5f + offsetZ, -(y + .5f + offsetY));
                     }
         if (!drawEmpty)
             cubeInstancedFaces.doneAdding();

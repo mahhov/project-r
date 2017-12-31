@@ -12,11 +12,11 @@ public class Character implements WorldElement, Follow {
     private float theta, thetaZ;
 
     public Character(float x, float y, float z, float theta, float thetaZ) {
-        this.x = 0; // x;
-        this.y = 0; // y;
-        this.z = 0; // z;
-        this.theta = 0; // theta;
-        this.thetaZ = 0; // thetaZ;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.theta = theta;
+        this.thetaZ = thetaZ;
     }
 
     @Override
@@ -25,7 +25,6 @@ public class Character implements WorldElement, Follow {
     }
 
     public void updateControls(Controller controller) {
-        System.out.println(x + " " + y + " " + z + " " + (int) (theta * 180 / MathAngles.PI) + " " + (int) (thetaZ * 180 / MathAngles.PI));
         if (controller.isKeyDown(Controller.KEY_W)) {
             x -= MOVE_SEED * MathAngles.sin(theta);
             y += MOVE_SEED * MathAngles.cos(theta);
