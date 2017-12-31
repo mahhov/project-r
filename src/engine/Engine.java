@@ -146,10 +146,8 @@ public class Engine {
 // multithread world chunk fill
 // blur distant
 
-// clean up camera follow
-// remove atan table
 // character intersection
 // cube normals
 // specular lighting
-// 1 model creation per cube
 // hide obscured faces, not cuubes
+// more efficient is(draw/world)empty tracking
