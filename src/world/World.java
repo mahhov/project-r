@@ -9,7 +9,6 @@ import world.generator.WorldGenerator;
 public class World {
     static final int CHUNK_SIZE = 128;
     private static final int DRAW_CHUNKS = 4;
-    private static int generatedChunks = 0;
 
     private int width, length, height;
     private int chunkWidth, chunkLength, chunkHeight;

@@ -1,8 +1,10 @@
 package engine;
 
+import camera.Camera;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import util.MathAngles;
 import world.Character;
 import world.World;
 
@@ -12,12 +14,13 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
-    static final int SCALE = 4;
+    public static final int SCALE = 4;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
     private long window;
     private ShaderProgram shaderProgram;
     private Camera camera;
+    Character character;
     private Controller controller;
     private World world;
 
@@ -26,7 +29,9 @@ public class Engine {
         camera = new Camera(shaderProgram.getProgramId());
         controller = new Controller(window);
         world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE);
-        world.addWorldElement(new Character());
+        character = new Character(32 * Engine.SCALE, 16 * Engine.SCALE, 0, MathAngles.PI, 0);
+        world.addWorldElement(character);
+        camera.setFollow(character);
     }
 
     private void initLwjgl() {
@@ -103,7 +108,8 @@ public class Engine {
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            camera.update(controller);
+            character.updateControls(controller);
+            camera.update();
 
             world.setCameraCoordinate(camera.getIntCoordinate());
             world.update();

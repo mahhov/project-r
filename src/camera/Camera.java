@@ -1,9 +1,9 @@
-package engine;
+package camera;
 
+import engine.Engine;
 import geometry.CoordinateI3;
 import org.lwjgl.system.MemoryUtil;
 import util.MathAngles;
-import util.MathNumbers;
 import util.lwjgl.SimpleMatrix4f;
 
 import java.nio.FloatBuffer;
@@ -11,18 +11,19 @@ import java.nio.FloatBuffer;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
-class Camera {
+public class Camera {
     private static final float FIELD_OF_VIEW = MathAngles.toRadians(60);
-    private static final float MOVE_SEED = 3f, ROTATE_SPEED = .03f;
+    private static final double PAN_WEIGHT = .1, ROTATE_WEIGHT = .1;
 
     private float x, y, z;
     private float theta, thetaZ;
+    private Follow follow;
 
     private int projectionMatrixLoc, viewMatrixLoc;
     private SimpleMatrix4f thetaMatrix, thetaZMatrix, moveMatrix, viewMatrix;
     private FloatBuffer viewMatrixBuffer;
 
-    Camera(int programId) {
+    public Camera(int programId) {
         x = 32 * Engine.SCALE;
         y = 16 * Engine.SCALE;
         theta = MathAngles.PI;
@@ -35,36 +36,12 @@ class Camera {
         setViewMatrix();
     }
 
-    void update(Controller controller) {
-        if (controller.isKeyDown(Controller.KEY_W)) {
-            x -= MOVE_SEED * Math.sin(theta);
-            z -= MOVE_SEED * Math.cos(theta);
-        }
-        if (controller.isKeyDown(Controller.KEY_S)) {
-            x += MOVE_SEED * Math.sin(theta);
-            z += MOVE_SEED * Math.cos(theta);
-        }
-        if (controller.isKeyDown(Controller.KEY_A)) {
-            x -= MOVE_SEED * Math.cos(theta);
-            z += MOVE_SEED * Math.sin(theta);
-        }
-        if (controller.isKeyDown(Controller.KEY_D)) {
-            x += MOVE_SEED * Math.cos(theta);
-            z -= MOVE_SEED * Math.sin(theta);
-        }
-
-        if (controller.isKeyDown(Controller.KEY_SHIFT))
-            y -= MOVE_SEED;
-        if (controller.isKeyDown(Controller.KEY_SPACE))
-            y += MOVE_SEED;
-        if (controller.isKeyDown(Controller.KEY_Q))
-            theta += ROTATE_SPEED;
-        if (controller.isKeyDown(Controller.KEY_E))
-            theta -= ROTATE_SPEED;
-        if (controller.isKeyDown(Controller.KEY_R))
-            thetaZ = MathNumbers.min(thetaZ + ROTATE_SPEED, MathAngles.PI / 2);
-        if (controller.isKeyDown(Controller.KEY_F))
-            thetaZ = MathNumbers.max(thetaZ - ROTATE_SPEED, -MathAngles.PI / 2);
+    public void update() {
+        x += (follow.getFollowX() - x) * PAN_WEIGHT;
+        y += (follow.getFollowY() - y) * PAN_WEIGHT;
+        z += (follow.getFollowZ() - z) * PAN_WEIGHT;
+        theta += (follow.getFollowTheta() - theta) * ROTATE_WEIGHT;
+        thetaZ += (follow.getFollowThetaZ() - thetaZ) * ROTATE_WEIGHT;
 
         setViewMatrix();
     }
@@ -86,7 +63,11 @@ class Camera {
         glUniformMatrix4fv(viewMatrixLoc, false, viewMatrixBuffer);
     }
 
-    CoordinateI3 getIntCoordinate() {
+    public CoordinateI3 getIntCoordinate() {
         return new CoordinateI3((int) x, (int) z, (int) y);
+    }
+
+    public void setFollow(Follow follow) {
+        this.follow = follow;
     }
 }
