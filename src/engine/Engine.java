@@ -13,7 +13,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
-    public static final int SCALE = 4;
+    public static final int SCALE = 8;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
     private long window;
@@ -110,7 +110,7 @@ public class Engine {
             character.updateControls(controller);
             camera.update();
 
-            world.setCameraCoordinate(camera.getIntCoordinate());
+            world.setCameraCoordinate(camera.getWorldCoordinate());
             world.update();
             world.draw();
 

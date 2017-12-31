@@ -63,8 +63,8 @@ public class Camera {
         glUniformMatrix4fv(viewMatrixLoc, false, viewMatrixBuffer);
     }
 
-    public CoordinateI3 getIntCoordinate() {
-        return new CoordinateI3((int) x, (int) z, (int) y);
+    public CoordinateI3 getWorldCoordinate() {
+        return new CoordinateI3((int) x, (int) -z, (int) y);
     }
 
     public void setFollow(Follow follow) {
