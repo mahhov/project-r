@@ -12,7 +12,7 @@ public class Timer {
         long endTime = System.nanoTime();
         long difTime = endTime - beginTime;
         if (message != null) {
-            String displayTime = difTime < 4 * NANOSECONDS_IN__MILLISECOND ? difTime + "ns" : difTime / NANOSECONDS_IN__MILLISECOND + "ms";
+            String displayTime = difTime < 4 * NANOSECONDS_IN__MILLISECOND ? (int) (1000 * difTime / NANOSECONDS_IN__MILLISECOND) / 1000. + "ms" : difTime / NANOSECONDS_IN__MILLISECOND + "ms";
             System.out.println(message + " (" + displayTime + ")");
         }
         beginTime = System.nanoTime();
