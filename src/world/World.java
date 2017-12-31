@@ -18,7 +18,7 @@ public class World {
 
     private LList<WorldElement> elements;
 
-    public World(int width, int length, int height) { // todo multithread
+    public World(int width, int length, int height) {
         Timer.restart();
         this.width = width;
         this.length = length;

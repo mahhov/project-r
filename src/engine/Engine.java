@@ -85,7 +85,6 @@ public class Engine {
         glDepthFunc(GL_LESS);
 
         glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK); // todo is this by default? can we remove this line
 
         shaderProgram = new ShaderProgram();
         shaderProgram.bind();
@@ -135,8 +134,10 @@ public class Engine {
 
 // todo
 // camera culling
-// lighting
 // character with collision detectin, auto climbing, gravity, camera follow, jump
-// timer to have nano precision
-// normal and color to be instanced
-// light to be fixed
+// specular lighting and multi-light support
+// proper character intersection detection
+// character cube rotated
+// calculate normals properly per rotation
+// multithread world chunk fill
+// blur distant
