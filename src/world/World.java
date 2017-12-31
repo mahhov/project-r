@@ -54,7 +54,7 @@ public class World {
     public void update() {
         generateChunks();
         for (WorldElement element : elements)
-            element.update();
+            element.update(this);
     }
 
     private WorldChunk getChunk(CoordinateI3 chunkCoordinate) {
@@ -100,6 +100,9 @@ public class World {
 
         for (WorldChunk chunk : generatedChunks)
             chunk.doneAddingCubes(this);
+
+        if (generatedChunks.size() > 0)
+            System.out.println("Cubes " + WorldChunk.debugCubeCount);
     }
 
     private WorldChunk createChunk(CoordinateI3 coordinate) {

@@ -1,7 +1,7 @@
 package world;
 
 interface WorldElement {
-    void update();
+    void update(World world);
 
     void draw();
 }

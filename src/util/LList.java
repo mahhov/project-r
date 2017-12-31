@@ -42,6 +42,11 @@ public class LList<T> implements Iterable<T> {
         size--;
     }
 
+    public void removeAll() {
+        head = tail = null;
+        size = 0;
+    }
+
     public int size() {
         return size;
     }

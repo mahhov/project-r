@@ -105,6 +105,10 @@ class ShapeInstanced {
         MemoryUtil.memFree(modelsBuffer);
     }
 
+    void reset() {
+        models.removeAll();
+    }
+
     void draw() {
         glBindVertexArray(vaoId);
         glDrawElementsInstanced(GL_TRIANGLES, numIndicies, GL_UNSIGNED_BYTE, 0, models.size());

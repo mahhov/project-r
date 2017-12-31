@@ -4,7 +4,7 @@ import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 
 class WorldChunk {
-    private static int debug_aggregate_added, debug_aggregate_skipped;
+    static int debugCubeCount;
 
     private int offsetX, offsetY, offsetZ;
     private CubeInstancedFaces cubeInstancedFaces;
@@ -31,6 +31,7 @@ class WorldChunk {
             for (int y = 0; y < World.CHUNK_SIZE; y++)
                 for (int z = 0; z < World.CHUNK_SIZE; z++)
                     if (checkAddCube(x, y, z, world)) {
+                        debugCubeCount++;
                         drawEmpty = false;
                         cubeInstancedFaces.add(x + .5f + offsetX, z + .5f + offsetZ, -(y + .5f + offsetY));
                     }
@@ -74,11 +75,5 @@ class WorldChunk {
     void draw() {
         if (!drawEmpty)
             cubeInstancedFaces.draw();
-    }
-
-    static void printDebugAggregate(int total) {
-        double added = 1. * debug_aggregate_added / total * 100;
-        double skipped = 1. * debug_aggregate_skipped / total * 100;
-        System.out.printf("added: %.3f%% skipped: %.1f%% %n", added, skipped);
     }
 }
