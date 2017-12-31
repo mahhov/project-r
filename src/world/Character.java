@@ -71,7 +71,7 @@ public class Character implements WorldElement, Follow {
     @Override
     public void draw() {
         cubeInstancedFaces.reset();
-        cubeInstancedFaces.add(x, z, -y);
+        cubeInstancedFaces.add(x, z + .5f, -y, theta, thetaZ);
         cubeInstancedFaces.doneAdding();
         cubeInstancedFaces.draw();
     }

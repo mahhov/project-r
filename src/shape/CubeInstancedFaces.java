@@ -1,6 +1,7 @@
 package shape;
 
 import util.MathArrays;
+import util.lwjgl.SimpleMatrix4f;
 
 public class CubeInstancedFaces {
     public static final int LEFT_SIDE = 0, RIGHT_SIDE = 1, FRONT_SIDE = 2, BACK_SIDE = 3, TOP_SIDE = 4, BOTTOM_SIDE = 5;
@@ -60,8 +61,16 @@ public class CubeInstancedFaces {
     }
 
     public void add(float x, float y, float z) {
+        add(SimpleMatrix4f.translate(x, y, z));
+    }
+
+    public void add(float x, float y, float z, float theta, float thetaZ) {
+        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ));
+    }
+
+    private void add(SimpleMatrix4f modelMatrix) {
         for (int i = 0; i < 6; i++)
-            sides[i].add(x, y, z);
+            sides[i].add(modelMatrix);
     }
 
     public void doneAdding() {
@@ -73,7 +82,7 @@ public class CubeInstancedFaces {
         for (ShapeInstanced side : sides)
             side.reset();
     }
-    
+
     public void draw() {
         for (ShapeInstanced side : sides)
             side.draw();

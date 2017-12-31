@@ -51,7 +51,7 @@ public class SimpleMatrix4f {
 
         return result;
     }
-    
+
     public static SimpleMatrix4f identity() {
         SimpleMatrix4f ident = new SimpleMatrix4f();
 
@@ -62,7 +62,7 @@ public class SimpleMatrix4f {
 
         return ident;
     }
-    
+
     public static SimpleMatrix4f translate(float x, float y, float z) {
         SimpleMatrix4f translation = new SimpleMatrix4f();
 
@@ -96,6 +96,22 @@ public class SimpleMatrix4f {
         rotation.m33 = 1f;
 
         return rotation;
+    }
+
+    public static SimpleMatrix4f modelMatrix(float x, float y, float z, float theta, float thetaZ) {
+        SimpleMatrix4f thetaZMatrix = SimpleMatrix4f.rotate(thetaZ, 1, 0, 0);
+        SimpleMatrix4f thetaMatrix = SimpleMatrix4f.rotate(theta, 0, 1, 0);
+        SimpleMatrix4f moveMatrix = SimpleMatrix4f.translate(x, y, z);
+
+        return moveMatrix.multiply(thetaMatrix).multiply(thetaZMatrix);
+    }
+    
+    public static SimpleMatrix4f invModelMatrix(float x, float y, float z, float theta, float thetaZ) {
+        SimpleMatrix4f thetaZMatrix = SimpleMatrix4f.rotate(-thetaZ, 1, 0, 0);
+        SimpleMatrix4f thetaMatrix = SimpleMatrix4f.rotate(-theta, 0, 1, 0);
+        SimpleMatrix4f moveMatrix = SimpleMatrix4f.translate(-x, -y, -z);
+
+        return thetaZMatrix.multiply(thetaMatrix).multiply(moveMatrix);
     }
 
     public static SimpleMatrix4f perspective(float fovy, float aspect, float near, float far) {

@@ -20,7 +20,6 @@ public class Camera {
     private Follow follow;
 
     private int projectionMatrixLoc, viewMatrixLoc;
-    private SimpleMatrix4f thetaMatrix, thetaZMatrix, moveMatrix, viewMatrix;
     private FloatBuffer viewMatrixBuffer;
 
     public Camera(int programId) {
@@ -55,11 +54,7 @@ public class Camera {
     }
 
     private void setViewMatrix() {
-        thetaZMatrix = SimpleMatrix4f.rotate(-thetaZ, 1, 0, 0);
-        thetaMatrix = SimpleMatrix4f.rotate(-theta, 0, 1, 0);
-        moveMatrix = SimpleMatrix4f.translate(-x, -y, -z);
-        viewMatrix = thetaZMatrix.multiply(thetaMatrix).multiply(moveMatrix);
-        viewMatrix.toBuffer(viewMatrixBuffer);
+        SimpleMatrix4f.invModelMatrix(x, y, z, theta, thetaZ).toBuffer(viewMatrixBuffer);
         glUniformMatrix4fv(viewMatrixLoc, false, viewMatrixBuffer);
     }
 

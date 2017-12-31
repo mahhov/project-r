@@ -78,8 +78,8 @@ class ShapeInstanced {
         MemoryUtil.memFree(indiciesBuffer);
     }
 
-    void add(float x, float y, float z) {
-        models.addTail(SimpleMatrix4f.translate(x, y, z));
+    void add(SimpleMatrix4f modelMatrix) {
+        models.addTail(modelMatrix);
     }
 
     void doneAdding() {
