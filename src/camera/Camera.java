@@ -1,9 +1,11 @@
 package camera;
 
+import control.KeyControl;
 import engine.Engine;
 import geometry.CoordinateI3;
 import org.lwjgl.system.MemoryUtil;
 import util.MathAngles;
+import util.MathNumbers;
 import util.lwjgl.SimpleMatrix4f;
 
 import java.nio.FloatBuffer;
@@ -13,11 +15,15 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 public class Camera {
     private static final float FIELD_OF_VIEW = MathAngles.toRadians(60);
-    private static final double PAN_WEIGHT = .1, ROTATE_WEIGHT = .1;
+    private static final float PAN_WEIGHT = .1f;
 
     private float x, y, z;
     private float theta, thetaZ;
     private Follow follow;
+
+    private static final float TRAIL_DISTANCE_MIN = 5, TRAIL_DISTANCE_MAX = 60, TRAIL_DISTANCE_SPEED = 2.5f;
+    private static final float TRAIL_VERT_MIN = 0, TRAIL_VERT_MAX = 25, TRAIL_VERT_SPEED = 1;
+    private float trailDistance, trailVert;
 
     private int projectionMatrixLoc, viewMatrixLoc;
     private FloatBuffer viewMatrixBuffer;
@@ -27,6 +33,9 @@ public class Camera {
         y = 16 * Engine.SCALE;
         theta = MathAngles.PI;
 
+        trailDistance = 17.5f;
+        trailVert = 8.5f;
+
         projectionMatrixLoc = glGetUniformLocation(programId, "projection");
         setupProjectionMatrix();
 
@@ -35,14 +44,49 @@ public class Camera {
         setViewMatrix();
     }
 
-    public void update() {
-        x += (follow.getFollowX() - x) * PAN_WEIGHT;
-        y += (follow.getFollowY() - y) * PAN_WEIGHT;
-        z += (follow.getFollowZ() - z) * PAN_WEIGHT;
-        theta += (follow.getFollowTheta() - theta) * ROTATE_WEIGHT;
-        thetaZ += (follow.getFollowThetaZ() - thetaZ) * ROTATE_WEIGHT;
+    public void update(KeyControl keyControl) {
+        trail(keyControl);
+        follow();
+    }
+
+    private void trail(KeyControl keyControl) {
+        if (keyControl.isKeyDown(KeyControl.KEY_R))
+            trailVert = MathNumbers.min(trailVert + TRAIL_VERT_SPEED, TRAIL_VERT_MAX);
+        if (keyControl.isKeyDown(KeyControl.KEY_F))
+            trailVert = MathNumbers.max(trailVert - TRAIL_VERT_SPEED, TRAIL_VERT_MIN);
+
+        if (keyControl.isKeyDown(KeyControl.KEY_Z))
+            trailDistance = MathNumbers.min(trailDistance + TRAIL_DISTANCE_SPEED, TRAIL_DISTANCE_MAX);
+        if (keyControl.isKeyDown(KeyControl.KEY_X))
+            trailDistance = MathNumbers.max(trailDistance - TRAIL_DISTANCE_SPEED, TRAIL_DISTANCE_MIN);
+    }
+
+    private void follow() {
+        float theta = follow.getFollowTheta(), thetaZ = follow.getFollowThetaZ();
+        float followY = follow.getFollowY() + trailVert;
+
+        float goalX = follow.getFollowX() + MathAngles.sin(theta) * MathAngles.cos(thetaZ) * trailDistance;
+        float goalY = followY - MathAngles.sin(thetaZ) * trailDistance;
+        float goalZ = follow.getFollowZ() + MathAngles.cos(theta) * MathAngles.cos(thetaZ) * trailDistance;
+
+        moveTo(goalX, goalY, goalZ);
+        lookAt(follow.getFollowX(), followY, follow.getFollowZ());
 
         setViewMatrix();
+    }
+
+    private void moveTo(double toX, double toY, double toZ) {
+        x += (toX - x) * PAN_WEIGHT;
+        y += (toY - y) * PAN_WEIGHT;
+        z += (toZ - z) * PAN_WEIGHT;
+    }
+
+    private void lookAt(float lookX, float lookY, float lookZ) {
+        float dx = lookX - x;
+        float dy = lookY - y;
+        float dz = lookZ - z;
+        theta = (float) Math.atan2(-dx, -dz);
+        thetaZ = (float) Math.atan2(dy, MathNumbers.magnitude(dx, dz));
     }
 
     private void setupProjectionMatrix() {

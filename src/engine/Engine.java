@@ -111,7 +111,7 @@ public class Engine {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             character.updateControls(keyControl, mousePosControl);
-            camera.update();
+            camera.update(keyControl);
 
             world.setCameraCoordinate(camera.getWorldCoordinate());
             world.update();
@@ -145,3 +145,11 @@ public class Engine {
 // calculate normals properly per rotation
 // multithread world chunk fill
 // blur distant
+
+// clean up camera follow
+// remove atan table
+// character intersection
+// cube normals
+// specular lighting
+// 1 model creation per cube
+// hide obscured faces, not cuubes

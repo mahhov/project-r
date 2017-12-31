@@ -7,9 +7,12 @@ public class MathAngles {
     private static final int TRIG_ACCURACY = 500;
 
     static {
+        Timer.restart();
         sinTable = new float[TRIG_ACCURACY];
         for (int i = 0; i < TRIG_ACCURACY; i++)
             sinTable[i] = (float) Math.sin(PI / 2 * i / TRIG_ACCURACY);
+
+        Timer.time("Math Angles Init");
     }
 
     public static float sin(float xd) {
@@ -34,11 +37,7 @@ public class MathAngles {
         if (x == 1)
             return sign;
 
-        if ((int) (x * TRIG_ACCURACY) == -2147483648)
-            System.out.println("WOW");
-
         return sign * sinTable[(int) (x * TRIG_ACCURACY)];
-
     }
 
     public static float cos(float x) {

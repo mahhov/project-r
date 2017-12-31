@@ -10,7 +10,6 @@ import util.MathNumbers;
 
 public class Character implements WorldElement, Follow {
     private static final float MOVE_SEED = 1.5f, ROTATE_SPEED = .03f, ROTATE_SPEED_MOUSE = .008f;
-    private static final float FOLLOW_DISTANCE = 20;
     private static final float[] COLOR = new float[] {0, 1, 0};
 
     private float x, y, z;
@@ -64,16 +63,6 @@ public class Character implements WorldElement, Follow {
         // mouse rotation
         theta -= ROTATE_SPEED_MOUSE * mousePosControl.getX();
         thetaZ = MathNumbers.maxMin(thetaZ - ROTATE_SPEED_MOUSE * mousePosControl.getY(), MathAngles.PI / 2, -MathAngles.PI / 2);
-
-        // keyboard rotation
-        if (keyControl.isKeyDown(KeyControl.KEY_Q))
-            theta += ROTATE_SPEED;
-        if (keyControl.isKeyDown(KeyControl.KEY_E))
-            theta -= ROTATE_SPEED;
-        if (keyControl.isKeyDown(KeyControl.KEY_R))
-            thetaZ = MathNumbers.min(thetaZ + ROTATE_SPEED, MathAngles.PI / 2);
-        if (keyControl.isKeyDown(KeyControl.KEY_F))
-            thetaZ = MathNumbers.max(thetaZ - ROTATE_SPEED, -MathAngles.PI / 2);
     }
 
     @Override
@@ -86,17 +75,17 @@ public class Character implements WorldElement, Follow {
 
     @Override
     public float getFollowX() {
-        return x + MathAngles.sin(theta) * FOLLOW_DISTANCE;
+        return x;
     }
 
     @Override
     public float getFollowY() {
-        return z + FOLLOW_DISTANCE / 2;
+        return z;
     }
 
     @Override
     public float getFollowZ() {
-        return -y + MathAngles.cos(theta) * FOLLOW_DISTANCE;
+        return -y;
     }
 
     @Override

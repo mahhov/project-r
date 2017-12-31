@@ -23,7 +23,11 @@ public class MathNumbers {
     public static float maxMin(float v, float max, float min) {
         return v > max ? max : (v < min ? min : v);
     }
-    
+
+    public static float magnitude(float dx, float dy) {
+        return (float) Math.sqrt(dx * dx + dy * dy);
+    }
+
     public static float log2(float x) {
         return (float) Math.log(x) / LOG2;
     }
