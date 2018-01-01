@@ -72,9 +72,6 @@ public class Camera {
         moveTo(goalX, goalY, goalZ);
         lookAt(follow.getFollowX(), followY, follow.getFollowZ());
 
-        //        this.theta = theta;
-        //        this.thetaZ = thetaZ;
-
         setViewMatrix();
     }
 
@@ -94,7 +91,12 @@ public class Camera {
     }
 
     private void rotateTo(float toTheta, float toThetaZ) {
-        theta += (toTheta - theta) * ROTATE_WEIGHT;
+        if (toTheta - theta > MathAngles.PI)
+            theta += MathAngles.PI2;
+        else if (toTheta - theta < -MathAngles.PI)
+            theta -= MathAngles.PI2;
+        
+        theta += (toTheta - theta) * ROTATE_Z_WEIGHT;
         thetaZ += (toThetaZ - thetaZ) * ROTATE_Z_WEIGHT;
     }
 
