@@ -15,7 +15,7 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 public class Camera {
     private static final float FIELD_OF_VIEW = MathAngles.toRadians(60);
-    private static final float PAN_WEIGHT = .1f;
+    private static final float PAN_WEIGHT = .1f, ROTATE_WEIGHT = 1;
 
     private float x, y, z;
     private float theta, thetaZ;
@@ -75,7 +75,7 @@ public class Camera {
         setViewMatrix();
     }
 
-    private void moveTo(double toX, double toY, double toZ) {
+    private void moveTo(float toX, float toY, float toZ) {
         x += (toX - x) * PAN_WEIGHT;
         y += (toY - y) * PAN_WEIGHT;
         z += (toZ - z) * PAN_WEIGHT;
@@ -85,8 +85,14 @@ public class Camera {
         float dx = lookX - x;
         float dy = lookY - y;
         float dz = lookZ - z;
-        theta = (float) Math.atan2(-dx, -dz);
-        thetaZ = (float) Math.atan2(dy, MathNumbers.magnitude(dx, dz));
+        float goalTheta = (float) Math.atan2(-dx, -dz);
+        float goalThetaZ = (float) Math.atan2(dy, MathNumbers.magnitude(dx, dz));
+        rotateTo(goalTheta, goalThetaZ);
+    }
+
+    private void rotateTo(float toTheta, float toThetaZ) {
+        theta += (toTheta - theta) * ROTATE_WEIGHT;
+        thetaZ += (toThetaZ - thetaZ) * ROTATE_WEIGHT;
     }
 
     private void setupProjectionMatrix() {
