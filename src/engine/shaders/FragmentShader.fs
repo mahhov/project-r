@@ -1,20 +1,32 @@
 #version 330 core
 
+uniform mat4 view;
+
 in vec3 vertexColor;
 in vec3 mVertexPosition;
 in vec3 mVertexNormal;
 
 out vec3 fragColor;
 
-const float ambientFactor = .2;
-const vec3 lightPosition = vec3(128, 64, 128);
+const float ambientFactor = .02;
+const vec3 lightPosition = vec3(128, 250, -128);
+const vec3 cameraForward = vec3(0, 0, 1);
+const float specularPower = 2;
 
-float calcDiffuseFactor(vec3 lightDirection, vec3 normal) {
-    return max(dot(normal, lightDirection), 0.0);
+float calcDiffuseFactor(vec3 lightDirection) {
+    return max(dot(mVertexNormal, lightDirection), 0.0);
+}
+
+float calcSpecularFactor(vec3 lightDirection) {
+    vec3 reflected = normalize(reflect(lightDirection, mVertexNormal));
+    vec3 vReflected = (view * vec4(reflected, 0.0)).xyz;
+    float factor = max(dot(vReflected, cameraForward), 0.0);
+    return pow(factor, specularPower);
 }
 
 void main() {
     vec3 lightDirection = normalize(lightPosition - mVertexPosition);
-    float diffuseFactor = calcDiffuseFactor(lightDirection, mVertexNormal);
-    fragColor = vertexColor * min(diffuseFactor + ambientFactor, 1);
+    float diffuseFactor = calcDiffuseFactor(lightDirection);
+    float specularFactor = calcSpecularFactor(-lightDirection);
+    fragColor = vertexColor * min(specularFactor / 2 + diffuseFactor / 2 + ambientFactor, 1);
 }

@@ -148,5 +148,4 @@ public class Engine {
 
 // character intersection
 // cube normals
-// specular lighting
 // more efficient is(draw/world)empty tracking
