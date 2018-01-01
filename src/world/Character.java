@@ -3,8 +3,9 @@ package world;
 import camera.Follow;
 import control.KeyControl;
 import control.MousePosControl;
-import geometry.CoordinateI3;
+import geometry.Coordinate;
 import shape.CubeInstancedFaces;
+import util.IntersectionFinder;
 import util.MathAngles;
 import util.MathNumbers;
 
@@ -14,51 +15,59 @@ public class Character implements WorldElement, Follow {
 
     private float x, y, z;
     private float theta, thetaZ;
+    private IntersectionFinder intersectionFinder;
 
     private CubeInstancedFaces cubeInstancedFaces;
 
-    public Character(float x, float y, float z, float theta, float thetaZ) {
+    public Character(float x, float y, float z, float theta, float thetaZ, World world) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.theta = theta;
         this.thetaZ = thetaZ;
+        intersectionFinder = new IntersectionFinder(world);
 
         cubeInstancedFaces = new CubeInstancedFaces(COLOR);
     }
 
     @Override
     public void update(World world) {
-        if (world.hasCube(new CoordinateI3((int) x, (int) y, (int) z)))
-            z++;
-        else if (!world.hasCube(new CoordinateI3((int) x, (int) y, (int) z - 1)))
-            z--;
     }
 
     public void updateControls(KeyControl keyControl, MousePosControl mousePosControl) {
         // keyboard horizontal
+        float dx = 0, dy = 0, dz = -.3f;
+
         if (keyControl.isKeyDown(KeyControl.KEY_W)) {
-            x -= MOVE_SEED * MathAngles.sin(theta);
-            y += MOVE_SEED * MathAngles.cos(theta);
+            dx -= MOVE_SEED * MathAngles.sin(theta);
+            dy += MOVE_SEED * MathAngles.cos(theta);
         }
         if (keyControl.isKeyDown(KeyControl.KEY_S)) {
-            x += MOVE_SEED * MathAngles.sin(theta);
-            y -= MOVE_SEED * MathAngles.cos(theta);
+            dx += MOVE_SEED * MathAngles.sin(theta);
+            dy -= MOVE_SEED * MathAngles.cos(theta);
         }
         if (keyControl.isKeyDown(KeyControl.KEY_A)) {
-            x -= MOVE_SEED * MathAngles.cos(theta);
-            y -= MOVE_SEED * MathAngles.sin(theta);
+            dx -= MOVE_SEED * MathAngles.cos(theta);
+            dy -= MOVE_SEED * MathAngles.sin(theta);
         }
         if (keyControl.isKeyDown(KeyControl.KEY_D)) {
-            x += MOVE_SEED * MathAngles.cos(theta);
-            y += MOVE_SEED * MathAngles.sin(theta);
+            dx += MOVE_SEED * MathAngles.cos(theta);
+            dy += MOVE_SEED * MathAngles.sin(theta);
         }
 
         // keyboard vertical
         if (keyControl.isKeyDown(KeyControl.KEY_SHIFT))
-            z -= MOVE_SEED;
+            dz -= MOVE_SEED;
         if (keyControl.isKeyDown(KeyControl.KEY_SPACE))
-            z += MOVE_SEED;
+            dz += MOVE_SEED;
+
+        if (dx != 0 || dy != 0 || dz != 0) {
+            float move = MathNumbers.magnitude(dx, dy, dz);
+            Coordinate coordinate = intersectionFinder.find(new float[] {x, y, z}, new float[] {dx, dy, dz}, move, 1);
+            x = coordinate.getX();
+            y = coordinate.getY();
+            z = coordinate.getZ();
+        }
 
         // mouse rotation
         theta -= ROTATE_SPEED_MOUSE * mousePosControl.getX();
@@ -68,7 +77,7 @@ public class Character implements WorldElement, Follow {
     @Override
     public void draw() {
         cubeInstancedFaces.reset();
-        cubeInstancedFaces.add(x, z + .5f, -y, theta, thetaZ);
+        cubeInstancedFaces.add(x, z, -y, theta, thetaZ);
         cubeInstancedFaces.doneAdding();
         cubeInstancedFaces.draw();
     }

@@ -2,11 +2,12 @@ package world;
 
 import geometry.CoordinateI3;
 import util.LList;
+import util.Map;
 import util.MathNumbers;
 import util.Timer;
 import world.generator.WorldGenerator;
 
-public class World {
+public class World implements Map {
     static final int CHUNK_SIZE = 128;
     private static final int DRAW_CHUNKS = 4;
 
@@ -29,6 +30,14 @@ public class World {
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
         heightMap = WorldGenerator.generate(width, length, height);
+
+        for (int x = 32 * 8; x < 32 * 8 + 50; x++) {
+            for (int y = 10; y < 25; y++)
+                heightMap[x][y] = 1;
+            for (int y = 25; y < 50; y++)
+                heightMap[x][y] = 3;
+        }
+
         elements = new LList<>();
         Timer.time("world creation");
     }
@@ -117,5 +126,25 @@ public class World {
                     chunk.addCube(new CoordinateI3(x, y, z));
             }
         return chunk;
+    }
+
+    @Override
+    public boolean moveable(int x, int y, int z) {
+        return !hasCube(new CoordinateI3(x, y, z));
+    }
+
+    @Override
+    public int width() {
+        return width;
+    }
+
+    @Override
+    public int length() {
+        return length;
+    }
+
+    @Override
+    public int height() {
+        return height;
     }
 }

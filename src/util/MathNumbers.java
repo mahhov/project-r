@@ -28,6 +28,15 @@ public class MathNumbers {
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
+    public static float magnitude(float dx, float dy, float dz) {
+        return (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
+    }
+
+    public static float[] setMagnitude(float x, float y, float z, float magnitude) {
+        float mult = magnitude / magnitude(x, y, z);
+        return new float[] {x * mult, y * mult, z * mult};
+    }
+
     public static float log2(float x) {
         return (float) Math.log(x) / LOG2;
     }

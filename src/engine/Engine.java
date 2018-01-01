@@ -32,7 +32,7 @@ public class Engine {
         keyControl = new KeyControl(window);
         mousePosControl = new MousePosControl(window);
         world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE);
-        character = new Character(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0);
+        character = new Character(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0, world);
         world.addWorldElement(character);
         camera.setFollow(character);
     }
