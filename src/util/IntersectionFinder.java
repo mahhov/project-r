@@ -40,9 +40,9 @@ public class IntersectionFinder {
 
             else {
                 delta += MathNumbers.EPSILON;
-                nextX = (int) (edgeX + dx * delta);
-                nextY = (int) (edgeY + dy * delta);
-                nextZ = (int) (edgeZ + dz * delta);
+                nextX = MathNumbers.intNeg(edgeX + dx * delta);
+                nextY = MathNumbers.intNeg(edgeY + dy * delta);
+                nextZ = MathNumbers.intNeg(edgeZ + dz * delta);
 
                 if (selectedDelta == 0 && !moveableX(nextX, y, z)) {
                     int rise = moveableXWithRise(nextX, y, z);

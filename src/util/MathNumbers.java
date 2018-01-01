@@ -37,6 +37,10 @@ public class MathNumbers {
         return new float[] {x * mult, y * mult, z * mult};
     }
 
+    public static int intNeg(float value) {
+        return value < 0 ? (int) value - 1 : (int) value;
+    }
+
     public static float log2(float x) {
         return (float) Math.log(x) / LOG2;
     }
