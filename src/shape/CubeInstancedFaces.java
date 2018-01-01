@@ -29,7 +29,7 @@ public class CubeInstancedFaces {
         SIDE_VERTICIES[TOP_SIDE] = MathArrays.pluckArray3(VERTICIES, new int[] {2, 6, 0, 4});
         SIDE_VERTICIES[BOTTOM_SIDE] = MathArrays.pluckArray3(VERTICIES, new int[] {1, 5, 3, 7});
 
-        SIDE_COLORS[LEFT_SIDE] = MathArrays.repeatArray(new float[] {.7f, .7f, .7f}, 4);
+        SIDE_COLORS[LEFT_SIDE] = MathArrays.repeatArray(new float[] {1, 1, 1}, 4);
         SIDE_COLORS[RIGHT_SIDE] = SIDE_COLORS[LEFT_SIDE];
         SIDE_COLORS[FRONT_SIDE] = SIDE_COLORS[LEFT_SIDE];
         SIDE_COLORS[BACK_SIDE] = SIDE_COLORS[LEFT_SIDE];

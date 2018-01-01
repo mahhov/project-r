@@ -8,10 +8,10 @@ in vec3 mVertexNormal;
 
 out vec3 fragColor;
 
-const float ambientFactor = .02;
+const float ambientFactor = .2, diffusePower = .8;
 const vec3 lightPosition = vec3(128, 250, -128);
 const vec3 cameraForward = vec3(0, 0, 1);
-const float specularPower = 2;
+const float specularPower = 10;
 
 float calcDiffuseFactor(vec3 lightDirection) {
     return max(dot(mVertexNormal, lightDirection), 0.0);
@@ -28,5 +28,5 @@ void main() {
     vec3 lightDirection = normalize(lightPosition - mVertexPosition);
     float diffuseFactor = calcDiffuseFactor(lightDirection);
     float specularFactor = calcSpecularFactor(-lightDirection);
-    fragColor = vertexColor * min(specularFactor / 2 + diffuseFactor / 2 + ambientFactor, 1);
+    fragColor = vertexColor * min(specularFactor + diffuseFactor * diffusePower + ambientFactor, 1);
 }

@@ -73,7 +73,7 @@ public class IntersectionFinder {
                 } else if (selectedDelta == 2 && !moveableZ(x, y, nextZ)) {
                     if (dx == 0 && dy == 0)
                         return new Coordinate(x, y, z);
-                    dz = 0; // todo fix bug where pressing shift while walking makes u faster
+                    dz = 0;
                     edgeDz = 0;
                     maxMove = renormalizeDxyz(maxMove);
 
