@@ -1,0 +1,187 @@
+package util;
+
+import geometry.Coordinate;
+
+public class IntersectionFinder {
+    // temp vars
+    private float x, y, z;
+    private float dx, dy, dz;
+    private float halfSize, edgeDx, edgeDy, edgeDz;
+    private int selectedDelta;
+    private float edgeX, edgeY, edgeZ;
+    private float deltaX, deltaY, deltaZ, delta;
+    private int nextX, nextY, nextZ;
+
+    private Map map;
+
+    public IntersectionFinder(Map map) {
+        this.map = map;
+    }
+
+    public Coordinate find(float[] orig, float[] dir, float maxMove, float size) {
+        if (dir[0] == 0 && dir[1] == 0 && dir[2] == 0)
+            return null;
+
+        prepare(orig, dir, size);
+
+        while (true) {
+            edgeX = x + edgeDx;
+            edgeY = y + edgeDy;
+            edgeZ = z + edgeDz;
+
+            deltaX = getMove(edgeX, dx);
+            deltaY = getMove(edgeY, dy);
+            deltaZ = getMove(edgeZ, dz);
+
+            chooseDelta();
+
+            if (delta > maxMove)
+                return new Coordinate(x + dx * maxMove, y + dy * maxMove, z + dz * maxMove);
+
+            else {
+                delta += MathNumbers.EPSILON;
+                nextX = (int) (edgeX + dx * delta);
+                nextY = (int) (edgeY + dy * delta);
+                nextZ = (int) (edgeZ + dz * delta);
+
+                if (selectedDelta == 0 && !moveableX(nextX, y, z)) {
+                    int rise = moveableXWithRise(nextX, y, z);
+                    if (rise > 0)
+                        z++;
+
+                    else {
+                        if (dy == 0 && dz == 0)
+                            return new Coordinate(x, y, z);
+                        dx = 0;
+                        edgeDx = 0;
+                        maxMove = renormalizeDxyz(maxMove);
+                    }
+
+                } else if (selectedDelta == 1 && !moveableY(x, nextY, z)) {
+                    int rise = moveableYWithRise(x, nextY, z);
+                    if (rise > 0)
+                        z++;
+
+                    else {
+                        if (dx == 0 && dz == 0)
+                            return new Coordinate(x, y, z);
+                        dy = 0;
+                        edgeDy = 0;
+                        maxMove = renormalizeDxyz(maxMove);
+                    }
+
+                } else if (selectedDelta == 2 && !moveableZ(x, y, nextZ)) {
+                    if (dx == 0 && dy == 0)
+                        return new Coordinate(x, y, z);
+                    dz = 0; // todo fix bug where pressing shift while walking makes u faster
+                    edgeDz = 0;
+                    maxMove = renormalizeDxyz(maxMove);
+
+                } else {
+                    x += dx * delta;
+                    y += dy * delta;
+                    z += dz * delta;
+                    maxMove -= delta;
+                }
+            }
+        }
+    }
+
+    private void prepare(float[] orig, float[] dir, float size) {
+        x = orig[0];
+        y = orig[1];
+        z = orig[2];
+
+        dir = MathNumbers.setMagnitude(dir[0], dir[1], dir[2], 1);
+        dx = dir[0];
+        dy = dir[1];
+        dz = dir[2];
+
+        halfSize = size / 2;
+        edgeDx = dx == 0 ? 0 : (dx < 0 ? -halfSize : halfSize);
+        edgeDy = dy == 0 ? 0 : (dy < 0 ? -halfSize : halfSize);
+        edgeDz = dz == 0 ? 0 : (dz < 0 ? -halfSize : halfSize);
+    }
+
+    private float getMove(float pos, float dir) {
+        if (dir > 0)
+            return ((int) pos + 1 - pos) / dir;
+        else if (dir < 0)
+            return (pos - (int) pos) / -dir;
+        else
+            return 2;
+    }
+
+    private void chooseDelta() {
+        if (deltaX < deltaY)
+            if (deltaX < deltaZ) {
+                selectedDelta = 0;
+                delta = deltaX;
+            } else {
+                selectedDelta = 2;
+                delta = deltaZ;
+            }
+        else if (deltaY < deltaZ) {
+            selectedDelta = 1;
+            delta = deltaY;
+        } else {
+            selectedDelta = 2;
+            delta = deltaZ;
+        }
+    }
+
+    private boolean moveableX(int x, float y, float z) {
+        for (int yi = -1; yi <= 1; yi++)
+            for (int zi = -1; zi <= 1; zi++)
+                if (!map.moveable(x, (int) (y + yi * halfSize), (int) (z + zi * halfSize)))
+                    return false;
+        return true;
+    }
+
+    private int moveableXWithRise(int x, float y, float z) {
+        outerloop:
+        for (int zi = 1; zi <= 2; zi++) {
+            for (int yi = -1; yi <= 1; yi++)
+                if (!map.moveable(x, (int) (y + yi * halfSize), (int) (z + zi * halfSize)))
+                    continue outerloop;
+            return zi;
+        }
+        return 0;
+    }
+
+    private boolean moveableY(float x, int y, float z) {
+        for (int xi = -1; xi <= 1; xi++)
+            for (int zi = -1; zi <= 1; zi++)
+                if (!map.moveable((int) (x + xi * halfSize), y, (int) (z + zi * halfSize)))
+                    return false;
+        return true;
+    }
+
+    private int moveableYWithRise(float x, int y, float z) {
+        outerloop:
+        for (int zi = 1; zi <= 2; zi++) {
+            for (int xi = -1; xi <= 1; xi++)
+                if (!map.moveable((int) (x + xi * halfSize), y, (int) (z + zi * halfSize)))
+                    continue outerloop;
+            return zi;
+        }
+        return 0;
+    }
+
+    private boolean moveableZ(float x, float y, int z) {
+        for (int xi = -1; xi <= 1; xi++)
+            for (int yi = -1; yi <= 1; yi++)
+                if (!map.moveable((int) (x + xi * halfSize), (int) (y + yi * halfSize), z))
+                    return false;
+        return true;
+    }
+
+    private float renormalizeDxyz(float maxMove) {
+        float magnitude = MathNumbers.magnitude(dx, dy, dz);
+        float invMagnitude = 1 / magnitude;
+        dx *= invMagnitude;
+        dy *= invMagnitude;
+        dz *= invMagnitude;
+        return maxMove * magnitude;
+    }
+}
