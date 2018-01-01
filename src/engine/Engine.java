@@ -149,3 +149,4 @@ public class Engine {
 // character intersection
 // cube normals
 // more efficient is(draw/world)empty tracking
+// polygon outline

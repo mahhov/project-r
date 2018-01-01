@@ -9,7 +9,7 @@ import util.MathAngles;
 import util.MathNumbers;
 
 public class Character implements WorldElement, Follow {
-    private static final float MOVE_SEED = 1.5f, ROTATE_SPEED = .03f, ROTATE_SPEED_MOUSE = .008f;
+    private static final float MOVE_SEED = .5f, ROTATE_SPEED_MOUSE = .008f;
     private static final float[] COLOR = new float[] {0, 1, 0};
 
     private float x, y, z;
