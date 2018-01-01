@@ -28,5 +28,7 @@ void main() {
     vec3 lightDirection = normalize(lightPosition - mVertexPosition);
     float diffuseFactor = calcDiffuseFactor(lightDirection);
     float specularFactor = calcSpecularFactor(-lightDirection);
-    fragColor = vertexColor * min(specularFactor + diffuseFactor * diffusePower + ambientFactor, 1);
+    float brightness = min(specularFactor + diffuseFactor * diffusePower + ambientFactor, 1);
+    // brightness = floor(brightness * 5) / 5;
+    fragColor = vertexColor * brightness;
 }
