@@ -1,7 +1,7 @@
 package shape;
 
 import util.MathArrays;
-import util.lwjgl.SimpleMatrix4f;
+import util.SimpleMatrix4f;
 
 public class CubeInstancedFaces {
     public static final int LEFT_SIDE = 0, RIGHT_SIDE = 1, FRONT_SIDE = 2, BACK_SIDE = 3, TOP_SIDE = 4, BOTTOM_SIDE = 5;

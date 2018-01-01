@@ -2,7 +2,7 @@ package shape;
 
 import org.lwjgl.system.MemoryUtil;
 import util.LList;
-import util.lwjgl.SimpleMatrix4f;
+import util.SimpleMatrix4f;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;

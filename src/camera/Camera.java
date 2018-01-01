@@ -6,7 +6,7 @@ import geometry.CoordinateI3;
 import org.lwjgl.system.MemoryUtil;
 import util.MathAngles;
 import util.MathNumbers;
-import util.lwjgl.SimpleMatrix4f;
+import util.SimpleMatrix4f;
 
 import java.nio.FloatBuffer;
 

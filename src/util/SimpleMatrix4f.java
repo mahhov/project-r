@@ -1,6 +1,4 @@
-package util.lwjgl;
-
-import util.MathAngles;
+package util;
 
 import java.nio.FloatBuffer;
 
