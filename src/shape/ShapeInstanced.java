@@ -22,8 +22,8 @@ class ShapeInstanced {
     private ByteBuffer indiciesBuffer;
     private int vaoId;
 
+    private int modelsVboId;
     private LList<SimpleMatrix4f> models;
-    private FloatBuffer modelsBuffer;
 
     ShapeInstanced(float[] vertices, float[] colors, float[] normals, byte[] indicies) {
         numIndicies = indicies.length;
@@ -76,6 +76,8 @@ class ShapeInstanced {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementsVboId);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indiciesBuffer, GL_STATIC_DRAW);
         MemoryUtil.memFree(indiciesBuffer);
+
+        modelsVboId = glGenBuffers();
     }
 
     void add(SimpleMatrix4f modelMatrix) {
@@ -85,13 +87,12 @@ class ShapeInstanced {
     void doneAdding() {
         glBindVertexArray(vaoId);
 
-        modelsBuffer = MemoryUtil.memAllocFloat(models.size() * 16);
+        FloatBuffer modelsBuffer = MemoryUtil.memAllocFloat(models.size() * 16);
         for (SimpleMatrix4f model : models)
             model.toBufferSub(modelsBuffer);
         modelsBuffer.flip();
 
         int floatBytes = Float.SIZE / Byte.SIZE;
-        int modelsVboId = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, modelsVboId);
         glBufferData(GL_ARRAY_BUFFER, modelsBuffer, GL_STATIC_DRAW);
 
