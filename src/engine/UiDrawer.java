@@ -4,15 +4,17 @@ import shape.Rect;
 import world.Character;
 
 class UiDrawer {
+    private static final float[] STAMINA_COLOR = new float[] {1, .85f, .63f};
+
     private Character character;
-    private Rect rect;
+    private Rect staminaBar;
 
     UiDrawer(Character character) {
         this.character = character;
-        rect = new Rect(.1f, .9f, .9f, .1f, new float[] {1, 0, 0});
+        staminaBar = new Rect(.6f, -.87f, .9f, -.9f, STAMINA_COLOR);
     }
 
     void draw() {
-//        rect.draw();
+        staminaBar.draw();
     }
 }

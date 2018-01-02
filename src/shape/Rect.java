@@ -15,13 +15,23 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 public class Rect {
     private FloatBuffer verticesBuffer, colorsBuffer;
     private int vaoId;
+    private int verticesVboId;
 
-    public Rect(float left, float top, float right, float bottom, float[] colors) {
+    public Rect(float left, float top, float right, float bottom, float[] color) {
         float[] vertices = new float[] {left, top, left, bottom, right, bottom, right, top};
-        colors = MathArrays.repeatArray(colors, 4);
+        color = MathArrays.repeatArray(color, 4);
 
-        createBuffers(vertices, colors);
+        createBuffers(vertices, color);
         createVao();
+    }
+
+    public void resetCoordinates(float left, float top, float right, float bottom) {
+        float[] vertices = new float[] {left, top, left, bottom, right, bottom, right, top};
+        verticesBuffer.put(vertices).flip();
+
+        glBindVertexArray(vaoId);
+        glBindBuffer(GL_ARRAY_BUFFER, verticesVboId);
+        glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
     }
 
     private void createBuffers(float[] vertices, float[] colors) {
@@ -36,12 +46,11 @@ public class Rect {
         vaoId = glGenVertexArrays();
         glBindVertexArray(vaoId);
 
-        int verticesVboId = glGenBuffers();
+        verticesVboId = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, verticesVboId);
         glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
         glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(0);
-        MemoryUtil.memFree(verticesBuffer);
 
         int colorsVboId = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, colorsVboId);
