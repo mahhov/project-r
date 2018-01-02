@@ -47,6 +47,7 @@ public class Camera {
     public void update(KeyControl keyControl) {
         trail(keyControl);
         follow();
+        setViewMatrix();
     }
 
     private void trail(KeyControl keyControl) {
@@ -71,8 +72,6 @@ public class Camera {
 
         moveTo(goalX, goalY, goalZ);
         lookAt(follow.getFollowX(), followY, follow.getFollowZ());
-
-        setViewMatrix();
     }
 
     private void moveTo(float toX, float toY, float toZ) {
