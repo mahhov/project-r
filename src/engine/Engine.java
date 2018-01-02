@@ -3,6 +3,7 @@ package engine;
 import camera.Camera;
 import control.KeyControl;
 import control.MousePosControl;
+import engine.shader.ShaderManager;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
@@ -19,20 +20,22 @@ public class Engine {
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
     private long window;
-    private ShaderProgram shaderProgram;
     private Camera camera;
-    Character character;
+    private Character character;
+    private UiDrawer uiDrawer;
     private KeyControl keyControl;
     private MousePosControl mousePosControl;
     private World world;
 
     private Engine() {
         initLwjgl();
-        camera = new Camera(shaderProgram.getProgramId());
+        camera = new Camera(ShaderManager.getRenderShaderProgramId());
         keyControl = new KeyControl(window);
         mousePosControl = new MousePosControl(window);
         world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE);
         character = new Character(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0, world);
+        ShaderManager.setUiShader();
+        uiDrawer = new UiDrawer(character);
         world.addWorldElement(character);
         camera.setFollow(character);
     }
@@ -90,8 +93,7 @@ public class Engine {
 
         glEnable(GL_CULL_FACE);
 
-        shaderProgram = new ShaderProgram();
-        shaderProgram.bind();
+        ShaderManager.setRenderShader();
     }
 
     private void destroyLwjgl() {
@@ -111,11 +113,15 @@ public class Engine {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             character.updateControls(keyControl, mousePosControl);
-            camera.update(keyControl);
 
+            ShaderManager.setRenderShader();
+            camera.update(keyControl);
             world.setCameraCoordinate(camera.getWorldCoordinate());
             world.update();
             world.draw();
+
+            ShaderManager.setUiShader();
+            uiDrawer.draw();
 
             glfwSwapBuffers(window);
             glfwPollEvents();
@@ -137,16 +143,23 @@ public class Engine {
 }
 
 // todo
+// ~~ high priority ~~
+// ui
+// character movement
+// combat
+// enemies
+// particles
+// progression
+// instances
+// inventory
+// harvesting
+// crafting
+
+// ~~ low priority ~~
 // camera culling
-// character with collision detectin, auto climbing, gravity, camera follow, jump
-// specular lighting and multi-light support
-// proper character intersection detection
-// character cube rotated
-// calculate normals properly per rotation
+// multi-light support
 // multithread world chunk fill
 // blur distant
-
-// character intersection
-// cube normals
-// more efficient is(draw/world)empty tracking
 // polygon outline
+// more efficient is(draw/world)empty tracking
+// shadows

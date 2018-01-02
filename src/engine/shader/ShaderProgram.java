@@ -1,33 +1,33 @@
-package engine;
+package engine.shader;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static org.lwjgl.opengl.GL20.*;
 
-public class ShaderProgram {
+class ShaderProgram {
     private int programId;
     private int vertexShaderId;
     private int fragmentShaderId;
 
-    public ShaderProgram() {
+    ShaderProgram(String shaderDirName) {
         programId = glCreateProgram();
         if (programId == 0)
             throw new RuntimeException("Could not create ShaderProgram");
 
-        vertexShaderId = createShader("shaders/VertexShader.vs", GL_VERTEX_SHADER);
-        fragmentShaderId = createShader("shaders/FragmentShader.fs", GL_FRAGMENT_SHADER);
+        vertexShaderId = createShader(shaderDirName + "/VertexShader.vs", GL_VERTEX_SHADER);
+        fragmentShaderId = createShader(shaderDirName + "/FragmentShader.fs", GL_FRAGMENT_SHADER);
 
         link();
     }
 
-    private int createShader(String shaderFile, int shaderType) {
+    private int createShader(String shaderFileName, int shaderType) {
         String shaderCode = null;
         try {
-            shaderCode = new String(Files.readAllBytes(Paths.get(ShaderProgram.class.getResource(shaderFile).toURI())));
+            shaderCode = new String(Files.readAllBytes(Paths.get(ShaderProgram.class.getResource(shaderFileName).toURI())));
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Couldn't read shader file " + shaderFile);
+            throw new RuntimeException("Couldn't read shader file " + shaderFileName);
         }
 
         int shaderId = glCreateShader(shaderType);
@@ -60,11 +60,11 @@ public class ShaderProgram {
         glUseProgram(programId);
     }
 
-    void unbind() {
+    private void unbind() {
         glUseProgram(0);
     }
 
-    void cleanup() {
+    private void cleanup() {
         unbind();
         if (programId != 0) {
             glDeleteProgram(programId);
