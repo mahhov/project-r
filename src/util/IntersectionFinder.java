@@ -11,6 +11,7 @@ public class IntersectionFinder {
     private float edgeX, edgeY, edgeZ;
     private float deltaX, deltaY, deltaZ, delta;
     private int nextX, nextY, nextZ;
+    private boolean collisionX, collisionY, grounded;
 
     private Map map;
 
@@ -18,7 +19,7 @@ public class IntersectionFinder {
         this.map = map;
     }
 
-    public Coordinate find(float[] orig, float[] dir, float maxMove, float size) {
+    public Intersection find(float[] orig, float[] dir, float maxMove, float size) {
         if (dir[0] == 0 && dir[1] == 0 && dir[2] == 0)
             return null;
 
@@ -36,7 +37,7 @@ public class IntersectionFinder {
             chooseDelta();
 
             if (delta > maxMove)
-                return new Coordinate(x + dx * maxMove, y + dy * maxMove, z + dz * maxMove);
+                return createIntersection(x + dx * maxMove, y + dy * maxMove, z + dz * maxMove);
 
             else {
                 delta += MathNumbers.EPSILON;
@@ -48,10 +49,10 @@ public class IntersectionFinder {
                     int rise = moveableXWithRise(nextX, y, z);
                     if (rise > 0)
                         z++;
-
                     else {
+                        collisionX = true;
                         if (dy == 0 && dz == 0)
-                            return new Coordinate(x, y, z);
+                            return createIntersection();
                         dx = 0;
                         edgeDx = 0;
                         maxMove = renormalizeDxyz(maxMove);
@@ -61,18 +62,19 @@ public class IntersectionFinder {
                     int rise = moveableYWithRise(x, nextY, z);
                     if (rise > 0)
                         z++;
-
                     else {
+                        collisionY = true;
                         if (dx == 0 && dz == 0)
-                            return new Coordinate(x, y, z);
+                            return createIntersection();
                         dy = 0;
                         edgeDy = 0;
                         maxMove = renormalizeDxyz(maxMove);
                     }
 
                 } else if (selectedDelta == 2 && !moveableZ(x, y, nextZ)) {
+                    grounded = dz < 0;
                     if (dx == 0 && dy == 0)
-                        return new Coordinate(x, y, z);
+                        return createIntersection();
                     dz = 0;
                     edgeDz = 0;
                     maxMove = renormalizeDxyz(maxMove);
@@ -101,6 +103,10 @@ public class IntersectionFinder {
         edgeDx = dx == 0 ? 0 : (dx < 0 ? -halfSize : halfSize);
         edgeDy = dy == 0 ? 0 : (dy < 0 ? -halfSize : halfSize);
         edgeDz = dz == 0 ? 0 : (dz < 0 ? -halfSize : halfSize);
+
+        collisionX = false;
+        collisionY = false;
+        grounded = false;
     }
 
     private float getMove(float pos, float dir) {
@@ -183,5 +189,25 @@ public class IntersectionFinder {
         dy *= invMagnitude;
         dz *= invMagnitude;
         return maxMove * magnitude;
+    }
+
+    private Intersection createIntersection() {
+        return new Intersection(x, y, z, collisionX, collisionY, grounded);
+    }
+
+    private Intersection createIntersection(float x, float y, float z) {
+        return new Intersection(x, y, z, collisionX, collisionY, grounded);
+    }
+
+    public class Intersection {
+        public final Coordinate coordinate;
+        public final boolean collisionX, collisionY, grounded;
+
+        private Intersection(float x, float y, float z, boolean collisionX, boolean collisionY, boolean grounded) {
+            coordinate = new Coordinate(x, y, z);
+            this.collisionX = collisionX;
+            this.collisionY = collisionY;
+            this.grounded = grounded;
+        }
     }
 }
