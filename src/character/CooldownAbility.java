@@ -1,22 +1,29 @@
 package character;
 
 class CooldownAbility {
-    private int maxTime, curTime;
+    private int cooldownTime, durationTime, curTime;
 
-    CooldownAbility(int time) {
-        maxTime = time;
+    CooldownAbility(int cooldownTime, int durationTime) {
+        this.cooldownTime = cooldownTime;
+        this.durationTime = -durationTime;
     }
 
     void update() {
-        if (curTime > 0)
+        if (curTime != 0)
             curTime--;
+        if (curTime == durationTime)
+            curTime = cooldownTime;
     }
 
-    void reset() {
-        curTime = maxTime;
+    void activate() {
+        curTime = -1;
     }
 
     boolean ready() {
         return curTime == 0;
+    }
+
+    boolean active() {
+        return curTime < 0;
     }
 }

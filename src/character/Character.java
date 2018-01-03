@@ -18,12 +18,18 @@ public class Character implements WorldElement, Follow {
     private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1;
     private static final float JUMP_ACC = 1f, JET_ACC = .11f, RUN_ACC = .07f, AIR_ACC = .02f;
     private static final float BOOST_ACC = .07f, GLIDE_ACC = .05f, GLIDE_DESCENT_ACC = .02f;
-    private static final int JUMP_MAX = 2, BOOST_MAX = 1, BOOST_DURATION = 20;
-    private int jumpRemain, boostRemain, boostDuration;
-    private static final int STATE_GROUND = 0, STATE_BOOST = 1, STATE_AIR = 2;
+    private static final int STATE_GROUND = 0, STATE_AIR = 1; // todo change to boolean air
     private int state;
     private boolean jetting;
 
+    // ability
+    private static final int JUMP_MAX = 2;
+    private ChargesAbility jumpAbility;
+    private static final int BOOST_COOLDOWN = 60, BOOST_DURATION = 20;
+    private CooldownAbility boostAbility;
+    private RechargeAbility glideAbility, jetAbility; // todo intigrate
+
+    // position
     private float x, y, z;
     private float vx, vy, vz;
     private float theta, thetaZ;
@@ -42,6 +48,9 @@ public class Character implements WorldElement, Follow {
         norm = new float[2];
         right = new float[2];
         intersectionFinder = new IntersectionFinder(world);
+
+        jumpAbility = new ChargesAbility(JUMP_MAX);
+        boostAbility = new CooldownAbility(BOOST_COOLDOWN, BOOST_DURATION);
 
         cubeInstancedFaces = new CubeInstancedFaces(COLOR);
     }
@@ -68,8 +77,7 @@ public class Character implements WorldElement, Follow {
         else
             jetting = false;
 
-        if (keyControl.isKeyDown(KeyControl.KEY_SHIFT))
-            doBoost();
+        doBoost(keyControl.isKeyDown(KeyControl.KEY_SHIFT));
 
         vz -= GRAVITY;
         doFriction();
@@ -94,13 +102,11 @@ public class Character implements WorldElement, Follow {
 
     private void doRunningMove(KeyControl keyControl) {
         float acc;
-        if (state == STATE_GROUND)
-            acc = RUN_ACC;
-        else if (state == STATE_BOOST) {
+        if (boostAbility.active())
             acc = BOOST_ACC;
-            if (--boostDuration == 0)
-                state = STATE_GROUND;
-        } else if (keyControl.isKeyDown(KeyControl.KEY_SHIFT) && stamina > .01f) {
+        else if (state == STATE_GROUND)
+            acc = RUN_ACC;
+        else if (keyControl.isKeyDown(KeyControl.KEY_SHIFT) && stamina > .01f) {
             stamina -= .01f;
             acc = GLIDE_ACC;
             vz -= GLIDE_DESCENT_ACC;
@@ -129,9 +135,9 @@ public class Character implements WorldElement, Follow {
     }
 
     private void jump() {
-        if (jumpRemain == 0)
+        if (!jumpAbility.ready())
             return;
-        jumpRemain--;
+        jumpAbility.useCharge();
         vx *= JUMP_MULT;
         vy *= JUMP_MULT;
         vz += JUMP_ACC;
@@ -142,17 +148,15 @@ public class Character implements WorldElement, Follow {
         jetting = true;
     }
 
-    private void doBoost() {
-        if (boostRemain == 0)
-            return;
-        boostRemain--;
-        state = STATE_BOOST;
-        boostDuration = BOOST_DURATION;
+    private void doBoost(boolean tryActivate) {
+        boostAbility.update();
+        if (tryActivate && boostAbility.ready())
+            boostAbility.activate();
     }
 
     private void doFriction() {
         float friction;
-        if (state == STATE_GROUND)
+        if (state == STATE_GROUND && !boostAbility.active())
             friction = FRICTION;
         else
             friction = AIR_FRICTION;
@@ -169,13 +173,10 @@ public class Character implements WorldElement, Follow {
         z = intersection.coordinate.getZ();
 
         if (intersection.grounded) {
-            if (state != STATE_BOOST) {
-                state = STATE_GROUND;
-                boostRemain = BOOST_MAX;
-            }
-            jumpRemain = JUMP_MAX;
+            state = STATE_GROUND;
+            jumpAbility.resetCharges();
             vz = 0;
-        } else if (state != STATE_BOOST)
+        } else
             state = STATE_AIR;
 
         if (intersection.collisionX)
