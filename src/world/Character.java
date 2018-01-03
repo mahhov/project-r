@@ -13,10 +13,10 @@ public class Character implements WorldElement, Follow {
     private static final float[] COLOR = new float[] {0, 1, 0};
 
     // mobility
-    private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1.5f;
-    private static final float JUMP_ACC = 1f, JET_ACC = .11f, RUN_ACC = .07f, AIR_ACC = .04f;
-    private static final float BOOST_ACC = .09f, GLIDE_ACC = .12f, GLIDE_DESCENT_ACC = .03f;
-    private static final int JUMP_MAX = 2, BOOST_MAX = 1, BOOST_DURATION = 30;
+    private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1;
+    private static final float JUMP_ACC = 1f, JET_ACC = .11f, RUN_ACC = .07f, AIR_ACC = .02f;
+    private static final float BOOST_ACC = .07f, GLIDE_ACC = .05f, GLIDE_DESCENT_ACC = .02f;
+    private static final int JUMP_MAX = 2, BOOST_MAX = 1, BOOST_DURATION = 20;
     private int jumpRemain, boostRemain, boostDuration;
     private static final int STATE_GROUND = 0, STATE_BOOST = 1, STATE_AIR = 2;
     private int state;
