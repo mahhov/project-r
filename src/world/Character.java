@@ -12,13 +12,12 @@ public class Character implements WorldElement, Follow {
     private static final float ROTATE_SPEED_MOUSE = .008f;
     private static final float[] COLOR = new float[] {0, 1, 0};
 
+    // mobility
     private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1.5f;
     private static final float JUMP_ACC = 1f, JET_ACC = .11f, RUN_ACC = .07f, AIR_ACC = .04f;
     private static final float BOOST_ACC = .09f, GLIDE_ACC = .12f, GLIDE_DESCENT_ACC = .03f;
-
     private static final int JUMP_MAX = 2, BOOST_MAX = 1, BOOST_DURATION = 30;
     private int jumpRemain, boostRemain, boostDuration;
-
     private static final int STATE_GROUND = 0, STATE_BOOST = 1, STATE_AIR = 2;
     private int state;
     private boolean jetting;
@@ -27,6 +26,7 @@ public class Character implements WorldElement, Follow {
     private float vx, vy, vz;
     private float theta, thetaZ;
     private float[] norm, right;
+    public float stamina;
     private IntersectionFinder intersectionFinder;
 
     private CubeInstancedFaces cubeInstancedFaces;
@@ -49,6 +49,12 @@ public class Character implements WorldElement, Follow {
     }
 
     public void updateControls(KeyControl keyControl, MousePosControl mousePosControl) {
+        if (stamina < 1) {
+            stamina += .005f;
+            if (stamina > 1)
+                stamina = 1;
+        }
+
         doRotations(mousePosControl);
         computeAxis();
         doRunningMove(keyControl);
@@ -92,7 +98,8 @@ public class Character implements WorldElement, Follow {
             acc = BOOST_ACC;
             if (--boostDuration == 0)
                 state = STATE_GROUND;
-        } else if (keyControl.isKeyDown(KeyControl.KEY_SHIFT)) {
+        } else if (keyControl.isKeyDown(KeyControl.KEY_SHIFT) && stamina > .01f) {
+            stamina -= .01f;
             acc = GLIDE_ACC;
             vz -= GLIDE_DESCENT_ACC;
         } else
