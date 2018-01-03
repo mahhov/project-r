@@ -12,13 +12,14 @@ public class Character implements WorldElement, Follow {
     private static final float ROTATE_SPEED_MOUSE = .008f;
     private static final float[] COLOR = new float[] {0, 1, 0};
 
-    private static final float FRICTION = 0.9f, AIR_FRICTION = 0.97f, CLIMB_FRICTION = .99f, GRAVITY = .1f, COLLISION_DAMPER = .1f;
-    private static final float JUMP_ACC = 1f, JET_ACC = .09f, CLIMB_ACC = .15f, RUN_ACC = .1f, AIR_RUN_ACC = .04f, JUMP_MULT = 1.5f;
+    private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1.5f;
+    private static final float JUMP_ACC = 1f, JET_ACC = .11f, RUN_ACC = .07f, AIR_ACC = .04f;
+    private static final float BOOST_ACC = .09f, GLIDE_ACC = .12f, GLIDE_DESCENT_ACC = .03f;
 
-    private static final int JUMP_MAX = 2;
-    private int jumpRemain;
+    private static final int JUMP_MAX = 2, BOOST_MAX = 1, BOOST_DURATION = 30;
+    private int jumpRemain, boostRemain, boostDuration;
 
-    private static final int STATE_GROUND = 0, STATE_CLIMB = 1, STATE_AIR = 2;
+    private static final int STATE_GROUND = 0, STATE_BOOST = 1, STATE_AIR = 2;
     private int state;
     private boolean jetting;
 
@@ -50,14 +51,17 @@ public class Character implements WorldElement, Follow {
     public void updateControls(KeyControl keyControl, MousePosControl mousePosControl) {
         doRotations(mousePosControl);
         computeAxis();
-        runningMove(keyControl);
+        doRunningMove(keyControl);
 
         if (keyControl.isKeyPressed(KeyControl.KEY_SPACE))
             jump();
         if (keyControl.isKeyDown(KeyControl.KEY_SPACE))
-            upwardMove();
+            doUpwardMove();
         else
             jetting = false;
+
+        if (keyControl.isKeyDown(KeyControl.KEY_SHIFT))
+            doBoost();
 
         vz -= GRAVITY;
         doFriction();
@@ -80,8 +84,19 @@ public class Character implements WorldElement, Follow {
         right[1] = -norm[0];
     }
 
-    private void runningMove(KeyControl keyControl) {
-        float acc = state == STATE_GROUND ? RUN_ACC : AIR_RUN_ACC;
+    private void doRunningMove(KeyControl keyControl) {
+        float acc;
+        if (state == STATE_GROUND)
+            acc = RUN_ACC;
+        else if (state == STATE_BOOST) {
+            acc = BOOST_ACC;
+            if (--boostDuration == 0)
+                state = STATE_GROUND;
+        } else if (keyControl.isKeyDown(KeyControl.KEY_SHIFT)) {
+            acc = GLIDE_ACC;
+            vz -= GLIDE_DESCENT_ACC;
+        } else
+            acc = AIR_ACC;
 
         if (keyControl.isKeyDown(KeyControl.KEY_W)) {
             vx += norm[0] * acc;
@@ -113,24 +128,25 @@ public class Character implements WorldElement, Follow {
         vz += JUMP_ACC;
     }
 
-    private void upwardMove() {
-        if (state == STATE_CLIMB) {
-            vz += CLIMB_ACC;
-            jetting = false;
-        } else {
-            vz += JET_ACC;
-            jetting = true;
-        }
+    private void doUpwardMove() {
+        vz += JET_ACC;
+        jetting = true;
+    }
+
+    private void doBoost() {
+        if (boostRemain == 0)
+            return;
+        boostRemain--;
+        state = STATE_BOOST;
+        boostDuration = BOOST_DURATION;
     }
 
     private void doFriction() {
         float friction;
-        if (state == STATE_AIR)
-            friction = AIR_FRICTION;
-        else if (state == STATE_CLIMB)
-            friction = CLIMB_FRICTION;
-        else
+        if (state == STATE_GROUND)
             friction = FRICTION;
+        else
+            friction = AIR_FRICTION;
 
         vx *= friction;
         vy *= friction;
@@ -144,11 +160,19 @@ public class Character implements WorldElement, Follow {
         z = intersection.coordinate.getZ();
 
         if (intersection.grounded) {
-            state = STATE_GROUND;
+            if (state != STATE_BOOST) {
+                state = STATE_GROUND;
+                boostRemain = BOOST_MAX;
+            }
             jumpRemain = JUMP_MAX;
             vz = 0;
-        } else
-            state = intersection.collisionX || intersection.collisionY ? STATE_CLIMB : STATE_AIR;
+        } else if (state != STATE_BOOST)
+            state = STATE_AIR;
+
+        if (intersection.collisionX)
+            vx = 0;
+        if (intersection.collisionY)
+            vy = 0;
     }
 
     @Override

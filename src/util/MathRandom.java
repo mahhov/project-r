@@ -14,4 +14,8 @@ public class MathRandom {
     public static int random(int min, int max) {
         return R.nextInt(max - min) + min;
     }
+
+    public static boolean random(double trueWeight) {
+        return R.nextDouble() < trueWeight;
+    }
 }

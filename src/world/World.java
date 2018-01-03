@@ -29,15 +29,7 @@ public class World implements Map {
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
-        heightMap = WorldGenerator.generate(width, length, height);
-
-        for (int x = 32 * 8; x < 32 * 8 + 50; x++) {
-            for (int y = 10; y < 25; y++)
-                heightMap[x][y] = 1;
-            for (int y = 25; y < 50; y++)
-                heightMap[x][y] = 3;
-        }
-
+        heightMap = WorldGenerator.generate(width, length, height * 2 / 3);
         elements = new LList<>();
         Timer.time("world creation");
     }
