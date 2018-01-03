@@ -164,3 +164,4 @@ public class Engine {
 // more efficient is(draw/world)empty tracking
 // shadows
 // investigate if should retain STATIC_DRAW
+// climbing bug stuck in wall
