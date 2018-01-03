@@ -1,25 +1,29 @@
 package engine;
 
-import shape.Rects;
 import character.Character;
+import shape.Rects;
+import util.MathNumbers;
 
 class UiDrawer {
-    private static final float[] STAMINA_COLOR = new float[] {1, .85f, .63f};
+    private static final float[] BACK_COLOR = new float[] {.2f, .2f, .2f};
+    private static final float[] BOOST_COLOR = new float[] {.2f, .5f, .6f};
+    //    private static final float[] STAMINA_COLOR = new float[] {1, .85f, .63f};
 
     private Character character;
     private Rects rects;
-    private Rects.Rect staminaBar;
+    private Rects.Rect boostAbilityBar;
 
     UiDrawer(Character character) {
         this.character = character;
         rects = new Rects(2);
-        staminaBar = rects.addRect(STAMINA_COLOR);
-        Rects.Rect staminaBarBack = rects.addRect(new float[] {0, 0, 0});
-        staminaBarBack.setCoordinates(.6f, -.87f, .9f, -.9f);
+
+        boostAbilityBar = rects.addRect(BOOST_COLOR);
+        Rects.Rect boostAbilityBack = rects.addRect(BACK_COLOR);
+        boostAbilityBack.setCoordinates(.6f, -.87f, .9f, -.9f);
     }
 
     void draw() {
-        staminaBar.setCoordinates(.6f, -.87f, .6f + .3f * character.stamina, -.9f);
+        boostAbilityBar.setCoordinates(.6f, -.87f, .9f - .3f * MathNumbers.max(character.getBoostAbility(), 0), -.9f);
         rects.doneAdding();
         rects.draw();
     }

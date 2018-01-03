@@ -26,4 +26,8 @@ class CooldownAbility {
     boolean active() {
         return curTime < 0;
     }
+
+    float percent() {
+        return 1f * curTime / cooldownTime;
+    }
 }

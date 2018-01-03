@@ -60,6 +60,8 @@ public class Character implements WorldElement, Follow {
     }
 
     public void updateControls(KeyControl keyControl, MousePosControl mousePosControl) {
+        boolean shiftPress = keyControl.isKeyPressed(KeyControl.KEY_SHIFT);
+
         if (stamina < 1) {
             stamina += .005f;
             if (stamina > 1)
@@ -77,7 +79,7 @@ public class Character implements WorldElement, Follow {
         else
             jetting = false;
 
-        doBoost(keyControl.isKeyDown(KeyControl.KEY_SHIFT));
+        doBoost(shiftPress);
 
         vz -= GRAVITY;
         doFriction();
@@ -183,6 +185,10 @@ public class Character implements WorldElement, Follow {
             vx = 0;
         if (intersection.collisionY)
             vy = 0;
+    }
+
+    public float getBoostAbility() {
+        return boostAbility.percent();
     }
 
     @Override
