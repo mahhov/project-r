@@ -9,8 +9,8 @@ public class KeyControl implements GLFWKeyCallbackI {
     private static final int NUM_KEYS;
     public static final int
             KEY_W, KEY_A, KEY_S, KEY_D,
-            KEY_Q, KEY_E, 
-            KEY_R, KEY_F,KEY_Z, KEY_X,
+            KEY_Q, KEY_E,
+            KEY_R, KEY_F, KEY_Z, KEY_X,
             KEY_SHIFT, KEY_SPACE;
 
     static {
@@ -82,8 +82,10 @@ public class KeyControl implements GLFWKeyCallbackI {
     public void invoke(long window, int keyCode, int scancode, int action, int mods) {
         if (keyCode == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
             glfwSetWindowShouldClose(window, true);
-        else
-            setKeyState(keyCode, action == GLFW_RELEASE ? RELEASED : PRESSED);
+        else if (action == GLFW_RELEASE)
+            setKeyState(keyCode, RELEASED);
+        else if (action == GLFW_PRESS)
+            setKeyState(keyCode, PRESSED);
     }
 
     private class Key {
