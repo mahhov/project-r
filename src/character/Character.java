@@ -1,4 +1,4 @@
-package world;
+package character;
 
 import camera.Follow;
 import control.KeyControl;
@@ -7,6 +7,8 @@ import shape.CubeInstancedFaces;
 import util.IntersectionFinder;
 import util.MathAngles;
 import util.MathNumbers;
+import world.World;
+import world.WorldElement;
 
 public class Character implements WorldElement, Follow {
     private static final float ROTATE_SPEED_MOUSE = .008f;

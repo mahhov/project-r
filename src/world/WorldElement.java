@@ -1,6 +1,6 @@
 package world;
 
-interface WorldElement {
+public interface WorldElement {
     void update(World world);
 
     void draw();

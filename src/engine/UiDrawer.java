@@ -1,7 +1,7 @@
 package engine;
 
 import shape.Rects;
-import world.Character;
+import character.Character;
 
 class UiDrawer {
     private static final float[] STAMINA_COLOR = new float[] {1, .85f, .63f};

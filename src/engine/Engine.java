@@ -7,7 +7,7 @@ import engine.shader.ShaderManager;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
-import world.Character;
+import character.Character;
 import world.World;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
