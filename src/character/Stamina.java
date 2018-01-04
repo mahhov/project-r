@@ -16,13 +16,11 @@ class Stamina {
     }
 
     void regen() {
-        if (currentReserve < maxReserve)
-            currentReserve = MathNumbers.min(currentReserve + regenReserve, maxReserve);
-        if (current < max) {
-            float regenAmount = MathNumbers.min(regen, currentReserve);
-            current = MathNumbers.min(current + regenAmount, max);
-            currentReserve -= regenAmount;
-        }
+        currentReserve = MathNumbers.min(currentReserve + regenReserve, maxReserve);
+
+        float regenAmount = MathNumbers.min(regen, currentReserve, max - current);
+        current = MathNumbers.min(current + regenAmount, max);
+        currentReserve -= regenAmount;
     }
 
     void deplete(float amount) {

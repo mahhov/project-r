@@ -27,6 +27,9 @@ public class Character implements WorldElement, Follow {
     private static final int BOOST_COOLDOWN = 60, BOOST_DURATION = 20;
     private AbilityTimer boostTimer;
 
+    // life
+    private Life life;
+
     // position
     private float x, y, z;
     private float vx, vy, vz;
@@ -49,6 +52,8 @@ public class Character implements WorldElement, Follow {
         stamina = new Stamina(STAMINA, STAMINA_REGEN, STAMINA_RESERVE, STAMINA_RESERVE_REGEN);
         boostTimer = new AbilityTimer(BOOST_COOLDOWN, BOOST_DURATION);
 
+        life = new Life(100, .1f, 100, 1);
+
         cubeInstancedFaces = new CubeInstancedFaces(COLOR);
     }
 
@@ -60,6 +65,7 @@ public class Character implements WorldElement, Follow {
         boolean shiftPress = keyControl.isKeyPressed(KeyControl.KEY_SHIFT);
 
         stamina.regen();
+        life.regen();
 
         doRotations(mousePosControl);
         computeAxis();
@@ -191,6 +197,14 @@ public class Character implements WorldElement, Follow {
 
     public float getStaminaReservePercent() {
         return stamina.percentReserve();
+    }
+
+    public float getLifePercent() {
+        return life.percentLife();
+    }
+
+    public float getShieldPercent() {
+        return life.percentShield();
     }
 
     @Override

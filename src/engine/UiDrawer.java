@@ -4,32 +4,56 @@ import character.Character;
 import shape.Rects;
 
 class UiDrawer {
+    private static final float BOTTOM_ROW1_TOP = -.82f, BOTTOM_ROW1_BOTTOM = -.85f, BOTTOM_ROW2_TOP = -.87f, BOTTOM_ROW2_BOTTOM = -.9f;
+    private static final float LEFT_LEFT = -.9f, LEFT_RIGHT = -.6f, RIGHT_LEFT = .6f, RIGHT_RIGHT = .9f;
+
     private static final float[] BACK_COLOR = new float[] {.2f, .2f, .2f};
-    private static final float[] RESERVE_COLOR = new float[] {.2f, .5f, .6f};
-    private static final float[] STAMINA_COLOR = new float[] {1, .85f, .63f};
+    private static final float[] RESERVE_COLOR = new float[] {.2f, .5f, .6f}, STAMINA_COLOR = new float[] {1, .85f, .63f};
+    private static final float[] SHIELD_COLOR = new float[] {}, LIFE_COLOR = new float[] {};
 
     private Character character;
     private Rects rects;
-    private Rects.Rect reserveBar, staminaBar;
+    private Bar reserveBar, staminaBar;
+    private Bar shieldBar, lifeBar;
 
     UiDrawer(Character character) {
         this.character = character;
-        rects = new Rects(4);
+        rects = new Rects(9);
 
-        reserveBar = setupBar(.6f, -.82f, .9f, -.85f, RESERVE_COLOR);
-        staminaBar = setupBar(.6f, -.87f, .9f, -.9f, STAMINA_COLOR);
-    }
+        reserveBar = new Bar(RIGHT_LEFT, BOTTOM_ROW1_TOP, RIGHT_RIGHT, BOTTOM_ROW1_BOTTOM, RESERVE_COLOR);
+        staminaBar = new Bar(RIGHT_LEFT, BOTTOM_ROW2_TOP, RIGHT_RIGHT, BOTTOM_ROW2_BOTTOM, STAMINA_COLOR);
 
-    private Rects.Rect setupBar(float left, float top, float right, float bottom, float[] color) {
-        Rects.Rect bar = rects.addRect(color);
-        rects.addRect(BACK_COLOR).setCoordinates(left, top, right, bottom);
-        return bar;
+        shieldBar = new Bar(LEFT_LEFT, BOTTOM_ROW1_TOP, LEFT_RIGHT, BOTTOM_ROW1_BOTTOM, SHIELD_COLOR);
+        lifeBar = new Bar(LEFT_LEFT, BOTTOM_ROW2_TOP, LEFT_RIGHT, BOTTOM_ROW2_BOTTOM, LIFE_COLOR);
     }
 
     void draw() {
-        reserveBar.setCoordinates(.6f, -.82f, .6f + .3f * character.getStaminaReservePercent(), -.85f);
-        staminaBar.setCoordinates(.6f, -.87f, .6f + .3f * character.getStaminaPercent(), -.9f);
+        reserveBar.setCoordinates(character.getStaminaReservePercent());
+        staminaBar.setCoordinates(character.getStaminaPercent());
+        shieldBar.setCoordinates(character.getShieldPercent());
+        lifeBar.setCoordinates(character.getLifePercent());
         rects.doneAdding();
         rects.draw();
+    }
+
+    private class Bar {
+        private float left, top, width, bottom;
+        private float[] color;
+        private Rects.Rect rect;
+
+        private Bar(float left, float top, float right, float bottom, float[] color) {
+            this.left = left;
+            this.top = top;
+            width = right - left;
+            this.bottom = bottom;
+            this.color = color;
+
+            rect = rects.addRect(color);
+            rects.addRect(BACK_COLOR).setCoordinates(left, top, right, bottom);
+        }
+
+        private void setCoordinates(float percent) {
+            rect.setCoordinates(left, top, left + width * percent, bottom);
+        }
     }
 }
