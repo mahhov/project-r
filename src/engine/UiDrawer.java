@@ -1,6 +1,6 @@
 package engine;
 
-import character.Character;
+import character.Human;
 import shape.Rects;
 
 class UiDrawer {
@@ -11,13 +11,13 @@ class UiDrawer {
     private static final float[] RESERVE_COLOR = new float[] {.2f, .6f, .6f}, STAMINA_COLOR = new float[] {1, .8f, .6f};
     private static final float[] SHIELD_COLOR = new float[] {.4f, .5f, .7f}, LIFE_COLOR = new float[] {.8f, .3f, .3f};
     
-    private Character character;
+    private Human human;
     private Rects rects;
     private Bar reserveBar, staminaBar;
     private Bar shieldBar, lifeBar;
 
-    UiDrawer(Character character) {
-        this.character = character;
+    UiDrawer(Human human) {
+        this.human = human;
         rects = new Rects(9);
 
         reserveBar = new Bar(RIGHT_LEFT, BOTTOM_ROW1_TOP, RIGHT_RIGHT, BOTTOM_ROW1_BOTTOM, RESERVE_COLOR);
@@ -28,10 +28,10 @@ class UiDrawer {
     }
 
     void draw() {
-        reserveBar.setCoordinates(character.getStaminaReservePercent());
-        staminaBar.setCoordinates(character.getStaminaPercent());
-        shieldBar.setCoordinates(character.getShieldPercent());
-        lifeBar.setCoordinates(character.getLifePercent());
+        reserveBar.setCoordinates(human.getStaminaReservePercent());
+        staminaBar.setCoordinates(human.getStaminaPercent());
+        shieldBar.setCoordinates(human.getShieldPercent());
+        lifeBar.setCoordinates(human.getLifePercent());
         rects.doneAdding();
         rects.draw();
     }

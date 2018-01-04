@@ -1,7 +1,7 @@
 package engine;
 
 import camera.Camera;
-import character.Character;
+import character.Human;
 import control.KeyControl;
 import control.MousePosControl;
 import shader.ShaderManager;
@@ -26,7 +26,7 @@ public class Engine {
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
     private long window;
     private Camera camera;
-    private Character character;
+    private Human human;
     private UiDrawer uiDrawer;
     private KeyControl keyControl;
     private MousePosControl mousePosControl;
@@ -38,11 +38,12 @@ public class Engine {
         keyControl = new KeyControl(window);
         mousePosControl = new MousePosControl(window);
         world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE);
-        character = new Character(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0, world);
+        human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0, world.getIntersectionFinder());
+        world.addRandomMonster();
         ShaderManager.setUiShader();
-        uiDrawer = new UiDrawer(character);
-        world.addWorldElement(character);
-        camera.setFollow(character);
+        uiDrawer = new UiDrawer(human);
+        world.addWorldElement(human);
+        camera.setFollow(human);
     }
 
     private void initLwjgl() {
@@ -94,7 +95,7 @@ public class Engine {
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            character.updateControls(keyControl, mousePosControl);
+            human.updateControls(keyControl, mousePosControl);
 
             ShaderManager.setRenderShader();
             camera.update(keyControl);

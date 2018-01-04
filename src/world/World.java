@@ -1,10 +1,9 @@
 package world;
 
+import character.Monster;
+import engine.Engine;
 import geometry.CoordinateI3;
-import util.LList;
-import util.Map;
-import util.MathNumbers;
-import util.Timer;
+import util.*;
 import world.generator.WorldGenerator;
 
 public class World implements Map {
@@ -18,6 +17,7 @@ public class World implements Map {
     private CoordinateI3 viewStart, viewEnd;
 
     private LList<WorldElement> elements;
+    private IntersectionFinder intersectionFinder;
 
     public World(int width, int length, int height) {
         Timer.restart();
@@ -31,6 +31,7 @@ public class World implements Map {
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
         heightMap = WorldGenerator.generate(width, length, height / 3);
         elements = new LList<>();
+        intersectionFinder = new IntersectionFinder(this);
         Timer.time("world creation");
     }
 
@@ -38,6 +39,11 @@ public class World implements Map {
         elements.addTail(element);
     }
 
+    public void addRandomMonster() { // todo make random
+        Monster monster = new Monster(32 * Engine.SCALE, 20, 8 * Engine.SCALE, 0, 0, intersectionFinder);
+        addWorldElement(monster);
+    }
+    
     public void setCameraCoordinate(CoordinateI3 cameraCoordinate) {
         int centerX = cameraCoordinate.x / CHUNK_SIZE;
         int centerY = cameraCoordinate.y / CHUNK_SIZE;
@@ -138,5 +144,9 @@ public class World implements Map {
     @Override
     public int height() {
         return height;
+    }
+
+    public IntersectionFinder getIntersectionFinder() {
+        return intersectionFinder;
     }
 }
