@@ -18,8 +18,7 @@ public class Character implements WorldElement, Follow {
     private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1;
     private static final float JUMP_ACC = 1f, JET_ACC = .11f, RUN_ACC = .07f, AIR_ACC = .02f;
     private static final float BOOST_ACC = .07f, GLIDE_ACC = .05f, GLIDE_DESCENT_ACC = .02f;
-    private static final int STATE_GROUND = 0, STATE_AIR = 1; // todo change to boolean air
-    private int state;
+    private boolean air;
     private boolean jetting;
 
     // ability
@@ -102,7 +101,7 @@ public class Character implements WorldElement, Follow {
         float acc;
         if (boostTimer.active())
             acc = BOOST_ACC;
-        else if (state == STATE_GROUND)
+        else if (!air)
             acc = RUN_ACC;
         else if (keyControl.isKeyDown(KeyControl.KEY_SHIFT) && stamina.available(Stamina.GLIDE)) {
             stamina.deplete(Stamina.GLIDE);
@@ -133,7 +132,7 @@ public class Character implements WorldElement, Follow {
     }
 
     private void jump() {
-        float staminaRequired = state == STATE_AIR ? Stamina.AIR_JUMP : Stamina.JUMP;
+        float staminaRequired = air ? Stamina.AIR_JUMP : Stamina.JUMP;
         if (!stamina.available(staminaRequired))
             return;
         stamina.deplete(staminaRequired);
@@ -159,7 +158,7 @@ public class Character implements WorldElement, Follow {
 
     private void doFriction() {
         float friction;
-        if (state == STATE_GROUND && !boostTimer.active())
+        if (!air && !boostTimer.active())
             friction = FRICTION;
         else
             friction = AIR_FRICTION;
@@ -176,10 +175,10 @@ public class Character implements WorldElement, Follow {
         z = intersection.coordinate.getZ();
 
         if (intersection.grounded) {
-            state = STATE_GROUND;
+            air = false;
             vz = 0;
         } else
-            state = STATE_AIR;
+            air = true;
 
         if (intersection.collisionX)
             vx = 0;
