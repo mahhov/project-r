@@ -24,7 +24,7 @@ class Life {
         else {
             amount -= currentShield;
             currentShield = 0;
-            currentLife -= amount;
+            currentLife = MathNumbers.max(currentLife - amount, 0);
         }
     }
 
