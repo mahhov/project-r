@@ -127,7 +127,6 @@ public class Engine {
 
 // todo
 // ~~ high priority ~~
-// ui
 // combat
 // enemies
 // particles
@@ -146,4 +145,4 @@ public class Engine {
 // more efficient is(draw/world)empty tracking
 // shadows
 // investigate if should retain STATIC_DRAW
-// climbing bug stuck in wall
+// support cubes of different colors in same CubeInstancedFaces 
