@@ -1,9 +1,9 @@
 package character;
 
-class CooldownAbility {
+class AbilityTimer {
     private int cooldownTime, durationTime, curTime;
 
-    CooldownAbility(int cooldownTime, int durationTime) {
+    AbilityTimer(int cooldownTime, int durationTime) {
         this.cooldownTime = cooldownTime;
         this.durationTime = -durationTime;
     }

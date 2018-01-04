@@ -23,18 +23,16 @@ public class Character implements WorldElement, Follow {
     private boolean jetting;
 
     // ability
-    private static final int JUMP_MAX = 2;
-    private ChargesAbility jumpAbility;
+    private static final float STAMINA = 20, STAMINA_REGEN = .1f, STAMINA_RESERVE = 150, STAMINA_RESERVE_REGEN = .05f;
+    private Stamina stamina;
     private static final int BOOST_COOLDOWN = 60, BOOST_DURATION = 20;
-    private CooldownAbility boostAbility;
-    private RechargeAbility glideAbility, jetAbility; // todo intigrate
+    private AbilityTimer boostTimer;
 
     // position
     private float x, y, z;
     private float vx, vy, vz;
     private float theta, thetaZ;
     private float[] norm, right;
-    public float stamina;
     private IntersectionFinder intersectionFinder;
 
     private CubeInstancedFaces cubeInstancedFaces;
@@ -49,8 +47,8 @@ public class Character implements WorldElement, Follow {
         right = new float[2];
         intersectionFinder = new IntersectionFinder(world);
 
-        jumpAbility = new ChargesAbility(JUMP_MAX);
-        boostAbility = new CooldownAbility(BOOST_COOLDOWN, BOOST_DURATION);
+        stamina = new Stamina(STAMINA, STAMINA_REGEN, STAMINA_RESERVE, STAMINA_RESERVE_REGEN);
+        boostTimer = new AbilityTimer(BOOST_COOLDOWN, BOOST_DURATION);
 
         cubeInstancedFaces = new CubeInstancedFaces(COLOR);
     }
@@ -62,11 +60,7 @@ public class Character implements WorldElement, Follow {
     public void updateControls(KeyControl keyControl, MousePosControl mousePosControl) {
         boolean shiftPress = keyControl.isKeyPressed(KeyControl.KEY_SHIFT);
 
-        if (stamina < 1) {
-            stamina += .005f;
-            if (stamina > 1)
-                stamina = 1;
-        }
+        stamina.regen();
 
         doRotations(mousePosControl);
         computeAxis();
@@ -79,7 +73,9 @@ public class Character implements WorldElement, Follow {
         else
             jetting = false;
 
-        doBoost(shiftPress);
+        boostTimer.update();
+        if (shiftPress)
+            doBoost();
 
         vz -= GRAVITY;
         doFriction();
@@ -104,12 +100,12 @@ public class Character implements WorldElement, Follow {
 
     private void doRunningMove(KeyControl keyControl) {
         float acc;
-        if (boostAbility.active())
+        if (boostTimer.active())
             acc = BOOST_ACC;
         else if (state == STATE_GROUND)
             acc = RUN_ACC;
-        else if (keyControl.isKeyDown(KeyControl.KEY_SHIFT) && stamina > .01f) {
-            stamina -= .01f;
+        else if (keyControl.isKeyDown(KeyControl.KEY_SHIFT) && stamina.available(Stamina.GLIDE)) {
+            stamina.deplete(Stamina.GLIDE);
             acc = GLIDE_ACC;
             vz -= GLIDE_DESCENT_ACC;
         } else
@@ -137,28 +133,33 @@ public class Character implements WorldElement, Follow {
     }
 
     private void jump() {
-        if (!jumpAbility.ready())
+        float staminaRequired = state == STATE_AIR ? Stamina.AIR_JUMP : Stamina.JUMP;
+        if (!stamina.available(staminaRequired))
             return;
-        jumpAbility.useCharge();
+        stamina.deplete(staminaRequired);
         vx *= JUMP_MULT;
         vy *= JUMP_MULT;
         vz += JUMP_ACC;
     }
 
     private void doUpwardMove() {
+        if (!stamina.available(Stamina.JET))
+            return;
+        stamina.deplete(Stamina.JET);
         vz += JET_ACC;
         jetting = true;
     }
 
-    private void doBoost(boolean tryActivate) {
-        boostAbility.update();
-        if (tryActivate && boostAbility.ready())
-            boostAbility.activate();
+    private void doBoost() {
+        if (boostTimer.ready() && stamina.available(Stamina.BOOST)) {
+            stamina.deplete(Stamina.BOOST);
+            boostTimer.activate();
+        }
     }
 
     private void doFriction() {
         float friction;
-        if (state == STATE_GROUND && !boostAbility.active())
+        if (state == STATE_GROUND && !boostTimer.active())
             friction = FRICTION;
         else
             friction = AIR_FRICTION;
@@ -176,7 +177,6 @@ public class Character implements WorldElement, Follow {
 
         if (intersection.grounded) {
             state = STATE_GROUND;
-            jumpAbility.resetCharges();
             vz = 0;
         } else
             state = STATE_AIR;
@@ -187,8 +187,12 @@ public class Character implements WorldElement, Follow {
             vy = 0;
     }
 
-    public float getBoostAbility() {
-        return boostAbility.percent();
+    public float getStaminaPercent() {
+        return stamina.percent();
+    }
+
+    public float getStaminaReservePercent() {
+        return stamina.percentReserve();
     }
 
     @Override
