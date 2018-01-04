@@ -1,6 +1,7 @@
 package character;
 
 import util.IntersectionFinder;
+import util.MathNumbers;
 import world.World;
 
 public class Monster extends Character {
@@ -18,9 +19,19 @@ public class Monster extends Character {
 
     @Override
     public void update(World world) {
-        moveControl.dx = human.getX() - getX();
-        moveControl.dy = human.getY() - getY();
-        moveControl.theta = (float) Math.atan2(moveControl.dy, moveControl.dx);
+        float dx = human.getX() - getX();
+        float dy = human.getY() - getY();
+        float distanceSqr = MathNumbers.magnitudeSqr(dx, dy);
+
+        if (distanceSqr > 10) {
+            moveControl.dx = dx;
+            moveControl.dy = dy;
+        } else {
+            moveControl.dx = 0;
+            moveControl.dy = 0;
+        }
+        
+        moveControl.theta = (float) Math.atan2(dy, dx);
         move(moveControl);
     }
 }

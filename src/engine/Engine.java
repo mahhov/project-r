@@ -136,7 +136,6 @@ public class Engine {
 // inventory
 // harvesting
 // crafting
-// bug with stuck in terrain
 
 // ~~ low priority ~~
 // camera culling

@@ -37,8 +37,19 @@ public class MathNumbers {
     }
 
     public static float[] setMagnitude(float x, float y, float z, float magnitude) {
+        float currentMagnitude = magnitude(x, y, z);
+        if (isZero(currentMagnitude))
+            return new float[] {0, 0, 0};
         float mult = magnitude / magnitude(x, y, z);
         return new float[] {x * mult, y * mult, z * mult};
+    }
+
+    public static float magnitudeSqr(float dx, float dy) {
+        return (float) dx * dx + dy * dy;
+    }
+
+    public static boolean isZero(float value) {
+        return value < EPSILON && value > -EPSILON;
     }
 
     public static int intNeg(float value) {

@@ -20,7 +20,7 @@ public class IntersectionFinder {
     }
 
     public Intersection find(float[] orig, float[] dir, float maxMove, float size) {
-        if (dir[0] == 0 && dir[1] == 0 && dir[2] == 0)
+        if (MathNumbers.isZero(dir[0]) && MathNumbers.isZero(dir[1]) && MathNumbers.isZero(dir[2]))
             return null;
 
         prepare(orig, dir, size);
@@ -51,7 +51,7 @@ public class IntersectionFinder {
                         z++;
                     else {
                         collisionX = true;
-                        if (dy == 0 && dz == 0)
+                        if (MathNumbers.isZero(dy) && MathNumbers.isZero(dz))
                             return createIntersection();
                         dx = 0;
                         edgeDx = 0;
@@ -64,7 +64,7 @@ public class IntersectionFinder {
                         z++;
                     else {
                         collisionY = true;
-                        if (dx == 0 && dz == 0)
+                        if (MathNumbers.isZero(dx) && MathNumbers.isZero(dz))
                             return createIntersection();
                         dy = 0;
                         edgeDy = 0;
@@ -73,7 +73,7 @@ public class IntersectionFinder {
 
                 } else if (selectedDelta == 2 && !moveableZ(x, y, nextZ)) {
                     grounded = dz < 0;
-                    if (dx == 0 && dy == 0)
+                    if (MathNumbers.isZero(dx) && MathNumbers.isZero(dy))
                         return createIntersection();
                     dz = 0;
                     edgeDz = 0;
@@ -100,9 +100,9 @@ public class IntersectionFinder {
         dz = dir[2];
 
         halfSize = size / 2;
-        edgeDx = dx == 0 ? 0 : (dx < 0 ? -halfSize : halfSize);
-        edgeDy = dy == 0 ? 0 : (dy < 0 ? -halfSize : halfSize);
-        edgeDz = dz == 0 ? 0 : (dz < 0 ? -halfSize : halfSize);
+        edgeDx = MathNumbers.isZero(dx) ? 0 : (dx < 0 ? -halfSize : halfSize);
+        edgeDy = MathNumbers.isZero(dy) ? 0 : (dy < 0 ? -halfSize : halfSize);
+        edgeDz = MathNumbers.isZero(dz) ? 0 : (dz < 0 ? -halfSize : halfSize);
 
         collisionX = false;
         collisionY = false;
