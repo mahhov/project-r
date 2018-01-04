@@ -23,7 +23,7 @@ class Character implements WorldElement { // todo support human movement
 
     private CubeInstancedFaces cubeInstancedFaces;
 
-    Character(float x, float y, float z, float theta, float thetaZ, IntersectionFinder intersectionFinder, float life, float lifeRegen, float shield, float shieldRegen, float[] color) {
+    Character(float x, float y, float z, float theta, float thetaZ, IntersectionFinder intersectionFinder, float life, float lifeRegen, float shield, float shieldRegen, float[] color, CubeInstancedFaces cubeInstancedFaces) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -33,7 +33,7 @@ class Character implements WorldElement { // todo support human movement
 
         this.life = new Life(life, lifeRegen, shield, shieldRegen);
 
-        cubeInstancedFaces = new CubeInstancedFaces(color);
+        this.cubeInstancedFaces = cubeInstancedFaces;
     }
 
     @Override
@@ -106,10 +106,7 @@ class Character implements WorldElement { // todo support human movement
 
     @Override
     public void draw() {
-        cubeInstancedFaces.reset();
         cubeInstancedFaces.add(x, z, -y, theta, thetaZ);
-        cubeInstancedFaces.doneAdding();
-        cubeInstancedFaces.draw();
     }
 
     float getX() {

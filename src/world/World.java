@@ -4,6 +4,7 @@ import character.Human;
 import character.Monster;
 import engine.Engine;
 import geometry.CoordinateI3;
+import shape.CubeInstancedFaces;
 import util.*;
 import world.generator.WorldGenerator;
 
@@ -20,6 +21,7 @@ public class World implements Map {
     private Human human;
     private LList<WorldElement> elements;
     private IntersectionFinder intersectionFinder;
+    private CubeInstancedFaces dynamicCubeInstancedFaces;
 
     public World(int width, int length, int height) {
         Timer.restart();
@@ -34,6 +36,7 @@ public class World implements Map {
         heightMap = WorldGenerator.generate(width, length, height / 3);
         elements = new LList<>();
         intersectionFinder = new IntersectionFinder(this);
+        dynamicCubeInstancedFaces = new CubeInstancedFaces(Monster.COLOR);
         Timer.time("world creation");
     }
 
@@ -41,9 +44,9 @@ public class World implements Map {
         elements.addTail(element);
     }
 
-    public void addRandomMonster() { // todo make random
-        Monster monster = new Monster(32 * Engine.SCALE, 20, 8 * Engine.SCALE, 0, 0, intersectionFinder, human);
-        addWorldElement(monster);
+    public void addRandomMonsters(int n) {
+        for (int i = 0; i < n; i++)
+            addWorldElement(new Monster(MathRandom.random(0, width), MathRandom.random(0, length), 8 * Engine.SCALE, 0, 0, intersectionFinder, human, dynamicCubeInstancedFaces));
     }
 
     public void setHuman(Human human) {
@@ -95,8 +98,11 @@ public class World implements Map {
                     if (chunks[chunkX][chunkY][chunkZ] != null)
                         chunks[chunkX][chunkY][chunkZ].draw();
 
+        dynamicCubeInstancedFaces.reset();
         for (WorldElement element : elements)
             element.draw();
+        dynamicCubeInstancedFaces.doneAdding();
+        dynamicCubeInstancedFaces.draw();
     }
 
     private void generateChunks() {

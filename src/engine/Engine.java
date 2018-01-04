@@ -40,7 +40,7 @@ public class Engine {
         world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE);
         human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0, world.getIntersectionFinder());
         world.setHuman(human);
-        world.addRandomMonster();
+        world.addRandomMonsters(300);
         uiDrawer = new UiDrawer(human);
         ShaderManager.setUiShader();
         camera.setFollow(human);
@@ -56,7 +56,7 @@ public class Engine {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-        window = glfwCreateWindow(600, 600, "Project R", NULL, NULL);
+        window = glfwCreateWindow(300, 300, "Project R", NULL, NULL);
 
         try (MemoryStack stack = stackPush()) {
             IntBuffer pWidth = stack.mallocInt(1);
