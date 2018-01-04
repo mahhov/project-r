@@ -1,4 +1,4 @@
-package engine.shader;
+package shader;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;

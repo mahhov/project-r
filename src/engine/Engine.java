@@ -1,18 +1,23 @@
 package engine;
 
 import camera.Camera;
+import character.Character;
 import control.KeyControl;
 import control.MousePosControl;
-import engine.shader.ShaderManager;
+import shader.ShaderManager;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
-import character.Character;
+import org.lwjgl.system.MemoryStack;
 import world.World;
+
+import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
@@ -43,37 +48,6 @@ public class Engine {
     private void initLwjgl() {
         System.out.println("LWJGL " + Version.getVersion());
 
-        //        GLFWErrorCallback.createPrint(System.err).set();
-        //
-        //        if (!glfwInit())
-        //            throw new IllegalStateException("Unable to initialize GLFW");
-        //        glfwDefaultWindowHints();
-        //
-        //        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        //        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-        //        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        //        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-        //
-        //        window = glfwCreateWindow(300, 300, "Realm", NULL, NULL);
-        //        if (window == NULL)
-        //            throw new RuntimeException("Failed to create the GLFW window");
-        //
-        //        try (MemoryStack stack = stackPush()) {
-        //            IntBuffer pWidth = stack.mallocInt(1);
-        //            IntBuffer pHeight = stack.mallocInt(1);
-        //            glfwGetWindowSize(window, pWidth, pHeight);
-        //            GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        //            glfwSetWindowPos(window, (vidmode.width() - pWidth.get(0)) / 2, (vidmode.height() - pHeight.get(0)) / 2);
-        //        }
-        //
-        //        glfwMakeContextCurrent(window);
-        //        glfwSwapInterval(1);
-        //
-        //        glfwShowWindow(window);
-        //
-        //        GL.createCapabilities();
-        //        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
-
         GLFWErrorCallback.createPrint(System.err).set();
         glfwInit();
         glfwDefaultWindowHints();
@@ -81,7 +55,15 @@ public class Engine {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-        window = glfwCreateWindow(800, 800, "Project R", NULL, NULL);
+        window = glfwCreateWindow(300, 300, "Project R", NULL, NULL);
+
+        try (MemoryStack stack = stackPush()) {
+            IntBuffer pWidth = stack.mallocInt(1);
+            IntBuffer pHeight = stack.mallocInt(1);
+            glfwGetWindowSize(window, pWidth, pHeight);
+            GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+            glfwSetWindowPos(window, (vidmode.width() - pWidth.get(0)) / 2, (vidmode.height() - pHeight.get(0)) / 2);
+        }
 
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
@@ -153,6 +135,7 @@ public class Engine {
 // inventory
 // harvesting
 // crafting
+// bug with stuck in terrain
 
 // ~~ low priority ~~
 // camera culling

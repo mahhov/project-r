@@ -1,4 +1,4 @@
-package engine.shader;
+package shader;
 
 public class ShaderManager {
     private static final ShaderProgram renderShader = new ShaderProgram("render"), uiShader = new ShaderProgram("ui");
