@@ -16,14 +16,14 @@ class UiDrawer {
         this.character = character;
         rects = new Rects(4);
 
-        reserveBar = rects.addRect(RESERVE_COLOR);
-        staminaBar = rects.addRect(STAMINA_COLOR);
-        
-        Rects.Rect reserveBack = rects.addRect(BACK_COLOR);
-        Rects.Rect staminaBack = rects.addRect(BACK_COLOR);
+        reserveBar = setupBar(.6f, -.82f, .9f, -.85f, RESERVE_COLOR);
+        staminaBar = setupBar(.6f, -.87f, .9f, -.9f, STAMINA_COLOR);
+    }
 
-        reserveBack.setCoordinates(.6f, -.82f, .9f, -.85f);
-        staminaBack.setCoordinates(.6f, -.87f, .9f, -.9f);
+    private Rects.Rect setupBar(float left, float top, float right, float bottom, float[] color) {
+        Rects.Rect bar = rects.addRect(color);
+        rects.addRect(BACK_COLOR).setCoordinates(left, top, right, bottom);
+        return bar;
     }
 
     void draw() {
