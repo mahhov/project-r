@@ -1,7 +1,7 @@
 package character;
 
 class MoveControl {
-    boolean forward, backward, left, right;
+    float dx, dy;
     boolean jump, glide, boost;
     float theta, thetaZ;
 }

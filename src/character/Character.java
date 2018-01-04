@@ -2,7 +2,6 @@ package character;
 
 import shape.CubeInstancedFaces;
 import util.IntersectionFinder;
-import util.MathAngles;
 import util.MathNumbers;
 import world.World;
 import world.WorldElement;
@@ -20,7 +19,6 @@ class Character implements WorldElement { // todo support human movement
     private float x, y, z;
     private float vx, vy, vz;
     private float theta, thetaZ;
-    private float[] norm, right;
     private IntersectionFinder intersectionFinder;
 
     private CubeInstancedFaces cubeInstancedFaces;
@@ -31,8 +29,6 @@ class Character implements WorldElement { // todo support human movement
         this.z = z;
         this.theta = theta;
         this.thetaZ = thetaZ;
-        norm = new float[2];
-        right = new float[2];
         this.intersectionFinder = intersectionFinder;
 
         this.life = new Life(life, lifeRegen, shield, shieldRegen);
@@ -48,7 +44,6 @@ class Character implements WorldElement { // todo support human movement
         life.regen();
 
         doRotations(moveControl);
-        computeAxis();
         doRunningMove(moveControl);
 
         if (moveControl.jump)
@@ -65,38 +60,12 @@ class Character implements WorldElement { // todo support human movement
         thetaZ = moveControl.thetaZ;
     }
 
-    private void computeAxis() {
-        // norm
-        norm[0] = -MathAngles.sin(theta);
-        norm[1] = MathAngles.cos(theta);
-
-        // right
-        right[0] = norm[1];
-        right[1] = -norm[0];
-    }
-
     private void doRunningMove(MoveControl moveControl) {
         float acc = air ? AIR_ACC : RUN_ACC;
 
-        if (moveControl.forward) {
-            vx += norm[0] * acc;
-            vy += norm[1] * acc;
-        }
-
-        if (moveControl.backward) {
-            vx -= norm[0] * acc;
-            vy -= norm[1] * acc;
-        }
-
-        if (moveControl.left) {
-            vx -= right[0] * acc;
-            vy -= right[1] * acc;
-        }
-
-        if (moveControl.right) {
-            vx += right[0] * acc;
-            vy += right[1] * acc;
-        }
+        float[] dir = MathNumbers.setMagnitude(moveControl.dx, moveControl.dy, 0, acc);
+        vx += dir[0];
+        vy += dir[1];
     }
 
     private void doJump() {
@@ -141,5 +110,17 @@ class Character implements WorldElement { // todo support human movement
         cubeInstancedFaces.add(x, z, -y, theta, thetaZ);
         cubeInstancedFaces.doneAdding();
         cubeInstancedFaces.draw();
+    }
+
+    float getX() {
+        return x;
+    }
+
+    float getY() {
+        return y;
+    }
+
+    float getZ() {
+        return z;
     }
 }

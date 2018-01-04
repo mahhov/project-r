@@ -102,7 +102,7 @@ public class Human implements WorldElement, Follow {
         right[1] = -norm[0];
     }
 
-    private void doRunningMove(KeyControl keyControl) {
+    private void doRunningMove(KeyControl keyControl) { // todo make it so diagonall movement is no faster than vertical/horizontal
         float acc;
         if (boostTimer.active())
             acc = BOOST_ACC;
@@ -239,5 +239,17 @@ public class Human implements WorldElement, Follow {
     @Override
     public float getFollowThetaZ() {
         return thetaZ;
+    }
+
+    float getX() {
+        return x;
+    }
+
+    float getY() {
+        return y;
+    }
+
+    float getZ() {
+        return z;
     }
 }

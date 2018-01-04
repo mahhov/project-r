@@ -1,5 +1,6 @@
 package world;
 
+import character.Human;
 import character.Monster;
 import engine.Engine;
 import geometry.CoordinateI3;
@@ -16,6 +17,7 @@ public class World implements Map {
     private int[][] heightMap;
     private CoordinateI3 viewStart, viewEnd;
 
+    private Human human;
     private LList<WorldElement> elements;
     private IntersectionFinder intersectionFinder;
 
@@ -40,10 +42,15 @@ public class World implements Map {
     }
 
     public void addRandomMonster() { // todo make random
-        Monster monster = new Monster(32 * Engine.SCALE, 20, 8 * Engine.SCALE, 0, 0, intersectionFinder);
+        Monster monster = new Monster(32 * Engine.SCALE, 20, 8 * Engine.SCALE, 0, 0, intersectionFinder, human);
         addWorldElement(monster);
     }
-    
+
+    public void setHuman(Human human) {
+        addWorldElement(human);
+        this.human = human;
+    }
+
     public void setCameraCoordinate(CoordinateI3 cameraCoordinate) {
         int centerX = cameraCoordinate.x / CHUNK_SIZE;
         int centerY = cameraCoordinate.y / CHUNK_SIZE;

@@ -39,10 +39,10 @@ public class Engine {
         mousePosControl = new MousePosControl(window);
         world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE);
         human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0, world.getIntersectionFinder());
+        world.setHuman(human);
         world.addRandomMonster();
-        ShaderManager.setUiShader();
         uiDrawer = new UiDrawer(human);
-        world.addWorldElement(human);
+        ShaderManager.setUiShader();
         camera.setFollow(human);
     }
 
