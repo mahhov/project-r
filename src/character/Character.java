@@ -72,9 +72,7 @@ public class Character implements WorldElement, Follow {
         else
             jetting = false;
 
-        boostTimer.update();
-        if (shiftPress)
-            doBoost();
+        doBoost(shiftPress);
 
         vz -= GRAVITY;
         doFriction();
@@ -149,8 +147,9 @@ public class Character implements WorldElement, Follow {
         jetting = true;
     }
 
-    private void doBoost() {
-        if (boostTimer.ready() && stamina.available(Stamina.BOOST)) {
+    private void doBoost(boolean shiftPress) {
+        boostTimer.update();
+        if (shiftPress && boostTimer.ready() && stamina.available(Stamina.BOOST) && !air) {
             stamina.deplete(Stamina.BOOST);
             boostTimer.activate();
         }
