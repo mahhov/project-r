@@ -44,8 +44,8 @@ public class MathNumbers {
         return new float[] {x * mult, y * mult, z * mult};
     }
 
-    public static float magnitudeSqr(float dx, float dy) {
-        return (float) dx * dx + dy * dy;
+    public static float magnitudeSqr(float dx, float dy, float dz) {
+        return dx * dx + dy * dy + dz * dz;
     }
 
     public static boolean isZero(float value) {

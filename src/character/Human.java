@@ -192,6 +192,10 @@ public class Human implements WorldElement, Follow {
             vy = 0;
     }
 
+    void takeDamage(int amount) {
+        life.deplete(amount);
+    }
+
     public float getStaminaPercent() {
         return stamina.percent();
     }

@@ -5,6 +5,9 @@ import util.MathNumbers;
 import world.World;
 
 public class Monster extends Character {
+    // ai
+    private static final int CHASE_DISTANCE = 3000, DAMAGE_DISTANCE = 10, DAMAGE_AMOUNT = 2;
+
     private static final float[] COLOR = new float[] {1, 0, 0};
     private static final float LIFE = 10, LIFE_REGEN = 0, SHIELD = 0, SHIELD_REGEN = 0;
 
@@ -21,17 +24,24 @@ public class Monster extends Character {
     public void update(World world) {
         float dx = human.getX() - getX();
         float dy = human.getY() - getY();
-        float distanceSqr = MathNumbers.magnitudeSqr(dx, dy);
+        float dz = human.getZ() - getZ();
+        float distanceSqr = MathNumbers.magnitudeSqr(dx, dy, dz);
 
-        if (distanceSqr > 10) {
+        if (distanceSqr <= DAMAGE_DISTANCE) {
+            human.takeDamage(DAMAGE_AMOUNT);
+        }
+
+        if (distanceSqr > DAMAGE_DISTANCE && distanceSqr < CHASE_DISTANCE) {
             moveControl.dx = dx;
             moveControl.dy = dy;
         } else {
             moveControl.dx = 0;
             moveControl.dy = 0;
         }
-        
-        moveControl.theta = (float) Math.atan2(dy, dx);
+
+        if (distanceSqr < CHASE_DISTANCE)
+            moveControl.theta = (float) Math.atan2(dy, dx);
+
         move(moveControl);
     }
 }
