@@ -3,13 +3,14 @@ package engine;
 import camera.Camera;
 import character.Human;
 import control.KeyControl;
+import control.MouseButtonControl;
 import control.MousePosControl;
-import shader.ShaderManager;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
+import shader.ShaderManager;
 import world.World;
 
 import java.nio.IntBuffer;
@@ -30,6 +31,7 @@ public class Engine {
     private UiDrawer uiDrawer;
     private KeyControl keyControl;
     private MousePosControl mousePosControl;
+    private MouseButtonControl mouseButtonControl;
     private World world;
 
     private Engine() {
@@ -37,6 +39,7 @@ public class Engine {
         camera = new Camera(ShaderManager.getRenderShaderProgramId());
         keyControl = new KeyControl(window);
         mousePosControl = new MousePosControl(window);
+        mouseButtonControl = new MouseButtonControl(window);
         world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE);
         human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0, world.getIntersectionFinder());
         world.setHuman(human);
