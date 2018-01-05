@@ -6,7 +6,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class MouseButtonControl implements GLFWMouseButtonCallbackI {
     private static final int UP = 0, DOWN = 1, PRESSED = 2, RELEASED = 3;
-    private static final int PRIMARY = 0, SECONDARY = 1;
+    public static final int PRIMARY = 0, SECONDARY = 1;
     private int buttons[];
 
     public MouseButtonControl(long window) {

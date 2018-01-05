@@ -98,7 +98,7 @@ public class Engine {
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            human.updateControls(keyControl, mousePosControl);
+            human.updateControls(keyControl, mousePosControl, mouseButtonControl);
 
             ShaderManager.setRenderShader();
             camera.update(keyControl);
@@ -115,7 +115,7 @@ public class Engine {
             engineFrame++;
             endTime = System.nanoTime() + 1;
             if (endTime - beginTime > NANOSECONDS_IN__SECOND) {
-                System.out.println(engineFrame);
+//                System.out.println(engineFrame);
                 drawFrame = 0;
                 engineFrame = 0;
                 beginTime = endTime;

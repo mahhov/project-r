@@ -2,6 +2,7 @@ package character;
 
 import camera.Follow;
 import control.KeyControl;
+import control.MouseButtonControl;
 import control.MousePosControl;
 import shape.CubeInstancedFaces;
 import util.IntersectionFinder;
@@ -24,8 +25,8 @@ public class Human implements WorldElement, Follow {
     // ability
     private static final float STAMINA = 20, STAMINA_REGEN = .1f, STAMINA_RESERVE = 150, STAMINA_RESERVE_REGEN = .05f;
     private Stamina stamina;
-    private static final int BOOST_COOLDOWN = 60, BOOST_DURATION = 20;
-    private AbilityTimer boostTimer;
+    private static final int BOOST_COOLDOWN = 60, BOOST_DURATION = 20, THROW_COOLDOWN = 15;
+    private AbilityTimer boostTimer, throwTimer;
 
     // life
     private static final float LIFE = 100, LIFE_REGEN = .1f, SHIELD = 100, SHIELD_REGEN = 1;
@@ -52,6 +53,7 @@ public class Human implements WorldElement, Follow {
 
         stamina = new Stamina(STAMINA, STAMINA_REGEN, STAMINA_RESERVE, STAMINA_RESERVE_REGEN);
         boostTimer = new AbilityTimer(BOOST_COOLDOWN, BOOST_DURATION);
+        throwTimer = new AbilityTimer(THROW_COOLDOWN, 1);
 
         life = new Life(LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN);
 
@@ -62,7 +64,7 @@ public class Human implements WorldElement, Follow {
     public void update(World world) {
     }
 
-    public void updateControls(KeyControl keyControl, MousePosControl mousePosControl) {
+    public void updateControls(KeyControl keyControl, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
         boolean shiftPress = keyControl.isKeyPressed(KeyControl.KEY_SHIFT);
 
         stamina.regen();
@@ -85,6 +87,8 @@ public class Human implements WorldElement, Follow {
         doFriction();
 
         applyVelocity();
+
+        doThrow(mouseButtonControl.isMouseDown(MouseButtonControl.PRIMARY));
     }
 
     private void doRotations(MousePosControl mousePosControl) {
@@ -190,6 +194,15 @@ public class Human implements WorldElement, Follow {
             vx = 0;
         if (intersection.collisionY)
             vy = 0;
+    }
+
+    private void doThrow(boolean primaryDown) {
+        throwTimer.update();
+        if (primaryDown && throwTimer.ready() && stamina.available(Stamina.THROW)) {
+            stamina.deplete(Stamina.THROW);
+            throwTimer.activate();
+            System.out.println("Throw");
+        }
     }
 
     void takeDamage(int amount) {

@@ -3,7 +3,7 @@ package character;
 import util.MathNumbers;
 
 class Stamina {
-    static final float JUMP = 3, AIR_JUMP = 9, JET = .11f, GLIDE = .07f, BOOST = 5;
+    static final float JUMP = 3, AIR_JUMP = 9, JET = .11f, GLIDE = .07f, BOOST = 5, THROW = 3;
 
     private float max, current, regen;
     private float maxReserve, currentReserve, regenReserve;
