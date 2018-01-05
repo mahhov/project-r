@@ -70,6 +70,24 @@ public class LList<T> implements Iterable<T> {
         };
     }
 
+    public Iterable<Node> nodeIterator() {
+        return () -> new Iterator<Node>() {
+            private Node current = head;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public Node next() {
+                Node r = current;
+                current = current.next;
+                return r;
+            }
+        };
+    }
+
     public class Node {
         private T value;
         private Node prev, next;

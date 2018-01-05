@@ -41,7 +41,7 @@ public class Engine {
         mousePosControl = new MousePosControl(window);
         mouseButtonControl = new MouseButtonControl(window);
         world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE);
-        human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0, world.getIntersectionFinder());
+        human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0, world.getIntersectionFinder(), keyControl, mousePosControl, mouseButtonControl);
         world.setHuman(human);
         world.addRandomMonsters(300);
         uiDrawer = new UiDrawer(human);
@@ -59,7 +59,7 @@ public class Engine {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-        window = glfwCreateWindow(300, 300, "Project R", NULL, NULL);
+        window = glfwCreateWindow(400, 400, "Project R", NULL, NULL);
 
         try (MemoryStack stack = stackPush()) {
             IntBuffer pWidth = stack.mallocInt(1);
@@ -93,12 +93,8 @@ public class Engine {
         int drawFrame = 0, engineFrame = 0;
         long beginTime = 0, endTime;
 
-        keyControl = new KeyControl(window);
-
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-            human.updateControls(keyControl, mousePosControl, mouseButtonControl);
 
             ShaderManager.setRenderShader();
             camera.update(keyControl);
@@ -115,7 +111,7 @@ public class Engine {
             engineFrame++;
             endTime = System.nanoTime() + 1;
             if (endTime - beginTime > NANOSECONDS_IN__SECOND) {
-//                System.out.println(engineFrame);
+                //                System.out.println(engineFrame);
                 drawFrame = 0;
                 engineFrame = 0;
                 beginTime = endTime;

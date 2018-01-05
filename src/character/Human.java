@@ -10,6 +10,7 @@ import util.MathAngles;
 import util.MathNumbers;
 import world.World;
 import world.WorldElement;
+import world.projectile.Projectile;
 
 public class Human implements WorldElement, Follow {
     private static final float ROTATE_SPEED_MOUSE = .008f;
@@ -41,7 +42,12 @@ public class Human implements WorldElement, Follow {
 
     private CubeInstancedFaces cubeInstancedFaces;
 
-    public Human(float x, float y, float z, float theta, float thetaZ, IntersectionFinder intersectionFinder) {
+    // controls
+    private KeyControl keyControl;
+    private MousePosControl mousePosControl;
+    private MouseButtonControl mouseButtonControl;
+
+    public Human(float x, float y, float z, float theta, float thetaZ, IntersectionFinder intersectionFinder, KeyControl keyControl, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -58,13 +64,14 @@ public class Human implements WorldElement, Follow {
         life = new Life(LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN);
 
         cubeInstancedFaces = new CubeInstancedFaces(COLOR);
+
+        this.keyControl = keyControl;
+        this.mousePosControl = mousePosControl;
+        this.mouseButtonControl = mouseButtonControl;
     }
 
     @Override
     public void update(World world) {
-    }
-
-    public void updateControls(KeyControl keyControl, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
         boolean shiftPress = keyControl.isKeyPressed(KeyControl.KEY_SHIFT);
 
         stamina.regen();
@@ -88,7 +95,7 @@ public class Human implements WorldElement, Follow {
 
         applyVelocity();
 
-        doThrow(mouseButtonControl.isMouseDown(MouseButtonControl.PRIMARY));
+        doThrow(mouseButtonControl.isMouseDown(MouseButtonControl.PRIMARY), world);
     }
 
     private void doRotations(MousePosControl mousePosControl) {
@@ -196,17 +203,21 @@ public class Human implements WorldElement, Follow {
             vy = 0;
     }
 
-    private void doThrow(boolean primaryDown) {
+    private void doThrow(boolean primaryDown, World world) {
         throwTimer.update();
         if (primaryDown && throwTimer.ready() && stamina.available(Stamina.THROW)) {
             stamina.deplete(Stamina.THROW);
             throwTimer.activate();
             System.out.println("Throw");
+            float cos = MathAngles.cos(thetaZ);
+            world.addProjectile(new Projectile(x, y, z, norm[0] * cos, norm[1] * cos, MathAngles.sin(thetaZ)));
         }
     }
 
-    void takeDamage(int amount) {
+    @Override
+    public boolean takeDamage(float amount) {
         life.deplete(amount);
+        return false;
     }
 
     public float getStaminaPercent() {
@@ -258,15 +269,23 @@ public class Human implements WorldElement, Follow {
         return thetaZ;
     }
 
-    float getX() {
+    @Override
+    public float getX() {
         return x;
     }
 
-    float getY() {
+    @Override
+    public float getY() {
         return y;
     }
 
-    float getZ() {
+    @Override
+    public float getZ() {
         return z;
+    }
+
+    @Override
+    public float getSize() {
+        return 1;
     }
 }

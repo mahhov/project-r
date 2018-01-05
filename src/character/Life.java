@@ -28,6 +28,10 @@ class Life {
         }
     }
 
+    boolean depleted() {
+        return currentLife == 0;
+    }
+
     float percentLife() {
         return currentLife / maxLife;
     }

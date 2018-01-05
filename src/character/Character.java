@@ -40,7 +40,7 @@ class Character implements WorldElement { // todo support human movement
     public void update(World world) {
     }
 
-    public void move(MoveControl moveControl) {
+    void move(MoveControl moveControl) {
         life.regen();
 
         doRotations(moveControl);
@@ -105,19 +105,33 @@ class Character implements WorldElement { // todo support human movement
     }
 
     @Override
+    public boolean takeDamage(float amount) {
+        life.deplete(amount);
+        return life.depleted();
+    }
+
+    @Override
     public void draw() {
         cubeInstancedFaces.add(x, z, -y, theta, thetaZ);
     }
 
-    float getX() {
+    @Override
+    public float getX() {
         return x;
     }
 
-    float getY() {
+    @Override
+    public float getY() {
         return y;
     }
 
-    float getZ() {
+    @Override
+    public float getZ() {
         return z;
+    }
+
+    @Override
+    public float getSize() {
+        return 1;
     }
 }

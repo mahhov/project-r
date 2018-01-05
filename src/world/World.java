@@ -7,6 +7,7 @@ import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.*;
 import world.generator.WorldGenerator;
+import world.projectile.Projectile;
 
 public class World implements Map {
     static final int CHUNK_SIZE = 128;
@@ -40,8 +41,13 @@ public class World implements Map {
         Timer.time("world creation");
     }
 
-    public void addWorldElement(WorldElement element) {
+    private void addWorldElement(WorldElement element) {
         elements.addTail(element);
+    }
+
+    public void setHuman(Human human) {
+        addWorldElement(human);
+        this.human = human;
     }
 
     public void addRandomMonsters(int n) {
@@ -49,9 +55,18 @@ public class World implements Map {
             addWorldElement(new Monster(MathRandom.random(0, width), MathRandom.random(0, length), 8 * Engine.SCALE, 0, 0, intersectionFinder, human, dynamicCubeInstancedFaces));
     }
 
-    public void setHuman(Human human) {
-        addWorldElement(human);
-        this.human = human;
+    public void addProjectile(Projectile projectile) {
+        projectile.connectWorld(intersectionFinder, dynamicCubeInstancedFaces);
+        addWorldElement(projectile);
+    }
+
+    public void doDamage(float x, float y, float z, float range, float amount) {
+        for (LList<WorldElement>.Node elementNode : elements.nodeIterator()) {
+            WorldElement element = elementNode.getValue();
+            if (MathNumbers.magnitude(element.getX() - x, element.getY() - y, element.getZ() - z) < element.getSize() + range)
+                if (element.takeDamage(amount))
+                    elements.remove(elementNode);
+        }
     }
 
     public void setCameraCoordinate(CoordinateI3 cameraCoordinate) {
