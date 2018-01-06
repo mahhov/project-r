@@ -7,17 +7,19 @@ import org.lwjgl.system.MemoryUtil;
 import util.MathAngles;
 import util.MathNumbers;
 import util.SimpleMatrix4f;
+import util.intersection.IntersectionPicker;
 
 import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
-public class Camera {
+public class Camera implements IntersectionPicker.Picker {
     private static final float FIELD_OF_VIEW = MathAngles.toRadians(60);
     private static final float PAN_WEIGHT = .2f, ROTATE_WEIGHT = .5f, ROTATE_Z_WEIGHT = .2f;
 
     private float x, y, z;
+    private float dx, dy, dz;
     private float theta, thetaZ;
     private Follow follow;
 
@@ -81,9 +83,9 @@ public class Camera {
     }
 
     private void lookAt(float lookX, float lookY, float lookZ) {
-        float dx = lookX - x;
-        float dy = lookY - y;
-        float dz = lookZ - z;
+        dx = lookX - x;
+        dy = lookY - y;
+        dz = lookZ - z;
         float goalTheta = (float) Math.atan2(-dx, -dz);
         float goalThetaZ = (float) Math.atan2(dy, MathNumbers.magnitude(dx, dz));
         rotateTo(goalTheta, goalThetaZ);
@@ -94,7 +96,7 @@ public class Camera {
             theta += MathAngles.PI2;
         else if (toTheta - theta < -MathAngles.PI)
             theta -= MathAngles.PI2;
-        
+
         theta += (toTheta - theta) * ROTATE_Z_WEIGHT;
         thetaZ += (toThetaZ - thetaZ) * ROTATE_Z_WEIGHT;
     }
@@ -118,5 +120,35 @@ public class Camera {
 
     public void setFollow(Follow follow) {
         this.follow = follow;
+    }
+
+    @Override
+    public float getWorldX() {
+        return x;
+    }
+
+    @Override
+    public float getWorldY() {
+        return -z;
+    }
+
+    @Override
+    public float getWorldZ() {
+        return y;
+    }
+
+    @Override
+    public float getWorldDirX() {
+        return dx;
+    }
+
+    @Override
+    public float getWorldDirY() {
+        return -dz;
+    }
+
+    @Override
+    public float getWorldDirZ() {
+        return dy;
     }
 }

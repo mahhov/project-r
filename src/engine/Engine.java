@@ -40,8 +40,8 @@ public class Engine {
         keyControl = new KeyControl(window);
         mousePosControl = new MousePosControl(window);
         mouseButtonControl = new MouseButtonControl(window);
-        world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE);
-        human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0, world.getIntersectionFinder(), keyControl, mousePosControl, mouseButtonControl);
+        world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE, camera);
+        human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0, world.getIntersectionFinder(), world.getIntersectionPicker(), keyControl, mousePosControl, mouseButtonControl);
         world.setHuman(human);
         world.addRandomMonsters(300);
         uiDrawer = new UiDrawer(human);

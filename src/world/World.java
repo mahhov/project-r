@@ -6,6 +6,8 @@ import engine.Engine;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.*;
+import util.intersection.IntersectionFinder;
+import util.intersection.IntersectionPicker;
 import world.generator.WorldGenerator;
 import world.projectile.Projectile;
 
@@ -22,9 +24,10 @@ public class World implements Map {
     private Human human;
     private LList<WorldElement> elements;
     private IntersectionFinder intersectionFinder;
+    private IntersectionPicker intersectionPicker;
     private CubeInstancedFaces dynamicCubeInstancedFaces;
 
-    public World(int width, int length, int height) {
+    public World(int width, int length, int height, IntersectionPicker.Picker picker) {
         Timer.restart();
         this.width = width;
         this.length = length;
@@ -37,6 +40,7 @@ public class World implements Map {
         heightMap = WorldGenerator.generate(width, length, height / 3);
         elements = new LList<>();
         intersectionFinder = new IntersectionFinder(this);
+        intersectionPicker = new IntersectionPicker(this, picker);
         dynamicCubeInstancedFaces = new CubeInstancedFaces(Monster.COLOR);
         Timer.time("world creation");
     }
@@ -176,5 +180,9 @@ public class World implements Map {
 
     public IntersectionFinder getIntersectionFinder() {
         return intersectionFinder;
+    }
+
+    public IntersectionPicker getIntersectionPicker() {
+        return intersectionPicker;
     }
 }

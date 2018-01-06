@@ -1,7 +1,8 @@
 package character;
 
 import shape.CubeInstancedFaces;
-import util.IntersectionFinder;
+import util.intersection.Intersection;
+import util.intersection.IntersectionFinder;
 import util.MathNumbers;
 import world.World;
 import world.WorldElement;
@@ -87,7 +88,7 @@ class Character implements WorldElement { // todo support human movement
     }
 
     private void applyVelocity() {
-        IntersectionFinder.Intersection intersection = intersectionFinder.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), 1);
+        Intersection intersection = intersectionFinder.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), 1);
         x = intersection.coordinate.getX();
         y = intersection.coordinate.getY();
         z = intersection.coordinate.getZ();

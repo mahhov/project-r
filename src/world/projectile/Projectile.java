@@ -1,14 +1,15 @@
 package world.projectile;
 
 import shape.CubeInstancedFaces;
-import util.IntersectionFinder;
+import util.intersection.Intersection;
+import util.intersection.IntersectionFinder;
 import util.MathNumbers;
 import world.World;
 import world.WorldElement;
 
 public class Projectile implements WorldElement {
     private static final float SPEED = 5;
-    private static final float AIR_FRICTION = 0.97f, GRAVITY = .02f; // todo share with character constatns
+    private static final float AIR_FRICTION = 0.97f, GRAVITY = 0; //.02f;
 
     private float x, y, z;
     private float vx, vy, vz;
@@ -42,7 +43,7 @@ public class Projectile implements WorldElement {
         vy *= AIR_FRICTION;
         vz = (vz - GRAVITY) * AIR_FRICTION;
 
-        IntersectionFinder.Intersection intersection = intersectionFinder.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), 1);
+        Intersection intersection = intersectionFinder.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), 1);
         x = intersection.coordinate.getX();
         y = intersection.coordinate.getY();
         z = intersection.coordinate.getZ();

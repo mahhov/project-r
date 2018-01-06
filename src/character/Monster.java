@@ -1,7 +1,7 @@
 package character;
 
 import shape.CubeInstancedFaces;
-import util.IntersectionFinder;
+import util.intersection.IntersectionFinder;
 import util.MathNumbers;
 import world.World;
 
