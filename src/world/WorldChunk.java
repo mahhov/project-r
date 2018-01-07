@@ -2,6 +2,7 @@ package world;
 
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
+import util.LList;
 
 class WorldChunk {
     static int debugCubeCount;
@@ -9,6 +10,7 @@ class WorldChunk {
     private int offsetX, offsetY, offsetZ;
     private CubeInstancedFaces cubeInstancedFaces;
     private int[][][] cubes;
+    private DynamicCell[][][] dynamicCells;
     private boolean worldEmpty, drawEmpty;
 
     WorldChunk(CoordinateI3 coordinate) {
@@ -17,6 +19,7 @@ class WorldChunk {
         offsetY = coordinate.y * World.CHUNK_SIZE;
         offsetZ = coordinate.z * World.CHUNK_SIZE;
         cubes = new int[World.CHUNK_SIZE][World.CHUNK_SIZE][World.CHUNK_SIZE];
+        dynamicCells = new DynamicCell[World.CHUNK_SIZE][World.CHUNK_SIZE][World.CHUNK_SIZE];
         worldEmpty = true;
         drawEmpty = true;
     }
@@ -39,8 +42,6 @@ class WorldChunk {
         if (!drawEmpty)
             cubeInstancedFaces.doneAdding();
     }
-
-    private static final int MAX = World.CHUNK_SIZE - 1;
 
     private boolean[] checkAddCube(int x, int y, int z, World world) {
         if (cubes[x][y][z] == 0)
@@ -68,6 +69,22 @@ class WorldChunk {
 
     boolean hasCube(int x, int y, int z, World world) {
         return inBounds(x, y, z) ? cubes[x][y][z] != 0 : world.hasCube(new CoordinateI3(x + offsetX, y + offsetY, z + offsetZ));
+    }
+
+    LList.Node addDynamicElement(CoordinateI3 coordinate, WorldElement element) {
+        if (dynamicCells[coordinate.x][coordinate.y][coordinate.z] == null)
+            dynamicCells[coordinate.x][coordinate.y][coordinate.z] = new DynamicCell();
+        return dynamicCells[coordinate.x][coordinate.y][coordinate.z].add(element);
+    }
+
+    void removeDynamicElement(CoordinateI3 coordinate, LList<WorldElement>.Node elementNode) {
+        dynamicCells[coordinate.x][coordinate.y][coordinate.z].remove(elementNode);
+    }
+
+    WorldElement checkDynamicElement(int x, int y, int z, float preciseX, float preciseY, float preciseZ, float range) {
+        if (dynamicCells[x][y][z] == null || dynamicCells[x][y][z].empty())
+            return null;
+        return dynamicCells[x][y][z].checkHit(preciseX, preciseY, preciseZ, range);
     }
 
     int getOffsetX() {
