@@ -112,10 +112,10 @@ public class Camera implements IntersectionPicker.Picker {
         theta = follow.getFollowTheta();
         thetaZ = follow.getFollowThetaZ();
 
-        float thetaZCos = MathAngles.cos(thetaZ);
-        dx = follow.getFollowNorm()[0] * thetaZCos;
-        dy = MathAngles.sin(thetaZ);
-        dz = -follow.getFollowNorm()[1] * thetaZCos;
+        float[] followNorm =  follow.getFollowNorm();
+        dx = followNorm[0];
+        dy = followNorm[1];
+        dz = followNorm[2];
     }
 
     private void setupProjectionMatrix() {

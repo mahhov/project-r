@@ -43,7 +43,7 @@ public class Engine {
         world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE, camera);
         human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0, world.getIntersectionMover(), world.getIntersectionPicker(), keyControl, mousePosControl, mouseButtonControl);
         world.setHuman(human);
-        world.addRandomMonsters(300);
+        world.addRandomMonsters(100);
         uiDrawer = new UiDrawer(human);
         ShaderManager.setUiShader();
         camera.setFollow(human);

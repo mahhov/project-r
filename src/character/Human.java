@@ -36,6 +36,7 @@ public class Human implements WorldElement, Follow {
     private Life life;
 
     // position
+    private static final float SIZE = 1;
     private float x, y, z;
     private float vx, vy, vz;
     private float theta, thetaZ;
@@ -194,7 +195,7 @@ public class Human implements WorldElement, Follow {
     }
 
     private void applyVelocity() {
-        Intersection intersection = intersectionMover.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), 1);
+        Intersection intersection = intersectionMover.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), SIZE);
         x = intersection.coordinate.getX();
         y = intersection.coordinate.getY();
         z = intersection.coordinate.getZ();
@@ -218,10 +219,11 @@ public class Human implements WorldElement, Follow {
             stamina.deplete(Stamina.THROW);
             throwTimer.activate();
             Intersection pick = intersectionPicker.cameraPick();
+            float topZ = z + SIZE / 2;
             float dx = pick.coordinate.getX() - x;
             float dy = pick.coordinate.getY() - y;
-            float dz = pick.coordinate.getZ() - z;
-            world.addProjectile(new Projectile(x, y, z, dx, dy, dz));
+            float dz = pick.coordinate.getZ() - topZ;
+            world.addProjectile(new Projectile(x, y, topZ, dx, dy, dz));
         }
     }
 
@@ -251,7 +253,7 @@ public class Human implements WorldElement, Follow {
         if (mouseButtonControl.isMouseDown(MouseButtonControl.SECONDARY))
             return;
         cubeInstancedFaces.reset();
-        cubeInstancedFaces.add(x, z, -y, theta, thetaZ);
+        cubeInstancedFaces.add(x, z, -y, theta, thetaZ, SIZE);
         cubeInstancedFaces.doneAdding();
         cubeInstancedFaces.draw();
     }
@@ -263,7 +265,7 @@ public class Human implements WorldElement, Follow {
 
     @Override
     public float getFollowY() {
-        return z;
+        return z + SIZE / 2;
     }
 
     @Override
@@ -283,7 +285,8 @@ public class Human implements WorldElement, Follow {
 
     @Override
     public float[] getFollowNorm() {
-        return norm;
+        float thetaZCos = MathAngles.cos(thetaZ);
+        return new float[] {norm[0] * thetaZCos, MathAngles.sin(thetaZ), -norm[1] * thetaZCos};
     }
 
     @Override
@@ -303,6 +306,6 @@ public class Human implements WorldElement, Follow {
 
     @Override
     public float getSize() {
-        return 1;
+        return SIZE;
     }
 }
