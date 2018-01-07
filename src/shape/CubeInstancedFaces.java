@@ -76,6 +76,10 @@ public class CubeInstancedFaces {
         add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ), sides);
     }
 
+    public void add(float x, float y, float z, float theta, float thetaZ, float scale) {
+        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ, scale));
+    }
+
     private void add(SimpleMatrix4f modelMatrix) {
         for (int i = 0; i < 6; i++)
             sides[i].add(modelMatrix);
