@@ -1,21 +1,21 @@
 package world.projectile;
 
 import shape.CubeInstancedFaces;
-import util.intersection.Intersection;
-import util.intersection.IntersectionFinder;
 import util.MathNumbers;
+import util.Timer;
+import util.intersection.Intersection;
+import util.intersection.IntersectionHitter;
 import world.World;
 import world.WorldElement;
 
 public class Projectile implements WorldElement {
-    private static final float SPEED = 5;
-    private static final float AIR_FRICTION = 0.97f, GRAVITY = 0; //.02f;
+    private static final float SIZE = .3f, SPEED = 3f, DAMAGE = 10;
+    private static final float AIR_FRICTION = 1f, GRAVITY = 0f;
 
     private float x, y, z;
     private float vx, vy, vz;
-    private boolean complete;
 
-    private IntersectionFinder intersectionFinder;
+    private IntersectionHitter intersectionHitter;
     private CubeInstancedFaces cubeInstancedFaces;
 
     public Projectile(float x, float y, float z, float vx, float vy, float vz) {
@@ -29,39 +29,38 @@ public class Projectile implements WorldElement {
         this.vz = v[2];
     }
 
-    public void connectWorld(IntersectionFinder intersectionFinder, CubeInstancedFaces cubeInstancedFaces) {
-        this.intersectionFinder = intersectionFinder;
+    public void connectWorld(IntersectionHitter intersectionHitter, CubeInstancedFaces cubeInstancedFaces) {
+        this.intersectionHitter = intersectionHitter;
         this.cubeInstancedFaces = cubeInstancedFaces;
     }
 
     @Override
-    public void update(World world) {
-        if (complete)
-            return;
-
+    public boolean update(World world) {
         vx *= AIR_FRICTION;
         vy *= AIR_FRICTION;
         vz = (vz - GRAVITY) * AIR_FRICTION;
 
-        Intersection intersection = intersectionFinder.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), 1);
+        Intersection intersection = intersectionHitter.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), SIZE);
+
         x = intersection.coordinate.getX();
         y = intersection.coordinate.getY();
         z = intersection.coordinate.getZ();
 
-        if (intersection.grounded || intersection.collisionX || intersection.collisionY) {
-            complete = true;
-            world.doDamage(x, y, z, 2, 10);
+        if (intersection.grounded) {
+            world.doDamage(x, y, z, SIZE, DAMAGE);
+            return true;
         }
-    }
 
-    @Override
-    public boolean takeDamage(float amount) {
         return false;
     }
 
     @Override
+    public void takeDamage(float amount) {
+    }
+
+    @Override
     public void draw() {
-        cubeInstancedFaces.add(x, z, -y, 0, 0);
+        cubeInstancedFaces.add(x, z, -y, 0, 0, SIZE);
     }
 
     @Override

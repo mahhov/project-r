@@ -1,9 +1,11 @@
 package character;
 
+import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
-import util.intersection.Intersection;
-import util.intersection.IntersectionFinder;
+import util.LList;
 import util.MathNumbers;
+import util.intersection.Intersection;
+import util.intersection.IntersectionMover;
 import world.World;
 import world.WorldElement;
 
@@ -20,17 +22,20 @@ class Character implements WorldElement { // todo support human movement
     private float x, y, z;
     private float vx, vy, vz;
     private float theta, thetaZ;
-    private IntersectionFinder intersectionFinder;
+    private IntersectionMover intersectionMover;
 
     private CubeInstancedFaces cubeInstancedFaces;
 
-    Character(float x, float y, float z, float theta, float thetaZ, IntersectionFinder intersectionFinder, float life, float lifeRegen, float shield, float shieldRegen, float[] color, CubeInstancedFaces cubeInstancedFaces) {
+    private CoordinateI3 worldCoordinate;
+    private LList<WorldElement>.Node worldElementNode;
+
+    Character(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, float life, float lifeRegen, float shield, float shieldRegen, float[] color, CubeInstancedFaces cubeInstancedFaces) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.theta = theta;
         this.thetaZ = thetaZ;
-        this.intersectionFinder = intersectionFinder;
+        this.intersectionMover = intersectionMover;
 
         this.life = new Life(life, lifeRegen, shield, shieldRegen);
 
@@ -38,10 +43,30 @@ class Character implements WorldElement { // todo support human movement
     }
 
     @Override
-    public void update(World world) {
+    public boolean update(World world) {
+        removeFromWorld(world);
+        if (life.depleted())
+            return true;
+        move(createMoveControl(world));
+        addToWorld(world);
+        return false;
     }
 
-    void move(MoveControl moveControl) {
+    private void removeFromWorld(World world) {
+        if (worldElementNode != null)
+            world.removeDynamicElement(worldCoordinate, worldElementNode);
+    }
+
+    private void addToWorld(World world) {
+        worldCoordinate = new CoordinateI3((int) x, (int) y, (int) z);
+        worldElementNode = world.addDynamicElement(worldCoordinate, this);
+    }
+
+    MoveControl createMoveControl(World world) {
+        return new MoveControl();
+    }
+
+    private void move(MoveControl moveControl) {
         life.regen();
 
         doRotations(moveControl);
@@ -88,7 +113,7 @@ class Character implements WorldElement { // todo support human movement
     }
 
     private void applyVelocity() {
-        Intersection intersection = intersectionFinder.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), 1);
+        Intersection intersection = intersectionMover.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), 1);
         x = intersection.coordinate.getX();
         y = intersection.coordinate.getY();
         z = intersection.coordinate.getZ();
@@ -106,9 +131,8 @@ class Character implements WorldElement { // todo support human movement
     }
 
     @Override
-    public boolean takeDamage(float amount) {
+    public void takeDamage(float amount) {
         life.deplete(amount);
-        return life.depleted();
     }
 
     @Override

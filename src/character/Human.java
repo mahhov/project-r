@@ -5,10 +5,10 @@ import control.KeyControl;
 import control.MouseButtonControl;
 import control.MousePosControl;
 import shape.CubeInstancedFaces;
-import util.intersection.Intersection;
-import util.intersection.IntersectionFinder;
 import util.MathAngles;
 import util.MathNumbers;
+import util.intersection.Intersection;
+import util.intersection.IntersectionMover;
 import util.intersection.IntersectionPicker;
 import world.World;
 import world.WorldElement;
@@ -40,8 +40,8 @@ public class Human implements WorldElement, Follow {
     private float vx, vy, vz;
     private float theta, thetaZ;
     private float[] norm, right;
-    
-    private IntersectionFinder intersectionFinder;
+
+    private IntersectionMover intersectionMover;
     private IntersectionPicker intersectionPicker;
 
     private CubeInstancedFaces cubeInstancedFaces;
@@ -51,7 +51,7 @@ public class Human implements WorldElement, Follow {
     private MousePosControl mousePosControl;
     private MouseButtonControl mouseButtonControl;
 
-    public Human(float x, float y, float z, float theta, float thetaZ, IntersectionFinder intersectionFinder, IntersectionPicker intersectionPicker,KeyControl keyControl, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
+    public Human(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, IntersectionPicker intersectionPicker, KeyControl keyControl, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -59,8 +59,8 @@ public class Human implements WorldElement, Follow {
         this.thetaZ = thetaZ;
         norm = new float[2];
         right = new float[2];
-        
-        this.intersectionFinder = intersectionFinder;
+
+        this.intersectionMover = intersectionMover;
         this.intersectionPicker = intersectionPicker;
 
         stamina = new Stamina(STAMINA, STAMINA_REGEN, STAMINA_RESERVE, STAMINA_RESERVE_REGEN);
@@ -77,7 +77,7 @@ public class Human implements WorldElement, Follow {
     }
 
     @Override
-    public void update(World world) {
+    public boolean update(World world) {
         boolean shiftPress = keyControl.isKeyPressed(KeyControl.KEY_SHIFT);
 
         stamina.regen();
@@ -102,6 +102,8 @@ public class Human implements WorldElement, Follow {
         applyVelocity();
 
         doThrow(mouseButtonControl.isMouseDown(MouseButtonControl.PRIMARY), world);
+
+        return false;
     }
 
     private void doRotations(MousePosControl mousePosControl) {
@@ -192,7 +194,7 @@ public class Human implements WorldElement, Follow {
     }
 
     private void applyVelocity() {
-        Intersection intersection = intersectionFinder.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), 1);
+        Intersection intersection = intersectionMover.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), 1);
         x = intersection.coordinate.getX();
         y = intersection.coordinate.getY();
         z = intersection.coordinate.getZ();
@@ -211,6 +213,7 @@ public class Human implements WorldElement, Follow {
 
     private void doThrow(boolean primaryDown, World world) {
         throwTimer.update();
+
         if (primaryDown && throwTimer.ready() && stamina.available(Stamina.THROW)) {
             stamina.deplete(Stamina.THROW);
             throwTimer.activate();
@@ -218,16 +221,13 @@ public class Human implements WorldElement, Follow {
             float dx = pick.coordinate.getX() - x;
             float dy = pick.coordinate.getY() - y;
             float dz = pick.coordinate.getZ() - z;
-            float distance = MathNumbers.magnitude(dx, dy);
-            dz += distance * .01f;
             world.addProjectile(new Projectile(x, y, z, dx, dy, dz));
         }
     }
 
     @Override
-    public boolean takeDamage(float amount) {
+    public void takeDamage(float amount) {
         life.deplete(amount);
-        return false;
     }
 
     public float getStaminaPercent() {

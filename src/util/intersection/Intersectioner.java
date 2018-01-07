@@ -43,9 +43,9 @@ class Intersectioner {
     float getMove(float pos, float dir) {
         if (dir > 0)
             return ((int) pos + 1 - pos) / dir;
-        else if (dir < 0)
-            return (pos - (int) pos) / -dir;
-        else
+        else if (dir < 0) {
+            return (pos - (int) (pos - MathNumbers.EPSILON)) / -dir;
+        } else
             return 2;
     }
 
@@ -111,6 +111,10 @@ class Intersectioner {
                 if (!map.moveable((int) (x + xi * halfSize), (int) (y + yi * halfSize), z))
                     return false;
         return true;
+    }
+
+    boolean hit(float x, float y, float z, float range) {
+        return map.hit(x, y, z, range);
     }
 
     float renormalizeDxyz(float maxMove) {

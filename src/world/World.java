@@ -6,7 +6,8 @@ import engine.Engine;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.*;
-import util.intersection.IntersectionFinder;
+import util.intersection.IntersectionHitter;
+import util.intersection.IntersectionMover;
 import util.intersection.IntersectionPicker;
 import world.generator.WorldGenerator;
 import world.projectile.Projectile;
@@ -23,8 +24,9 @@ public class World implements Map {
 
     private Human human;
     private LList<WorldElement> elements;
-    private IntersectionFinder intersectionFinder;
+    private IntersectionMover intersectionMover;
     private IntersectionPicker intersectionPicker;
+    private IntersectionHitter intersectionHitter;
     private CubeInstancedFaces dynamicCubeInstancedFaces;
 
     public World(int width, int length, int height, IntersectionPicker.Picker picker) {
@@ -39,8 +41,9 @@ public class World implements Map {
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
         heightMap = WorldGenerator.generate(width, length, height / 3);
         elements = new LList<>();
-        intersectionFinder = new IntersectionFinder(this);
+        intersectionMover = new IntersectionMover(this);
         intersectionPicker = new IntersectionPicker(this, picker);
+        intersectionHitter = new IntersectionHitter(this);
         dynamicCubeInstancedFaces = new CubeInstancedFaces(Monster.COLOR);
         Timer.time("world creation");
     }
@@ -56,21 +59,26 @@ public class World implements Map {
 
     public void addRandomMonsters(int n) {
         for (int i = 0; i < n; i++)
-            addWorldElement(new Monster(MathRandom.random(0, width), MathRandom.random(0, length), 8 * Engine.SCALE, 0, 0, intersectionFinder, human, dynamicCubeInstancedFaces));
+            addWorldElement(new Monster(MathRandom.random(0, width), MathRandom.random(0, length), 8 * Engine.SCALE, 0, 0, intersectionMover, human, dynamicCubeInstancedFaces));
     }
 
     public void addProjectile(Projectile projectile) {
-        projectile.connectWorld(intersectionFinder, dynamicCubeInstancedFaces);
+        projectile.connectWorld(intersectionHitter, dynamicCubeInstancedFaces);
         addWorldElement(projectile);
     }
 
-    public void doDamage(float x, float y, float z, float range, float amount) {
-        for (LList<WorldElement>.Node elementNode : elements.nodeIterator()) {
-            WorldElement element = elementNode.getValue();
-            if (MathNumbers.magnitude(element.getX() - x, element.getY() - y, element.getZ() - z) < element.getSize() + range)
-                if (element.takeDamage(amount))
-                    elements.remove(elementNode);
-        }
+    public LList<WorldElement>.Node addDynamicElement(CoordinateI3 coordinate, WorldElement element) {
+        CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE); // todo find replicates of these 3 lines and extract
+        CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
+        if (getChunk(chunkCoordinate) == null)
+            return null;
+        return getChunk(chunkCoordinate).addDynamicElement(cubeCoordinate, element);
+    }
+
+    public void removeDynamicElement(CoordinateI3 coordinate, LList<WorldElement>.Node elementNode) {
+        CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
+        CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
+        getChunk(chunkCoordinate).removeDynamicElement(cubeCoordinate, elementNode);
     }
 
     public void setCameraCoordinate(CoordinateI3 cameraCoordinate) {
@@ -89,8 +97,39 @@ public class World implements Map {
 
     public void update() {
         generateChunks();
-        for (WorldElement element : elements)
-            element.update(this);
+
+        for (LList<WorldElement>.Node elementNode : elements.nodeIterator())
+            if (elementNode.getValue().update(this))
+                elements.remove(elementNode);
+    }
+
+    public void doDamage(float x, float y, float z, float range, float amount) {
+        WorldElement hit = findHit(x, y, z, range);
+        if (hit != null)
+            hit.takeDamage(amount);
+    }
+
+    private WorldElement findHit(float x, float y, float z, float range) {
+        int intX = (int) x;
+        int intY = (int) y;
+        int intZ = (int) z;
+
+        for (int xi = intX - 1; xi <= intX + 1; xi++)
+            for (int yi = intY - 1; yi <= intY + 1; yi++)
+                for (int zi = intZ - 1; zi <= intZ + 1; zi++) {
+                    CoordinateI3 coordinate = new CoordinateI3(xi, yi, zi);
+                    if (inBounds(coordinate)) {
+                        CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
+                        if (getChunk(chunkCoordinate) != null) {
+                            CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
+                            WorldElement hit = getChunk(chunkCoordinate).checkDynamicElement(cubeCoordinate.x, cubeCoordinate.y, cubeCoordinate.z, x, y, z, range);
+                            if (hit != null)
+                                return hit;
+                        }
+                    }
+                }
+                
+        return null;
     }
 
     private WorldChunk getChunk(CoordinateI3 chunkCoordinate) {
@@ -164,6 +203,11 @@ public class World implements Map {
     }
 
     @Override
+    public boolean hit(float x, float y, float z, float range) {
+        return findHit(x, y, z, range) != null; // todo : change intersection hitter to cache the world element hit to avoid recomputing hit
+    }
+
+    @Override
     public int width() {
         return width;
     }
@@ -178,8 +222,8 @@ public class World implements Map {
         return height;
     }
 
-    public IntersectionFinder getIntersectionFinder() {
-        return intersectionFinder;
+    public IntersectionMover getIntersectionMover() {
+        return intersectionMover;
     }
 
     public IntersectionPicker getIntersectionPicker() {

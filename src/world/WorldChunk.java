@@ -71,7 +71,7 @@ class WorldChunk {
         return inBounds(x, y, z) ? cubes[x][y][z] != 0 : world.hasCube(new CoordinateI3(x + offsetX, y + offsetY, z + offsetZ));
     }
 
-    LList.Node addDynamicElement(CoordinateI3 coordinate, WorldElement element) {
+    LList<WorldElement>.Node addDynamicElement(CoordinateI3 coordinate, WorldElement element) {
         if (dynamicCells[coordinate.x][coordinate.y][coordinate.z] == null)
             dynamicCells[coordinate.x][coordinate.y][coordinate.z] = new DynamicCell();
         return dynamicCells[coordinate.x][coordinate.y][coordinate.z].add(element);

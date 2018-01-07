@@ -1,9 +1,9 @@
 package world;
 
 public interface WorldElement {
-    void update(World world);
+    boolean update(World world);
 
-    boolean takeDamage(float amount);
+    void takeDamage(float amount);
 
     void draw();
 

@@ -10,7 +10,7 @@ class DynamicCell {
         elements = new LList<>();
     }
 
-    LList.Node add(WorldElement element) {
+    LList<WorldElement>.Node add(WorldElement element) {
         return elements.addTail(element);
     }
 

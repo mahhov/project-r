@@ -18,7 +18,11 @@ public class IntersectionPicker extends Intersectioner {
         if (MathNumbers.isAllZero(dir))
             return createZeroDirIntersection(orig);
 
-        prepare(orig, dir, .2f);
+        prepare(orig, dir, .05f); // todo make constant
+
+        x += dx * picker.getPickOffset();
+        y += dy * picker.getPickOffset();
+        z += dz * picker.getPickOffset();
 
         while (true) {
             edgeX = x + edgeDx;
@@ -36,22 +40,22 @@ public class IntersectionPicker extends Intersectioner {
             nextY = MathNumbers.intNeg(edgeY + dy * delta);
             nextZ = MathNumbers.intNeg(edgeZ + dz * delta);
 
-            if (selectedDelta == 0 && !moveableX(nextX, y, z)) {
-                collisionX = true;
+            if (selectedDelta == 0 && !moveableX(nextX, y, z))
                 return createIntersection();
 
-            } else if (selectedDelta == 1 && !moveableY(x, nextY, z)) {
-                collisionY = true;
+            else if (selectedDelta == 1 && !moveableY(x, nextY, z))
                 return createIntersection();
 
-            } else if (selectedDelta == 2 && !moveableZ(x, y, nextZ)) {
-                grounded = dz < 0;
+            else if (selectedDelta == 2 && !moveableZ(x, y, nextZ))
                 return createIntersection();
 
-            } else {
+            else {
                 x += dx * delta;
                 y += dy * delta;
                 z += dz * delta;
+
+                if (hit(x, y, z, halfSize))
+                    return createIntersection();
             }
         }
     }
@@ -68,5 +72,7 @@ public class IntersectionPicker extends Intersectioner {
         float getWorldDirY();
 
         float getWorldDirZ();
+
+        float getPickOffset();
     }
 }

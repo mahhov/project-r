@@ -1,8 +1,8 @@
 package character;
 
 import shape.CubeInstancedFaces;
-import util.intersection.IntersectionFinder;
 import util.MathNumbers;
+import util.intersection.IntersectionMover;
 import world.World;
 
 public class Monster extends Character {
@@ -15,14 +15,14 @@ public class Monster extends Character {
     private Human human;
     private MoveControl moveControl;
 
-    public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionFinder intersectionFinder, Human human, CubeInstancedFaces cubeInstancedFaces) {
-        super(x, y, z, theta, thetaZ, intersectionFinder, LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, COLOR, cubeInstancedFaces);
+    public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Human human, CubeInstancedFaces cubeInstancedFaces) {
+        super(x, y, z, theta, thetaZ, intersectionMover, LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, COLOR, cubeInstancedFaces);
         this.human = human;
         moveControl = new MoveControl();
     }
 
     @Override
-    public void update(World world) {
+    MoveControl createMoveControl(World world) {
         float dx = human.getX() - getX();
         float dy = human.getY() - getY();
         float dz = human.getZ() - getZ();
@@ -43,6 +43,6 @@ public class Monster extends Character {
         if (distanceSqr < CHASE_DISTANCE)
             moveControl.theta = (float) Math.atan2(dy, dx);
 
-        move(moveControl);
+        return moveControl;
     }
 }

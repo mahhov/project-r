@@ -3,8 +3,8 @@ package util.intersection;
 import util.Map;
 import util.MathNumbers;
 
-public class IntersectionFinder extends Intersectioner {
-    public IntersectionFinder(Map map) {
+public class IntersectionMover extends Intersectioner {
+    public IntersectionMover(Map map) {
         super(map);
     }
 
