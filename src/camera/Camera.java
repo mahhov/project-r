@@ -23,8 +23,8 @@ public class Camera implements IntersectionPicker.Picker {
     private float theta, thetaZ;
     private Follow follow;
 
-    private static final float TRAIL_DISTANCE_MIN = 5, TRAIL_DISTANCE_MAX = 60, TRAIL_DISTANCE_SPEED = 2.5f;
-    private static final float TRAIL_VERT_MIN = 0, TRAIL_VERT_MAX = 25, TRAIL_VERT_SPEED = 1;
+    private static final float TRAIL_DISTANCE_MIN = 3, TRAIL_DISTANCE_MAX = 60, TRAIL_DISTANCE_SPEED = .5f;
+    private static final float TRAIL_VERT_MIN = 0, TRAIL_VERT_MAX = 25, TRAIL_VERT_SPEED = .2f;
     private float trailDistance, trailVert;
 
     private int projectionMatrixLoc, viewMatrixLoc;
@@ -35,8 +35,8 @@ public class Camera implements IntersectionPicker.Picker {
         y = 16 * Engine.SCALE;
         theta = MathAngles.PI;
 
-        trailDistance = 17.5f;
-        trailVert = 8.5f;
+        trailDistance = 6f;
+        trailVert = 1f;
 
         projectionMatrixLoc = glGetUniformLocation(programId, "projection");
         setupProjectionMatrix();
@@ -150,5 +150,10 @@ public class Camera implements IntersectionPicker.Picker {
     @Override
     public float getWorldDirZ() {
         return dy;
+    }
+
+    @Override
+    public float getPickOffset() {
+        return MathNumbers.magnitude(trailDistance, trailVert); // todo cache value
     }
 }
