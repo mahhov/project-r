@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 public class Camera implements IntersectionPicker.Picker {
     private static final float FIELD_OF_VIEW = MathAngles.toRadians(60);
-    private static final float PAN_WEIGHT = .2f, ROTATE_WEIGHT = .5f, ROTATE_Z_WEIGHT = .2f;
+    private static final float PAN_WEIGHT = 1, ROTATE_WEIGHT = 1, ROTATE_Z_WEIGHT = 1;
 
     private float x, y, z;
     private float dx, dy, dz;
@@ -101,7 +101,7 @@ public class Camera implements IntersectionPicker.Picker {
         else if (toTheta - theta < -MathAngles.PI)
             theta -= MathAngles.PI2;
 
-        theta += (toTheta - theta) * ROTATE_Z_WEIGHT;
+        theta += (toTheta - theta) * ROTATE_WEIGHT;
         thetaZ += (toThetaZ - thetaZ) * ROTATE_Z_WEIGHT;
     }
 
@@ -112,7 +112,7 @@ public class Camera implements IntersectionPicker.Picker {
         theta = follow.getFollowTheta();
         thetaZ = follow.getFollowThetaZ();
 
-        float[] followNorm =  follow.getFollowNorm();
+        float[] followNorm = follow.getFollowNorm();
         dx = followNorm[0];
         dy = followNorm[1];
         dz = followNorm[2];
