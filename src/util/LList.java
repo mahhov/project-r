@@ -6,7 +6,7 @@ public class LList<T> implements Iterable<T> {
     private Node head, tail;
     private int size;
 
-    public void addHead(T value) {
+    public Node addHead(T value) {
         if (head == null)
             head = tail = new Node(value);
         else {
@@ -15,9 +15,11 @@ public class LList<T> implements Iterable<T> {
         }
 
         size++;
+
+        return head;
     }
 
-    public void addTail(T value) {
+    public Node addTail(T value) {
         if (head == null)
             head = tail = new Node(value);
         else {
@@ -26,6 +28,8 @@ public class LList<T> implements Iterable<T> {
         }
 
         size++;
+
+        return tail;
     }
 
     public void remove(Node node) {
@@ -35,7 +39,7 @@ public class LList<T> implements Iterable<T> {
             head = node.next;
 
         if (node.next != null)
-            node.next.prev = node;
+            node.next.prev = node.prev;
         else
             tail = node.prev;
 
