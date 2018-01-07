@@ -27,7 +27,8 @@ class DynamicCell {
             float dx = element.getX() - x;
             float dy = element.getY() - y;
             float dz = element.getZ() - z;
-            if (MathNumbers.magnitude(dx, dy, dz) < range + element.getSize() / 2) // todo : use mag Sqred for performance
+            float totalRange = range + element.getSize() * .5f;
+            if (MathNumbers.magnitudeSqr(dx, dy, dz) < totalRange * totalRange)
                 return element;
         }
         return null;
