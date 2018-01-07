@@ -2,14 +2,13 @@ package world.projectile;
 
 import shape.CubeInstancedFaces;
 import util.MathNumbers;
-import util.Timer;
 import util.intersection.Intersection;
 import util.intersection.IntersectionHitter;
 import world.World;
 import world.WorldElement;
 
 public class Projectile implements WorldElement {
-    private static final float SIZE = .3f, SPEED = 3f, DAMAGE = 10;
+    private static final float SIZE = .3f, AREA = 3f, SPEED = 3f, DAMAGE = 10;
     private static final float AIR_FRICTION = 1f, GRAVITY = 0f;
 
     private float x, y, z;
@@ -47,7 +46,7 @@ public class Projectile implements WorldElement {
         z = intersection.coordinate.getZ();
 
         if (intersection.grounded) {
-            world.doDamage(x, y, z, SIZE, DAMAGE);
+            world.doDamage(x, y, z, AREA, DAMAGE);
             return true;
         }
 
