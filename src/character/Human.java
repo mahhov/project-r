@@ -33,6 +33,7 @@ public class Human implements WorldElement, Follow {
 
     // life
     private static final float LIFE = 100, LIFE_REGEN = .1f, SHIELD = 100, SHIELD_REGEN = 1;
+    private static final int LIFE_REGEN_DELAY = 75;
     private Life life;
 
     // position
@@ -68,7 +69,7 @@ public class Human implements WorldElement, Follow {
         boostTimer = new AbilityTimer(BOOST_COOLDOWN, BOOST_DURATION);
         throwTimer = new AbilityTimer(THROW_COOLDOWN, 1);
 
-        life = new Life(LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN);
+        life = new Life(LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, LIFE_REGEN_DELAY);
 
         cubeInstancedFaces = new CubeInstancedFaces(COLOR);
 

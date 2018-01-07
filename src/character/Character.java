@@ -29,7 +29,7 @@ class Character implements WorldElement { // todo support human movement
     private CoordinateI3 worldCoordinate;
     private LList<WorldElement>.Node worldElementNode;
 
-    Character(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, float life, float lifeRegen, float shield, float shieldRegen, float[] color, CubeInstancedFaces cubeInstancedFaces) {
+    Character(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, float life, float lifeRegen, float shield, float shieldRegen, int regenDelay, float[] color, CubeInstancedFaces cubeInstancedFaces) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -37,7 +37,7 @@ class Character implements WorldElement { // todo support human movement
         this.thetaZ = thetaZ;
         this.intersectionMover = intersectionMover;
 
-        this.life = new Life(life, lifeRegen, shield, shieldRegen);
+        this.life = new Life(life, lifeRegen, shield, shieldRegen, regenDelay);
 
         this.cubeInstancedFaces = cubeInstancedFaces;
     }

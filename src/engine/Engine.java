@@ -111,7 +111,7 @@ public class Engine {
             engineFrame++;
             endTime = System.nanoTime() + 1;
             if (endTime - beginTime > NANOSECONDS_IN__SECOND) {
-                //                System.out.println(engineFrame);
+                glfwSetWindowTitle(window, "fps " + engineFrame);
                 drawFrame = 0;
                 engineFrame = 0;
                 beginTime = endTime;
