@@ -4,6 +4,7 @@ import character.Human;
 import shape.Rects;
 
 class UiDrawer {
+    private static float CENTER_RECT_SIZE = .01f, CENTER_RECT_COLOR[] = new float[] {.1f, .5f, .3f};
     private static final float BOTTOM_ROW1_TOP = -.82f, BOTTOM_ROW1_BOTTOM = -.85f, BOTTOM_ROW2_TOP = -.87f, BOTTOM_ROW2_BOTTOM = -.9f;
     private static final float LEFT_LEFT = -.9f, LEFT_RIGHT = -.6f, RIGHT_LEFT = .6f, RIGHT_RIGHT = .9f;
 
@@ -20,7 +21,7 @@ class UiDrawer {
         this.human = human;
         rects = new Rects(10);
 
-        rects.addRect(new float[] {0, .6f, 0}).setCoordinates(-.03f, .03f, .03f, -.03f);
+        rects.addRect(CENTER_RECT_COLOR).setCoordinates(-CENTER_RECT_SIZE, CENTER_RECT_SIZE, CENTER_RECT_SIZE, -CENTER_RECT_SIZE);
 
         reserveBar = new Bar(RIGHT_LEFT, BOTTOM_ROW1_TOP, RIGHT_RIGHT, BOTTOM_ROW1_BOTTOM, RESERVE_COLOR);
         staminaBar = new Bar(RIGHT_LEFT, BOTTOM_ROW2_TOP, RIGHT_RIGHT, BOTTOM_ROW2_BOTTOM, STAMINA_COLOR);
