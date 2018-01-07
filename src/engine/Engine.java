@@ -97,7 +97,7 @@ public class Engine {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             ShaderManager.setRenderShader();
-            camera.update(keyControl);
+            camera.update(keyControl, mouseButtonControl);
             world.setCameraCoordinate(camera.getWorldCoordinate());
             world.update();
             world.draw();
@@ -134,7 +134,6 @@ public class Engine {
 // inventory
 // harvesting
 // crafting
-// right click to zoom in
 
 // ~~ low priority ~~
 // camera culling

@@ -10,4 +10,6 @@ public interface Follow {
     float getFollowTheta();
 
     float getFollowThetaZ();
+
+    float[] getFollowNorm();
 }

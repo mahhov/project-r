@@ -1,6 +1,7 @@
 package camera;
 
 import control.KeyControl;
+import control.MouseButtonControl;
 import engine.Engine;
 import geometry.CoordinateI3;
 import org.lwjgl.system.MemoryUtil;
@@ -46,9 +47,12 @@ public class Camera implements IntersectionPicker.Picker {
         setViewMatrix();
     }
 
-    public void update(KeyControl keyControl) {
+    public void update(KeyControl keyControl, MouseButtonControl mouseButtonControl) {
         trail(keyControl);
-        follow();
+        if (mouseButtonControl.isMouseDown(MouseButtonControl.SECONDARY))
+            exactFollow();
+        else
+            follow();
         setViewMatrix();
     }
 
@@ -99,6 +103,19 @@ public class Camera implements IntersectionPicker.Picker {
 
         theta += (toTheta - theta) * ROTATE_Z_WEIGHT;
         thetaZ += (toThetaZ - thetaZ) * ROTATE_Z_WEIGHT;
+    }
+
+    private void exactFollow() {
+        x = follow.getFollowX();
+        y = follow.getFollowY();
+        z = follow.getFollowZ();
+        theta = follow.getFollowTheta();
+        thetaZ = follow.getFollowThetaZ();
+
+        float thetaZCos = MathAngles.cos(thetaZ);
+        dx = follow.getFollowNorm()[0] * thetaZCos;
+        dy = MathAngles.sin(thetaZ);
+        dz = -follow.getFollowNorm()[1] * thetaZCos;
     }
 
     private void setupProjectionMatrix() {

@@ -248,6 +248,8 @@ public class Human implements WorldElement, Follow {
 
     @Override
     public void draw() {
+        if (mouseButtonControl.isMouseDown(MouseButtonControl.SECONDARY))
+            return;
         cubeInstancedFaces.reset();
         cubeInstancedFaces.add(x, z, -y, theta, thetaZ);
         cubeInstancedFaces.doneAdding();
@@ -277,6 +279,11 @@ public class Human implements WorldElement, Follow {
     @Override
     public float getFollowThetaZ() {
         return thetaZ;
+    }
+
+    @Override
+    public float[] getFollowNorm() {
+        return norm;
     }
 
     @Override
