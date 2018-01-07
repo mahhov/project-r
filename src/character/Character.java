@@ -19,6 +19,7 @@ class Character implements WorldElement { // todo support human movement
     private Life life;
 
     // position
+    private static final float SIZE = 4;
     private float x, y, z;
     private float vx, vy, vz;
     private float theta, thetaZ;
@@ -113,7 +114,7 @@ class Character implements WorldElement { // todo support human movement
     }
 
     private void applyVelocity() {
-        Intersection intersection = intersectionMover.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), 1);
+        Intersection intersection = intersectionMover.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), SIZE);
         x = intersection.coordinate.getX();
         y = intersection.coordinate.getY();
         z = intersection.coordinate.getZ();
@@ -137,7 +138,7 @@ class Character implements WorldElement { // todo support human movement
 
     @Override
     public void draw() {
-        cubeInstancedFaces.add(x, z, -y, theta, thetaZ);
+        cubeInstancedFaces.add(x, z, -y, theta, thetaZ, SIZE);
     }
 
     @Override
@@ -157,6 +158,6 @@ class Character implements WorldElement { // todo support human movement
 
     @Override
     public float getSize() {
-        return 1;
+        return SIZE;
     }
 }
