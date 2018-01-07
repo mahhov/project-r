@@ -13,7 +13,7 @@ import util.intersection.IntersectionHitter;
 import util.intersection.IntersectionMover;
 import util.intersection.IntersectionPicker;
 import util.intersection.Map;
-import world.generator.HeightMapWorldGenerator;
+import world.generator.SimplexHeightMapWorldGenerator;
 import world.projectile.Projectile;
 
 public class World implements Map {
@@ -45,8 +45,9 @@ public class World implements Map {
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
-        generatedMapHeight = height / 10;
-        generatedMap = HeightMapWorldGenerator.generate(width, length, generatedMapHeight);
+        generatedMapHeight = height / 2;
+        // generatedMap = HeightMapWorldGenerator.generate(width, length, generatedMapHeight);
+        generatedMap = SimplexHeightMapWorldGenerator.generate(width, length, generatedMapHeight);
         elements = new LList<>();
         intersectionMover = new IntersectionMover(this);
         intersectionPicker = new IntersectionPicker(this, picker);
