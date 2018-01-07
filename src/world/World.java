@@ -33,6 +33,8 @@ public class World implements Map {
     private IntersectionHitter intersectionHitter;
     private CubeInstancedFaces dynamicCubeInstancedFaces;
 
+    private float largestElementSize;
+
     public World(int width, int length, int height, IntersectionPicker.Picker picker) {
         Timer.restart();
         this.width = width;
@@ -55,6 +57,7 @@ public class World implements Map {
 
     private void addWorldElement(WorldElement element) {
         elements.addTail(element);
+        largestElementSize = MathNumbers.max(largestElementSize, element.getSize());
     }
 
     public void setHuman(Human human) {
@@ -189,10 +192,11 @@ public class World implements Map {
         int intX = (int) x;
         int intY = (int) y;
         int intZ = (int) z;
+        int searchRange = (int) (range + largestElementSize / 2) + 1;
 
-        for (int xi = intX - 1; xi <= intX + 1; xi++)
-            for (int yi = intY - 1; yi <= intY + 1; yi++)
-                for (int zi = intZ - 1; zi <= intZ + 1; zi++) {
+        for (int xi = intX - searchRange; xi <= intX + searchRange; xi++)
+            for (int yi = intY - searchRange; yi <= intY + searchRange; yi++)
+                for (int zi = intZ - searchRange; zi <= intZ + searchRange; zi++) {
                     CoordinateI3 coordinate = new CoordinateI3(xi, yi, zi);
                     if (inBounds(coordinate)) {
                         CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);

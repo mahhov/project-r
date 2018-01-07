@@ -8,7 +8,7 @@ import world.World;
 import world.WorldElement;
 
 public class Projectile implements WorldElement {
-    private static final float SIZE = .3f, AREA = 3f, SPEED = 3f, DAMAGE = 10;
+    private static final float SIZE = .3f, AREA = 3, SPEED = 3, DAMAGE = 10;
     private static final float AIR_FRICTION = 1f, GRAVITY = 0f;
 
     private float x, y, z;
@@ -45,11 +45,11 @@ public class Projectile implements WorldElement {
         y = intersection.coordinate.getY();
         z = intersection.coordinate.getZ();
 
-        if (intersection.hitElement != null) {
+        if (intersection.hitElement != null || intersection.grounded) {
             world.doDamage(x, y, z, AREA, DAMAGE);
             return true;
-        } else
-            return intersection.grounded;
+        }
+        return false;
     }
 
     @Override
