@@ -19,7 +19,7 @@ public class World implements Map {
     private int width, length, height;
     private int chunkWidth, chunkLength, chunkHeight;
     private WorldChunk[][][] chunks;
-    private int[][] heightMap;
+    private int generatedMap[][][], generatedMapHeight;
     private CoordinateI3 viewStart, viewEnd;
 
     private Human human;
@@ -39,7 +39,8 @@ public class World implements Map {
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
-        heightMap = WorldGenerator.generate(width, length, height / 3);
+        generatedMapHeight = height / 3;
+        generatedMap = WorldGenerator.generate(width, length, generatedMapHeight);
         elements = new LList<>();
         intersectionMover = new IntersectionMover(this);
         intersectionPicker = new IntersectionPicker(this, picker);
@@ -128,7 +129,7 @@ public class World implements Map {
                         }
                     }
                 }
-                
+
         return null;
     }
 
@@ -188,12 +189,12 @@ public class World implements Map {
         WorldChunk chunk = new WorldChunk(coordinate);
         int maxX = MathNumbers.min(CHUNK_SIZE, width - chunk.getOffsetX());
         int maxY = MathNumbers.min(CHUNK_SIZE, length - chunk.getOffsetY());
+        int maxZ = MathNumbers.min(CHUNK_SIZE, height - chunk.getOffsetZ(), generatedMapHeight);
         for (int x = 0; x < maxX; x++)
-            for (int y = 0; y < maxY; y++) {
-                int height = MathNumbers.min(heightMap[x + chunk.getOffsetX()][y + chunk.getOffsetY()] - chunk.getOffsetZ(), CHUNK_SIZE);
-                for (int z = 0; z < height; z++)
-                    chunk.addCube(new CoordinateI3(x, y, z));
-            }
+            for (int y = 0; y < maxY; y++)
+                for (int z = 0; z < maxZ; z++)
+                    if (generatedMap[x + chunk.getOffsetX()][y + chunk.getOffsetY()][z + chunk.getOffsetZ()] == 1)
+                        chunk.addCube(new CoordinateI3(x, y, z));
         return chunk;
     }
 

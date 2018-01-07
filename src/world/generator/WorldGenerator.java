@@ -4,12 +4,12 @@ import util.MathNumbers;
 import util.MathRandom;
 
 public class WorldGenerator {
-    public static int[][] generate(int width, int length, int maxHeight) {
+    public static int[][][] generate(int width, int length, int maxHeight) {
         width = MathNumbers.powerOf2(width) + 1;
         length = MathNumbers.powerOf2(length) + 1;
         int size = MathNumbers.max(width, length);
         double[][] height = heightMap(size, maxHeight);
-        return toIntArray(height);
+        return toIntArray(height, maxHeight);
     }
 
     private static double[][] heightMap(int size, int height) {
@@ -42,11 +42,12 @@ public class WorldGenerator {
         return heightMap;
     }
 
-    private static int[][] toIntArray(double[][] height) {
-        int[][] heightI = new int[height.length][height[0].length];
+    private static int[][][] toIntArray(double[][] height, int maxHeight) {
+        int[][][] map = new int[height.length][height[0].length][maxHeight];
         for (int x = 0; x < height.length; x++)
             for (int y = 0; y < height[0].length; y++)
-                heightI[x][y] = (int) height[x][y] + 1;
-        return heightI;
+                for (int z = 0; z < height[x][y] + 1; z++)
+                    map[x][y][z] = 1;
+        return map;
     }
 }
