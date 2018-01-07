@@ -1,7 +1,7 @@
 package util.intersection;
 
-import util.Map;
 import util.MathNumbers;
+import world.WorldElement;
 
 class Intersectioner {
     // temp vars
@@ -13,6 +13,7 @@ class Intersectioner {
     float deltaX, deltaY, deltaZ, delta;
     int nextX, nextY, nextZ;
     boolean collisionX, collisionY, grounded;
+    WorldElement hitElement;
 
     private Map map;
 
@@ -68,7 +69,7 @@ class Intersectioner {
     }
 
     boolean moveable(int x, int y, int z) {
-        return map.moveable(x,  y,z);
+        return map.moveable(x, y, z);
     }
 
     boolean moveableX(int x, float y, float z) {
@@ -117,7 +118,7 @@ class Intersectioner {
         return true;
     }
 
-    boolean hit(float x, float y, float z, float range) {
+    WorldElement hit(float x, float y, float z, float range) {
         return map.hit(x, y, z, range);
     }
 
@@ -131,14 +132,14 @@ class Intersectioner {
     }
 
     Intersection createIntersection() {
-        return new Intersection(x, y, z, collisionX, collisionY, grounded);
+        return new Intersection(x, y, z, collisionX, collisionY, grounded, hitElement);
     }
 
     Intersection createZeroDirIntersection(float orig[]) {
-        return new Intersection(orig[0], orig[1], orig[2], false, false, false);
+        return new Intersection(orig[0], orig[1], orig[2], false, false, false, null);
     }
 
     Intersection createIntersection(float x, float y, float z) {
-        return new Intersection(x, y, z, collisionX, collisionY, grounded);
+        return new Intersection(x, y, z, collisionX, collisionY, grounded, hitElement);
     }
 }

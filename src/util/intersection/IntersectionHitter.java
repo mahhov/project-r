@@ -1,6 +1,5 @@
 package util.intersection;
 
-import util.Map;
 import util.MathNumbers;
 
 public class IntersectionHitter extends Intersectioner {
@@ -29,7 +28,7 @@ public class IntersectionHitter extends Intersectioner {
                 x += dx * maxMove;
                 y += dy * maxMove;
                 z += dz * maxMove;
-                grounded = hit(x, y, z, halfSize);
+                hitElement = hit(x, y, z, halfSize);
                 return createIntersection();
 
             } else {
@@ -56,8 +55,8 @@ public class IntersectionHitter extends Intersectioner {
                     z += dz * delta;
                     maxMove -= delta;
 
-                    if (hit(x, y, z, halfSize)) {
-                        grounded = true;
+                    hitElement = hit(x, y, z, halfSize);
+                    if (hitElement != null) {
                         return createIntersection();
                     }
                 }

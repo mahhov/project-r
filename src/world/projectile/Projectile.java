@@ -45,12 +45,11 @@ public class Projectile implements WorldElement {
         y = intersection.coordinate.getY();
         z = intersection.coordinate.getZ();
 
-        if (intersection.grounded) {
+        if (intersection.hitElement != null) {
             world.doDamage(x, y, z, AREA, DAMAGE);
             return true;
-        }
-
-        return false;
+        } else
+            return intersection.grounded;
     }
 
     @Override

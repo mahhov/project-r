@@ -1,6 +1,5 @@
 package util.intersection;
 
-import util.Map;
 import util.MathNumbers;
 
 public class IntersectionPicker extends Intersectioner {
@@ -11,7 +10,7 @@ public class IntersectionPicker extends Intersectioner {
         this.picker = picker;
     }
 
-    public Intersection cameraPick() {
+    public Intersection find() {
         float[] orig = new float[] {picker.getWorldX(), picker.getWorldY(), picker.getWorldZ()};
         float[] dir = new float[] {picker.getWorldDirX(), picker.getWorldDirY(), picker.getWorldDirZ()};
 
@@ -44,7 +43,7 @@ public class IntersectionPicker extends Intersectioner {
                 y += dy * delta;
                 z += dz * delta;
 
-                if (hit(x, y, z, halfSize))
+                if (hit(x, y, z, halfSize) != null)
                     return createIntersection();
             }
         }

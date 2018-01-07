@@ -219,7 +219,7 @@ public class Human implements WorldElement, Follow {
         if (primaryDown && throwTimer.ready() && stamina.available(Stamina.THROW)) {
             stamina.deplete(Stamina.THROW);
             throwTimer.activate();
-            Intersection pick = intersectionPicker.cameraPick();
+            Intersection pick = intersectionPicker.find();
             float topZ = z + SIZE / 2;
             float dx = pick.coordinate.getX() - x;
             float dy = pick.coordinate.getY() - y;

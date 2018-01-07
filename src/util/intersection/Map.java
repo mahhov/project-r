@@ -1,9 +1,11 @@
-package util;
+package util.intersection;
+
+import world.WorldElement;
 
 public interface Map {
     boolean moveable(int x, int y, int z);
 
-    boolean hit(float x, float y, float z, float range);
+    WorldElement hit(float x, float y, float z, float range);
 
     int width();
 

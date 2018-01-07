@@ -5,10 +5,14 @@ import character.Monster;
 import engine.Engine;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
-import util.*;
+import util.LList;
+import util.MathNumbers;
+import util.MathRandom;
+import util.Timer;
 import util.intersection.IntersectionHitter;
 import util.intersection.IntersectionMover;
 import util.intersection.IntersectionPicker;
+import util.intersection.Map;
 import world.generator.WorldGenerator;
 import world.projectile.Projectile;
 
@@ -105,32 +109,9 @@ public class World implements Map {
     }
 
     public void doDamage(float x, float y, float z, float range, float amount) {
-        WorldElement hit = findHit(x, y, z, range);
+        WorldElement hit = hit(x, y, z, range);
         if (hit != null)
             hit.takeDamage(amount);
-    }
-
-    private WorldElement findHit(float x, float y, float z, float range) {
-        int intX = (int) x;
-        int intY = (int) y;
-        int intZ = (int) z;
-
-        for (int xi = intX - 1; xi <= intX + 1; xi++)
-            for (int yi = intY - 1; yi <= intY + 1; yi++)
-                for (int zi = intZ - 1; zi <= intZ + 1; zi++) {
-                    CoordinateI3 coordinate = new CoordinateI3(xi, yi, zi);
-                    if (inBounds(coordinate)) {
-                        CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
-                        if (getChunk(chunkCoordinate) != null) {
-                            CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
-                            WorldElement hit = getChunk(chunkCoordinate).checkDynamicElement(cubeCoordinate.x, cubeCoordinate.y, cubeCoordinate.z, x, y, z, range);
-                            if (hit != null)
-                                return hit;
-                        }
-                    }
-                }
-
-        return null;
     }
 
     private WorldChunk getChunk(CoordinateI3 chunkCoordinate) {
@@ -204,8 +185,27 @@ public class World implements Map {
     }
 
     @Override
-    public boolean hit(float x, float y, float z, float range) {
-        return findHit(x, y, z, range) != null; // todo : change intersection hitter to cache the world element hit to avoid recomputing hit
+    public WorldElement hit(float x, float y, float z, float range) {
+        int intX = (int) x;
+        int intY = (int) y;
+        int intZ = (int) z;
+
+        for (int xi = intX - 1; xi <= intX + 1; xi++)
+            for (int yi = intY - 1; yi <= intY + 1; yi++)
+                for (int zi = intZ - 1; zi <= intZ + 1; zi++) {
+                    CoordinateI3 coordinate = new CoordinateI3(xi, yi, zi);
+                    if (inBounds(coordinate)) {
+                        CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
+                        if (getChunk(chunkCoordinate) != null) {
+                            CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
+                            WorldElement hit = getChunk(chunkCoordinate).checkDynamicElement(cubeCoordinate.x, cubeCoordinate.y, cubeCoordinate.z, x, y, z, range);
+                            if (hit != null)
+                                return hit;
+                        }
+                    }
+                }
+
+        return null;
     }
 
     @Override
