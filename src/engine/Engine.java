@@ -134,7 +134,6 @@ public class Engine {
 // inventory
 // harvesting
 // crafting
-// bug where ui disappears at certain camera angles when looking up (set ui z closer to 0)
 // right click to zoom in
 
 // ~~ low priority ~~
