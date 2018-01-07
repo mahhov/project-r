@@ -3,7 +3,7 @@ package world.generator;
 import util.MathNumbers;
 import util.MathRandom;
 
-public class WorldGenerator {
+public class HeightMapWorldGenerator {
     public static int[][][] generate(int width, int length, int maxHeight) {
         width = MathNumbers.powerOf2(width) + 1;
         length = MathNumbers.powerOf2(length) + 1;

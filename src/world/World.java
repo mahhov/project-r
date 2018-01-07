@@ -13,7 +13,7 @@ import util.intersection.IntersectionHitter;
 import util.intersection.IntersectionMover;
 import util.intersection.IntersectionPicker;
 import util.intersection.Map;
-import world.generator.WorldGenerator;
+import world.generator.HeightMapWorldGenerator;
 import world.projectile.Projectile;
 
 public class World implements Map {
@@ -45,8 +45,8 @@ public class World implements Map {
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
-        generatedMapHeight = height / 3;
-        generatedMap = WorldGenerator.generate(width, length, generatedMapHeight);
+        generatedMapHeight = height / 10;
+        generatedMap = HeightMapWorldGenerator.generate(width, length, generatedMapHeight);
         elements = new LList<>();
         intersectionMover = new IntersectionMover(this);
         intersectionPicker = new IntersectionPicker(this, picker);
@@ -173,7 +173,7 @@ public class World implements Map {
         WorldChunk chunk = new WorldChunk(coordinate);
         int maxX = MathNumbers.min(CHUNK_SIZE, width - chunk.getOffsetX());
         int maxY = MathNumbers.min(CHUNK_SIZE, length - chunk.getOffsetY());
-        int maxZ = MathNumbers.min(CHUNK_SIZE, height - chunk.getOffsetZ(), generatedMapHeight);
+        int maxZ = MathNumbers.min(CHUNK_SIZE, generatedMapHeight - chunk.getOffsetZ());
         for (int x = 0; x < maxX; x++)
             for (int y = 0; y < maxY; y++)
                 for (int z = 0; z < maxZ; z++)
