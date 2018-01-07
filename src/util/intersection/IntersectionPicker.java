@@ -18,35 +18,25 @@ public class IntersectionPicker extends Intersectioner {
         if (MathNumbers.isAllZero(dir))
             return createZeroDirIntersection(orig);
 
-        prepare(orig, dir, .05f); // todo make constant
+        prepare(orig, dir, 0);
 
         x += dx * picker.getPickOffset();
         y += dy * picker.getPickOffset();
         z += dz * picker.getPickOffset();
 
         while (true) {
-            edgeX = x + edgeDx;
-            edgeY = y + edgeDy;
-            edgeZ = z + edgeDz;
-
-            deltaX = getMove(edgeX, dx);
-            deltaY = getMove(edgeY, dy);
-            deltaZ = getMove(edgeZ, dz);
+            deltaX = getMove(x, dx);
+            deltaY = getMove(y, dy);
+            deltaZ = getMove(z, dz);
 
             chooseDelta();
 
             delta += MathNumbers.EPSILON;
-            nextX = MathNumbers.intNeg(edgeX + dx * delta);
-            nextY = MathNumbers.intNeg(edgeY + dy * delta);
-            nextZ = MathNumbers.intNeg(edgeZ + dz * delta);
+            nextX = MathNumbers.intNeg(x + dx * delta);
+            nextY = MathNumbers.intNeg(y + dy * delta);
+            nextZ = MathNumbers.intNeg(z + dz * delta);
 
-            if (selectedDelta == 0 && !moveableX(nextX, y, z))
-                return createIntersection();
-
-            else if (selectedDelta == 1 && !moveableY(x, nextY, z))
-                return createIntersection();
-
-            else if (selectedDelta == 2 && !moveableZ(x, y, nextZ))
+            if (!moveable(nextX, nextY, nextZ))
                 return createIntersection();
 
             else {

@@ -67,6 +67,10 @@ class Intersectioner {
         }
     }
 
+    boolean moveable(int x, int y, int z) {
+        return map.moveable(x,  y,z);
+    }
+
     boolean moveableX(int x, float y, float z) {
         for (int yi = -1; yi <= 1; yi++)
             for (int zi = -1; zi <= 1; zi++)
