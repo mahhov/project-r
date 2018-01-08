@@ -45,7 +45,7 @@ public class World implements Map {
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
-        generatedMap = Simplex3DWorldGenerator.generate(width, length, height, height / 2);
+        generatedMap = new Simplex3DWorldGenerator().generate(width, length, height, height / 2);
         elements = new LList<>();
         intersectionMover = new IntersectionMover(this);
         intersectionPicker = new IntersectionPicker(this, picker);

@@ -10,7 +10,7 @@ public class SimplexHeightMapWorldGenerator {
 
         int[][] heightMap = new int[width][length];
         for (int x = 0; x < width; x++)
-            for (int y = 0; y < width; y++) {
+            for (int y = 0; y < length; y++) {
                 float noise = MathNumbers.maxMin((float) simplexNoiseHelper.getNoise(x, y), 1, -1);
                 float height = (noise + 1) * heightMult + 1;
                 heightMap[x][y] = (int) height;
