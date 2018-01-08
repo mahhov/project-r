@@ -1,6 +1,5 @@
 package world.generator;
 
-import util.Timer;
 import world.generator.simplex.SimplexNoiseHelper;
 
 import java.util.concurrent.Callable;
@@ -13,11 +12,11 @@ public class Simplex3DWorldGenerator {
     private static final int THREAD_POOL = 4;
     private static final int RESOLUTION = 4, RESOLUTION_VERT = 2;
     private static final SimplexNoiseHelper SIMPLEX_NOISE_HELPER = new SimplexNoiseHelper(1000 / RESOLUTION, .5, 3);
-    private static final ExecutorService executor = Executors.newFixedThreadPool(THREAD_POOL);
 
     private int length, maxHeight, map[][][];
 
     public int[][][] generate(int width, int length, int height, int maxHeight) {
+        ExecutorService executor = Executors.newFixedThreadPool(THREAD_POOL);
         this.length = length;
         this.maxHeight = maxHeight;
         map = new int[width][length][height];
