@@ -7,13 +7,13 @@ import util.MathNumbers;
 import util.Timer;
 
 class WorldChunk {
-    static int debugCubeCount;
+    static long debugChunkCreationTime;
 
     private int offsetX, offsetY, offsetZ;
     private CubeInstancedFaces cubeInstancedFaces;
-    private int[][][] cubes;
-    private DynamicCell[][][] dynamicCells;
+    // private byte[][][] cubes;
     private boolean worldEmpty, drawEmpty;
+    private DynamicCell[][][] dynamicCells;
 
     WorldChunk(CoordinateI3 coordinate, World world, int[][][] map) {
         Timer.restart();
@@ -21,49 +21,42 @@ class WorldChunk {
         offsetX = coordinate.x * World.CHUNK_SIZE;
         offsetY = coordinate.y * World.CHUNK_SIZE;
         offsetZ = coordinate.z * World.CHUNK_SIZE;
-        cubes = new int[World.CHUNK_SIZE][World.CHUNK_SIZE][World.CHUNK_SIZE];
-        dynamicCells = new DynamicCell[World.CHUNK_SIZE][World.CHUNK_SIZE][World.CHUNK_SIZE];
         worldEmpty = true;
         drawEmpty = true;
 
-        fill(map);
-        doneAddingCubes(world);
+        // cubes = new byte[World.CHUNK_SIZE][World.CHUNK_SIZE][World.CHUNK_SIZE];
+        dynamicCells = new DynamicCell[World.CHUNK_SIZE][World.CHUNK_SIZE][World.CHUNK_SIZE];
 
-        Timer.time("Created chunk");
+        fill(world, map);
+
+        debugChunkCreationTime += Timer.time(null);
+        Timer.printTime("Aggregate chunk creation", debugChunkCreationTime);
     }
 
-    private void fill(int[][][] map) {
+    private void fill(World world, int[][][] map) {
         int maxX = MathNumbers.min(World.CHUNK_SIZE, map.length - offsetX);
         int maxY = MathNumbers.min(World.CHUNK_SIZE, map[0].length - offsetY);
         int maxZ = MathNumbers.min(World.CHUNK_SIZE, map[0][0].length - offsetZ);
+
+        boolean[] sides;
 
         for (int x = 0; x < maxX; x++)
             for (int y = 0; y < maxY; y++)
                 for (int z = 0; z < maxZ; z++)
                     if (map[x + offsetX][y + offsetY][z + offsetZ] == 1) {
                         worldEmpty = false;
-                        cubes[x][y][z] = 1;
+                        // cubes[x][y][z] = 1;
+                        if ((sides = checkAddCube(x, y, z, world)) != null) {
+                            drawEmpty = false;
+                            cubeInstancedFaces.add(x + .5f + offsetX, z + .5f + offsetZ, -(y + .5f + offsetY), sides);
+                        }
                     }
-    }
 
-    private void doneAddingCubes(World world) {
-        boolean[] sides;
-        for (int x = 0; x < World.CHUNK_SIZE; x++)
-            for (int y = 0; y < World.CHUNK_SIZE; y++)
-                for (int z = 0; z < World.CHUNK_SIZE; z++)
-                    if ((sides = checkAddCube(x, y, z, world)) != null) {
-                        debugCubeCount++;
-                        drawEmpty = false;
-                        cubeInstancedFaces.add(x + .5f + offsetX, z + .5f + offsetZ, -(y + .5f + offsetY), sides);
-                    }
         if (!drawEmpty)
             cubeInstancedFaces.doneAdding();
     }
 
     private boolean[] checkAddCube(int x, int y, int z, World world) {
-        if (cubes[x][y][z] == 0)
-            return null;
-
         boolean[] sides = new boolean[6];
 
         sides[CubeInstancedFaces.LEFT_SIDE] = !blockingView(x - 1, y, z, world);
