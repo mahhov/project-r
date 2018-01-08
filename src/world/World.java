@@ -23,7 +23,7 @@ public class World implements Map {
     private int width, length, height;
     private int chunkWidth, chunkLength, chunkHeight;
     private WorldChunk[][][] chunks;
-    private int generatedMap[][][], generatedMapHeight;
+    private int generatedMap[][][];
     private CoordinateI3 viewStart, viewEnd;
 
     private Human human;
@@ -45,8 +45,7 @@ public class World implements Map {
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
-        generatedMapHeight = height / 2;
-        generatedMap = Simplex3DWorldGenerator.generate(width, length, generatedMapHeight);
+        generatedMap = Simplex3DWorldGenerator.generate(width, length, height, height / 2);
         elements = new LList<>();
         intersectionMover = new IntersectionMover(this);
         intersectionPicker = new IntersectionPicker(this, picker);
@@ -121,17 +120,12 @@ public class World implements Map {
         return chunks[chunkCoordinate.x][chunkCoordinate.y][chunkCoordinate.z];
     }
 
-    private boolean inBounds(CoordinateI3 coordinate) {
+    boolean inBounds(CoordinateI3 coordinate) {
         return coordinate.x >= 0 && coordinate.y >= 0 && coordinate.z >= 0 && coordinate.x < width && coordinate.y < length && coordinate.z < height;
     }
 
     boolean hasCube(CoordinateI3 coordinate) {
-        if (!inBounds(coordinate))
-            return true;
-
-        CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
-        CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
-        return getChunk(chunkCoordinate) != null && getChunk(chunkCoordinate).hasCube(cubeCoordinate.x, cubeCoordinate.y, cubeCoordinate.z, this);
+        return generatedMap[coordinate.x][coordinate.y][coordinate.z] != 0;
     }
 
     public void draw() {
@@ -149,42 +143,19 @@ public class World implements Map {
     }
 
     private void generateChunks() {
-        Timer.restart();
-        LList<WorldChunk> generatedChunks = new LList<>();
-
         for (int chunkX = viewStart.x; chunkX < viewEnd.x; chunkX++)
             for (int chunkY = viewStart.y; chunkY < viewEnd.y; chunkY++)
                 for (int chunkZ = viewStart.z; chunkZ < viewEnd.z; chunkZ++) {
                     CoordinateI3 coordinate = new CoordinateI3(chunkX, chunkY, chunkZ);
-                    if (getChunk(coordinate) == null) {
-                        chunks[chunkX][chunkY][chunkZ] = createChunk(coordinate);
-                        generatedChunks.addTail(chunks[chunkX][chunkY][chunkZ]);
-                    }
+                    if (getChunk(coordinate) == null)
+                        chunks[chunkX][chunkY][chunkZ] = new WorldChunk(coordinate, this, generatedMap);
                 }
-
-        for (WorldChunk chunk : generatedChunks)
-            chunk.doneAddingCubes(this);
-
-        if (generatedChunks.size() > 0)
-            Timer.time("Cubes " + WorldChunk.debugCubeCount);
-    }
-
-    private WorldChunk createChunk(CoordinateI3 coordinate) {
-        WorldChunk chunk = new WorldChunk(coordinate);
-        int maxX = MathNumbers.min(CHUNK_SIZE, width - chunk.getOffsetX());
-        int maxY = MathNumbers.min(CHUNK_SIZE, length - chunk.getOffsetY());
-        int maxZ = MathNumbers.min(CHUNK_SIZE, generatedMapHeight - chunk.getOffsetZ());
-        for (int x = 0; x < maxX; x++)
-            for (int y = 0; y < maxY; y++)
-                for (int z = 0; z < maxZ; z++)
-                    if (generatedMap[x + chunk.getOffsetX()][y + chunk.getOffsetY()][z + chunk.getOffsetZ()] == 1)
-                        chunk.addCube(new CoordinateI3(x, y, z));
-        return chunk;
     }
 
     @Override
     public boolean moveable(int x, int y, int z) {
-        return !hasCube(new CoordinateI3(x, y, z));
+        CoordinateI3 coordinate = new CoordinateI3(x, y, z);
+        return inBounds(coordinate) && !hasCube(coordinate);
     }
 
     @Override

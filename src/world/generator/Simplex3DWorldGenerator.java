@@ -6,8 +6,8 @@ public class Simplex3DWorldGenerator {
     private static final SimplexNoiseHelper SIMPLEX_NOISE_HELPER = new SimplexNoiseHelper(1000 / 4, .5, 3);
     private static final int RESOLUTION = 4, RESOLUTION_VERT = 2;
 
-    public static int[][][] generate(int width, int length, int maxHeight) {
-        int[][][] map = new int[width][length][maxHeight];
+    public static int[][][] generate(int width, int length, int height, int maxHeight) {
+        int[][][] map = new int[width][length][height];
         for (int x = 0; x < width; x++)
             for (int y = 0; y < length; y++)
                 for (int z = 0; z < 2; z++)
