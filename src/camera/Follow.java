@@ -12,4 +12,6 @@ public interface Follow {
     float getFollowThetaZ();
 
     float[] getFollowNorm();
+    
+    boolean isFollowZoom();
 }

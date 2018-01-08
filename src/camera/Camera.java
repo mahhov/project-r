@@ -1,7 +1,6 @@
 package camera;
 
 import control.KeyControl;
-import control.MouseButtonControl;
 import engine.Engine;
 import geometry.CoordinateI3;
 import org.lwjgl.system.MemoryUtil;
@@ -44,16 +43,18 @@ public class Camera implements IntersectionPicker.Picker {
 
         viewMatrixLoc = glGetUniformLocation(programId, "view");
         viewMatrixBuffer = MemoryUtil.memAllocFloat(16);
-        setViewMatrix();
+        setViewMatrix(1);
     }
 
-    public void update(KeyControl keyControl, MouseButtonControl mouseButtonControl) {
+    public void update(KeyControl keyControl) {
         trail(keyControl);
-        if (mouseButtonControl.isMouseDown(MouseButtonControl.SECONDARY)) // todo camera to ask follow if zoom mode, not check mouse button control
+        if (follow.isFollowZoom()) {
             exactFollow();
-        else
+            setViewMatrix(2);
+        } else {
             follow();
-        setViewMatrix();
+            setViewMatrix(1);
+        }
     }
 
     private void trail(KeyControl keyControl) {
@@ -126,8 +127,8 @@ public class Camera implements IntersectionPicker.Picker {
         MemoryUtil.memFree(projectionMatrixBuffer);
     }
 
-    private void setViewMatrix() {
-        SimpleMatrix4f.invModelMatrix(x, y, z, theta, thetaZ, 1).toBuffer(viewMatrixBuffer); // todo: set scale to 2 when mouse secondaary down
+    private void setViewMatrix(float scale) {
+        SimpleMatrix4f.invModelMatrix(x, y, z, theta, thetaZ, scale).toBuffer(viewMatrixBuffer);
         glUniformMatrix4fv(viewMatrixLoc, false, viewMatrixBuffer);
     }
 

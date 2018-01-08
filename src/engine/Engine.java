@@ -98,7 +98,7 @@ public class Engine {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             ShaderManager.setRenderShader();
-            camera.update(keyControl, mouseButtonControl);
+            camera.update(keyControl);
             world.setCameraCoordinate(camera.getWorldCoordinate());
             world.update();
             world.draw();
@@ -145,4 +145,4 @@ public class Engine {
 // more efficient is(draw/world)empty tracking
 // shadows
 // investigate if should retain STATIC_DRAW
-// support cubes of different colors in same CubeInstancedFaces 
+// support cubes of different colors in same CubeInstancedFaces

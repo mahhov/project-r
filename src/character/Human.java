@@ -42,6 +42,7 @@ public class Human implements WorldElement, Follow {
     private float vx, vy, vz;
     private float theta, thetaZ;
     private float[] norm, right;
+    private boolean zoom;
 
     private IntersectionMover intersectionMover;
     private IntersectionPicker intersectionPicker;
@@ -81,6 +82,7 @@ public class Human implements WorldElement, Follow {
     @Override
     public boolean update(World world) {
         boolean shiftPress = keyControl.isKeyPressed(KeyControl.KEY_SHIFT);
+        zoom ^= mouseButtonControl.isMousePreseed(MouseButtonControl.SECONDARY);
 
         stamina.regen();
         life.regen();
@@ -251,7 +253,7 @@ public class Human implements WorldElement, Follow {
 
     @Override
     public void draw() {
-        if (mouseButtonControl.isMouseDown(MouseButtonControl.SECONDARY))
+        if (zoom)
             return;
         cubeInstancedFaces.reset();
         cubeInstancedFaces.add(x, z, -y, theta, thetaZ, SIZE);
@@ -288,6 +290,11 @@ public class Human implements WorldElement, Follow {
     public float[] getFollowNorm() {
         float thetaZCos = MathAngles.cos(thetaZ);
         return new float[] {norm[0] * thetaZCos, MathAngles.sin(thetaZ), -norm[1] * thetaZCos};
+    }
+
+    @Override
+    public boolean isFollowZoom() {
+        return zoom;
     }
 
     @Override
