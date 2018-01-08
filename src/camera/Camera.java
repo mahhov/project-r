@@ -49,7 +49,7 @@ public class Camera implements IntersectionPicker.Picker {
 
     public void update(KeyControl keyControl, MouseButtonControl mouseButtonControl) {
         trail(keyControl);
-        if (mouseButtonControl.isMouseDown(MouseButtonControl.SECONDARY))
+        if (mouseButtonControl.isMouseDown(MouseButtonControl.SECONDARY)) // todo camera to ask follow if zoom mode, not check mouse button control
             exactFollow();
         else
             follow();
@@ -127,7 +127,7 @@ public class Camera implements IntersectionPicker.Picker {
     }
 
     private void setViewMatrix() {
-        SimpleMatrix4f.invModelMatrix(x, y, z, theta, thetaZ).toBuffer(viewMatrixBuffer);
+        SimpleMatrix4f.invModelMatrix(x, y, z, theta, thetaZ, 1).toBuffer(viewMatrixBuffer); // todo: set scale to 2 when mouse secondaary down
         glUniformMatrix4fv(viewMatrixLoc, false, viewMatrixBuffer);
     }
 
