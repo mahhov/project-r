@@ -15,7 +15,7 @@ class WorldChunk {
     private boolean worldEmpty, drawEmpty;
     private DynamicCell[][][] dynamicCells;
 
-    WorldChunk(CoordinateI3 coordinate, World world, int[][][] map) {
+    WorldChunk(CoordinateI3 coordinate, World world, byte[][][] map) {
         Timer.restart();
         cubeInstancedFaces = new CubeInstancedFaces();
         offsetX = coordinate.x * World.CHUNK_SIZE;
@@ -33,7 +33,7 @@ class WorldChunk {
         Timer.printTime("Aggregate chunk creation", debugChunkCreationTime);
     }
 
-    private void fill(World world, int[][][] map) {
+    private void fill(World world, byte[][][] map) {
         int maxX = MathNumbers.min(World.CHUNK_SIZE, map.length - offsetX);
         int maxY = MathNumbers.min(World.CHUNK_SIZE, map[0].length - offsetY);
         int maxZ = MathNumbers.min(World.CHUNK_SIZE, map[0][0].length - offsetZ);

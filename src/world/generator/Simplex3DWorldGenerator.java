@@ -10,16 +10,17 @@ import java.util.concurrent.Future;
 public class Simplex3DWorldGenerator {
     // todo fix need for threadpool, resolution, and width to be divisible
     private static final int THREAD_POOL = 4;
-    private static final int RESOLUTION = 4, RESOLUTION_VERT = 2;
-    private static final SimplexNoiseHelper SIMPLEX_NOISE_HELPER = new SimplexNoiseHelper(1000 / RESOLUTION, .5, 3);
+    private static final int RESOLUTION = 2, RESOLUTION_VERT = 2;
+    private static final SimplexNoiseHelper SIMPLEX_NOISE_HELPER = new SimplexNoiseHelper(1000 / RESOLUTION, .5, 43);
 
-    private int length, maxHeight, map[][][];
+    private int length, maxHeight;
+    private byte map[][][];
 
-    public int[][][] generate(int width, int length, int height, int maxHeight) {
+    public byte[][][] generate(int width, int length, int height, int maxHeight) {
         ExecutorService executor = Executors.newFixedThreadPool(THREAD_POOL);
         this.length = length;
         this.maxHeight = maxHeight;
-        map = new int[width][length][height];
+        map = new byte[width][length][height];
 
         for (int x = 0; x < width; x++)
             for (int y = 0; y < length; y++)

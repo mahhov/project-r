@@ -13,7 +13,7 @@ import util.intersection.IntersectionHitter;
 import util.intersection.IntersectionMover;
 import util.intersection.IntersectionPicker;
 import util.intersection.Map;
-import world.generator.Simplex3DWorldGenerator;
+import world.generator.SimplexHeightMapWorldGenerator;
 import world.projectile.Projectile;
 
 public class World implements Map {
@@ -23,7 +23,7 @@ public class World implements Map {
     private int width, length, height;
     private int chunkWidth, chunkLength, chunkHeight;
     private WorldChunk[][][] chunks;
-    private int generatedMap[][][];
+    private byte generatedMap[][][];
     private CoordinateI3 viewStart, viewEnd;
 
     private Human human;
@@ -45,7 +45,8 @@ public class World implements Map {
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
-        generatedMap = new Simplex3DWorldGenerator().generate(width, length, height, height / 2);
+        // generatedMap = new Simplex3DWorldGenerator().generate(width, length, height, height / 2);
+        generatedMap = new SimplexHeightMapWorldGenerator().generate(width, length, height, height / 2);
         elements = new LList<>();
         intersectionMover = new IntersectionMover(this);
         intersectionPicker = new IntersectionPicker(this, picker);
