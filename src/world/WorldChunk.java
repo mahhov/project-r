@@ -4,13 +4,10 @@ import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.LList;
 import util.MathNumbers;
-import util.Timer;
 
 class WorldChunk {
-    private static long debugChunkCreationTime;
-
-    private int offsetX, offsetY, offsetZ;
     private CubeInstancedFaces cubeInstancedFaces;
+    private int offsetX, offsetY, offsetZ;
     private boolean worldEmpty, drawEmpty;
     private DynamicCell[][][] dynamicCells;
 

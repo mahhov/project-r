@@ -7,12 +7,12 @@ public class MathAngles {
     private static final int TRIG_ACCURACY = 500;
 
     static {
-        Timer.restart();
+        Timer.restart(0);
         sinTable = new float[TRIG_ACCURACY];
         for (int i = 0; i < TRIG_ACCURACY; i++)
             sinTable[i] = (float) Math.sin(PI / 2 * i / TRIG_ACCURACY);
 
-        Timer.time("Math Angles Init");
+        Timer.time(0,"Math Angles Init");
     }
 
     public static float sin(float xd) {

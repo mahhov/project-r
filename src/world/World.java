@@ -36,7 +36,7 @@ public class World implements Map {
     private float largestElementSize;
 
     public World(int width, int length, int height, IntersectionPicker.Picker picker) {
-        Timer.restart();
+        Timer.restart(0);
         this.width = width;
         this.length = length;
         this.height = height;
@@ -45,14 +45,14 @@ public class World implements Map {
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
-        // generatedMap = new Simplex3DWorldGenerator().generate(width, length, height, height / 2);
         generatedMap = new SimplexHeightMapWorldGenerator().generate(width, length, height, height / 2);
+
         elements = new LList<>();
         intersectionMover = new IntersectionMover(this);
         intersectionPicker = new IntersectionPicker(this, picker);
         intersectionHitter = new IntersectionHitter(this);
         dynamicCubeInstancedFaces = new CubeInstancedFaces(Monster.COLOR);
-        Timer.time("world creation");
+        Timer.time(0, "world creation");
     }
 
     private void addWorldElement(WorldElement element) {
