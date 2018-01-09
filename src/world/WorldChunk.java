@@ -3,6 +3,7 @@ package world;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.LList;
+import util.Timer;
 import world.generator.SimplexHeightMapWorldGenerator;
 
 class WorldChunk {
@@ -10,9 +11,10 @@ class WorldChunk {
     private int offsetX, offsetY, offsetZ;
     private byte[][][] map;
     private boolean worldEmpty, drawEmpty;
-    private DynamicCell[][][] dynamicCells;
+    private DynamicCell dynamicCells;
 
     WorldChunk(CubeInstancedFaces cubeInstancedFaces, CoordinateI3 coordinate, SimplexHeightMapWorldGenerator generator) {
+        Timer.restart(1);
         this.cubeInstancedFaces = cubeInstancedFaces;
         offsetX = coordinate.x * World.CHUNK_SIZE;
         offsetY = coordinate.y * World.CHUNK_SIZE;
@@ -20,10 +22,15 @@ class WorldChunk {
         worldEmpty = true;
         drawEmpty = true;
 
-        dynamicCells = new DynamicCell[World.CHUNK_SIZE][World.CHUNK_SIZE][World.CHUNK_SIZE];
+        dynamicCells = new DynamicCell();
+        Timer.time(1);
 
+        Timer.restart(2);
         map = generator.generate(offsetX, offsetY, offsetZ);
+        Timer.time(2);
+        Timer.restart(3);
         fill();
+        Timer.time(3);
     }
 
     private void fill() {
@@ -62,25 +69,23 @@ class WorldChunk {
 
         return null;
     }
-    
+
     boolean hasCube(CoordinateI3 cubeCoordinate) {
         return map[cubeCoordinate.x + 1][cubeCoordinate.y + 1][cubeCoordinate.z + 1] != 0;
     }
 
-    LList<WorldElement>.Node addDynamicElement(CoordinateI3 coordinate, WorldElement element) {
-        if (dynamicCells[coordinate.x][coordinate.y][coordinate.z] == null)
-            dynamicCells[coordinate.x][coordinate.y][coordinate.z] = new DynamicCell();
-        return dynamicCells[coordinate.x][coordinate.y][coordinate.z].add(element);
+    LList<WorldElement>.Node addDynamicElement(WorldElement element) {
+        return dynamicCells.add(element);
     }
 
-    void removeDynamicElement(CoordinateI3 coordinate, LList<WorldElement>.Node elementNode) {
-        dynamicCells[coordinate.x][coordinate.y][coordinate.z].remove(elementNode);
+    void removeDynamicElement(LList<WorldElement>.Node elementNode) {
+        dynamicCells.remove(elementNode);
     }
 
-    WorldElement checkDynamicElement(int x, int y, int z, float preciseX, float preciseY, float preciseZ, float range) {
-        if (dynamicCells[x][y][z] == null || dynamicCells[x][y][z].empty())
+    WorldElement checkDynamicElement(float preciseX, float preciseY, float preciseZ, float range) {
+        if (dynamicCells.empty())
             return null;
-        return dynamicCells[x][y][z].checkHit(preciseX, preciseY, preciseZ, range);
+        return dynamicCells.checkHit(preciseX, preciseY, preciseZ, range);
     }
 
     void draw() {

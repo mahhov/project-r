@@ -45,22 +45,20 @@ class Character implements WorldElement { // todo support human movement
 
     @Override
     public boolean update(World world) {
-        removeFromWorld(world);
         if (life.depleted())
             return true;
         move(createMoveControl(world));
-        addToWorld(world);
+        moveInWorld(world);
         return false;
     }
 
-    private void removeFromWorld(World world) {
+    private void moveInWorld(World world) {
+        CoordinateI3 newWorldCoordinate = new CoordinateI3((int) x, (int) y, (int) z);
         if (worldElementNode != null)
-            world.removeDynamicElement(worldCoordinate, worldElementNode);
-    }
-
-    private void addToWorld(World world) {
-        worldCoordinate = new CoordinateI3((int) x, (int) y, (int) z);
-        worldElementNode = world.addDynamicElement(worldCoordinate, this);
+            worldElementNode = world.moveDynamicElement(worldCoordinate, newWorldCoordinate, worldElementNode);
+        else
+            worldElementNode = world.addDynamicElement(newWorldCoordinate, this);
+        worldCoordinate = newWorldCoordinate;
     }
 
     MoveControl createMoveControl(World world) {

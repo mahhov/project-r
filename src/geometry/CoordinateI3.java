@@ -37,6 +37,10 @@ public class CoordinateI3 {
         return new CoordinateI3(x / divisor, y / divisor, z / divisor);
     }
 
+    public boolean equals(CoordinateI3 coordinate) {
+        return x == coordinate.x && y == coordinate.y && z == coordinate.z;
+    }
+
     @Override
     public String toString() {
         return "(" + x + ", " + y + ", " + z + ")";

@@ -86,16 +86,25 @@ public class World implements Map {
 
     public LList<WorldElement>.Node addDynamicElement(CoordinateI3 coordinate, WorldElement element) {
         CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE); // todo find replicates of these 3 lines and extract
-        CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
         if (getChunk(chunkCoordinate) == null)
             return null;
-        return getChunk(chunkCoordinate).addDynamicElement(cubeCoordinate, element);
+        return getChunk(chunkCoordinate).addDynamicElement(element);
     }
 
     public void removeDynamicElement(CoordinateI3 coordinate, LList<WorldElement>.Node elementNode) {
         CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
-        CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
-        getChunk(chunkCoordinate).removeDynamicElement(cubeCoordinate, elementNode);
+        getChunk(chunkCoordinate).removeDynamicElement(elementNode);
+    }
+
+    public LList<WorldElement>.Node moveDynamicElement(CoordinateI3 coordinateFrom, CoordinateI3 coordinateTo, LList<WorldElement>.Node elementNode) {
+        CoordinateI3 chunkCoordinateFrom = coordinateFrom.divide(CHUNK_SIZE);
+        CoordinateI3 chunkCoordinateTo = coordinateTo.divide(CHUNK_SIZE);
+
+        if (chunkCoordinateFrom.equals(chunkCoordinateTo))
+            return elementNode;
+
+        getChunk(chunkCoordinateFrom).removeDynamicElement(elementNode);
+        return getChunk(chunkCoordinateTo).addDynamicElement(elementNode.getValue());
     }
 
     public void setCameraCoordinate(CoordinateI3 cameraCoordinate) {
@@ -175,8 +184,14 @@ public class World implements Map {
                 e.printStackTrace();
             }
 
-        if (generators.size() > 0)
+        if (generators.size() > 0) {
             Timer.time(0, "Chunk creation " + generators.size());
+
+            Timer.totalTime(1, "init chunk");
+            Timer.totalTime(2, "gen map");
+            Timer.totalTime(3, "fill chunk");
+        }
+        //        System.exit(0);
     }
 
     public void shutDownGeneratorExecutors() {
@@ -203,8 +218,7 @@ public class World implements Map {
                     if (inBounds(coordinate)) {
                         CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
                         if (getChunk(chunkCoordinate) != null) {
-                            CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
-                            WorldElement hit = getChunk(chunkCoordinate).checkDynamicElement(cubeCoordinate.x, cubeCoordinate.y, cubeCoordinate.z, x, y, z, range);
+                            WorldElement hit = getChunk(chunkCoordinate).checkDynamicElement(x, y, z, range);
                             if (hit != null)
                                 return hit;
                         }
