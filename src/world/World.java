@@ -151,6 +151,9 @@ public class World implements Map {
                     if (getChunk(coordinate) == null)
                         chunks[chunkX][chunkY][chunkZ] = new WorldChunk(coordinate, this, generatedMap);
                 }
+
+        Timer.time(1, "TOTAL NON MULTI THREADED");
+        System.exit(0);
     }
 
     @Override

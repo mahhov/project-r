@@ -11,6 +11,7 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 import shader.ShaderManager;
+import util.Timer;
 import world.World;
 
 import java.nio.IntBuffer;
@@ -37,6 +38,7 @@ public class Engine {
 
     private Engine() {
         initLwjgl();
+        Timer.restart(1);
         camera = new Camera(ShaderManager.getRenderShaderProgramId());
         keyControl = new KeyControl(window);
         mousePosControl = new MousePosControl(window);
