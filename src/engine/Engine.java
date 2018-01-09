@@ -23,7 +23,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
     private static final int WINDOW_SIZE = 400;
-    public static final int SCALE = 16;
+    public static final int SCALE = 16, SCALE_Z = 16;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
     private long window;
@@ -41,8 +41,8 @@ public class Engine {
         keyControl = new KeyControl(window);
         mousePosControl = new MousePosControl(window);
         mouseButtonControl = new MouseButtonControl(window);
-        world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE, camera);
-        human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE, 0, 0, world.getIntersectionMover(), world.getIntersectionPicker(), keyControl, mousePosControl, mouseButtonControl);
+        world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE_Z, camera);
+        human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE_Z, 0, 0, world.getIntersectionMover(), world.getIntersectionPicker(), keyControl, mousePosControl, mouseButtonControl);
         world.setHuman(human);
         world.addRandomMonsters(100);
         uiDrawer = new UiDrawer(human);

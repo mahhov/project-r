@@ -33,8 +33,8 @@ public class IntersectionMover extends Intersectioner {
                 nextY = MathNumbers.intNeg(edgeY + dy * delta);
                 nextZ = MathNumbers.intNeg(edgeZ + dz * delta);
 
-                if (selectedDelta == 0 && !moveableX(nextX, y, z)) {
-                    int rise = moveableXWithRise(nextX, y, z);
+                if (selectedDelta == 0 && !movableX(nextX, y, z)) {
+                    int rise = movableXWithRise(nextX, y, z);
                     if (rise > 0)
                         z++;
                     else {
@@ -46,8 +46,8 @@ public class IntersectionMover extends Intersectioner {
                         maxMove = renormalizeDxyz(maxMove);
                     }
 
-                } else if (selectedDelta == 1 && !moveableY(x, nextY, z)) {
-                    int rise = moveableYWithRise(x, nextY, z);
+                } else if (selectedDelta == 1 && !movableY(x, nextY, z)) {
+                    int rise = movableYWithRise(x, nextY, z);
                     if (rise > 0)
                         z++;
                     else {
@@ -59,7 +59,7 @@ public class IntersectionMover extends Intersectioner {
                         maxMove = renormalizeDxyz(maxMove);
                     }
 
-                } else if (selectedDelta == 2 && !moveableZ(x, y, nextZ)) {
+                } else if (selectedDelta == 2 && !movableZ(x, y, nextZ)) {
                     grounded = dz < 0;
                     if (MathNumbers.isZero(dx) && MathNumbers.isZero(dy))
                         return createIntersection();

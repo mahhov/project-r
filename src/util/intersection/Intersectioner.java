@@ -68,52 +68,52 @@ class Intersectioner {
         }
     }
 
-    boolean moveable(int x, int y, int z) {
-        return map.moveable(x, y, z);
+    boolean movable(int x, int y, int z) {
+        return map.movable(x, y, z);
     }
 
-    boolean moveableX(int x, float y, float z) {
+    boolean movableX(int x, float y, float z) {
         for (int yi = -1; yi <= 1; yi++)
             for (int zi = -1; zi <= 1; zi++)
-                if (!map.moveable(x, (int) (y + yi * halfSize), (int) (z + zi * halfSize)))
+                if (!map.movable(x, (int) (y + yi * halfSize), (int) (z + zi * halfSize)))
                     return false;
         return true;
     }
 
-    int moveableXWithRise(int x, float y, float z) {
+    int movableXWithRise(int x, float y, float z) {
         outerloop:
         for (int zi = 1; zi <= 2; zi++) {
             for (int yi = -1; yi <= 1; yi++)
-                if (!map.moveable(x, (int) (y + yi * halfSize), (int) (z + zi * halfSize)))
+                if (!map.movable(x, (int) (y + yi * halfSize), (int) (z + zi * halfSize)))
                     continue outerloop;
             return zi;
         }
         return 0;
     }
 
-    boolean moveableY(float x, int y, float z) {
+    boolean movableY(float x, int y, float z) {
         for (int xi = -1; xi <= 1; xi++)
             for (int zi = -1; zi <= 1; zi++)
-                if (!map.moveable((int) (x + xi * halfSize), y, (int) (z + zi * halfSize)))
+                if (!map.movable((int) (x + xi * halfSize), y, (int) (z + zi * halfSize)))
                     return false;
         return true;
     }
 
-    int moveableYWithRise(float x, int y, float z) {
+    int movableYWithRise(float x, int y, float z) {
         outerloop:
         for (int zi = 1; zi <= 2; zi++) {
             for (int xi = -1; xi <= 1; xi++)
-                if (!map.moveable((int) (x + xi * halfSize), y, (int) (z + zi * halfSize)))
+                if (!map.movable((int) (x + xi * halfSize), y, (int) (z + zi * halfSize)))
                     continue outerloop;
             return zi;
         }
         return 0;
     }
 
-    boolean moveableZ(float x, float y, int z) {
+    boolean movableZ(float x, float y, int z) {
         for (int xi = -1; xi <= 1; xi++)
             for (int yi = -1; yi <= 1; yi++)
-                if (!map.moveable((int) (x + xi * halfSize), (int) (y + yi * halfSize), z))
+                if (!map.movable((int) (x + xi * halfSize), (int) (y + yi * halfSize), z))
                     return false;
         return true;
     }

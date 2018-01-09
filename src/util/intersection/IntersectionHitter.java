@@ -37,15 +37,15 @@ public class IntersectionHitter extends Intersectioner {
                 nextY = MathNumbers.intNeg(edgeY + dy * delta);
                 nextZ = MathNumbers.intNeg(edgeZ + dz * delta);
 
-                if (selectedDelta == 0 && !moveableX(nextX, y, z)) {
+                if (selectedDelta == 0 && !movableX(nextX, y, z)) {
                     grounded = true;
                     return createIntersection();
 
-                } else if (selectedDelta == 1 && !moveableY(x, nextY, z)) {
+                } else if (selectedDelta == 1 && !movableY(x, nextY, z)) {
                     grounded = true;
                     return createIntersection();
 
-                } else if (selectedDelta == 2 && !moveableZ(x, y, nextZ)) {
+                } else if (selectedDelta == 2 && !movableZ(x, y, nextZ)) {
                     grounded = true;
                     return createIntersection();
 

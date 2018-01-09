@@ -16,19 +16,21 @@ import util.intersection.Map;
 import world.generator.SimplexHeightMapWorldGenerator;
 import world.projectile.Projectile;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class World implements Map {
     static final int CHUNK_SIZE = 128;
     private static final int DRAW_CHUNKS = 4;
+    private static final int THREAD_COUNT = 4;
 
     private ExecutorService generatorExecutors;
 
     private int width, length, height;
     private int chunkWidth, chunkLength, chunkHeight;
     private WorldChunk[][][] chunks;
-    private byte generatedMap[][][];
+    private SimplexHeightMapWorldGenerator mapGenerator;
     private CoordinateI3 viewStart, viewEnd;
 
     private Human human;
@@ -42,7 +44,7 @@ public class World implements Map {
 
     public World(int width, int length, int height, IntersectionPicker.Picker picker) {
         Timer.restart(0);
-        generatorExecutors = Executors.newFixedThreadPool(4);
+        generatorExecutors = Executors.newFixedThreadPool(THREAD_COUNT);
 
         this.width = width;
         this.length = length;
@@ -51,8 +53,8 @@ public class World implements Map {
         chunkLength = (length - 1) / CHUNK_SIZE + 1;
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
-        System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
-        generatedMap = new SimplexHeightMapWorldGenerator().generate(width, length, height, height / 2);
+        System.out.println("chunks: [" + chunkWidth + " x " + chunkLength + " x " + chunkHeight + "] total " + chunkWidth * chunkLength * chunkHeight);
+        mapGenerator = new SimplexHeightMapWorldGenerator(CHUNK_SIZE, CHUNK_SIZE, CHUNK_SIZE, height / 2);
 
         elements = new LList<>();
         intersectionMover = new IntersectionMover(this);
@@ -74,7 +76,7 @@ public class World implements Map {
 
     public void addRandomMonsters(int n) {
         for (int i = 0; i < n; i++)
-            addWorldElement(new Monster(MathRandom.random(0, width), MathRandom.random(0, length), 8 * Engine.SCALE, 0, 0, intersectionMover, human, dynamicCubeInstancedFaces));
+            addWorldElement(new Monster(MathRandom.random(0, width), MathRandom.random(0, length), 8 * Engine.SCALE_Z, 0, 0, intersectionMover, human, dynamicCubeInstancedFaces));
     }
 
     public void addProjectile(Projectile projectile) {
@@ -103,9 +105,9 @@ public class World implements Map {
         int startX = MathNumbers.max(centerX - DRAW_CHUNKS, 0);
         int startY = MathNumbers.max(centerY - DRAW_CHUNKS, 0);
         int startZ = MathNumbers.max(centerZ - DRAW_CHUNKS, 0);
-        int endX = MathNumbers.min(centerX + DRAW_CHUNKS, chunkWidth);
-        int endY = MathNumbers.min(centerY + DRAW_CHUNKS, chunkLength);
-        int endZ = MathNumbers.min(centerZ + DRAW_CHUNKS, chunkHeight);
+        int endX = MathNumbers.min(centerX + DRAW_CHUNKS + 1, chunkWidth);
+        int endY = MathNumbers.min(centerY + DRAW_CHUNKS + 1, chunkLength);
+        int endZ = MathNumbers.min(centerZ + DRAW_CHUNKS + 1, chunkHeight);
         viewStart = new CoordinateI3(startX, startY, startZ);
         viewEnd = new CoordinateI3(endX, endY, endZ);
     }
@@ -128,12 +130,14 @@ public class World implements Map {
         return chunks[chunkCoordinate.x][chunkCoordinate.y][chunkCoordinate.z];
     }
 
-    boolean inBounds(CoordinateI3 coordinate) {
+    private boolean inBounds(CoordinateI3 coordinate) {
         return coordinate.x >= 0 && coordinate.y >= 0 && coordinate.z >= 0 && coordinate.x < width && coordinate.y < length && coordinate.z < height;
     }
 
-    boolean hasCube(CoordinateI3 coordinate) {
-        return generatedMap[coordinate.x][coordinate.y][coordinate.z] != 0;
+    private boolean hasCube(CoordinateI3 coordinate) {
+        CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
+        CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
+        return getChunk(chunkCoordinate) != null && getChunk(chunkCoordinate).hasCube(cubeCoordinate);
     }
 
     public void draw() {
@@ -159,7 +163,7 @@ public class World implements Map {
                 for (int chunkZ = viewStart.z; chunkZ < viewEnd.z; chunkZ++) {
                     CoordinateI3 coordinate = new CoordinateI3(chunkX, chunkY, chunkZ);
                     if (getChunk(coordinate) == null)
-                        generators.addTail(new WorldChunkGenerator(generatorExecutors, new CubeInstancedFaces(), coordinate, this, generatedMap));
+                        generators.addTail(new WorldChunkGenerator(generatorExecutors, new CubeInstancedFaces(), coordinate, mapGenerator));
                 }
 
         for (WorldChunkGenerator generator : generators)
@@ -167,12 +171,12 @@ public class World implements Map {
                 CoordinateI3 coordinate = generator.getCoordinate();
                 chunks[coordinate.x][coordinate.y][coordinate.z] = generator.getFuture().get();
                 generator.complete();
-            } catch (Exception e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
 
         if (generators.size() > 0)
-            Timer.time(0, "Chunk creation");
+            Timer.time(0, "Chunk creation " + generators.size());
     }
 
     public void shutDownGeneratorExecutors() {
@@ -180,7 +184,7 @@ public class World implements Map {
     }
 
     @Override
-    public boolean moveable(int x, int y, int z) {
+    public boolean movable(int x, int y, int z) {
         CoordinateI3 coordinate = new CoordinateI3(x, y, z);
         return inBounds(coordinate) && !hasCube(coordinate);
     }
@@ -208,21 +212,6 @@ public class World implements Map {
                 }
 
         return null;
-    }
-
-    @Override
-    public int width() {
-        return width;
-    }
-
-    @Override
-    public int length() {
-        return length;
-    }
-
-    @Override
-    public int height() {
-        return height;
     }
 
     public IntersectionMover getIntersectionMover() {
