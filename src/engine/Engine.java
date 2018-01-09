@@ -23,7 +23,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
     private static final int WINDOW_SIZE = 400;
-    public static final int SCALE = 8;
+    public static final int SCALE = 16;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
     private long window;

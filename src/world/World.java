@@ -151,6 +151,7 @@ public class World implements Map {
     }
 
     private void generateChunks() {
+        Timer.restart();
         LList<WorldChunkGenerator> generators = new LList<>();
 
         for (int chunkX = viewStart.x; chunkX < viewEnd.x; chunkX++)
@@ -169,6 +170,9 @@ public class World implements Map {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+        if (generators.size() > 0)
+            Timer.time("Chunk creation");
     }
 
     public void shutDownGeneratorExecutors() {

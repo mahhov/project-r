@@ -15,7 +15,6 @@ class WorldChunk {
     private DynamicCell[][][] dynamicCells;
 
     WorldChunk(CubeInstancedFaces cubeInstancedFaces, CoordinateI3 coordinate, World world, byte[][][] map) {
-        Timer.restart();
         this.cubeInstancedFaces = cubeInstancedFaces;
         offsetX = coordinate.x * World.CHUNK_SIZE;
         offsetY = coordinate.y * World.CHUNK_SIZE;
@@ -28,7 +27,6 @@ class WorldChunk {
         fill(world, map);
 
         debugChunkCreationTime += Timer.time(null);
-        Timer.printTime("Aggregate chunk creation", debugChunkCreationTime);
     }
 
     private void fill(World world, byte[][][] map) {
