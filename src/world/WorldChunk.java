@@ -15,7 +15,6 @@ class WorldChunk {
     private DynamicCell[][][] dynamicCells;
 
     WorldChunk(CoordinateI3 coordinate, World world, byte[][][] map) {
-        Timer.restart();
         cubeInstancedFaces = new CubeInstancedFaces();
         offsetX = coordinate.x * World.CHUNK_SIZE;
         offsetY = coordinate.y * World.CHUNK_SIZE;
@@ -26,9 +25,6 @@ class WorldChunk {
         dynamicCells = new DynamicCell[World.CHUNK_SIZE][World.CHUNK_SIZE][World.CHUNK_SIZE];
 
         fill(world, map);
-
-        debugChunkCreationTime += Timer.time(null);
-        Timer.printTime("Aggregate chunk creation", debugChunkCreationTime);
     }
 
     private void fill(World world, byte[][][] map) {
@@ -51,7 +47,7 @@ class WorldChunk {
 
         if (!drawEmpty)
             cubeInstancedFaces.doneAdding();
-        }
+    }
 
     private boolean[] checkAddCube(int x, int y, int z, World world) {
         boolean[] sides = new boolean[6];
