@@ -60,6 +60,8 @@ public class World implements Map {
         intersectionHitter = new IntersectionHitter(this);
         dynamicCubeInstancedFaces = new CubeInstancedFaces(Monster.COLOR);
         Timer.time(0, "world creation");
+        Timer.time(1, "TOTAL");
+        System.exit(0);
     }
 
     private void addWorldElement(WorldElement element) {
