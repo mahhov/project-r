@@ -3,7 +3,6 @@ package world;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.LList;
-import util.Timer;
 import world.generator.SimplexHeightMapWorldGenerator;
 
 class WorldChunk {
@@ -22,12 +21,8 @@ class WorldChunk {
 
         dynamicCells = new DynamicCell();
 
-        Timer.restart(2);
         map = generator.generate(offsetX, offsetY, offsetZ);
-        Timer.time(2);
-        Timer.restart(3);
         fill();
-        Timer.time(3);
     }
 
     private void fill() {

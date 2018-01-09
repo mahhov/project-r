@@ -184,14 +184,8 @@ public class World implements Map {
                 e.printStackTrace();
             }
 
-        if (generators.size() > 0) {
+        if (generators.size() > 0)
             Timer.time(0, "Chunk creation " + generators.size());
-
-            Timer.totalTime(1, "init chunk");
-            Timer.totalTime(2, "gen map");
-            Timer.totalTime(3, "fill chunk");
-        }
-        //        System.exit(0);
     }
 
     public void shutDownGeneratorExecutors() {
