@@ -16,9 +16,14 @@ import util.intersection.Map;
 import world.generator.SimplexHeightMapWorldGenerator;
 import world.projectile.Projectile;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class World implements Map {
     static final int CHUNK_SIZE = 128;
     private static final int DRAW_CHUNKS = 4;
+
+    private ExecutorService generatorExecutors;
 
     private int width, length, height;
     private int chunkWidth, chunkLength, chunkHeight;
@@ -37,6 +42,8 @@ public class World implements Map {
 
     public World(int width, int length, int height, IntersectionPicker.Picker picker) {
         Timer.restart();
+        generatorExecutors = Executors.newFixedThreadPool(4);
+
         this.width = width;
         this.length = length;
         this.height = height;
@@ -45,8 +52,8 @@ public class World implements Map {
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
         System.out.println((chunkWidth * chunkLength * chunkHeight) + " chunks");
-        // generatedMap = new Simplex3DWorldGenerator().generate(width, length, height, height / 2);
         generatedMap = new SimplexHeightMapWorldGenerator().generate(width, length, height, height / 2);
+
         elements = new LList<>();
         intersectionMover = new IntersectionMover(this);
         intersectionPicker = new IntersectionPicker(this, picker);
@@ -144,13 +151,28 @@ public class World implements Map {
     }
 
     private void generateChunks() {
+        LList<WorldChunkGenerator> generators = new LList<>();
+
         for (int chunkX = viewStart.x; chunkX < viewEnd.x; chunkX++)
             for (int chunkY = viewStart.y; chunkY < viewEnd.y; chunkY++)
                 for (int chunkZ = viewStart.z; chunkZ < viewEnd.z; chunkZ++) {
                     CoordinateI3 coordinate = new CoordinateI3(chunkX, chunkY, chunkZ);
                     if (getChunk(coordinate) == null)
-                        chunks[chunkX][chunkY][chunkZ] = new WorldChunk(coordinate, this, generatedMap);
+                        generators.addTail(new WorldChunkGenerator(generatorExecutors, new CubeInstancedFaces(), coordinate, this, generatedMap));
                 }
+
+        for (WorldChunkGenerator generator : generators)
+            try {
+                CoordinateI3 coordinate = generator.getCoordinate();
+                chunks[coordinate.x][coordinate.y][coordinate.z] = generator.getFuture().get();
+                generator.complete();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+    }
+
+    public void shutDownGeneratorExecutors() {
+        generatorExecutors.shutdown();
     }
 
     @Override

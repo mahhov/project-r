@@ -9,14 +9,14 @@ import util.Timer;
 class WorldChunk {
     private static long debugChunkCreationTime;
 
-    private int offsetX, offsetY, offsetZ;
     private CubeInstancedFaces cubeInstancedFaces;
+    private int offsetX, offsetY, offsetZ;
     private boolean worldEmpty, drawEmpty;
     private DynamicCell[][][] dynamicCells;
 
-    WorldChunk(CoordinateI3 coordinate, World world, byte[][][] map) {
+    WorldChunk(CubeInstancedFaces cubeInstancedFaces, CoordinateI3 coordinate, World world, byte[][][] map) {
         Timer.restart();
-        cubeInstancedFaces = new CubeInstancedFaces();
+        this.cubeInstancedFaces = cubeInstancedFaces;
         offsetX = coordinate.x * World.CHUNK_SIZE;
         offsetY = coordinate.y * World.CHUNK_SIZE;
         offsetZ = coordinate.z * World.CHUNK_SIZE;
@@ -48,10 +48,12 @@ class WorldChunk {
                             cubeInstancedFaces.add(x + .5f + offsetX, z + .5f + offsetZ, -(y + .5f + offsetY), sides);
                         }
                     }
+    }
 
+    void doneFilling() {
         if (!drawEmpty)
             cubeInstancedFaces.doneAdding();
-        }
+    }
 
     private boolean[] checkAddCube(int x, int y, int z, World world) {
         boolean[] sides = new boolean[6];

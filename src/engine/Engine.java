@@ -118,6 +118,8 @@ public class Engine {
                 beginTime = endTime;
             }
         }
+        
+        world.shutDownGeneratorExecutors();
     }
 
     public static void main(String[] args) {
