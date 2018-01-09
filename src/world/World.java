@@ -41,7 +41,7 @@ public class World implements Map {
     private float largestElementSize;
 
     public World(int width, int length, int height, IntersectionPicker.Picker picker) {
-        Timer.restart();
+        Timer.restart(0);
         generatorExecutors = Executors.newFixedThreadPool(4);
 
         this.width = width;
@@ -59,7 +59,7 @@ public class World implements Map {
         intersectionPicker = new IntersectionPicker(this, picker);
         intersectionHitter = new IntersectionHitter(this);
         dynamicCubeInstancedFaces = new CubeInstancedFaces(Monster.COLOR);
-        Timer.time("world creation");
+        Timer.time(0, "world creation");
     }
 
     private void addWorldElement(WorldElement element) {
@@ -151,7 +151,7 @@ public class World implements Map {
     }
 
     private void generateChunks() {
-        Timer.restart();
+        Timer.restart(0);
         LList<WorldChunkGenerator> generators = new LList<>();
 
         for (int chunkX = viewStart.x; chunkX < viewEnd.x; chunkX++)
@@ -172,7 +172,7 @@ public class World implements Map {
             }
 
         if (generators.size() > 0)
-            Timer.time("Chunk creation");
+            Timer.time(0, "Chunk creation");
     }
 
     public void shutDownGeneratorExecutors() {

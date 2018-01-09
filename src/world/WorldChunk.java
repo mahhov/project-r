@@ -4,11 +4,8 @@ import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.LList;
 import util.MathNumbers;
-import util.Timer;
 
 class WorldChunk {
-    private static long debugChunkCreationTime;
-
     private CubeInstancedFaces cubeInstancedFaces;
     private int offsetX, offsetY, offsetZ;
     private boolean worldEmpty, drawEmpty;
@@ -25,8 +22,6 @@ class WorldChunk {
         dynamicCells = new DynamicCell[World.CHUNK_SIZE][World.CHUNK_SIZE][World.CHUNK_SIZE];
 
         fill(world, map);
-
-        debugChunkCreationTime += Timer.time(null);
     }
 
     private void fill(World world, byte[][][] map) {
