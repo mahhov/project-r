@@ -7,11 +7,10 @@ import util.MathNumbers;
 import util.Timer;
 
 class WorldChunk {
-    static long debugChunkCreationTime;
+    private static long debugChunkCreationTime;
 
     private int offsetX, offsetY, offsetZ;
     private CubeInstancedFaces cubeInstancedFaces;
-    // private byte[][][] cubes;
     private boolean worldEmpty, drawEmpty;
     private DynamicCell[][][] dynamicCells;
 
@@ -24,7 +23,6 @@ class WorldChunk {
         worldEmpty = true;
         drawEmpty = true;
 
-        // cubes = new byte[World.CHUNK_SIZE][World.CHUNK_SIZE][World.CHUNK_SIZE];
         dynamicCells = new DynamicCell[World.CHUNK_SIZE][World.CHUNK_SIZE][World.CHUNK_SIZE];
 
         fill(world, map);
@@ -45,7 +43,6 @@ class WorldChunk {
                 for (int z = 0; z < maxZ; z++)
                     if (map[x + offsetX][y + offsetY][z + offsetZ] == 1) {
                         worldEmpty = false;
-                        // cubes[x][y][z] = 1;
                         if ((sides = checkAddCube(x, y, z, world)) != null) {
                             drawEmpty = false;
                             cubeInstancedFaces.add(x + .5f + offsetX, z + .5f + offsetZ, -(y + .5f + offsetY), sides);
@@ -54,7 +51,7 @@ class WorldChunk {
 
         if (!drawEmpty)
             cubeInstancedFaces.doneAdding();
-    }
+        }
 
     private boolean[] checkAddCube(int x, int y, int z, World world) {
         boolean[] sides = new boolean[6];
