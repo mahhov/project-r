@@ -4,7 +4,7 @@ import shape.Rects;
 
 class Bar {
     private float left, top, width, bottom;
-    private Rects.Rect rect;
+    private Rects.Rect rect, backRect;
 
     Bar(float left, float top, float right, float bottom, float[] color, float[] backColor, Rects rects) {
         this.left = left;
@@ -13,10 +13,21 @@ class Bar {
         this.bottom = bottom;
 
         rect = rects.addRect(color);
-        rects.addRect(backColor).setCoordinates(left, top, right, bottom);
+        backRect = rects.addRect(backColor);
+        backRect.setCoordinates(left, top, right, bottom);
     }
 
     void setCoordinates(float percent) {
         rect.setCoordinates(left, top, left + width * percent, bottom);
+    }
+
+    void hide() {
+        rect.disable();
+        backRect.disable();
+    }
+
+    void show() {
+        rect.enable();
+        backRect.enable();
     }
 }

@@ -14,23 +14,40 @@ public class UiDrawer {
 
     private Human human;
     private Rects rects;
+
+    // life & stamina bars
     private Bar reserveBar, staminaBar;
     private Bar shieldBar, lifeBar;
 
+    private Inventory inventory;
+
     public UiDrawer(Human human) {
         this.human = human;
-        rects = new Rects(10);
+        rects = new Rects(9);
 
+        // center crosshair
         rects.addRect(CENTER_RECT_COLOR).setCoordinates(-CENTER_RECT_SIZE, CENTER_RECT_SIZE, CENTER_RECT_SIZE, -CENTER_RECT_SIZE);
 
+        // life & stamina bars
         reserveBar = new Bar(RIGHT_LEFT, BOTTOM_ROW1_TOP, RIGHT_RIGHT, BOTTOM_ROW1_BOTTOM, RESERVE_COLOR, BACK_COLOR, rects);
         staminaBar = new Bar(RIGHT_LEFT, BOTTOM_ROW2_TOP, RIGHT_RIGHT, BOTTOM_ROW2_BOTTOM, STAMINA_COLOR, BACK_COLOR, rects);
-
         shieldBar = new Bar(LEFT_LEFT, BOTTOM_ROW1_TOP, LEFT_RIGHT, BOTTOM_ROW1_BOTTOM, SHIELD_COLOR, BACK_COLOR, rects);
         lifeBar = new Bar(LEFT_LEFT, BOTTOM_ROW2_TOP, LEFT_RIGHT, BOTTOM_ROW2_BOTTOM, LIFE_COLOR, BACK_COLOR, rects);
     }
 
     public void draw() {
+        if (human.isFollowZoom()) {
+            reserveBar.hide();
+            staminaBar.hide();
+            shieldBar.hide();
+            lifeBar.hide();
+        } else {
+            reserveBar.show();
+            staminaBar.show();
+            shieldBar.show();
+            lifeBar.show();
+        }
+
         reserveBar.setCoordinates(human.getStaminaReservePercent());
         staminaBar.setCoordinates(human.getStaminaPercent());
         shieldBar.setCoordinates(human.getShieldPercent());

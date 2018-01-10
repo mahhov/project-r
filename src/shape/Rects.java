@@ -19,18 +19,17 @@ public class Rects {
     private int vaoId;
 
     private LList<Rect> rects;
-    private int numVertices;
+    private int numRects;
 
-    public Rects(int numRects) {
+    public Rects(int maxNumRects) {
         rects = new LList<>();
-        numVertices = numRects * 6;
-        createBuffers();
+        createBuffers(maxNumRects * 6);
         createVao();
     }
 
-    private void createBuffers() {
-        verticesBuffer = MemoryUtil.memAllocFloat(numVertices * 2);
-        colorsBuffer = MemoryUtil.memAllocFloat(numVertices * 3);
+    private void createBuffers(int maxNumVertices) {
+        verticesBuffer = MemoryUtil.memAllocFloat(maxNumVertices * 2);
+        colorsBuffer = MemoryUtil.memAllocFloat(maxNumVertices * 3);
     }
 
     private void createVao() {
@@ -60,17 +59,22 @@ public class Rects {
     }
 
     private void fillBuffers() {
-        for (Rect rect : rects) {
-            verticesBuffer.put(rect.vertices);
-            colorsBuffer.put(rect.colors);
-        }
+        verticesBuffer.clear();
+        colorsBuffer.clear();
+        numRects = 0;
+        for (Rect rect : rects)
+            if (!rect.disabled) {
+                numRects++;
+                verticesBuffer.put(rect.vertices);
+                colorsBuffer.put(rect.colors);
+            }
         verticesBuffer.flip();
         colorsBuffer.flip();
     }
 
     public void draw() {
         glBindVertexArray(vaoId);
-        glDrawArrays(GL_TRIANGLES, 0, numVertices);
+        glDrawArrays(GL_TRIANGLES, 0, numRects * 6);
     }
 
     private void updateVbos() {
@@ -85,6 +89,7 @@ public class Rects {
 
     public static class Rect {
         private float[] vertices, colors;
+        private boolean disabled;
 
         private Rect(float[] color) {
             colors = MathArrays.repeatArray(color, 6);
@@ -92,6 +97,14 @@ public class Rects {
 
         public void setCoordinates(float left, float top, float right, float bottom) {
             vertices = new float[] {left, top, left, bottom, right, bottom, right, top, left, top, right, bottom};
+        }
+
+        public void disable() {
+            disabled = true;
+        }
+
+        public void enable() {
+            disabled = false;
         }
     }
 }
