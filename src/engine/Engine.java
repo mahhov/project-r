@@ -11,6 +11,7 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 import shader.ShaderManager;
+import ui.UiDrawer;
 import world.World;
 
 import java.nio.IntBuffer;
@@ -129,6 +130,7 @@ public class Engine {
 
 // todo
 // ~~ high priority ~~
+// inventory ui, dropd from monster, text for fps and drop pickup, instance picking ui
 // combat
 // enemies
 // particles

@@ -1,9 +1,9 @@
-package engine;
+package ui;
 
 import character.Human;
 import shape.Rects;
 
-class UiDrawer {
+public class UiDrawer {
     private static float CENTER_RECT_SIZE = .01f, CENTER_RECT_COLOR[] = new float[] {.1f, .5f, .3f};
     private static final float BOTTOM_ROW1_TOP = -.82f, BOTTOM_ROW1_BOTTOM = -.85f, BOTTOM_ROW2_TOP = -.87f, BOTTOM_ROW2_BOTTOM = -.9f;
     private static final float LEFT_LEFT = -.9f, LEFT_RIGHT = -.6f, RIGHT_LEFT = .6f, RIGHT_RIGHT = .9f;
@@ -17,46 +17,25 @@ class UiDrawer {
     private Bar reserveBar, staminaBar;
     private Bar shieldBar, lifeBar;
 
-    UiDrawer(Human human) {
+    public UiDrawer(Human human) {
         this.human = human;
         rects = new Rects(10);
 
         rects.addRect(CENTER_RECT_COLOR).setCoordinates(-CENTER_RECT_SIZE, CENTER_RECT_SIZE, CENTER_RECT_SIZE, -CENTER_RECT_SIZE);
 
-        reserveBar = new Bar(RIGHT_LEFT, BOTTOM_ROW1_TOP, RIGHT_RIGHT, BOTTOM_ROW1_BOTTOM, RESERVE_COLOR);
-        staminaBar = new Bar(RIGHT_LEFT, BOTTOM_ROW2_TOP, RIGHT_RIGHT, BOTTOM_ROW2_BOTTOM, STAMINA_COLOR);
+        reserveBar = new Bar(RIGHT_LEFT, BOTTOM_ROW1_TOP, RIGHT_RIGHT, BOTTOM_ROW1_BOTTOM, RESERVE_COLOR, BACK_COLOR, rects);
+        staminaBar = new Bar(RIGHT_LEFT, BOTTOM_ROW2_TOP, RIGHT_RIGHT, BOTTOM_ROW2_BOTTOM, STAMINA_COLOR, BACK_COLOR, rects);
 
-        shieldBar = new Bar(LEFT_LEFT, BOTTOM_ROW1_TOP, LEFT_RIGHT, BOTTOM_ROW1_BOTTOM, SHIELD_COLOR);
-        lifeBar = new Bar(LEFT_LEFT, BOTTOM_ROW2_TOP, LEFT_RIGHT, BOTTOM_ROW2_BOTTOM, LIFE_COLOR);
+        shieldBar = new Bar(LEFT_LEFT, BOTTOM_ROW1_TOP, LEFT_RIGHT, BOTTOM_ROW1_BOTTOM, SHIELD_COLOR, BACK_COLOR, rects);
+        lifeBar = new Bar(LEFT_LEFT, BOTTOM_ROW2_TOP, LEFT_RIGHT, BOTTOM_ROW2_BOTTOM, LIFE_COLOR, BACK_COLOR, rects);
     }
 
-    void draw() {
+    public void draw() {
         reserveBar.setCoordinates(human.getStaminaReservePercent());
         staminaBar.setCoordinates(human.getStaminaPercent());
         shieldBar.setCoordinates(human.getShieldPercent());
         lifeBar.setCoordinates(human.getLifePercent());
         rects.doneAdding();
         rects.draw();
-    }
-
-    private class Bar {
-        private float left, top, width, bottom;
-        private float[] color;
-        private Rects.Rect rect;
-
-        private Bar(float left, float top, float right, float bottom, float[] color) {
-            this.left = left;
-            this.top = top;
-            width = right - left;
-            this.bottom = bottom;
-            this.color = color;
-
-            rect = rects.addRect(color);
-            rects.addRect(BACK_COLOR).setCoordinates(left, top, right, bottom);
-        }
-
-        private void setCoordinates(float percent) {
-            rect.setCoordinates(left, top, left + width * percent, bottom);
-        }
     }
 }
