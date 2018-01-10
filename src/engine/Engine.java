@@ -105,6 +105,7 @@ public class Engine {
             world.draw();
 
             ShaderManager.setUiShader();
+            uiDrawer.update(keyControl);
             uiDrawer.draw();
 
             glfwSwapBuffers(window);
@@ -130,7 +131,7 @@ public class Engine {
 
 // todo
 // ~~ high priority ~~
-// inventory ui, dropd from monster, text for fps and drop pickup, instance picking ui
+// inventory ui, drops from monster, text for fps and drop pickup, instance picking ui
 // combat
 // enemies
 // particles

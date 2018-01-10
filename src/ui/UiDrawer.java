@@ -1,12 +1,14 @@
 package ui;
 
 import character.Human;
+import control.KeyControl;
 import shape.Rects;
 
 public class UiDrawer {
     private static float CENTER_RECT_SIZE = .01f, CENTER_RECT_COLOR[] = new float[] {.1f, .5f, .3f};
     private static final float BOTTOM_ROW1_TOP = -.82f, BOTTOM_ROW1_BOTTOM = -.85f, BOTTOM_ROW2_TOP = -.87f, BOTTOM_ROW2_BOTTOM = -.9f;
     private static final float LEFT_LEFT = -.9f, LEFT_RIGHT = -.6f, RIGHT_LEFT = .6f, RIGHT_RIGHT = .9f;
+    private static final float PANE_X_OFFSET = .1f, PANE_BOTTOM = -.77f, PANE_TOP = .77f;
 
     private static final float[] BACK_COLOR = new float[] {.8f, .8f, .8f};
     private static final float[] RESERVE_COLOR = new float[] {.2f, .6f, .6f}, STAMINA_COLOR = new float[] {1, .8f, .6f};
@@ -15,7 +17,6 @@ public class UiDrawer {
     private Human human;
     private Rects rects;
 
-    // life & stamina bars
     private Bar reserveBar, staminaBar;
     private Bar shieldBar, lifeBar;
 
@@ -23,7 +24,7 @@ public class UiDrawer {
 
     public UiDrawer(Human human) {
         this.human = human;
-        rects = new Rects(9);
+        rects = new Rects(10);
 
         // center crosshair
         rects.addRect(CENTER_RECT_COLOR).setCoordinates(-CENTER_RECT_SIZE, CENTER_RECT_SIZE, CENTER_RECT_SIZE, -CENTER_RECT_SIZE);
@@ -33,9 +34,12 @@ public class UiDrawer {
         staminaBar = new Bar(RIGHT_LEFT, BOTTOM_ROW2_TOP, RIGHT_RIGHT, BOTTOM_ROW2_BOTTOM, STAMINA_COLOR, BACK_COLOR, rects);
         shieldBar = new Bar(LEFT_LEFT, BOTTOM_ROW1_TOP, LEFT_RIGHT, BOTTOM_ROW1_BOTTOM, SHIELD_COLOR, BACK_COLOR, rects);
         lifeBar = new Bar(LEFT_LEFT, BOTTOM_ROW2_TOP, LEFT_RIGHT, BOTTOM_ROW2_BOTTOM, LIFE_COLOR, BACK_COLOR, rects);
+
+        // inventory
+        inventory = new Inventory(PANE_X_OFFSET, PANE_TOP, RIGHT_RIGHT, PANE_BOTTOM, LIFE_COLOR, BACK_COLOR, rects);
     }
 
-    public void draw() {
+    public void update(KeyControl keyControl) {
         if (human.isFollowZoom()) {
             reserveBar.hide();
             staminaBar.hide();
@@ -46,13 +50,19 @@ public class UiDrawer {
             staminaBar.show();
             shieldBar.show();
             lifeBar.show();
+            reserveBar.setCoordinates(human.getStaminaReservePercent());
+            staminaBar.setCoordinates(human.getStaminaPercent());
+            shieldBar.setCoordinates(human.getShieldPercent());
+            lifeBar.setCoordinates(human.getLifePercent());
         }
 
-        reserveBar.setCoordinates(human.getStaminaReservePercent());
-        staminaBar.setCoordinates(human.getStaminaPercent());
-        shieldBar.setCoordinates(human.getShieldPercent());
-        lifeBar.setCoordinates(human.getLifePercent());
+        if (keyControl.isKeyPressed(KeyControl.KEY_E))
+            inventory.toggle();
+
         rects.doneAdding();
+    }
+
+    public void draw() {
         rects.draw();
     }
 }
