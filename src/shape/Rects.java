@@ -63,7 +63,7 @@ public class Rects {
         colorsBuffer.clear();
         numRects = 0;
         for (Rect rect : rects)
-            if (!rect.disabled) {
+            if (rect.enabled()) {
                 numRects++;
                 verticesBuffer.put(rect.vertices);
                 colorsBuffer.put(rect.colors);
@@ -87,24 +87,9 @@ public class Rects {
         glBufferData(GL_ARRAY_BUFFER, colorsBuffer, GL_STATIC_DRAW);
     }
 
-    public static class Rect {
-        private float[] vertices, colors;
-        private boolean disabled;
-
+    public static class Rect extends BasicShape {
         private Rect(float[] color) {
             colors = MathArrays.repeatArray(color, 6);
-        }
-
-        public void setCoordinates(float left, float top, float right, float bottom) {
-            vertices = new float[] {left, top, left, bottom, right, bottom, right, top, left, top, right, bottom};
-        }
-
-        public void disable() {
-            disabled = true;
-        }
-
-        public void enable() {
-            disabled = false;
         }
     }
 }

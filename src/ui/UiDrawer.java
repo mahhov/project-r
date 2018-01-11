@@ -27,7 +27,7 @@ public class UiDrawer {
     public UiDrawer(Human human) {
         this.human = human;
         rects = new Rects(10);
-        texts = new Texts(1);
+        texts = new Texts(100);
 
         // center crosshair
         rects.addRect(CENTER_RECT_COLOR).setCoordinates(-CENTER_RECT_SIZE, CENTER_RECT_SIZE, CENTER_RECT_SIZE, -CENTER_RECT_SIZE);
@@ -43,8 +43,8 @@ public class UiDrawer {
 
         // text test
         Texts.Text text = texts.addText();
-        text.setCoordinates(-.5f, .5f, .5f, -.5f);
-        text.setText("M");
+        text.setCoordinates(-.5f, .5f, .5f, .25f);
+        text.setText("mabc");
         texts.doneAdding();
     }
 
