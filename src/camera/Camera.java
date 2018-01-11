@@ -30,7 +30,7 @@ public class Camera implements IntersectionPicker.Picker {
     private int projectionMatrixLoc, viewMatrixLoc;
     private FloatBuffer viewMatrixBuffer;
 
-    public Camera(int programId) {
+    public Camera(int renderProgramId) {
         x = 32 * Engine.SCALE;
         y = 16 * Engine.SCALE;
         theta = MathAngles.PI;
@@ -38,10 +38,10 @@ public class Camera implements IntersectionPicker.Picker {
         trailDistance = 6f;
         trailVert = 1f;
 
-        projectionMatrixLoc = glGetUniformLocation(programId, "projection");
+        projectionMatrixLoc = glGetUniformLocation(renderProgramId, "projection");
         setupProjectionMatrix();
 
-        viewMatrixLoc = glGetUniformLocation(programId, "view");
+        viewMatrixLoc = glGetUniformLocation(renderProgramId, "view");
         viewMatrixBuffer = MemoryUtil.memAllocFloat(16);
         setViewMatrix(1);
     }

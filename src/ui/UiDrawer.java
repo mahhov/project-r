@@ -3,6 +3,7 @@ package ui;
 import character.Human;
 import control.KeyControl;
 import shape.Rects;
+import shape.Texts;
 
 public class UiDrawer {
     private static float CENTER_RECT_SIZE = .01f, CENTER_RECT_COLOR[] = new float[] {.1f, .5f, .3f};
@@ -16,6 +17,7 @@ public class UiDrawer {
 
     private Human human;
     private Rects rects;
+    private Texts texts;
 
     private Bar reserveBar, staminaBar;
     private Bar shieldBar, lifeBar;
@@ -25,6 +27,7 @@ public class UiDrawer {
     public UiDrawer(Human human) {
         this.human = human;
         rects = new Rects(10);
+        texts = new Texts(1);
 
         // center crosshair
         rects.addRect(CENTER_RECT_COLOR).setCoordinates(-CENTER_RECT_SIZE, CENTER_RECT_SIZE, CENTER_RECT_SIZE, -CENTER_RECT_SIZE);
@@ -37,6 +40,12 @@ public class UiDrawer {
 
         // inventory
         inventory = new Inventory(PANE_X_OFFSET, PANE_TOP, RIGHT_RIGHT, PANE_BOTTOM, LIFE_COLOR, BACK_COLOR, rects);
+
+        // text test
+        Texts.Text text = texts.addText();
+        text.setCoordinates(-.5f, .5f, .5f, -.5f);
+        text.setText("M");
+        texts.doneAdding();
     }
 
     public void update(KeyControl keyControl) {
@@ -50,10 +59,10 @@ public class UiDrawer {
             staminaBar.show();
             shieldBar.show();
             lifeBar.show();
-            reserveBar.setCoordinates(human.getStaminaReservePercent());
-            staminaBar.setCoordinates(human.getStaminaPercent());
-            shieldBar.setCoordinates(human.getShieldPercent());
-            lifeBar.setCoordinates(human.getLifePercent());
+            reserveBar.setPercentFill(human.getStaminaReservePercent());
+            staminaBar.setPercentFill(human.getStaminaPercent());
+            shieldBar.setPercentFill(human.getShieldPercent());
+            lifeBar.setPercentFill(human.getLifePercent());
         }
 
         if (keyControl.isKeyPressed(KeyControl.KEY_E))
@@ -64,5 +73,9 @@ public class UiDrawer {
 
     public void draw() {
         rects.draw();
+    }
+
+    public void drawText() {
+        texts.draw();
     }
 }

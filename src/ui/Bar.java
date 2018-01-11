@@ -17,7 +17,7 @@ class Bar {
         backRect.setCoordinates(left, top, right, bottom);
     }
 
-    void setCoordinates(float percent) {
+    void setPercentFill(float percent) {
         rect.setCoordinates(left, top, left + width * percent, bottom);
     }
 

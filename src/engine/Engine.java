@@ -38,6 +38,7 @@ public class Engine {
 
     private Engine() {
         initLwjgl();
+        ShaderManager.setRenderShader();
         camera = new Camera(ShaderManager.getRenderShaderProgramId());
         keyControl = new KeyControl(window);
         mousePosControl = new MousePosControl(window);
@@ -46,8 +47,8 @@ public class Engine {
         human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE_Z, 0, 0, world.getIntersectionMover(), world.getIntersectionPicker(), keyControl, mousePosControl, mouseButtonControl);
         world.setHuman(human);
         world.addRandomMonsters(100);
+        ShaderManager.setTextShader();
         uiDrawer = new UiDrawer(human);
-        ShaderManager.setUiShader();
         camera.setFollow(human);
     }
 
@@ -78,10 +79,9 @@ public class Engine {
 
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
-
         glEnable(GL_CULL_FACE);
-
-        ShaderManager.setRenderShader();
+        glEnable(GL_TEXTURE_2D);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
     private void destroyLwjgl() {
@@ -104,9 +104,11 @@ public class Engine {
             world.update();
             world.draw();
 
-            ShaderManager.setUiShader();
             uiDrawer.update(keyControl);
+            ShaderManager.setUiShader();
             uiDrawer.draw();
+            ShaderManager.setTextShader();
+            uiDrawer.drawText();
 
             glfwSwapBuffers(window);
             glfwPollEvents();
