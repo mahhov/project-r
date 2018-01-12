@@ -90,7 +90,7 @@ public class Texts {
 
     public static class Character extends BasicShape {
         public void setCharacter(char character) {
-            textureCoordinates = StringTexture.getCharacterCordinates(character);
+            textureCoordinates = AlphabetTexture.getCharacterCordinates(character);
         }
     }
 
