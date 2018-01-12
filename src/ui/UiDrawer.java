@@ -24,6 +24,8 @@ public class UiDrawer {
 
     private Inventory inventory;
 
+    private Texts.Text fpsText;
+
     public UiDrawer(Human human) {
         this.human = human;
         rects = new Rects(10);
@@ -42,13 +44,11 @@ public class UiDrawer {
         inventory = new Inventory(PANE_X_OFFSET, PANE_TOP, RIGHT_RIGHT, PANE_BOTTOM, LIFE_COLOR, BACK_COLOR, rects);
 
         // text test
-        Texts.Text text = texts.addText();
-        text.setCoordinates(-1, 1, .95f);
-        text.setText("fps 60");
-        texts.doneAdding();
+        fpsText = texts.addText();
+        fpsText.setCoordinates(-1, 1, .95f);
     }
 
-    public void update(KeyControl keyControl) {
+    public void updateBars(KeyControl keyControl) {
         if (human.isFollowZoom()) {
             reserveBar.hide();
             staminaBar.hide();
@@ -69,6 +69,11 @@ public class UiDrawer {
             inventory.toggle();
 
         rects.doneAdding();
+    }
+
+    public void updateFps(int fps) {
+        fpsText.setText("fps " + fps);
+        texts.doneAdding();
     }
 
     public void draw() {

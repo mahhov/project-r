@@ -104,7 +104,7 @@ public class Engine {
             world.update();
             world.draw();
 
-            uiDrawer.update(keyControl);
+            uiDrawer.updateBars(keyControl);
             ShaderManager.setUiShader();
             uiDrawer.draw();
             ShaderManager.setTextShader();
@@ -116,7 +116,7 @@ public class Engine {
             engineFrame++;
             endTime = System.nanoTime() + 1;
             if (endTime - beginTime > NANOSECONDS_IN__SECOND) {
-                glfwSetWindowTitle(window, "fps " + engineFrame);
+                uiDrawer.updateFps(engineFrame);
                 drawFrame = 0;
                 engineFrame = 0;
                 beginTime = endTime;
@@ -133,7 +133,7 @@ public class Engine {
 
 // todo
 // ~~ high priority ~~
-// inventory ui, drops from monster, text for fps and drop pickup, instance picking ui
+// inventory ui, drops from monster, text drop pickup, instance picking ui
 // combat
 // enemies
 // particles
