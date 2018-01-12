@@ -96,6 +96,7 @@ public class Texts {
 
     public static class Text {
         private float left, top, right, bottom;
+        private boolean autoWidth;
         LList<Character> characters;
         private boolean disabled;
 
@@ -108,11 +109,19 @@ public class Texts {
             this.top = top;
             this.right = right;
             this.bottom = bottom;
+            autoWidth = false;
+        }
+
+        public void setCoordinates(float left, float top, float bottom) {
+            this.left = left;
+            this.top = top;
+            this.bottom = bottom;
+            autoWidth = true;
         }
 
         public void setText(String text) {
             char[] chars = text.toCharArray();
-            float charWidth = (right - left) / chars.length;
+            float charWidth = autoWidth ? top - bottom : (right - left) / chars.length;
             characters.removeAll(); // todo reuse characters
             for (int i = 0; i < chars.length; i++) {
                 float offset = left + i * charWidth;
