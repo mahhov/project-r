@@ -6,7 +6,7 @@ import util.LList;
 
 public class Inventory {
     private Item[] items;
-    private LList<String> log;
+    private LList<String> log; // todo use some kind of global chat 
 
     Inventory(int size) {
         items = new Item[size];
@@ -43,5 +43,9 @@ public class Inventory {
 
     public Item getItem(int i) {
         return i < items.length ? items[i] : null;
+    }
+
+    public LList<String> getLog() {
+        return log;
     }
 }

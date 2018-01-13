@@ -29,7 +29,7 @@ public class UiDrawer {
     public UiDrawer(Human human) {
         this.human = human;
         rects = new Rects(10);
-        texts = new Texts(100);
+        texts = new Texts(1000);
 
         // center crosshair
         rects.addRect(CENTER_RECT_COLOR).setCoordinates(-CENTER_RECT_SIZE, CENTER_RECT_SIZE, CENTER_RECT_SIZE, -CENTER_RECT_SIZE);
@@ -41,7 +41,7 @@ public class UiDrawer {
         lifeBar = new UiBar(LEFT_LEFT, BOTTOM_ROW2_TOP, LEFT_RIGHT, BOTTOM_ROW2_BOTTOM, LIFE_COLOR, BACK_COLOR, rects);
 
         // inventory
-        inventory = new UiInventory(PANE_X_OFFSET, PANE_TOP, RIGHT_RIGHT, PANE_BOTTOM, LIFE_COLOR, BACK_COLOR, rects, texts, human.getInventory());
+        inventory = new UiInventory(PANE_X_OFFSET, PANE_TOP, RIGHT_RIGHT, PANE_BOTTOM, BACK_COLOR, rects, texts, human.getInventory());
 
         // text test
         fpsText = texts.addText();
