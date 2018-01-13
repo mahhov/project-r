@@ -2,22 +2,24 @@ package character;
 
 import item.Item;
 import item.StackableItem;
-import util.LList;
+import ui.TextSystem;
+import util.Queue;
 
-public class Inventory {
+public class Inventory implements TextSystem {
+    private static final int LOG_SIZE = 8;
     private Item[] items;
-    private LList<String> log; // todo use some kind of global chat 
+    private Queue<String> log;
 
     Inventory(int size) {
         items = new Item[size];
-        log = new LList<>();
+        log = new Queue<>(LOG_SIZE);
     }
 
     void add(Item item) {
         if (findRoomAndAdd(item))
-            log.addTail(String.format("Obtained %s", item.print()));
+            log.add(String.format("Obtained %s", item.print()));
         else
-            log.addTail(String.format("Inventory full !! Lost %s", item.print()));
+            log.add(String.format("Inventory full !! Lost %s", item.print()));
     }
 
     private boolean findRoomAndAdd(Item item) {
@@ -45,7 +47,7 @@ public class Inventory {
         return i < items.length ? items[i] : null;
     }
 
-    public LList<String> getLog() {
+    public Iterable<String> getTexts() {
         return log;
     }
 }

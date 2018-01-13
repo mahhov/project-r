@@ -72,7 +72,7 @@ public class Human implements WorldElement, Follow {
 
         life = new Life(LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, LIFE_REGEN_DELAY);
 
-        inventory = new Inventory(8);
+        inventory = new Inventory(16);
 
         this.intersectionMover = intersectionMover;
         this.intersectionPicker = intersectionPicker;

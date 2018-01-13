@@ -19,6 +19,6 @@ public abstract class StackableItem extends Item {
 
     @Override
     public String print() {
-        return String.format("%d : %s", count, name);
+        return String.format("%d %s", count, name);
     }
 }
