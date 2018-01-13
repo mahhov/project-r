@@ -24,7 +24,7 @@ public class ShaderManager {
 
     public static void setUiShader() {
         glDisable(GL_DEPTH_TEST);
-        glDisable(GL_BLEND);
+        glEnable(GL_BLEND);
         uiShader.bind();
     }
 

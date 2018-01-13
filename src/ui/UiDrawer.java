@@ -20,7 +20,7 @@ public class UiDrawer {
             BAR_COL2_RIGHT = 1 - MEDIUM_MARGIN,
             BAR_COL2_LEFT = BAR_COL2_RIGHT - BAR_WIDTH;
 
-    private static float CENTER_RECT_SIZE = .01f, CENTER_RECT_COLOR[] = new float[] {.1f, .5f, .3f};
+    private static float CENTER_RECT_SIZE = .01f, CENTER_RECT_COLOR[] = new float[] {.1f, .5f, .3f, 1};
 
     private static final float
             TEXT_BOX_HEIHT = .3f,
@@ -34,9 +34,10 @@ public class UiDrawer {
             PANE_BOTTOM = TEXT_BOX_TOP + PANE_OFFSET,
             PANE_TOP = 1 - MEDIUM_MARGIN - PANE_OFFSET;
 
-    private static final float[] BACK_COLOR = new float[] {.8f, .8f, .8f};
-    private static final float[] RESERVE_COLOR = new float[] {.2f, .6f, .6f}, STAMINA_COLOR = new float[] {1, .8f, .6f};
-    private static final float[] SHIELD_COLOR = new float[] {.4f, .5f, .7f}, LIFE_COLOR = new float[] {.8f, .3f, .3f};
+    private static final float BAR_ALPHA = 1;
+    private static final float[] BACK_COLOR = new float[] {.8f, .8f, .8f, .3f};
+    private static final float[] RESERVE_COLOR = new float[] {.2f, .6f, .6f, BAR_ALPHA}, STAMINA_COLOR = new float[] {1, .8f, .6f, BAR_ALPHA};
+    private static final float[] SHIELD_COLOR = new float[] {.4f, .5f, .7f, BAR_ALPHA}, LIFE_COLOR = new float[] {.8f, .3f, .3f, BAR_ALPHA};
 
     private Human human;
     private Rects rects;

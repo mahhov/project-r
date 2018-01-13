@@ -6,7 +6,7 @@ import shape.Texts;
 class UiTextBox {
     private static final int SIZE = 8;
     private static final float MARGIN = 0.01f;
-    private Rects.Rect backRect; // todo make semi transparant (also for ui inventory)
+    private Rects.Rect backRect;
     private Texts.Text texts[];
 
     private boolean visible;
@@ -28,7 +28,6 @@ class UiTextBox {
 
         this.textSystem = textSystem;
 
-        visible = true;
         toggle();
     }
 

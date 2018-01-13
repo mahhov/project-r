@@ -29,7 +29,7 @@ public class Rects {
 
     private void createBuffers(int maxNumVertices) {
         verticesBuffer = MemoryUtil.memAllocFloat(maxNumVertices * 2);
-        colorsBuffer = MemoryUtil.memAllocFloat(maxNumVertices * 3);
+        colorsBuffer = MemoryUtil.memAllocFloat(maxNumVertices * 4);
     }
 
     private void createVao() {
@@ -43,7 +43,7 @@ public class Rects {
 
         colorsVboId = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, colorsVboId);
-        glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
+        glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(1);
     }
 
