@@ -3,7 +3,7 @@ package ui;
 import shape.Rects;
 import shape.Texts;
 
-public class UiTextBox {
+class UiTextBox {
     private static final int SIZE = 8;
     private static final float MARGIN = 0.01f;
     private Rects.Rect backRect; // todo make semi transparant (also for ui inventory)
@@ -32,7 +32,7 @@ public class UiTextBox {
         toggle();
     }
 
-    void toggle() { // todo reuse uiinventory
+    void toggle() {
         visible = !visible;
         if (visible) {
             backRect.enable();

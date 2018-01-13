@@ -133,7 +133,7 @@ public class Engine {
 
 // todo
 // ~~ high priority ~~
-// inventory ui, drops from monster, text drop pickup, instance picking ui, life regen always
+// inventory ui, drops from monster, text drop pickup, instance picking ui
 // combat
 // enemies
 // particles

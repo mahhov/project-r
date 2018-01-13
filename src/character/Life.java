@@ -16,12 +16,11 @@ class Life {
     }
 
     void regen() {
+        currentLife = MathNumbers.min(currentLife + regenLife, maxLife);
         if (currentRegenDelay > 0)
             currentRegenDelay--;
-        else {
-            currentLife = MathNumbers.min(currentLife + regenLife, maxLife);
+        else
             currentShield = MathNumbers.min(currentShield + regenShield, maxShield);
-        }
     }
 
     void deplete(float amount) {
