@@ -97,7 +97,7 @@ public class UiDrawer {
             inventory.toggle();
         inventory.update();
 
-        if (keyControl.isKeyPressed(KeyControl.KEY_Q))
+        if (keyControl.isKeyPressed(KeyControl.KEY_ENTER))
             textBox.toggle();
         textBox.update();
 
