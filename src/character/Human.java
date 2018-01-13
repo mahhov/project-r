@@ -4,6 +4,7 @@ import camera.Follow;
 import control.KeyControl;
 import control.MouseButtonControl;
 import control.MousePosControl;
+import item.Item;
 import shape.CubeInstancedFaces;
 import util.MathAngles;
 import util.MathNumbers;
@@ -44,6 +45,8 @@ public class Human implements WorldElement, Follow {
     private float[] norm, right;
     private boolean zoom;
 
+    private Inventory inventory;
+
     private IntersectionMover intersectionMover;
     private IntersectionPicker intersectionPicker;
 
@@ -63,14 +66,16 @@ public class Human implements WorldElement, Follow {
         norm = new float[2];
         right = new float[2];
 
-        this.intersectionMover = intersectionMover;
-        this.intersectionPicker = intersectionPicker;
-
         stamina = new Stamina(STAMINA, STAMINA_REGEN, STAMINA_RESERVE, STAMINA_RESERVE_REGEN);
         boostTimer = new AbilityTimer(BOOST_COOLDOWN, BOOST_DURATION);
         throwTimer = new AbilityTimer(THROW_COOLDOWN, 1);
 
         life = new Life(LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, LIFE_REGEN_DELAY);
+
+        inventory = new Inventory(8);
+
+        this.intersectionMover = intersectionMover;
+        this.intersectionPicker = intersectionPicker;
 
         cubeInstancedFaces = new CubeInstancedFaces(COLOR);
 
@@ -235,20 +240,8 @@ public class Human implements WorldElement, Follow {
         life.deplete(amount);
     }
 
-    public float getStaminaPercent() {
-        return stamina.percent();
-    }
-
-    public float getStaminaReservePercent() {
-        return stamina.percentReserve();
-    }
-
-    public float getLifePercent() {
-        return life.percentLife();
-    }
-
-    public float getShieldPercent() {
-        return life.percentShield();
+    void inventoryAdd(Item item) {
+        inventory.add(item);
     }
 
     @Override
@@ -261,6 +254,8 @@ public class Human implements WorldElement, Follow {
         cubeInstancedFaces.draw();
     }
 
+    // camera getters
+    
     @Override
     public float getFollowX() {
         return x;
@@ -297,6 +292,8 @@ public class Human implements WorldElement, Follow {
         return zoom;
     }
 
+    // world getters
+    
     @Override
     public float getX() {
         return x;
@@ -315,5 +312,27 @@ public class Human implements WorldElement, Follow {
     @Override
     public float getSize() {
         return SIZE;
+    }
+
+    // ui getters
+    
+    public float getStaminaPercent() {
+        return stamina.percent();
+    }
+
+    public float getStaminaReservePercent() {
+        return stamina.percentReserve();
+    }
+
+    public float getLifePercent() {
+        return life.percentLife();
+    }
+
+    public float getShieldPercent() {
+        return life.percentShield();
+    }
+    
+    public Inventory getInventory() {
+        return inventory;
     }
 }

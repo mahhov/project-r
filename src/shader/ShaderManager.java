@@ -13,6 +13,7 @@ public class ShaderManager {
     }
 
     public static void setRenderShader() {
+        glEnable(GL_DEPTH_TEST);
         glDisable(GL_BLEND);
         renderShader.bind();
     }
@@ -22,6 +23,7 @@ public class ShaderManager {
     }
 
     public static void setUiShader() {
+        glDisable(GL_DEPTH_TEST);
         glDisable(GL_BLEND);
         uiShader.bind();
     }
@@ -31,6 +33,7 @@ public class ShaderManager {
     }
 
     public static void setTextShader() {
+        glDisable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         textShader.bind();
     }

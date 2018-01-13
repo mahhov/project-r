@@ -1,12 +1,14 @@
 package character;
 
+import item.Coin;
 import shape.CubeInstancedFaces;
 import util.MathNumbers;
+import util.MathRandom;
 import util.intersection.IntersectionMover;
 import world.World;
 
 public class Monster extends Character {
-    // ai
+    // todo ai
     private static final float CHASE_DISTANCE = 3000, DAMAGE_DISTANCE = 100, DAMAGE_AMOUNT = .2f;
 
     public static final float[] COLOR = new float[] {1, 0, 0};
@@ -45,5 +47,11 @@ public class Monster extends Character {
             moveControl.theta = (float) Math.atan2(dy, dx);
 
         return moveControl;
+    }
+
+    @Override
+    boolean die() {
+        human.inventoryAdd(new Coin(MathRandom.random(5, 15)));
+        return true;
     }
 }

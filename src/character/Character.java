@@ -46,7 +46,7 @@ class Character implements WorldElement { // todo support human movement
     @Override
     public boolean update(World world) {
         if (life.depleted())
-            return true;
+            return die();
         move(createMoveControl(world));
         moveInWorld(world);
         return false;
@@ -127,6 +127,10 @@ class Character implements WorldElement { // todo support human movement
             vx = 0;
         if (intersection.collisionY)
             vy = 0;
+    }
+
+    boolean die() {
+        return true;
     }
 
     @Override

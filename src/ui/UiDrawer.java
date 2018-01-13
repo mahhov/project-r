@@ -19,36 +19,36 @@ public class UiDrawer {
     private Rects rects;
     private Texts texts;
 
-    private Bar reserveBar, staminaBar;
-    private Bar shieldBar, lifeBar;
+    private UiBar reserveBar, staminaBar;
+    private UiBar shieldBar, lifeBar;
 
-    private Inventory inventory;
+    private UiInventory inventory;
 
     private Texts.Text fpsText;
 
     public UiDrawer(Human human) {
         this.human = human;
         rects = new Rects(10);
-        texts = new Texts(10);
+        texts = new Texts(100);
 
         // center crosshair
         rects.addRect(CENTER_RECT_COLOR).setCoordinates(-CENTER_RECT_SIZE, CENTER_RECT_SIZE, CENTER_RECT_SIZE, -CENTER_RECT_SIZE);
 
         // life & stamina bars
-        reserveBar = new Bar(RIGHT_LEFT, BOTTOM_ROW1_TOP, RIGHT_RIGHT, BOTTOM_ROW1_BOTTOM, RESERVE_COLOR, BACK_COLOR, rects);
-        staminaBar = new Bar(RIGHT_LEFT, BOTTOM_ROW2_TOP, RIGHT_RIGHT, BOTTOM_ROW2_BOTTOM, STAMINA_COLOR, BACK_COLOR, rects);
-        shieldBar = new Bar(LEFT_LEFT, BOTTOM_ROW1_TOP, LEFT_RIGHT, BOTTOM_ROW1_BOTTOM, SHIELD_COLOR, BACK_COLOR, rects);
-        lifeBar = new Bar(LEFT_LEFT, BOTTOM_ROW2_TOP, LEFT_RIGHT, BOTTOM_ROW2_BOTTOM, LIFE_COLOR, BACK_COLOR, rects);
+        reserveBar = new UiBar(RIGHT_LEFT, BOTTOM_ROW1_TOP, RIGHT_RIGHT, BOTTOM_ROW1_BOTTOM, RESERVE_COLOR, BACK_COLOR, rects);
+        staminaBar = new UiBar(RIGHT_LEFT, BOTTOM_ROW2_TOP, RIGHT_RIGHT, BOTTOM_ROW2_BOTTOM, STAMINA_COLOR, BACK_COLOR, rects);
+        shieldBar = new UiBar(LEFT_LEFT, BOTTOM_ROW1_TOP, LEFT_RIGHT, BOTTOM_ROW1_BOTTOM, SHIELD_COLOR, BACK_COLOR, rects);
+        lifeBar = new UiBar(LEFT_LEFT, BOTTOM_ROW2_TOP, LEFT_RIGHT, BOTTOM_ROW2_BOTTOM, LIFE_COLOR, BACK_COLOR, rects);
 
         // inventory
-        inventory = new Inventory(PANE_X_OFFSET, PANE_TOP, RIGHT_RIGHT, PANE_BOTTOM, LIFE_COLOR, BACK_COLOR, rects);
+        inventory = new UiInventory(PANE_X_OFFSET, PANE_TOP, RIGHT_RIGHT, PANE_BOTTOM, LIFE_COLOR, BACK_COLOR, rects, texts, human.getInventory());
 
         // text test
         fpsText = texts.addText();
         fpsText.setCoordinates(-1, 1, .95f);
     }
 
-    public void updateBars(KeyControl keyControl) {
+    public void update(KeyControl keyControl) {
         if (human.isFollowZoom()) {
             reserveBar.hide();
             staminaBar.hide();
@@ -67,13 +67,14 @@ public class UiDrawer {
 
         if (keyControl.isKeyPressed(KeyControl.KEY_E))
             inventory.toggle();
+        inventory.update();
 
         rects.doneAdding();
+        texts.doneAdding();
     }
 
     public void updateFps(int fps) {
         fpsText.setText("fps " + fps);
-        texts.doneAdding();
     }
 
     public void draw() {
