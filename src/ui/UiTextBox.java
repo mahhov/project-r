@@ -32,7 +32,7 @@ public class UiTextBox {
         toggle();
     }
 
-    void toggle() {
+    void toggle() { // todo reuse uiinventory
         visible = !visible;
         if (visible) {
             backRect.enable();
