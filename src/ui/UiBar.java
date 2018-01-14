@@ -3,6 +3,9 @@ package ui;
 import shape.Rects;
 
 class UiBar {
+    private static final float PERCENT_WEIGHT = .1f;
+    private float percent;
+
     private float left, top, width, bottom;
     private Rects.Rect rect, backRect;
 
@@ -17,8 +20,10 @@ class UiBar {
         rect = rects.addRect(color);
     }
 
+
     void setPercentFill(float percent) {
-        rect.setCoordinates(left, top, left + width * percent, bottom);
+        this.percent += (percent - this.percent) * PERCENT_WEIGHT;
+        rect.setCoordinates(left, top, left + width * this.percent, bottom);
     }
 
     void hide() {
