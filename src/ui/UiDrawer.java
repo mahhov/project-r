@@ -38,7 +38,7 @@ public class UiDrawer {
             PANE_TOP = 1 - MEDIUM_MARGIN - PANE_OFFSET;
 
     private static final float BAR_ALPHA = 1;
-    private static final float[] BACK_COLOR = new float[] {.8f, .8f, .8f, .3f};
+    private static final float[] BACK_COLOR = new float[] {.3f, .3f, .3f, .3f};
     private static final float[] RESERVE_COLOR = new float[] {.2f, .6f, .6f, BAR_ALPHA}, STAMINA_COLOR = new float[] {1, .8f, .6f, BAR_ALPHA};
     private static final float[] SHIELD_COLOR = new float[] {.4f, .5f, .7f, BAR_ALPHA}, LIFE_COLOR = new float[] {.8f, .3f, .3f, BAR_ALPHA};
 
