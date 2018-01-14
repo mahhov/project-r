@@ -37,6 +37,12 @@ public class Human implements WorldElement, Follow {
     private static final int LIFE_REGEN_DELAY = 75;
     private Life life;
 
+    // experience
+    private static final int EXPERIENCE_PER_LEVEL = 100;
+    private Experience experience;
+
+    private Inventory inventory;
+
     // position
     private static final float SIZE = 1;
     private float x, y, z;
@@ -44,8 +50,6 @@ public class Human implements WorldElement, Follow {
     private float theta, thetaZ;
     private float[] norm, right;
     private boolean zoom;
-
-    private Inventory inventory;
 
     private IntersectionMover intersectionMover;
     private IntersectionPicker intersectionPicker;
@@ -69,9 +73,8 @@ public class Human implements WorldElement, Follow {
         stamina = new Stamina(STAMINA, STAMINA_REGEN, STAMINA_RESERVE, STAMINA_RESERVE_REGEN);
         boostTimer = new AbilityTimer(BOOST_COOLDOWN, BOOST_DURATION);
         throwTimer = new AbilityTimer(THROW_COOLDOWN, 1);
-
         life = new Life(LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, LIFE_REGEN_DELAY);
-
+        experience = new Experience(EXPERIENCE_PER_LEVEL);
         inventory = new Inventory(16);
 
         this.intersectionMover = intersectionMover;
@@ -240,6 +243,10 @@ public class Human implements WorldElement, Follow {
         life.deplete(amount);
     }
 
+    void experienceAdd(int amount) {
+        experience.add(amount);
+    }
+
     void inventoryAdd(Item item) {
         inventory.add(item);
     }
@@ -255,7 +262,7 @@ public class Human implements WorldElement, Follow {
     }
 
     // camera getters
-    
+
     @Override
     public float getFollowX() {
         return x;
@@ -293,7 +300,7 @@ public class Human implements WorldElement, Follow {
     }
 
     // world getters
-    
+
     @Override
     public float getX() {
         return x;
@@ -315,7 +322,7 @@ public class Human implements WorldElement, Follow {
     }
 
     // ui getters
-    
+
     public float getStaminaPercent() {
         return stamina.percent();
     }
@@ -331,7 +338,15 @@ public class Human implements WorldElement, Follow {
     public float getShieldPercent() {
         return life.percentShield();
     }
-    
+
+    public int getExperienceLevel() {
+        return experience.level();
+    }
+
+    public float getExperiencePercent() {
+        return experience.percent();
+    }
+
     public Inventory getInventory() {
         return inventory;
     }
