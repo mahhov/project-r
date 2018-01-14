@@ -2,7 +2,6 @@ package shape;
 
 import org.lwjgl.system.MemoryUtil;
 import util.LList;
-import util.MathArrays;
 
 import java.nio.FloatBuffer;
 
@@ -89,7 +88,7 @@ public class Rects {
 
     public static class Rect extends BasicShape {
         private Rect(float[] color) {
-            colors = MathArrays.repeatArray(color, 6);
+            setColor(color);
         }
     }
 }

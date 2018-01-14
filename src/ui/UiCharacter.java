@@ -35,11 +35,12 @@ class UiCharacter extends UiTextListPane {
     @Override
     void updateTexts() {
         int selected = getIntersecting(mousePosControl.getAbsX(), mousePosControl.getAbsY());
+        if (selected < 2)
+            selected = -1;
+        setHighlight(selected);
 
         setText(0, "Unspent Points: " + experience.getUnspentPoints());
-        for (int i = 2; i < size; i++) {
-            String text = selected == i ? "X" : experience.getText(i - 2);
-            setText(i, text);
-        }
+        for (int i = 2; i < size; i++) 
+            setText(i, experience.getText(i - 2));
     }
 }

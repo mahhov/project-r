@@ -4,11 +4,13 @@ import shape.Rects;
 import shape.Texts;
 
 abstract class UiTextListPane {
+    private static final float[] HIGHLIGHT_COLOR = new float[] {0, 1, 0, 1};
     private static final float MARGIN = 0.01f;
     final int size;
     private float itemLeft, itemTop, itemRight, itemBottom, itemOffsetY, itemHeight, itemHeightRatio;
     private Rects.Rect backRect;
     private Texts.Text texts[];
+    private int highlighted;
 
     private boolean visible;
 
@@ -18,7 +20,6 @@ abstract class UiTextListPane {
 
         backRect = rects.addRect(backColor);
         backRect.setCoordinates(left, top, right, bottom);
-
 
         itemLeft = left + MARGIN;
         itemTop = top - MARGIN;
@@ -60,6 +61,14 @@ abstract class UiTextListPane {
 
     void setText(int i, String text) {
         texts[i].setText(text);
+    }
+
+    void setHighlight(int i) {
+        if (highlighted != -1)
+            texts[highlighted].setColor(null);
+        highlighted = i;
+        if (highlighted != -1)
+            texts[highlighted].setColor(HIGHLIGHT_COLOR);
     }
 
     void update() {

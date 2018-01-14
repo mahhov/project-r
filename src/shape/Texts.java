@@ -13,8 +13,8 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 public class Texts {
-    private FloatBuffer verticesBuffer, textureCoordinatesBuffer;
-    private int verticesVboId, textureCoordinatesVboId;
+    private FloatBuffer verticesBuffer, textureCoordinatesBuffer, colorsBuffer;
+    private int verticesVboId, textureCoordinatesVboId, colorsVboId;
     private int vaoId;
 
     private LList<Text> texts;
@@ -29,6 +29,7 @@ public class Texts {
     private void createBuffers(int maxNumVertices) {
         verticesBuffer = MemoryUtil.memAllocFloat(maxNumVertices * 2);
         textureCoordinatesBuffer = MemoryUtil.memAllocFloat(maxNumVertices * 2);
+        colorsBuffer = MemoryUtil.memAllocFloat(maxNumVertices * 4);
     }
 
     private void createVao() {
@@ -44,6 +45,11 @@ public class Texts {
         glBindBuffer(GL_ARRAY_BUFFER, textureCoordinatesVboId);
         glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(1);
+
+        colorsVboId = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, colorsVboId);
+        glVertexAttribPointer(2, 4, GL_FLOAT, false, 0, 0); // todo make instnaced
+        glEnableVertexAttribArray(2);
     }
 
     public Text addText() {
@@ -60,6 +66,7 @@ public class Texts {
     private void fillBuffers() {
         verticesBuffer.clear();
         textureCoordinatesBuffer.clear();
+        colorsBuffer.clear();
         numCharacters = 0;
         for (Text text : texts)
             if (!text.disabled) {
@@ -67,10 +74,12 @@ public class Texts {
                 for (Character character : text.characters) {
                     verticesBuffer.put(character.vertices);
                     textureCoordinatesBuffer.put(character.textureCoordinates);
+                    colorsBuffer.put(character.colors);
                 }
             }
         verticesBuffer.flip();
         textureCoordinatesBuffer.flip();
+        colorsBuffer.flip();
     }
 
     public void draw() {
@@ -86,6 +95,9 @@ public class Texts {
 
         glBindBuffer(GL_ARRAY_BUFFER, textureCoordinatesVboId);
         glBufferData(GL_ARRAY_BUFFER, textureCoordinatesBuffer, GL_STATIC_DRAW);
+
+        glBindBuffer(GL_ARRAY_BUFFER, colorsVboId);
+        glBufferData(GL_ARRAY_BUFFER, colorsBuffer, GL_STATIC_DRAW);
     }
 
     public static class Character extends BasicShape {
@@ -95,13 +107,16 @@ public class Texts {
     }
 
     public static class Text {
+        private static final float[] DEFAULT_COLOR = new float[] {1, 1, 1, 1};
         private float left, top, right, bottom;
         private boolean autoWidth;
         LList<Character> characters;
         private boolean disabled;
+        private float[] color;
 
         private Text() {
             characters = new LList<>();
+            color = DEFAULT_COLOR;
         }
 
         public void setCoordinates(float left, float top, float right, float bottom) {
@@ -128,8 +143,13 @@ public class Texts {
                 Character character = new Character();
                 character.setCoordinates(offset, top, offset + charWidth, bottom);
                 character.setCharacter(chars[i]);
+                character.setColor(color);
                 characters.addTail(character);
             }
+        }
+
+        public void setColor(float[] color) {
+            this.color = color == null ? DEFAULT_COLOR : color;
         }
 
         public void disable() {
