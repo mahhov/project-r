@@ -5,14 +5,15 @@ import org.lwjgl.glfw.GLFWKeyCallbackI;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class KeyControl implements GLFWKeyCallbackI {
-    private static final int UP = 0, DOWN = 1, PRESSED = 2, RELEASED = 3;
+    private static final int UP = 0, DOWN = 1, PRESSED = 2, RELEASED = 3; // todo replace with enum
     private static final int NUM_KEYS;
-    public static final int
+    public static final int // todo replace with enum
             KEY_W, KEY_A, KEY_S, KEY_D,
             KEY_Q, KEY_E,
             KEY_R, KEY_F, KEY_Z, KEY_X,
             KEY_SHIFT, KEY_SPACE,
-            KEY_ENTER;
+            KEY_ENTER,
+            KEY_C, KEY_I, KEY_M;
 
     static {
         int i = 0;
@@ -29,6 +30,9 @@ public class KeyControl implements GLFWKeyCallbackI {
         KEY_SHIFT = i++;
         KEY_SPACE = i++;
         KEY_ENTER = i++;
+        KEY_C = i++;
+        KEY_I = i++;
+        KEY_M = i++;
         NUM_KEYS = i;
     }
 
@@ -50,6 +54,9 @@ public class KeyControl implements GLFWKeyCallbackI {
         keys[KEY_SHIFT] = new Key(GLFW_KEY_LEFT_SHIFT);
         keys[KEY_SPACE] = new Key(GLFW_KEY_SPACE);
         keys[KEY_ENTER] = new Key(GLFW_KEY_ENTER);
+        keys[KEY_C] = new Key(GLFW_KEY_C);
+        keys[KEY_I] = new Key(GLFW_KEY_I);
+        keys[KEY_M] = new Key(GLFW_KEY_M);
     }
 
     private void setKeyState(int keyCode, int state) {

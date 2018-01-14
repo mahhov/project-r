@@ -136,15 +136,14 @@ public class Engine {
 
 // todo
 // ~~ high priority ~~
-// inventory ui, drops from monster, text drop pickup, instance picking ui
 // combat
 // enemies
-// particles
 // progression
 // instances
 // inventory
 // harvesting
-// crafting
+// crafting (best gear: 1. craftable, 2. choices of pros/cons, 3. materials required rare drops from touch monsters)
+// replace string concat with builder
 
 // ~~ low priority ~~
 // camera culling
@@ -158,3 +157,4 @@ public class Engine {
 // support cubes of different colors in same CubeInstancedFaces
 // multi thread chunk loading
 // multi color text
+// particles

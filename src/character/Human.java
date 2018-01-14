@@ -346,6 +346,10 @@ public class Human implements WorldElement, Follow {
     public float getExperiencePercent() {
         return experience.percent();
     }
+    
+    public Experience getExperience() {
+        return experience;
+    }
 
     public Inventory getInventory() {
         return inventory;

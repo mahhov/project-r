@@ -32,6 +32,7 @@ public class UiDrawer {
     private Texts texts;
 
     private UiHud hud;
+    private UiCharacter character;
     private UiInventory inventory;
     private UiMap map;
     private UiTextBox textBox;
@@ -54,8 +55,9 @@ public class UiDrawer {
         hud = new UiHud(rects, texts, human);
 
         // panes
+        character = new UiCharacter(UiHud.BAR_COL1_LEFT, PANE_TOP, -PANE_OFFSET, 0, BACK_COLOR, rects, texts, human.getExperience(), mousePosControl, mouseButtonControl);
         inventory = new UiInventory(PANE_OFFSET, PANE_TOP, UiHud.BAR_COL2_RIGHT, PANE_BOTTOM, BACK_COLOR, rects, texts, human.getInventory());
-        this.map = new UiMap(UiHud.BAR_COL1_LEFT, PANE_TOP, -PANE_OFFSET, PANE_BOTTOM, BACK_COLOR, rects, texts, map, mousePosControl, mouseButtonControl);
+        this.map = new UiMap(UiHud.BAR_COL1_LEFT, PANE_TOP, UiHud.BAR_COL2_RIGHT, PANE_BOTTOM, BACK_COLOR, rects, texts, map, mousePosControl, mouseButtonControl);
         textBox = new UiTextBox(TEXT_BOX_LEFT, TEXT_BOX_TOP, TEXT_BOX_RIGHT, TEXT_BOX_BOTTOM, BACK_COLOR, rects, texts, human.getInventory());
 
         // text test
@@ -73,11 +75,15 @@ public class UiDrawer {
         else
             hud.show();
 
-        if (keyControl.isKeyPressed(KeyControl.KEY_E))
+        if (keyControl.isKeyPressed(KeyControl.KEY_C))
+            character.toggle();
+        character.update();
+
+        if (keyControl.isKeyPressed(KeyControl.KEY_I))
             inventory.toggle();
         inventory.update();
 
-        if (keyControl.isKeyPressed(KeyControl.KEY_Q))
+        if (keyControl.isKeyPressed(KeyControl.KEY_M))
             map.toggle();
         map.update();
 
