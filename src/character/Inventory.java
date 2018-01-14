@@ -47,6 +47,7 @@ public class Inventory implements TextSystem {
         return i < items.length ? items[i] : null;
     }
 
+    @Override
     public Iterable<String> getTexts() {
         return log;
     }

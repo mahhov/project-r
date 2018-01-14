@@ -11,7 +11,6 @@ public class MouseButtonControl implements GLFWMouseButtonCallbackI {
 
     public MouseButtonControl(long window) {
         glfwSetMouseButtonCallback(window, this);
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         buttons = new int[2];
     }
 

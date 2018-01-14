@@ -13,6 +13,7 @@ class UiInventory extends UiTextListPane {
         this.inventory = inventory;
     }
 
+    @Override
     void updateTexts() {
         for (int i = 0; i < size; i++)
             setText(i, inventory.getItem(i) == null ? "" : inventory.getItem(i).print());

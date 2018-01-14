@@ -116,8 +116,8 @@ public class Human implements WorldElement, Follow {
     }
 
     private void doRotations(MousePosControl mousePosControl) {
-        theta -= ROTATE_SPEED_MOUSE * mousePosControl.getX();
-        thetaZ = MathNumbers.maxMin(thetaZ - ROTATE_SPEED_MOUSE * mousePosControl.getY(), MathAngles.PI / 2, -MathAngles.PI / 2);
+        theta -= ROTATE_SPEED_MOUSE * mousePosControl.getMoveX();
+        thetaZ = MathNumbers.maxMin(thetaZ - ROTATE_SPEED_MOUSE * mousePosControl.getMoveY(), MathAngles.PI / 2, -MathAngles.PI / 2);
     }
 
     private void computeAxis() {

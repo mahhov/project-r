@@ -12,11 +12,12 @@ class UiTextBox extends UiTextListPane {
         this.textSystem = textSystem;
     }
 
+    @Override
     void updateTexts() {
         int i = 0;
         for (String text : textSystem.getTexts()) {
-            setText(i++, text);
-            if (i == size)
+            setText(i, text);
+            if (++i == size)
                 break;
         }
     }

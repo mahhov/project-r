@@ -5,6 +5,7 @@ import character.Human;
 import control.KeyControl;
 import control.MouseButtonControl;
 import control.MousePosControl;
+import map.Map;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -35,6 +36,7 @@ public class Engine {
     private MousePosControl mousePosControl;
     private MouseButtonControl mouseButtonControl;
     private World world;
+    private Map map;
 
     private Engine() {
         initLwjgl();
@@ -47,8 +49,9 @@ public class Engine {
         human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE_Z, 0, 0, world.getIntersectionMover(), world.getIntersectionPicker(), keyControl, mousePosControl, mouseButtonControl);
         world.setHuman(human);
         world.addRandomMonsters(100);
+        map = new Map();
         ShaderManager.setTextShader();
-        uiDrawer = new UiDrawer(human);
+        uiDrawer = new UiDrawer(human, map, keyControl, mousePosControl, mouseButtonControl);
         camera.setFollow(human);
     }
 
@@ -104,7 +107,7 @@ public class Engine {
             world.update();
             world.draw();
 
-            uiDrawer.update(keyControl);
+            uiDrawer.update();
             ShaderManager.setUiShader();
             uiDrawer.draw();
             ShaderManager.setTextShader();
