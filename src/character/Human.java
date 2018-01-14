@@ -21,7 +21,7 @@ public class Human implements WorldElement, Follow {
 
     // mobility
     private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1;
-    private static final float JUMP_ACC = 1f, JET_ACC = .11f, RUN_ACC = .07f, AIR_ACC = .02f;
+    private static final float RUN_ACC = .07f, JUMP_ACC = 1f, AIR_ACC = .02f, JET_ACC = .11f;
     private static final float BOOST_ACC = .07f, GLIDE_ACC = .05f, GLIDE_DESCENT_ACC = .02f;
     private boolean air;
     private boolean jetting;
@@ -139,8 +139,8 @@ public class Human implements WorldElement, Follow {
             acc = BOOST_ACC;
         else if (!air)
             acc = RUN_ACC;
-        else if (keyControl.isKeyDown(KeyControl.KEY_SHIFT) && stamina.available(Stamina.GLIDE)) {
-            stamina.deplete(Stamina.GLIDE);
+        else if (keyControl.isKeyDown(KeyControl.KEY_SHIFT) && stamina.available(Stamina.StaminaCost.GLIDE)) {
+            stamina.deplete(Stamina.StaminaCost.GLIDE);
             acc = GLIDE_ACC;
             vz -= GLIDE_DESCENT_ACC;
         } else
@@ -168,7 +168,7 @@ public class Human implements WorldElement, Follow {
     }
 
     private void doJump() {
-        float staminaRequired = air ? Stamina.AIR_JUMP : Stamina.JUMP;
+        Stamina.StaminaCost staminaRequired = air ? Stamina.StaminaCost.AIR_JUMP : Stamina.StaminaCost.JUMP;
         if (!stamina.available(staminaRequired))
             return;
         stamina.deplete(staminaRequired);
@@ -178,17 +178,17 @@ public class Human implements WorldElement, Follow {
     }
 
     private void doJet() {
-        if (!stamina.available(Stamina.JET))
+        if (!stamina.available(Stamina.StaminaCost.JET))
             return;
-        stamina.deplete(Stamina.JET);
+        stamina.deplete(Stamina.StaminaCost.JET);
         vz += JET_ACC;
         jetting = true;
     }
 
     private void doBoost(boolean shiftPress) {
         boostTimer.update();
-        if (shiftPress && boostTimer.ready() && stamina.available(Stamina.BOOST) && !air) {
-            stamina.deplete(Stamina.BOOST);
+        if (shiftPress && boostTimer.ready() && stamina.available(Stamina.StaminaCost.BOOST) && !air) {
+            stamina.deplete(Stamina.StaminaCost.BOOST);
             boostTimer.activate();
         }
     }
@@ -226,8 +226,8 @@ public class Human implements WorldElement, Follow {
     private void doThrow(boolean primaryDown, World world) {
         throwTimer.update();
 
-        if (primaryDown && throwTimer.ready() && stamina.available(Stamina.THROW)) {
-            stamina.deplete(Stamina.THROW);
+        if (primaryDown && throwTimer.ready() && stamina.available(Stamina.StaminaCost.THROW)) {
+            stamina.deplete(Stamina.StaminaCost.THROW);
             throwTimer.activate();
             Intersection pick = intersectionPicker.find();
             float topZ = z + SIZE / 2;
