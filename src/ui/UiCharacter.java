@@ -39,6 +39,8 @@ class UiCharacter extends UiTextListPane {
             selected = -1;
         else if (mouseButtonControl.isMousePressed(MouseButtonControl.PRIMARY))
             experience.spendPoint(experience.getSkill(selected - 2));
+        else if (mouseButtonControl.isMousePressed(MouseButtonControl.SECONDARY))
+            experience.spendPoint(experience.getSkill(selected - 2), 10);
         setHighlight(selected);
 
         setText(0, "Unspent Points: " + experience.getUnspentPoints());

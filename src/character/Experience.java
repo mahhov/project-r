@@ -1,5 +1,7 @@
 package character;
 
+import util.MathNumbers;
+
 public class Experience {
     private int maxExperience, level, experience;
 
@@ -45,6 +47,22 @@ public class Experience {
         unspentPoints--;
         points[skill.value]++;
 
+        updateStats();
+    }
+
+    public void spendPoint(Skill skill, int numPoints) {
+        if (unspentPoints == 0)
+            return;
+
+        numPoints = MathNumbers.min(numPoints, unspentPoints);
+
+        unspentPoints -= numPoints;
+        points[skill.value] += numPoints;
+
+        updateStats();
+    }
+
+    private void updateStats() {
         stats.runAcc.update(points[Skill.RUN_AIR_ACC.value]);
         stats.jumpAcc.update(points[Skill.JUMP_ACC.value]);
         stats.airAcc.update(points[Skill.RUN_AIR_ACC.value]);
