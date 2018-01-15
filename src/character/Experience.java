@@ -20,10 +20,12 @@ public class Experience {
     private static final Skill[] skillValues = Skill.values();
 
     private int unspentPoints, points[];
+    private Stats stats;
 
-    Experience(int maxExperience) {
+    Experience(int maxExperience, Stats stats) {
         this.maxExperience = maxExperience;
         points = new int[getSkillCount()];
+        this.stats = stats;
     }
 
     void add(int amount) {
@@ -35,12 +37,17 @@ public class Experience {
         }
     }
 
-    public void spendPoint(int i) {
+    public void spendPoint(Skill skill) {
         if (unspentPoints == 0)
             return;
 
         unspentPoints--;
-        points[i]++;
+        points[skill.value]++;
+
+        switch (skill) {
+            case RUN_AIR_ACC:
+                stats.setRunAcc(points[skill.value]);
+        }
     }
 
     int level() {
@@ -59,7 +66,11 @@ public class Experience {
         return unspentPoints;
     }
 
-    public String getText(int i) {
-        return skillValues[i].name + " " + points[i];
+    public String getText(Skill skill) {
+        return skill.name + " " + points[skill.value];
+    }
+
+    public Skill getSkill(int i) {
+        return skillValues[i];
     }
 }

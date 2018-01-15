@@ -21,8 +21,6 @@ public class Human implements WorldElement, Follow {
 
     // mobility
     private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1;
-    private static final float RUN_ACC = .07f, JUMP_ACC = 1f, AIR_ACC = .02f, JET_ACC = .11f;
-    private static final float BOOST_ACC = .07f, GLIDE_ACC = .05f, GLIDE_DESCENT_ACC = .02f;
     private boolean air;
 
     // ability
@@ -36,7 +34,8 @@ public class Human implements WorldElement, Follow {
     private static final int LIFE_REGEN_DELAY = 75;
     private Life life;
 
-    // experience
+    private Stats stats;
+
     private static final int EXPERIENCE_PER_LEVEL = 100;
     private Experience experience;
 
@@ -73,7 +72,8 @@ public class Human implements WorldElement, Follow {
         boostTimer = new AbilityTimer(BOOST_COOLDOWN, BOOST_DURATION);
         throwTimer = new AbilityTimer(THROW_COOLDOWN, 1);
         life = new Life(LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, LIFE_REGEN_DELAY);
-        experience = new Experience(EXPERIENCE_PER_LEVEL);
+        stats = new Stats();
+        experience = new Experience(EXPERIENCE_PER_LEVEL, stats);
         inventory = new Inventory(16);
 
         this.intersectionMover = intersectionMover;
@@ -133,15 +133,15 @@ public class Human implements WorldElement, Follow {
     private void doRunningMove(KeyControl keyControl) { // todo make it so diagonall movement is no faster than vertical/horizontal
         float acc;
         if (boostTimer.active())
-            acc = BOOST_ACC;
+            acc = stats.getBoostAcc();
         else if (!air)
-            acc = RUN_ACC;
+            acc = stats.getRunAcc();
         else if (keyControl.isKeyDown(KeyControl.KEY_SHIFT) && stamina.available(Stamina.StaminaCost.GLIDE)) {
             stamina.deplete(Stamina.StaminaCost.GLIDE);
-            acc = GLIDE_ACC;
-            vz -= GLIDE_DESCENT_ACC;
+            acc = stats.getGlideAcc();
+            vz -= stats.getGlideDescentAcc();
         } else
-            acc = AIR_ACC;
+            acc = stats.getAirAcc();
 
         if (keyControl.isKeyDown(KeyControl.KEY_W)) {
             vx += norm[0] * acc;
@@ -171,14 +171,14 @@ public class Human implements WorldElement, Follow {
         stamina.deplete(staminaRequired);
         vx *= JUMP_MULT;
         vy *= JUMP_MULT;
-        vz += JUMP_ACC;
+        vz += stats.getJumpAcc();
     }
 
     private void doJet() {
         if (!stamina.available(Stamina.StaminaCost.JET))
             return;
         stamina.deplete(Stamina.StaminaCost.JET);
-        vz += JET_ACC;
+        vz += stats.getJetAcc();
     }
 
     private void doBoost(boolean shiftPress) {
