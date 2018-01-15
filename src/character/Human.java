@@ -24,7 +24,6 @@ public class Human implements WorldElement, Follow {
     private static final float RUN_ACC = .07f, JUMP_ACC = 1f, AIR_ACC = .02f, JET_ACC = .11f;
     private static final float BOOST_ACC = .07f, GLIDE_ACC = .05f, GLIDE_DESCENT_ACC = .02f;
     private boolean air;
-    private boolean jetting;
 
     // ability
     private static final float STAMINA = 20, STAMINA_REGEN = .1f, STAMINA_RESERVE = 150, STAMINA_RESERVE_REGEN = .05f;
@@ -103,8 +102,6 @@ public class Human implements WorldElement, Follow {
             doJump();
         if (keyControl.isKeyDown(KeyControl.KEY_SPACE))
             doJet();
-        else
-            jetting = false;
 
         doBoost(shiftPress);
 
@@ -182,7 +179,6 @@ public class Human implements WorldElement, Follow {
             return;
         stamina.deplete(Stamina.StaminaCost.JET);
         vz += JET_ACC;
-        jetting = true;
     }
 
     private void doBoost(boolean shiftPress) {
