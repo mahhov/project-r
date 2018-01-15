@@ -18,7 +18,7 @@ public class MouseButtonControl implements GLFWMouseButtonCallbackI {
         buttons[mouse] = state;
     }
 
-    public boolean isMousePreseed(int mouse) {
+    public boolean isMousePressed(int mouse) {
         if (buttons[mouse] == PRESSED) {
             buttons[mouse] = DOWN;
             return true;

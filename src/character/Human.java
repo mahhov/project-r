@@ -90,7 +90,7 @@ public class Human implements WorldElement, Follow {
     @Override
     public boolean update(World world) {
         boolean shiftPress = keyControl.isKeyPressed(KeyControl.KEY_SHIFT);
-        zoom ^= mouseButtonControl.isMousePreseed(MouseButtonControl.SECONDARY);
+        zoom ^= mouseButtonControl.isMousePressed(MouseButtonControl.SECONDARY);
 
         stamina.regen();
         life.regen();
