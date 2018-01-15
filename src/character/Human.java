@@ -29,10 +29,10 @@ public class Human implements WorldElement, Follow {
     private static final int BOOST_COOLDOWN = 60, BOOST_DURATION = 20, THROW_COOLDOWN = 15;
     private AbilityTimer boostTimer, throwTimer;
 
-    // life
+    // health
     private static final float LIFE = 100, LIFE_REGEN = .1f, SHIELD = 100, SHIELD_REGEN = 1;
-    private static final int LIFE_REGEN_DELAY = 75;
-    private Life life;
+    private static final int SHIELD_REGEN_DELAY = 75;
+    private Health health;
 
     private Stats stats;
 
@@ -71,7 +71,7 @@ public class Human implements WorldElement, Follow {
         stamina = new Stamina(STAMINA, STAMINA_REGEN, STAMINA_RESERVE, STAMINA_RESERVE_REGEN);
         boostTimer = new AbilityTimer(BOOST_COOLDOWN, BOOST_DURATION);
         throwTimer = new AbilityTimer(THROW_COOLDOWN, 1);
-        life = new Life(LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, LIFE_REGEN_DELAY);
+        health = new Health(LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, SHIELD_REGEN_DELAY);
         stats = new Stats();
         experience = new Experience(EXPERIENCE_PER_LEVEL, stats);
         inventory = new Inventory(16);
@@ -92,7 +92,7 @@ public class Human implements WorldElement, Follow {
         zoom ^= mouseButtonControl.isMousePressed(MouseButtonControl.SECONDARY);
 
         stamina.regen();
-        life.regen();
+        health.regen();
 
         doRotations(mousePosControl);
         computeAxis();
@@ -236,7 +236,7 @@ public class Human implements WorldElement, Follow {
 
     @Override
     public void takeDamage(float amount) {
-        life.deplete(amount);
+        health.deplete(amount);
     }
 
     void experienceAdd(int amount) {
@@ -328,11 +328,11 @@ public class Human implements WorldElement, Follow {
     }
 
     public float getLifePercent() {
-        return life.percentLife();
+        return health.percentLife();
     }
 
     public float getShieldPercent() {
-        return life.percentShield();
+        return health.percentShield();
     }
 
     public int getExperienceLevel() {

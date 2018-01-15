@@ -15,8 +15,8 @@ class Character implements WorldElement { // todo support human movement
     private static final float JUMP_ACC = 1f, RUN_ACC = .07f, AIR_ACC = .02f;
     private boolean air;
 
-    // life
-    private Life life;
+    // health
+    private Health health;
 
     // position
     private static final float SIZE = 4;
@@ -38,14 +38,14 @@ class Character implements WorldElement { // todo support human movement
         this.thetaZ = thetaZ;
         this.intersectionMover = intersectionMover;
 
-        this.life = new Life(life, lifeRegen, shield, shieldRegen, regenDelay);
+        this.health = new Health(life, lifeRegen, shield, shieldRegen, regenDelay);
 
         this.cubeInstancedFaces = cubeInstancedFaces;
     }
 
     @Override
     public boolean update(World world) {
-        if (life.depleted())
+        if (health.depleted())
             return die();
         move(createMoveControl(world));
         moveInWorld(world);
@@ -66,7 +66,7 @@ class Character implements WorldElement { // todo support human movement
     }
 
     private void move(MoveControl moveControl) {
-        life.regen();
+        health.regen();
 
         doRotations(moveControl);
         doRunningMove(moveControl);
@@ -135,7 +135,7 @@ class Character implements WorldElement { // todo support human movement
 
     @Override
     public void takeDamage(float amount) {
-        life.deplete(amount);
+        health.deplete(amount);
     }
 
     @Override

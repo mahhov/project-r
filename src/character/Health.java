@@ -2,29 +2,29 @@ package character;
 
 import util.MathNumbers;
 
-class Life {
+class Health {
     private float maxLife, currentLife, regenLife;
     private float maxShield, currentShield, regenShield;
-    private int regenDelay, currentRegenDelay;
+    private int shieldRegenDelay, currentShieldRegenDelay;
 
-    Life(float maxLife, float regenLife, float maxShield, float regenShield, int regenDelay) {
+    Health(float maxLife, float regenLife, float maxShield, float regenShield, int shieldRegenDelay) {
         this.maxLife = currentLife = maxLife;
         this.regenLife = regenLife;
         this.maxShield = currentShield = maxShield;
         this.regenShield = regenShield;
-        this.regenDelay = regenDelay;
+        this.shieldRegenDelay = shieldRegenDelay;
     }
 
     void regen() {
         currentLife = MathNumbers.min(currentLife + regenLife, maxLife);
-        if (currentRegenDelay > 0)
-            currentRegenDelay--;
+        if (currentShieldRegenDelay > 0)
+            currentShieldRegenDelay--;
         else
             currentShield = MathNumbers.min(currentShield + regenShield, maxShield);
     }
 
     void deplete(float amount) {
-        currentRegenDelay = regenDelay;
+        currentShieldRegenDelay = shieldRegenDelay;
         if (amount < currentShield)
             currentShield -= amount;
         else {
