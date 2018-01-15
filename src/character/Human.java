@@ -133,15 +133,15 @@ public class Human implements WorldElement, Follow {
     private void doRunningMove(KeyControl keyControl) { // todo make it so diagonall movement is no faster than vertical/horizontal
         float acc;
         if (boostTimer.active())
-            acc = stats.getBoostAcc();
+            acc = stats.boostAcc.getValue();
         else if (!air)
-            acc = stats.getRunAcc();
+            acc = stats.runAcc.getValue();
         else if (keyControl.isKeyDown(KeyControl.KEY_SHIFT) && stamina.available(Stamina.StaminaCost.GLIDE)) {
             stamina.deplete(Stamina.StaminaCost.GLIDE);
-            acc = stats.getGlideAcc();
-            vz -= stats.getGlideDescentAcc();
+            acc = stats.glideAcc.getValue();
+            vz -= stats.glideDescentAcc.getValue();
         } else
-            acc = stats.getAirAcc();
+            acc = stats.airAcc.getValue();
 
         if (keyControl.isKeyDown(KeyControl.KEY_W)) {
             vx += norm[0] * acc;
@@ -171,14 +171,14 @@ public class Human implements WorldElement, Follow {
         stamina.deplete(staminaRequired);
         vx *= JUMP_MULT;
         vy *= JUMP_MULT;
-        vz += stats.getJumpAcc();
+        vz += stats.jumpAcc.getValue();
     }
 
     private void doJet() {
         if (!stamina.available(Stamina.StaminaCost.JET))
             return;
         stamina.deplete(Stamina.StaminaCost.JET);
-        vz += stats.getJetAcc();
+        vz += stats.jetAcc.getValue();
     }
 
     private void doBoost(boolean shiftPress) {
