@@ -35,12 +35,12 @@ public class Experience {
         }
     }
 
-    public void spendPoint(Skill skill) {
+    public void spendPoint(int i) {
         if (unspentPoints == 0)
             return;
 
         unspentPoints--;
-        points[skill.value]++;
+        points[i]++;
     }
 
     int level() {
