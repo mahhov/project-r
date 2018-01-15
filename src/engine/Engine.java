@@ -156,5 +156,4 @@ public class Engine {
 // investigate if should retain STATIC_DRAW
 // support cubes of different colors in same CubeInstancedFaces
 // multi thread chunk loading
-// multi color text
 // particles

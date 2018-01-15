@@ -48,7 +48,7 @@ public class Texts {
 
         colorsVboId = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, colorsVboId);
-        glVertexAttribPointer(2, 4, GL_FLOAT, false, 0, 0); // todo make instnaced
+        glVertexAttribPointer(2, 4, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(2);
     }
 
