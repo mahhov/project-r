@@ -44,10 +44,12 @@ public class Experience {
         unspentPoints--;
         points[skill.value]++;
 
-        switch (skill) {
-            case RUN_AIR_ACC:
-                stats.setRunAcc(points[skill.value]);
-        }
+        stats.runAcc.update(points[Skill.RUN_AIR_ACC.value]);
+        stats.jumpAcc.update(points[Skill.JUMP_ACC.value]);
+        stats.airAcc.update(points[Skill.RUN_AIR_ACC.value]);
+        stats.jetAcc.update(points[Skill.JET_ACC.value]);
+        stats.boostAcc.update(points[Skill.BOOST_GLIDE_ACC.value]);
+        stats.glideAcc.update(points[Skill.BOOST_GLIDE_ACC.value]);
     }
 
     int level() {
