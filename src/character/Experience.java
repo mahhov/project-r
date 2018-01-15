@@ -31,9 +31,10 @@ public class Experience {
     void add(int amount) {
         experience += amount;
         if (experience >= maxExperience) {
-            level++;
-            unspentPoints++;
-            experience -= maxExperience;
+            int levelGain = experience / maxExperience;
+            experience -= levelGain * maxExperience;
+            level += levelGain;
+            unspentPoints += levelGain;
         }
     }
 
