@@ -113,7 +113,7 @@ public class Human implements WorldElement, Follow {
 
         applyVelocity();
 
-        doThrow(mouseButtonControl.isMouseDown(MouseButtonControl.PRIMARY), world);
+        doThrow(mousePosControl.isLocked() && mouseButtonControl.isMouseDown(MouseButtonControl.PRIMARY), world);
 
         return false;
     }
@@ -346,7 +346,7 @@ public class Human implements WorldElement, Follow {
     public float getExperiencePercent() {
         return experience.percent();
     }
-    
+
     public Experience getExperience() {
         return experience;
     }

@@ -57,6 +57,10 @@ public class MousePosControl implements GLFWCursorPosCallbackI {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
 
+    public boolean isLocked() {
+        return locked;
+    }
+
     @Override
     public void invoke(long window, double xpos, double ypos) {
         if (locked)
