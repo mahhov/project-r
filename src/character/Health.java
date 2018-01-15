@@ -3,46 +3,44 @@ package character;
 import util.MathNumbers;
 
 class Health {
-    private float maxLife, currentLife, regenLife;
-    private float maxShield, currentShield, regenShield;
-    private int shieldRegenDelay, currentShieldRegenDelay;
+    private float life, shield;
+    private float shieldRegenDelay;
+    private Stats stats;
 
-    Health(float maxLife, float regenLife, float maxShield, float regenShield, int shieldRegenDelay) {
-        this.maxLife = currentLife = maxLife;
-        this.regenLife = regenLife;
-        this.maxShield = currentShield = maxShield;
-        this.regenShield = regenShield;
-        this.shieldRegenDelay = shieldRegenDelay;
+    Health(Stats stats) {
+        this.stats = stats;
+        life = stats.life.getValue();
+        shield = stats.shield.getValue();
     }
 
     void regen() {
-        currentLife = MathNumbers.min(currentLife + regenLife, maxLife);
-        if (currentShieldRegenDelay > 0)
-            currentShieldRegenDelay--;
+        life = MathNumbers.min(life + stats.lifeRegen.getValue(), stats.life.getValue());
+        if (shieldRegenDelay > 0)
+            shieldRegenDelay--;
         else
-            currentShield = MathNumbers.min(currentShield + regenShield, maxShield);
+            shield = MathNumbers.min(shield + stats.shieldRegen.getValue(), stats.shield.getValue());
     }
 
     void deplete(float amount) {
-        currentShieldRegenDelay = shieldRegenDelay;
-        if (amount < currentShield)
-            currentShield -= amount;
+        shieldRegenDelay = stats.shieldRegenDelay.getValue();
+        if (amount < shield)
+            shield -= amount;
         else {
-            amount -= currentShield;
-            currentShield = 0;
-            currentLife = MathNumbers.max(currentLife - amount, 0);
+            amount -= shield;
+            shield = 0;
+            life = MathNumbers.max(life - amount, 0);
         }
     }
 
     boolean depleted() {
-        return currentLife == 0;
+        return life == 0;
     }
 
     float percentLife() {
-        return currentLife / maxLife;
+        return life / stats.life.getValue();
     }
 
     float percentShield() {
-        return currentShield / maxShield;
+        return shield / stats.shield.getValue();
     }
 }

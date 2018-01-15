@@ -23,23 +23,32 @@ public class Human implements WorldElement, Follow {
     private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1;
     private boolean air;
 
-    // ability
-    private static final float STAMINA = 20, STAMINA_REGEN = .1f, STAMINA_RESERVE = 150, STAMINA_RESERVE_REGEN = .05f;
-    private Stamina stamina;
-    private static final int BOOST_COOLDOWN = 60, BOOST_DURATION = 20, THROW_COOLDOWN = 15;
-    private AbilityTimer boostTimer, throwTimer;
-
-    // health
-    private static final float LIFE = 100, LIFE_REGEN = .1f, SHIELD = 100, SHIELD_REGEN = 1;
-    private static final int SHIELD_REGEN_DELAY = 75;
-    private Health health;
+    private static final float RUN_ACC = .07f;
+    private static final float JUMP_ACC = 1f;
+    private static final float AIR_ACC = .02f;
+    private static final float JET_ACC = .11f;
+    private static final float BOOST_ACC = .07f;
+    private static final float GLIDE_ACC = .05f;
+    private static final float GLIDE_DESCENT_ACC = .02f;
+    private static final float STAMINA = 20;
+    private static final float STAMINA_REGEN = .1f;
+    private static final float STAMINA_RESERVE = 150;
+    private static final float STAMINA_RESERVE_REGEN = .05f;
+    private static final float LIFE = 100;
+    private static final float LIFE_REGEN = .1f;
+    private static final float SHIELD = 100;
+    private static final float SHIELD_REGEN = 1;
+    private static final float SHIELD_REGEN_DELAY = 75;
 
     private Stats stats;
-
     private static final int EXPERIENCE_PER_LEVEL = 100;
     private Experience experience;
-
     private Inventory inventory;
+
+    private Stamina stamina;
+    private Health health;
+    private static final int BOOST_COOLDOWN = 60, BOOST_DURATION = 20, THROW_COOLDOWN = 15;
+    private AbilityTimer boostTimer, throwTimer;
 
     // position
     private static final float SIZE = 1;
@@ -68,13 +77,14 @@ public class Human implements WorldElement, Follow {
         norm = new float[2];
         right = new float[2];
 
-        stamina = new Stamina(STAMINA, STAMINA_REGEN, STAMINA_RESERVE, STAMINA_RESERVE_REGEN);
-        boostTimer = new AbilityTimer(BOOST_COOLDOWN, BOOST_DURATION);
-        throwTimer = new AbilityTimer(THROW_COOLDOWN, 1);
-        health = new Health(LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, SHIELD_REGEN_DELAY);
-        stats = new Stats();
+        stats = new Stats(RUN_ACC, JUMP_ACC, AIR_ACC, JET_ACC, BOOST_ACC, GLIDE_ACC, GLIDE_DESCENT_ACC, STAMINA, STAMINA_REGEN, STAMINA_RESERVE, STAMINA_RESERVE_REGEN, LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, SHIELD_REGEN_DELAY);
         experience = new Experience(EXPERIENCE_PER_LEVEL, stats);
         inventory = new Inventory(16);
+
+        stamina = new Stamina(stats);
+        health = new Health(stats);
+        boostTimer = new AbilityTimer(BOOST_COOLDOWN, BOOST_DURATION);
+        throwTimer = new AbilityTimer(THROW_COOLDOWN, 1);
 
         this.intersectionMover = intersectionMover;
         this.intersectionPicker = intersectionPicker;

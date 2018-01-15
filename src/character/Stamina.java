@@ -13,37 +13,36 @@ class Stamina {
         }
     }
 
-    private float max, current, regen;
-    private float maxReserve, currentReserve, regenReserve;
+    private float stamina, reserve;
+    private Stats stats;
 
-    Stamina(float max, float regen, float maxReserve, float regenReserve) {
-        this.max = current = max;
-        this.regen = regen;
-        this.maxReserve = currentReserve = maxReserve;
-        this.regenReserve = regenReserve;
+    Stamina(Stats stats) {
+        this.stats = stats;
+        stamina = stats.stamina.getValue();
+        reserve = stats.staminaReserve.getValue();
     }
 
     void regen() {
-        currentReserve = MathNumbers.min(currentReserve + regenReserve, maxReserve);
+        reserve = MathNumbers.min(reserve + stats.staminaReserveRegen.getValue(), stats.staminaReserve.getValue());
 
-        float regenAmount = MathNumbers.min(regen, currentReserve, max - current);
-        current = MathNumbers.min(current + regenAmount, max);
-        currentReserve -= regenAmount;
+        float regenAmount = MathNumbers.min(stats.staminaRegen.getValue(), reserve, stats.stamina.getValue() - stamina);
+        stamina = MathNumbers.min(stamina + regenAmount, stats.stamina.getValue());
+        reserve -= regenAmount;
     }
 
     void deplete(StaminaCost staminaCost) {
-        current -= staminaCost.value;
+        stamina -= staminaCost.value;
     }
 
     boolean available(StaminaCost staminaCost) {
-        return current >= staminaCost.value;
+        return stamina >= staminaCost.value;
     }
 
     float percent() {
-        return current / max;
+        return stamina / stats.stamina.getValue();
     }
 
     float percentReserve() {
-        return currentReserve / maxReserve;
+        return reserve / stats.staminaReserve.getValue();
     }
 }

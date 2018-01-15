@@ -4,7 +4,7 @@ public class Experience {
     private int maxExperience, level, experience;
 
     public enum Skill {
-        LIFE_REGEN("Life & Stamina Regen"), LIFE_RAW("Maximum Life & Stamina"), LIFE("Maximum Life & Life Regen"), SHIELD("Maximum Shield & Shield Regen"),
+        LIFE_REGEN("Life & Shield Regen"), LIFE_RAW("Maximum Life & Shield"), LIFE("Maximum Life & Life Regen"), SHIELD("Maximum Shield & Shield Regen"),
         STAMINA_REGEN("Stamina & Reserve Regen"), STAMINA_RAW("Maximum Stamina & Reserve"), STAMINA("Maximum Stamina & Stamina Regen"), RESERVE("Maximum Reserve & Reserve Regen"),
         RUN_AIR_ACC("Movement Speed"), JUMP_ACC("Jump Power"), JET_ACC("Jet Speed"), BOOST_GLIDE_ACC("Boost Power");
 
