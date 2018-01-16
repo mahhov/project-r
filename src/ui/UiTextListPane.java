@@ -71,6 +71,18 @@ abstract class UiTextListPane {
             texts[highlighted].setColor(HIGHLIGHT_COLOR);
     }
 
+    void setHighlightAndRefreshText(int i) {
+        if (highlighted != -1) {
+            texts[highlighted].setColor(null);
+            texts[highlighted].refreshText();
+        }
+        highlighted = i;
+        if (highlighted != -1) {
+            texts[highlighted].setColor(HIGHLIGHT_COLOR);
+            texts[highlighted].refreshText();
+        }
+    }
+
     void update() {
         if (visible)
             updateTexts();

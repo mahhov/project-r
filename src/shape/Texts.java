@@ -110,6 +110,7 @@ public class Texts {
         private static final float[] DEFAULT_COLOR = new float[] {1, 1, 1, 1};
         private float left, top, right, bottom;
         private boolean autoWidth;
+        private String text;
         LList<Character> characters;
         private boolean disabled;
         private float[] color;
@@ -135,6 +136,7 @@ public class Texts {
         }
 
         public void setText(String text) {
+            this.text = text;
             char[] chars = text.toCharArray();
             float charWidth = autoWidth ? top - bottom : (right - left) / chars.length;
             characters.removeAll(); // todo reuse characters
@@ -146,6 +148,10 @@ public class Texts {
                 character.setColor(color);
                 characters.addTail(character);
             }
+        }
+
+        public void refreshText() {
+            setText(text);
         }
 
         public void setColor(float[] color) {
