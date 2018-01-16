@@ -2,7 +2,7 @@ package world;
 
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
-import world.generator.SimplexHeightMapWorldGenerator;
+import world.generator.WorldGenerator;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -11,12 +11,12 @@ import java.util.concurrent.Future;
 class WorldChunkGenerator implements Callable<WorldChunk> {
     private CubeInstancedFaces cubeInstancedFaces;
     private CoordinateI3 coordinate;
-    private SimplexHeightMapWorldGenerator generator;
+    private WorldGenerator generator;
 
     private Future<WorldChunk> future;
     private WorldChunk worldChunk;
 
-    WorldChunkGenerator(ExecutorService executor, CubeInstancedFaces cubeInstancedFaces, CoordinateI3 coordinate, SimplexHeightMapWorldGenerator generator) {
+    WorldChunkGenerator(ExecutorService executor, CubeInstancedFaces cubeInstancedFaces, CoordinateI3 coordinate, WorldGenerator generator) {
         this.cubeInstancedFaces = cubeInstancedFaces;
         this.coordinate = coordinate;
         this.generator = generator;

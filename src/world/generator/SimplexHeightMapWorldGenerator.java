@@ -3,7 +3,7 @@ package world.generator;
 import util.MathNumbers;
 import world.generator.simplex.SimplexNoiseHelper;
 
-public class SimplexHeightMapWorldGenerator {
+public class SimplexHeightMapWorldGenerator implements WorldGenerator {
     private static final SimplexNoiseHelper SIMPLEX_NOISE_HELPER = new SimplexNoiseHelper(1000, .5, 43);
 
     private final int width, length, height;
@@ -16,6 +16,7 @@ public class SimplexHeightMapWorldGenerator {
         heightMult = (maxHeight - 1) * .5f;
     }
 
+    @Override
     public byte[][][] generate(int startX, int startY, int startZ) {
         byte[][][] map = new byte[width + 2][length + 2][height + 2];
 

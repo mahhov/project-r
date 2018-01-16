@@ -14,6 +14,7 @@ import util.intersection.IntersectionMover;
 import util.intersection.IntersectionPicker;
 import util.intersection.Map;
 import world.generator.SimplexHeightMapWorldGenerator;
+import world.generator.WorldGenerator;
 import world.projectile.Projectile;
 
 import java.util.concurrent.ExecutionException;
@@ -30,7 +31,7 @@ public class World implements Map {
     private int width, length, height;
     private int chunkWidth, chunkLength, chunkHeight;
     private WorldChunk[][][] chunks;
-    private SimplexHeightMapWorldGenerator mapGenerator;
+    private WorldGenerator worldGenerator;
     private CoordinateI3 viewStart, viewEnd;
 
     private Human human;
@@ -54,7 +55,7 @@ public class World implements Map {
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
         System.out.println("chunks: [" + chunkWidth + " x " + chunkLength + " x " + chunkHeight + "] total " + chunkWidth * chunkLength * chunkHeight);
-        mapGenerator = new SimplexHeightMapWorldGenerator(CHUNK_SIZE, CHUNK_SIZE, CHUNK_SIZE, height / 2);
+        worldGenerator = new SimplexHeightMapWorldGenerator(CHUNK_SIZE, CHUNK_SIZE, CHUNK_SIZE, height / 2);
 
         elements = new LList<>();
         intersectionMover = new IntersectionMover(this);
@@ -172,7 +173,7 @@ public class World implements Map {
                 for (int chunkZ = viewStart.z; chunkZ < viewEnd.z; chunkZ++) {
                     CoordinateI3 coordinate = new CoordinateI3(chunkX, chunkY, chunkZ);
                     if (getChunk(coordinate) == null)
-                        generators.addTail(new WorldChunkGenerator(generatorExecutors, new CubeInstancedFaces(), coordinate, mapGenerator));
+                        generators.addTail(new WorldChunkGenerator(generatorExecutors, new CubeInstancedFaces(), coordinate, worldGenerator));
                 }
 
         for (WorldChunkGenerator generator : generators)

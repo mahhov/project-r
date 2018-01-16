@@ -3,7 +3,7 @@ package world;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.LList;
-import world.generator.SimplexHeightMapWorldGenerator;
+import world.generator.WorldGenerator;
 
 class WorldChunk {
     private CubeInstancedFaces cubeInstancedFaces;
@@ -12,7 +12,7 @@ class WorldChunk {
     private boolean drawEmpty;
     private DynamicCell dynamicCells;
 
-    WorldChunk(CubeInstancedFaces cubeInstancedFaces, CoordinateI3 coordinate, SimplexHeightMapWorldGenerator generator) {
+    WorldChunk(CubeInstancedFaces cubeInstancedFaces, CoordinateI3 coordinate, WorldGenerator generator) {
         this.cubeInstancedFaces = cubeInstancedFaces;
         offsetX = coordinate.x * World.CHUNK_SIZE;
         offsetY = coordinate.y * World.CHUNK_SIZE;
