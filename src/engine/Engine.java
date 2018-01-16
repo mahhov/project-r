@@ -1,19 +1,13 @@
 package engine;
 
-import camera.Camera;
-import character.Human;
 import control.KeyControl;
 import control.MouseButtonControl;
 import control.MousePosControl;
-import map.Map;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
-import shader.ShaderManager;
-import ui.UiDrawer;
-import world.World;
 
 import java.nio.IntBuffer;
 
@@ -23,30 +17,21 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class Engine { // todo make game class do all game logic, and non-public engine class synch control, opengl, game, fps.
+class Engine {
     private static final int WINDOW_SIZE = 1000;
     public static final int SCALE = 50, SCALE_Z = 16;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
     private long window;
-    private Camera camera;
-    private Human human;
-    private UiDrawer uiDrawer;
-    private KeyControl keyControl;
-    private MousePosControl mousePosControl;
-    private MouseButtonControl mouseButtonControl;
-    private World world;
-    private Map map;
+
+    private Game game;
 
     private Engine() {
         initLwjgl();
-        ShaderManager.setRenderShader();
-        camera = new Camera(ShaderManager.getRenderShaderProgramId());
-        keyControl = new KeyControl(window);
-        mousePosControl = new MousePosControl(window);
-        mouseButtonControl = new MouseButtonControl(window);
-        map = new Map(this);
-        loadMap(0);
+        KeyControl keyControl = new KeyControl(window);
+        MousePosControl mousePosControl = new MousePosControl(window);
+        MouseButtonControl mouseButtonControl = new MouseButtonControl(window);
+        game = new Game(keyControl, mousePosControl, mouseButtonControl);
     }
 
     private void initLwjgl() {
@@ -74,7 +59,6 @@ public class Engine { // todo make game class do all game logic, and non-public 
         glfwShowWindow(window);
         GL.createCapabilities();
 
-        glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
         glEnable(GL_CULL_FACE);
         glEnable(GL_TEXTURE_2D);
@@ -89,23 +73,13 @@ public class Engine { // todo make game class do all game logic, and non-public 
     }
 
     private void run() {
-        int drawFrame = 0, engineFrame = 0;
+        int engineFrame = 0;
         long beginTime = 0, endTime;
 
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            ShaderManager.setRenderShader();
-            camera.update(keyControl);
-            world.setCameraCoordinate(camera.getWorldCoordinate());
-            world.update();
-            world.draw();
-
-            uiDrawer.update();
-            ShaderManager.setUiShader();
-            uiDrawer.draw();
-            ShaderManager.setTextShader();
-            uiDrawer.drawText();
+            game.loop();
 
             glfwSwapBuffers(window);
             glfwPollEvents();
@@ -113,30 +87,18 @@ public class Engine { // todo make game class do all game logic, and non-public 
             engineFrame++;
             endTime = System.nanoTime() + 1;
             if (endTime - beginTime > NANOSECONDS_IN__SECOND) {
-                uiDrawer.updateFps(engineFrame);
-                drawFrame = 0;
+                game.updateFps(engineFrame);
                 engineFrame = 0;
                 beginTime = endTime;
             }
         }
 
-        world.shutDownGeneratorExecutors();
+        game.shutDown();
+        destroyLwjgl();
     }
 
     public static void main(String[] args) {
         new Engine().run();
-    }
-
-    public void loadMap(int selected) {
-        if (world != null)
-            world.shutDownGeneratorExecutors();
-        world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE_Z, camera);
-        human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE_Z, 0, 0, world.getIntersectionMover(), world.getIntersectionPicker(), keyControl, mousePosControl, mouseButtonControl);
-        world.setHuman(human);
-        world.addRandomMonsters(100);
-        ShaderManager.setTextShader();
-        uiDrawer = new UiDrawer(human, map, keyControl, mousePosControl, mouseButtonControl);
-        camera.setFollow(human);
     }
 }
 
