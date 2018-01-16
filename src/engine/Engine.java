@@ -23,7 +23,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class Engine {
+public class Engine { // todo make game class do all game logic, and non-public engine class synch control, opengl, game, fps.
     private static final int WINDOW_SIZE = 1000;
     public static final int SCALE = 50, SCALE_Z = 16;
 
@@ -45,14 +45,8 @@ public class Engine {
         keyControl = new KeyControl(window);
         mousePosControl = new MousePosControl(window);
         mouseButtonControl = new MouseButtonControl(window);
-        world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE_Z, camera);
-        human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE_Z, 0, 0, world.getIntersectionMover(), world.getIntersectionPicker(), keyControl, mousePosControl, mouseButtonControl);
-        world.setHuman(human);
-        world.addRandomMonsters(100);
-        map = new Map();
-        ShaderManager.setTextShader();
-        uiDrawer = new UiDrawer(human, map, keyControl, mousePosControl, mouseButtonControl);
-        camera.setFollow(human);
+        map = new Map(this);
+        loadMap(0);
     }
 
     private void initLwjgl() {
@@ -131,6 +125,18 @@ public class Engine {
 
     public static void main(String[] args) {
         new Engine().run();
+    }
+
+    public void loadMap(int selected) {
+        if (world != null)
+            world.shutDownGeneratorExecutors();
+        world = new World(64 * SCALE, 64 * SCALE, 16 * SCALE_Z, camera);
+        human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE_Z, 0, 0, world.getIntersectionMover(), world.getIntersectionPicker(), keyControl, mousePosControl, mouseButtonControl);
+        world.setHuman(human);
+        world.addRandomMonsters(100);
+        ShaderManager.setTextShader();
+        uiDrawer = new UiDrawer(human, map, keyControl, mousePosControl, mouseButtonControl);
+        camera.setFollow(human);
     }
 }
 

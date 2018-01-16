@@ -9,7 +9,6 @@ import shape.Texts;
 class UiMap extends UiTextListPane {
     private static final int SIZE = 16;
     private Map map;
-    private String[] mapTexts;
     private MousePosControl mousePosControl;
     private MouseButtonControl mouseButtonControl;
 
@@ -17,7 +16,7 @@ class UiMap extends UiTextListPane {
         super(SIZE, false, left, top, right, bottom, backColor, rects, texts);
         this.map = map;
 
-        mapTexts = map.getTexts();
+        String[] mapTexts = map.getTexts();
         for (int i = 0; i < size; i++)
             setText(i, mapTexts[i]);
 
@@ -42,9 +41,7 @@ class UiMap extends UiTextListPane {
     @Override
     void updateTexts() {
         int selected = getIntersecting(mousePosControl.getAbsX(), mousePosControl.getAbsY());
-        if (selected < 2)
-            selected = -1;
-        else if (mouseButtonControl.isMousePressed(MouseButtonControl.PRIMARY))
+        if (selected != -1 && mouseButtonControl.isMousePressed(MouseButtonControl.PRIMARY))
             map.load(selected);
         setHighlightAndRefreshText(selected);
     }

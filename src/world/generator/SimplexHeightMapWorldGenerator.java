@@ -5,12 +5,12 @@ import util.MathRandom;
 import world.generator.simplex.SimplexNoiseHelper;
 
 public class SimplexHeightMapWorldGenerator implements WorldGenerator {
-    private static final SimplexNoiseHelper SIMPLEX_NOISE_HELPER = new SimplexNoiseHelper(1000, .5, MathRandom.random(0, Integer.MAX_VALUE));
-
+    private final SimplexNoiseHelper simplexNoiseHelper;
     private final int width, length, height;
     private final float heightMult;
 
     public SimplexHeightMapWorldGenerator(int width, int length, int height, int maxHeight) {
+        simplexNoiseHelper = new SimplexNoiseHelper(1000, .5, MathRandom.random(0, Integer.MAX_VALUE));
         this.width = width;
         this.length = length;
         this.height = height;
@@ -34,7 +34,7 @@ public class SimplexHeightMapWorldGenerator implements WorldGenerator {
         return map;
     }
 
-    private static float getNoise(int x, int y) {
-        return MathNumbers.maxMin((float) SIMPLEX_NOISE_HELPER.getNoise(x, y), 1, -1);
+    private float getNoise(int x, int y) {
+        return MathNumbers.maxMin((float) simplexNoiseHelper.getNoise(x, y), 1, -1);
     }
 }
