@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 
 public class World implements Map {
     static final int CHUNK_SIZE = 128;
-    private static final int DRAW_CHUNKS = 4;
+    private static final int DRAW_CHUNKS = 3;
     private static final int THREAD_COUNT = 4;
 
     private ExecutorService generatorExecutors;
