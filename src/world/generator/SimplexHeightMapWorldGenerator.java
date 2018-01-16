@@ -1,10 +1,11 @@
 package world.generator;
 
 import util.MathNumbers;
+import util.MathRandom;
 import world.generator.simplex.SimplexNoiseHelper;
 
 public class SimplexHeightMapWorldGenerator implements WorldGenerator {
-    private static final SimplexNoiseHelper SIMPLEX_NOISE_HELPER = new SimplexNoiseHelper(1000, .5, 43);
+    private static final SimplexNoiseHelper SIMPLEX_NOISE_HELPER = new SimplexNoiseHelper(1000, .5, MathRandom.random(0, Integer.MAX_VALUE));
 
     private final int width, length, height;
     private final float heightMult;

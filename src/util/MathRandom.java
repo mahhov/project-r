@@ -3,7 +3,7 @@ package util;
 import java.util.Random;
 
 public class MathRandom {
-    private static final Random R = new Random(100);
+    private static final Random R = new Random();
 
     // exclusive
     public static float random(float min, float max) {
