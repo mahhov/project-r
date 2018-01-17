@@ -23,23 +23,9 @@ public class Human implements WorldElement, Follow {
     private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1;
     private boolean air;
 
-    // todo group into multiple / line
-    private static final float RUN_ACC = .07f;
-    private static final float JUMP_ACC = 1f;
-    private static final float AIR_ACC = .02f;
-    private static final float JET_ACC = .11f;
-    private static final float BOOST_ACC = .07f;
-    private static final float GLIDE_ACC = .05f;
-    private static final float GLIDE_DESCENT_ACC = .02f;
-    private static final float STAMINA = 20;
-    private static final float STAMINA_REGEN = .1f;
-    private static final float STAMINA_RESERVE = 150;
-    private static final float STAMINA_RESERVE_REGEN = .05f;
-    private static final float LIFE = 100;
-    private static final float LIFE_REGEN = .1f;
-    private static final float SHIELD = 100;
-    private static final float SHIELD_REGEN = 1;
-    private static final float SHIELD_REGEN_DELAY = 75;
+    private static final float RUN_ACC = .07f, JUMP_ACC = 1f, AIR_ACC = .02f, JET_ACC = .11f, BOOST_ACC = .07f, GLIDE_ACC = .05f, GLIDE_DESCENT_ACC = .02f;
+    private static final float STAMINA = 20, STAMINA_REGEN = .1f, STAMINA_RESERVE = 150, STAMINA_RESERVE_REGEN = .05f;
+    private static final float LIFE = 100, LIFE_REGEN = .1f, SHIELD = 100, SHIELD_REGEN = 1, SHIELD_REGEN_DELAY = 75;
 
     private Stats stats;
     private static final int EXPERIENCE_PER_LEVEL = 100;
