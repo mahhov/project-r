@@ -8,8 +8,8 @@ class UiInventory extends UiTextListPane {
     private static final int SIZE = 16;
     private Inventory inventory;
 
-    UiInventory(float left, float top, float right, float bottom, float[] backColor, Rects rects, Texts texts, Inventory inventory) {
-        super(SIZE, false, left, top, right, bottom, backColor, rects, texts);
+    UiInventory(float[] backColor, Rects rects, Texts texts, Inventory inventory) {
+        super(SIZE, false, Location.LEFT, backColor, rects, texts);
         this.inventory = inventory;
     }
 

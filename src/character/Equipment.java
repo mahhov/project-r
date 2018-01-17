@@ -40,6 +40,7 @@ public class Equipment {
         helmet = new Helmet();
         glove = new Glove();
         boot = new Boot();
+        helmet.addProperty(new Property(PropertyType.STAMINA_STAMINA_REGEN, 1)); // todo remove
         
         this.stats = stats;
     }

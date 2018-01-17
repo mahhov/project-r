@@ -6,13 +6,13 @@ import control.MousePosControl;
 import shape.Rects;
 import shape.Texts;
 
-class UiCharacter extends UiTextListPane {
+class UiExperience extends UiTextListPane {
     private Experience experience;
     private MousePosControl mousePosControl;
     private MouseButtonControl mouseButtonControl;
 
-    UiCharacter(float left, float top, float right, float bottom, float[] backColor, Rects rects, Texts texts, Experience experience, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
-        super(experience.getSkillCount() + 2, false, left, top, right, bottom, backColor, rects, texts);
+    UiExperience(float[] backColor, Rects rects, Texts texts, Experience experience, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
+        super(experience.getSkillCount() + 2, false, Location.RIGHT, backColor, rects, texts);
         setText(0, "Unspent Points: " + experience.getUnspentPoints());
 
         this.experience = experience;

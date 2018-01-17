@@ -12,8 +12,8 @@ class UiMap extends UiTextListPane {
     private MousePosControl mousePosControl;
     private MouseButtonControl mouseButtonControl;
 
-    UiMap(float left, float top, float right, float bottom, float[] backColor, Rects rects, Texts texts, Map map, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
-        super(SIZE, false, left, top, right, bottom, backColor, rects, texts);
+    UiMap(float[] backColor, Rects rects, Texts texts, Map map, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
+        super(SIZE, false, Location.CENTER, backColor, rects, texts);
         this.map = map;
 
         String[] mapTexts = map.getTexts();

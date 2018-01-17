@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-class Engine {
+public class Engine {
     private static final int WINDOW_SIZE = 400;
     public static final int SCALE = 50, SCALE_Z = 16;
 
@@ -104,6 +104,11 @@ class Engine {
 
 // todo
 // ~~ high priority ~~
+// equipment ui
+// crafting & crafting ui
+// weapon equipment & crafting
+// bug with mouse locking / unlocking
+// thinner text drawing
 // combat
 // enemies
 // progression
