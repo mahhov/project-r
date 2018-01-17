@@ -4,7 +4,7 @@ import character.Stats;
 import shape.Rects;
 import shape.Texts;
 
-class UiStats extends UiTextListPane {
+class UiStats extends UiPane {
     private Stats stats;
 
     UiStats(float[] backColor, Rects rects, Texts texts, Stats stats) {

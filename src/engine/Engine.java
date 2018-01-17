@@ -108,6 +108,7 @@ public class Engine {
 // crafting & crafting ui
 // weapon equipment & crafting
 // bug with mouse locking / unlocking
+// close other panes open when open a new group
 // thinner text drawing
 // combat
 // enemies

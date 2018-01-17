@@ -4,9 +4,9 @@ import control.KeyControl;
 
 class UiPaneGroup {
     private int keyBind;
-    private UiTextListPane[] panes;
+    private UiPane[] panes;
 
-    UiPaneGroup(int keyBind, UiTextListPane[] panes) {
+    UiPaneGroup(int keyBind, UiPane[] panes) {
         this.keyBind = keyBind;
         this.panes = panes;
     }
@@ -24,19 +24,19 @@ class UiPaneGroup {
     }
 
     private boolean isActive() {
-        for (UiTextListPane pane : panes)
+        for (UiPane pane : panes)
             if (!pane.isVisible())
                 return false;
         return true;
     }
 
     private void showAll() {
-        for (UiTextListPane pane : panes)
+        for (UiPane pane : panes)
             pane.setVisible();
     }
 
     private void hideAll() {
-        for (UiTextListPane pane : panes)
+        for (UiPane pane : panes)
             pane.setInvisible();
     }
 }

@@ -4,7 +4,7 @@ import character.Inventory;
 import shape.Rects;
 import shape.Texts;
 
-class UiInventory extends UiTextListPane {
+class UiInventory extends UiPane {
     private static final int SIZE = 16;
     private Inventory inventory;
 

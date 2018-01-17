@@ -3,7 +3,7 @@ package ui;
 import shape.Rects;
 import shape.Texts;
 
-class UiTextBox extends UiTextListPane {
+class UiTextBox extends UiPane {
     private static final int SIZE = 8;
     private TextSystem textSystem;
 

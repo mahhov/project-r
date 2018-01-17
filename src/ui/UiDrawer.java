@@ -63,11 +63,11 @@ public class UiDrawer {
 
         paneGroups = new UiPaneGroup[5];
         int i = 0;
-        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_V, new UiTextListPane[] {stats}); // equipment
-        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_C, new UiTextListPane[] {stats, experience});
-        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_I, new UiTextListPane[] {inventory}); // equipment
-        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_B, new UiTextListPane[] {inventory}); // crafting
-        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_M, new UiTextListPane[] {this.map});
+        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_V, new UiPane[] {stats}); // equipment
+        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_C, new UiPane[] {stats, experience});
+        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_I, new UiPane[] {inventory}); // equipment
+        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_B, new UiPane[] {inventory}); // crafting
+        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_M, new UiPane[] {this.map});
 
         fpsText = texts.addText();
         fpsText.setCoordinates(-1, 1, .95f);

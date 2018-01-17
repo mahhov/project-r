@@ -6,42 +6,23 @@ import map.Map;
 import shape.Rects;
 import shape.Texts;
 
-class UiMap extends UiTextListPane {
+class UiMap extends UiInteractivePane {
     private static final int SIZE = 16;
     private Map map;
-    private MousePosControl mousePosControl;
-    private MouseButtonControl mouseButtonControl;
 
     UiMap(float[] backColor, Rects rects, Texts texts, Map map, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
-        super(SIZE, false, Location.CENTER, backColor, rects, texts);
+        super(SIZE, false, Location.CENTER, backColor, rects, texts, mousePosControl, mouseButtonControl);
         this.map = map;
 
         String[] mapTexts = map.getTexts();
         for (int i = 0; i < size; i++)
             setText(i, mapTexts[i]);
-
-        this.mousePosControl = mousePosControl;
-        this.mouseButtonControl = mouseButtonControl;
-    }
-
-    @Override
-    void setVisible() {
-        super.setVisible();
-        if (mousePosControl != null)
-            mousePosControl.unlock();
-    }
-
-    @Override
-    void setInvisible() {
-        super.setInvisible();
-        if (mousePosControl != null)
-            mousePosControl.lock();
     }
 
     @Override
     void updateTexts() {
-        int selected = getIntersecting(mousePosControl.getAbsX(), mousePosControl.getAbsY());
-        if (selected != -1 && mouseButtonControl.isMousePressed(MouseButtonControl.PRIMARY))
+        int selected = getSelected();
+        if (selected != -1 && getClick() == MouseButtonControl.PRIMARY)
             map.load(selected);
         setHighlightAndRefreshText(selected);
     }

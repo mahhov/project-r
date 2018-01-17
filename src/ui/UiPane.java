@@ -4,7 +4,7 @@ import shape.Rects;
 import shape.Texts;
 import util.MathNumbers;
 
-abstract class UiTextListPane {
+abstract class UiPane {
     private static final float
             BOTTOM_PANE_HEIHT = .3f,
             BOTTOM_PANE_LEFT = UiHud.BAR_COL1_RIGHT + UiDrawer.SMALL_MARGIN,
@@ -45,7 +45,7 @@ abstract class UiTextListPane {
 
     private boolean visible;
 
-    UiTextListPane(int size, boolean visible, Location location, float[] backColor, Rects rects, Texts texts) {
+    UiPane(int size, boolean visible, Location location, float[] backColor, Rects rects, Texts texts) {
         this.size = size;
 
         backRect = rects.addRect(backColor);
