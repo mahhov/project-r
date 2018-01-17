@@ -135,15 +135,15 @@ public class Human implements WorldElement, Follow {
     private void doRunningMove(KeyControl keyControl) { // todo make it so diagonall movement is no faster than vertical/horizontal
         float acc;
         if (boostTimer.active())
-            acc = stats.boostAcc.getValue();
+            acc = stats.getStat(Stats.StatType.BOOST_ACC);
         else if (!air)
-            acc = stats.runAcc.getValue();
+            acc = stats.getStat(Stats.StatType.RUN_ACC);
         else if (keyControl.isKeyDown(KeyControl.KEY_SHIFT) && stamina.available(Stamina.StaminaCost.GLIDE)) {
             stamina.deplete(Stamina.StaminaCost.GLIDE);
-            acc = stats.glideAcc.getValue();
-            vz -= stats.glideDescentAcc.getValue();
+            acc = stats.getStat(Stats.StatType.GLIDE_ACC);
+            vz -= stats.getStat(Stats.StatType.GLIDE_DESCENT_ACC);
         } else
-            acc = stats.airAcc.getValue();
+            acc = stats.getStat(Stats.StatType.AIR_ACC);
 
         if (keyControl.isKeyDown(KeyControl.KEY_W)) {
             vx += norm[0] * acc;
@@ -173,14 +173,14 @@ public class Human implements WorldElement, Follow {
         stamina.deplete(staminaRequired);
         vx *= JUMP_MULT;
         vy *= JUMP_MULT;
-        vz += stats.jumpAcc.getValue();
+        vz += stats.getStat(Stats.StatType.JUMP_ACC);
     }
 
     private void doJet() {
         if (!stamina.available(Stamina.StaminaCost.JET))
             return;
         stamina.deplete(Stamina.StaminaCost.JET);
-        vz += stats.jetAcc.getValue();
+        vz += stats.getStat(Stats.StatType.JET_ACC);
     }
 
     private void doBoost(boolean shiftPress) {
@@ -345,11 +345,23 @@ public class Human implements WorldElement, Follow {
         return experience.percent();
     }
 
+    public Stats getStats() {
+        return stats;
+    }
+
     public Experience getExperience() {
         return experience;
     }
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public Equipment getEquipment() {
+        return equipment;
+    }
+
+    public Crafting getCrafting() {
+        return crafting;
     }
 }

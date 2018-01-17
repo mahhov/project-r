@@ -47,48 +47,54 @@ abstract class UiTextListPane {
 
     UiTextListPane(int size, boolean visible, Location location, float[] backColor, Rects rects, Texts texts) {
         this.size = size;
-        this.visible = !visible;
 
         backRect = rects.addRect(backColor);
         backRect.setCoordinates(location.left, location.top, location.right, location.bottom);
 
-        size = MathNumbers.max(size, location.rows);
+        int rows = MathNumbers.max(size, location.rows);
         itemLeft = location.left + MARGIN;
         itemTop = location.top - MARGIN;
         itemRight = location.right - MARGIN;
         itemBottom = location.bottom + MARGIN;
-        itemOffsetY = (itemTop - location.bottom) / size;
+        itemOffsetY = (itemTop - location.bottom) / rows;
         itemHeight = itemOffsetY - MARGIN;
         itemHeightRatio = itemHeight / itemOffsetY;
-        this.texts = new Texts.Text[size];
-        for (int i = 0; i < size; i++) {
+        this.texts = new Texts.Text[rows];
+        for (int i = 0; i < rows; i++) {
             this.texts[i] = texts.addText();
             float topOffset = itemTop - itemOffsetY * i;
             this.texts[i].setCoordinates(itemLeft, topOffset, topOffset - itemHeight);
         }
 
-        toggle();
+        if (visible)
+            setVisible();
+        else
+            setInvisible();
     }
 
     void toggle() {
-        visible = !visible;
-        if (visible) {
-            setVisible();
-        } else {
+        if (visible)
             setInvisible();
-        }
+        else
+            setVisible();
     }
 
     void setVisible() {
+        visible = true;
         backRect.enable();
         for (Texts.Text text : texts)
             text.enable();
     }
 
     void setInvisible() {
+        visible = false;
         backRect.disable();
         for (Texts.Text text : texts)
             text.disable();
+    }
+
+    boolean isVisible() {
+        return visible;
     }
 
     void setText(int i, String text) {
@@ -125,7 +131,11 @@ abstract class UiTextListPane {
             return -1;
         float shiftedY = (itemTop - y) / itemOffsetY;
         int intShiftedY = (int) shiftedY;
-        return shiftedY - intShiftedY > itemHeightRatio ? -1 : intShiftedY;
+        if (intShiftedY >= size)
+            return -1;
+        if (shiftedY - intShiftedY > itemHeightRatio)
+            return -1;
+        return intShiftedY;
     }
 
     abstract void updateTexts();

@@ -18,15 +18,15 @@ class Stamina {
 
     Stamina(Stats stats) {
         this.stats = stats;
-        stamina = stats.stamina.getValue();
-        reserve = stats.staminaReserve.getValue();
+        stamina = stats.getStat(Stats.StatType.STAMINA);
+        reserve = stats.getStat(Stats.StatType.STAMINA_RESERVE);
     }
 
     void regen() {
-        reserve = MathNumbers.min(reserve + stats.staminaReserveRegen.getValue(), stats.staminaReserve.getValue());
+        reserve = MathNumbers.min(reserve + stats.getStat(Stats.StatType.STAMINA_RESERVE_REGEN), stats.getStat(Stats.StatType.STAMINA_RESERVE));
 
-        float regenAmount = MathNumbers.min(stats.staminaRegen.getValue(), reserve, stats.stamina.getValue() - stamina);
-        stamina = MathNumbers.min(stamina + regenAmount, stats.stamina.getValue());
+        float regenAmount = MathNumbers.min(stats.getStat(Stats.StatType.STAMINA_REGEN), reserve, stats.getStat(Stats.StatType.STAMINA) - stamina);
+        stamina = MathNumbers.min(stamina + regenAmount, stats.getStat(Stats.StatType.STAMINA));
         reserve -= regenAmount;
     }
 
@@ -39,10 +39,10 @@ class Stamina {
     }
 
     float percent() {
-        return stamina / stats.stamina.getValue();
+        return stamina / stats.getStat(Stats.StatType.STAMINA);
     }
 
     float percentReserve() {
-        return reserve / stats.staminaReserve.getValue();
+        return reserve / stats.getStat(Stats.StatType.STAMINA_RESERVE);
     }
 }

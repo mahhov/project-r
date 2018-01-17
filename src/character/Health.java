@@ -9,20 +9,20 @@ class Health {
 
     Health(Stats stats) {
         this.stats = stats;
-        life = stats.life.getValue();
-        shield = stats.shield.getValue();
+        life = stats.getStat(Stats.StatType.LIFE);
+        shield = stats.getStat(Stats.StatType.SHIELD);
     }
 
     void regen() {
-        life = MathNumbers.min(life + stats.lifeRegen.getValue(), stats.life.getValue());
+        life = MathNumbers.min(life + stats.getStat(Stats.StatType.LIFE_REGEN), stats.getStat(Stats.StatType.LIFE));
         if (shieldRegenDelay > 0)
             shieldRegenDelay--;
         else
-            shield = MathNumbers.min(shield + stats.shieldRegen.getValue(), stats.shield.getValue());
+            shield = MathNumbers.min(shield + stats.getStat(Stats.StatType.SHIELD_REGEN), stats.getStat(Stats.StatType.SHIELD));
     }
 
     void deplete(float amount) {
-        shieldRegenDelay = stats.shieldRegenDelay.getValue();
+        shieldRegenDelay = stats.getStat(Stats.StatType.SHIELD_REGEN_DELAY);
         if (amount < shield)
             shield -= amount;
         else {
@@ -37,10 +37,10 @@ class Health {
     }
 
     float percentLife() {
-        return life / stats.life.getValue();
+        return life / stats.getStat(Stats.StatType.LIFE);
     }
 
     float percentShield() {
-        return shield / stats.shield.getValue();
+        return shield / stats.getStat(Stats.StatType.SHIELD);
     }
 }

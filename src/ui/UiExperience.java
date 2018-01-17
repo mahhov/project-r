@@ -13,7 +13,7 @@ class UiExperience extends UiTextListPane {
 
     UiExperience(float[] backColor, Rects rects, Texts texts, Experience experience, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
         super(experience.getSkillCount() + 2, false, Location.RIGHT, backColor, rects, texts);
-        setText(0, "Unspent Points: " + experience.getUnspentPoints());
+        setText(0, "UNSPENT POINTS: " + experience.getUnspentPoints());
 
         this.experience = experience;
         this.mousePosControl = mousePosControl;

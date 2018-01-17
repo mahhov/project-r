@@ -18,21 +18,22 @@ public class UiDrawer {
     private Texts texts;
 
     private UiHud hud;
-    //    private UiStats stats;
+    private UiStats stats;
     //    private UiEquipment equipment;
     private UiExperience experience;
     private UiInventory inventory;
+//    private UiCrafting crafting;
     private UiMap map;
     private UiTextBox textBox;
     private Texts.Text fpsText;
-    
-    // todo open panes in pairs as required
+    private UiPaneGroup[] paneGroups;
+            
     /* -- PANES --
-        Stats & Equipment
-        Stats & Experience
-        Inventory & Equipment
-        Inventory & Crafting
-        Map
+        Stats & Equipment (V)
+        Stats & Experience (C)
+        Inventory & Equipment (I)
+        Inventory & Crafting (B)
+        Map (M)
      */
 
     // controls
@@ -52,14 +53,22 @@ public class UiDrawer {
         hud = new UiHud(rects, texts, human);
 
         // panes
-        //        stats = new UiStats(UiHud.BAR_COL1_LEFT, PANE_TOP, -PANE_OFFSET, 0, BACK_COLOR, rects, texts, human.getExperience(), mousePosControl, mouseButtonControl);
-        //        equipment = new UiEquipment(UiHud.BAR_COL1_LEFT, PANE_TOP, -PANE_OFFSET, 0, BACK_COLOR, rects, texts, human.getExperience(), mousePosControl, mouseButtonControl);
+        stats = new UiStats(BACK_COLOR, rects, texts, human.getStats());
+        //        equipment = new UiEquipment(BACK_COLOR, rects, texts, human.getExperience(), mousePosControl, mouseButtonControl);
         experience = new UiExperience(BACK_COLOR, rects, texts, human.getExperience(), mousePosControl, mouseButtonControl);
         inventory = new UiInventory(BACK_COLOR, rects, texts, human.getInventory());
+        //        crafting
         this.map = new UiMap(BACK_COLOR, rects, texts, map, mousePosControl, mouseButtonControl);
         textBox = new UiTextBox(BACK_COLOR, rects, texts, human.getInventory());
 
-        // text test
+        paneGroups = new UiPaneGroup[5];
+        int i = 0;
+        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_V, new UiTextListPane[] {stats}); // equipment
+        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_C, new UiTextListPane[] {stats, experience});
+        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_I, new UiTextListPane[] {inventory}); // equipment
+        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_B, new UiTextListPane[] {inventory}); // crafting
+        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_M, new UiTextListPane[] {this.map});
+
         fpsText = texts.addText();
         fpsText.setCoordinates(-1, 1, .95f);
 
@@ -74,16 +83,14 @@ public class UiDrawer {
         else
             hud.show();
 
-        if (keyControl.isKeyPressed(KeyControl.KEY_C))
-            experience.toggle();
+        for (UiPaneGroup paneGroup : paneGroups)
+            paneGroup.handleKeyPress(keyControl);
+
+        stats.update();
+        // equipment.update();
         experience.update();
-
-        if (keyControl.isKeyPressed(KeyControl.KEY_I))
-            inventory.toggle();
         inventory.update();
-
-        if (keyControl.isKeyPressed(KeyControl.KEY_M))
-            map.toggle();
+        // crafting.update();
         map.update();
 
         if (keyControl.isKeyPressed(KeyControl.KEY_ENTER))
