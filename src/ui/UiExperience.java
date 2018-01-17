@@ -10,7 +10,7 @@ class UiExperience extends UiInteractivePane {
     private Experience experience;
 
     UiExperience(float[] backColor, Rects rects, Texts texts, Experience experience, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
-        super(experience.getSkillCount() + 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
+        super(Experience.getSkillCount() + 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
         setText(0, "UNSPENT POINTS: " + experience.getUnspentPoints());
         this.experience = experience;
     }

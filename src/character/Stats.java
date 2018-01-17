@@ -16,7 +16,7 @@ public class Stats {
         }
     }
 
-    private static final StatType[] statTypeValues = StatType.values();
+    private static final StatType[] STAT_TYPE_VALUES = StatType.values();
 
     private Stat stats[];
     private Experience experience;
@@ -100,16 +100,16 @@ public class Stats {
         return stats[statType.value].value;
     }
 
-    public int getStatTypeCount() {
-        return statTypeValues.length;
-    }
-
     public String getText(StatType statType) {
         return statType.name + " " + getStat(statType);
     }
 
+    public static int getStatTypeCount() {
+        return STAT_TYPE_VALUES.length;
+    }
+
     public static StatType getStatType(int i) {
-        return statTypeValues[i];
+        return STAT_TYPE_VALUES[i];
     }
 
     class Stat { // todo private

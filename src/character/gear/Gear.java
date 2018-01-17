@@ -28,4 +28,8 @@ public class Gear {
                 sum += properties[i].value();
         return sum;
     }
+
+    public String getText() {
+        return "juba"; // todo placeholder
+    }
 }

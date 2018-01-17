@@ -19,7 +19,7 @@ public class Experience {
         }
     }
 
-    private static final Skill[] skillValues = Skill.values();
+    private static final Skill[] SKILL_VALUES = Skill.values();
 
     private int unspentPoints, points[];
     private Stats stats;
@@ -64,10 +64,6 @@ public class Experience {
         return 1f * experience / maxExperience;
     }
 
-    public int getSkillCount() {
-        return skillValues.length;
-    }
-
     public int getUnspentPoints() {
         return unspentPoints;
     }
@@ -76,7 +72,11 @@ public class Experience {
         return skill.name + " " + points[skill.value];
     }
 
+    public static int getSkillCount() {
+        return SKILL_VALUES.length;
+    }
+    
     public static Skill getSkill(int i) {
-        return skillValues[i];
+        return SKILL_VALUES[i];
     }
 }

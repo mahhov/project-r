@@ -18,7 +18,7 @@ public abstract class StackableItem extends Item {
     }
 
     @Override
-    public String print() {
+    public String print() { // todo rename getText
         return String.format("%d %s", count, name);
     }
 }

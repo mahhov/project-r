@@ -45,7 +45,7 @@ abstract class UiPane {
 
     private boolean visible;
 
-    UiPane(int size, boolean visible, Location location, float[] backColor, Rects rects, Texts texts) {
+    UiPane(int size, boolean visible, Location location, float[] backColor, Rects rects, Texts texts) { // todo support title
         this.size = size;
 
         backRect = rects.addRect(backColor);

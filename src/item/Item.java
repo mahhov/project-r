@@ -15,7 +15,7 @@ public abstract class Item {
         return 1;
     }
 
-    public String print() {
+    public String print() { // todo rename getText
         return name;
     }
 }

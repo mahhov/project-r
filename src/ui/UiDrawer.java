@@ -19,10 +19,10 @@ public class UiDrawer {
 
     private UiHud hud;
     private UiStats stats;
-    //    private UiEquipment equipment;
+    private UiEquipment equipment;
     private UiExperience experience;
     private UiInventory inventory;
-//    private UiCrafting crafting;
+    //    private UiCrafting crafting;
     private UiMap map;
     private UiTextBox textBox;
     private Texts.Text fpsText;
@@ -54,7 +54,7 @@ public class UiDrawer {
 
         // panes
         stats = new UiStats(BACK_COLOR, rects, texts, human.getStats());
-        //        equipment = new UiEquipment(BACK_COLOR, rects, texts, human.getExperience(), mousePosControl, mouseButtonControl);
+        equipment = new UiEquipment(BACK_COLOR, rects, texts, human.getEquipment(), mousePosControl, mouseButtonControl);
         experience = new UiExperience(BACK_COLOR, rects, texts, human.getExperience(), mousePosControl, mouseButtonControl);
         inventory = new UiInventory(BACK_COLOR, rects, texts, human.getInventory());
         //        crafting
@@ -63,9 +63,9 @@ public class UiDrawer {
 
         paneGroups = new UiPaneGroup[5];
         int i = 0;
-        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_V, new UiPane[] {stats}); // equipment
+        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_V, new UiPane[] {stats, equipment});
         paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_C, new UiPane[] {stats, experience});
-        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_I, new UiPane[] {inventory}); // equipment
+        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_I, new UiPane[] {inventory, equipment});
         paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_B, new UiPane[] {inventory}); // crafting
         paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_M, new UiPane[] {this.map});
 
@@ -87,7 +87,7 @@ public class UiDrawer {
             paneGroup.handleKeyPress(keyControl);
 
         stats.update();
-        // equipment.update();
+        equipment.update();
         experience.update();
         inventory.update();
         // crafting.update();

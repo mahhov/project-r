@@ -32,20 +32,51 @@ public class Equipment {
         }
     }
 
-    private Gear body, helmet, glove, boot;
-    private Stats stats;
+    public enum GearType {
+        BODY("Body"), HELMET("Helmet"), GLOVE("Glove"), BOOT("Boot");
+
+        final String name;
+        final int value;
+
+        GearType(String name) {
+            this.name = name;
+            this.value = ordinal();
+        }
+    }
+
+    private static final GearType[] GEAR_TYPE_VALUES = GearType.values();
+
+    private Gear[] gears;
+    private Stats stats; // todo update stats when equipment updated
 
     public Equipment(Stats stats) {
-        body = new Body();
-        helmet = new Helmet();
-        glove = new Glove();
-        boot = new Boot();
-        helmet.addProperty(new Property(PropertyType.STAMINA_STAMINA_REGEN, 1)); // todo remove
-        
+        gears = new Gear[getGearTypeCount()];
+
+        gears[GearType.BODY.value] = new Body();
+        gears[GearType.HELMET.value] = new Helmet();
+        gears[GearType.GLOVE.value] = new Glove();
+        gears[GearType.BOOT.value] = new Boot();
+        gears[GearType.HELMET.value].addProperty(new Property(PropertyType.STAMINA_STAMINA_REGEN, 1)); // todo remove
+
         this.stats = stats;
     }
 
     int getEquipmentBonus(PropertyType propertyType) {
-        return body.getEquipmentBonus(propertyType) + helmet.getEquipmentBonus(propertyType) + glove.getEquipmentBonus(propertyType) + boot.getEquipmentBonus(propertyType);
+        int sum = 0;
+        for (Gear gear : gears)
+            sum += gear.getEquipmentBonus(propertyType);
+        return sum;
+    }
+
+    public String getText(GearType gearType) {
+        return gearType.name + " " + gears[gearType.value].getText();
+    }
+
+    public static int getGearTypeCount() {
+        return GEAR_TYPE_VALUES.length;
+    }
+
+    public static GearType getGearType(int i) {
+        return GEAR_TYPE_VALUES[i];
     }
 }

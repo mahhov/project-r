@@ -8,7 +8,7 @@ class UiStats extends UiPane {
     private Stats stats;
 
     UiStats(float[] backColor, Rects rects, Texts texts, Stats stats) {
-        super(stats.getStatTypeCount() + 2, false, Location.LEFT, backColor, rects, texts);
+        super(Stats.getStatTypeCount() + 2, false, Location.LEFT, backColor, rects, texts);
         setText(0, "STATS");
 
         this.stats = stats;
