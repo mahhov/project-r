@@ -14,7 +14,7 @@ class UiCharacter extends UiTextListPane {
     UiCharacter(float left, float top, float right, float bottom, float[] backColor, Rects rects, Texts texts, Experience experience, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
         super(experience.getSkillCount() + 2, false, left, top, right, bottom, backColor, rects, texts);
         setText(0, "Unspent Points: " + experience.getUnspentPoints());
-        
+
         this.experience = experience;
         this.mousePosControl = mousePosControl;
         this.mouseButtonControl = mouseButtonControl;
@@ -40,12 +40,12 @@ class UiCharacter extends UiTextListPane {
         if (selected < 2)
             selected = -1;
         else if (mouseButtonControl.isMousePressed(MouseButtonControl.PRIMARY))
-            experience.spendPoint(experience.getSkill(selected - 2));
+            experience.spendPoint(Experience.getSkill(selected - 2), 1);
         else if (mouseButtonControl.isMousePressed(MouseButtonControl.SECONDARY))
-            experience.spendPoint(experience.getSkill(selected - 2), 10);
+            experience.spendPoint(Experience.getSkill(selected - 2), 10);
         setHighlight(selected);
 
         for (int i = 2; i < size; i++)
-            setText(i, experience.getText(experience.getSkill(i - 2)));
+            setText(i, experience.getText(Experience.getSkill(i - 2)));
     }
 }

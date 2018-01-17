@@ -40,16 +40,6 @@ public class Experience {
         }
     }
 
-    public void spendPoint(Skill skill) {
-        if (unspentPoints == 0)
-            return;
-
-        unspentPoints--;
-        points[skill.value]++;
-
-        updateStats();
-    }
-
     public void spendPoint(Skill skill, int numPoints) {
         if (unspentPoints == 0)
             return;
@@ -59,25 +49,11 @@ public class Experience {
         unspentPoints -= numPoints;
         points[skill.value] += numPoints;
 
-        updateStats();
+        stats.update();
     }
 
-    private void updateStats() {
-        stats.runAcc.update(points[Skill.RUN_AIR_ACC.value]);
-        stats.jumpAcc.update(points[Skill.JUMP_ACC.value]);
-        stats.airAcc.update(points[Skill.RUN_AIR_ACC.value]);
-        stats.jetAcc.update(points[Skill.JET_ACC.value]);
-        stats.boostAcc.update(points[Skill.BOOST_GLIDE_ACC.value]);
-        stats.glideAcc.update(points[Skill.BOOST_GLIDE_ACC.value]);
-
-        stats.stamina.update(points[Skill.STAMINA_RAW.value] + points[Skill.STAMINA_STAMINA.value]);
-        stats.staminaRegen.update(points[Skill.STAMINA_REGEN.value] + points[Skill.STAMINA_STAMINA.value]);
-        stats.staminaReserve.update(points[Skill.STAMINA_RAW.value] + points[Skill.STAMINA_RESERVE.value]);
-        stats.staminaReserveRegen.update(points[Skill.STAMINA_REGEN.value] + points[Skill.STAMINA_RESERVE.value]);
-        stats.life.update(points[Skill.HEALTH_RAW.value] + points[Skill.HEALTH_LIFE.value]);
-        stats.lifeRegen.update(points[Skill.HEALTH_REGEN.value] + points[Skill.HEALTH_LIFE.value]);
-        stats.shield.update(points[Skill.HEALTH_RAW.value] + points[Skill.HEALTH_SHIELD.value]);
-        stats.shieldRegen.update(points[Skill.HEALTH_REGEN.value] + points[Skill.HEALTH_SHIELD.value]);
+    int getSkillPoints(Skill skill) {
+        return points[skill.value];
     }
 
     int level() {
@@ -100,7 +76,7 @@ public class Experience {
         return skill.name + " " + points[skill.value];
     }
 
-    public Skill getSkill(int i) {
+    public static Skill getSkill(int i) {
         return skillValues[i];
     }
 }

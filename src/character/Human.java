@@ -44,6 +44,8 @@ public class Human implements WorldElement, Follow {
     private static final int EXPERIENCE_PER_LEVEL = 100;
     private Experience experience;
     private Inventory inventory;
+    private Equipment equipment;
+    private Crafting crafting;
 
     private Stamina stamina;
     private Health health;
@@ -79,7 +81,10 @@ public class Human implements WorldElement, Follow {
 
         stats = new Stats(RUN_ACC, JUMP_ACC, AIR_ACC, JET_ACC, BOOST_ACC, GLIDE_ACC, GLIDE_DESCENT_ACC, STAMINA, STAMINA_REGEN, STAMINA_RESERVE, STAMINA_RESERVE_REGEN, LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, SHIELD_REGEN_DELAY);
         experience = new Experience(EXPERIENCE_PER_LEVEL, stats);
+        equipment = new Equipment(stats);
+        stats.setFactors(experience, equipment);
         inventory = new Inventory(16);
+        crafting = new Crafting();
 
         stamina = new Stamina(stats);
         health = new Health(stats);
