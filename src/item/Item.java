@@ -10,12 +10,12 @@ public abstract class Item {
         this.name = name;
         this.stackable = stackable;
     }
-    
-    public int getCount(){
+
+    public int getCount() {
         return 1;
     }
 
-    public String print() { // todo rename getText
+    public String getText() {
         return name;
     }
 }

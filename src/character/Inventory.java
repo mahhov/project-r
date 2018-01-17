@@ -17,9 +17,9 @@ public class Inventory implements TextSystem {
 
     void add(Item item) {
         if (findRoomAndAdd(item))
-            log.add(String.format("Obtained %s", item.print()));
+            log.add(String.format("Obtained %s", item.getText()));
         else
-            log.add(String.format("Inventory full !! Lost %s", item.print()));
+            log.add(String.format("Inventory full !! Lost %s", item.getText()));
     }
 
     private boolean findRoomAndAdd(Item item) {
