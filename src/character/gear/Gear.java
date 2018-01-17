@@ -17,7 +17,7 @@ public class Gear {
         properties = new Property[7];
     }
 
-    void addProperty(Property property) {
+    public void addProperty(Property property) {
         properties[numProperties++] = property;
     }
 

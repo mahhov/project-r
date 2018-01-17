@@ -2,11 +2,11 @@ package character.gear;
 
 import character.Equipment;
 
-class Property {
+public class Property {
     private Equipment.PropertyType propertyType;
     private int value;
 
-    Property(Equipment.PropertyType propertyType, int value) {
+    public Property(Equipment.PropertyType propertyType, int value) {
         this.propertyType = propertyType;
         this.value = value;
     }

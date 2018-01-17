@@ -1,6 +1,6 @@
 package character;
 
-import character.gear.Gear;
+import character.gear.*;
 
 public class Equipment {
     public enum Source {
@@ -36,6 +36,11 @@ public class Equipment {
     private Stats stats;
 
     public Equipment(Stats stats) {
+        body = new Body();
+        helmet = new Helmet();
+        glove = new Glove();
+        boot = new Boot();
+        
         this.stats = stats;
     }
 

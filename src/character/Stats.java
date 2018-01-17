@@ -55,6 +55,7 @@ class Stats {
     void setFactors(Experience experience, Equipment equipment) {
         this.experience = experience;
         this.equipment = equipment;
+        update();
     }
 
     void update() {

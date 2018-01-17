@@ -23,6 +23,7 @@ public class Human implements WorldElement, Follow {
     private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1;
     private boolean air;
 
+    // todo group into multiple / line
     private static final float RUN_ACC = .07f;
     private static final float JUMP_ACC = 1f;
     private static final float AIR_ACC = .02f;
