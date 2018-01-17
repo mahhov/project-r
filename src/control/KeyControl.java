@@ -13,7 +13,7 @@ public class KeyControl implements GLFWKeyCallbackI {
             KEY_R, KEY_F, KEY_Z, KEY_X,
             KEY_SHIFT, KEY_SPACE,
             KEY_ENTER,
-            KEY_C, KEY_I, KEY_M;
+            KEY_C, KEY_V, KEY_I, KEY_B, KEY_M;
 
     static {
         int i = 0;
@@ -31,7 +31,9 @@ public class KeyControl implements GLFWKeyCallbackI {
         KEY_SPACE = i++;
         KEY_ENTER = i++;
         KEY_C = i++;
+        KEY_V = i++;
         KEY_I = i++;
+        KEY_B = i++;
         KEY_M = i++;
         NUM_KEYS = i;
     }
@@ -55,7 +57,9 @@ public class KeyControl implements GLFWKeyCallbackI {
         keys[KEY_SPACE] = new Key(GLFW_KEY_SPACE);
         keys[KEY_ENTER] = new Key(GLFW_KEY_ENTER);
         keys[KEY_C] = new Key(GLFW_KEY_C);
+        keys[KEY_V] = new Key(GLFW_KEY_V);
         keys[KEY_I] = new Key(GLFW_KEY_I);
+        keys[KEY_B] = new Key(GLFW_KEY_B);
         keys[KEY_M] = new Key(GLFW_KEY_M);
     }
 
