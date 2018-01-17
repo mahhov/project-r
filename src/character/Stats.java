@@ -112,7 +112,7 @@ public class Stats {
         return STAT_TYPE_VALUES[i];
     }
 
-    class Stat { // todo private
+    private class Stat {
         private final float defaultValue, growthPerSkillPoint;
         private float value;
 
