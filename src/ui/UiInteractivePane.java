@@ -9,8 +9,8 @@ abstract class UiInteractivePane extends UiPane {
     private MousePosControl mousePosControl;
     private MouseButtonControl mouseButtonControl;
 
-    UiInteractivePane(int size, boolean visible, Location location, float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
-        super(size, visible, location, backColor, rects, texts);
+    UiInteractivePane(int size, int offset, boolean visible, Location location, float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
+        super(size, offset, visible, location, backColor, rects, texts);
         this.mousePosControl = mousePosControl;
         this.mouseButtonControl = mouseButtonControl;
     }

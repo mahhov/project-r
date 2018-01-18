@@ -11,9 +11,9 @@ class UiMap extends UiInteractivePane {
     private Map map;
 
     UiMap(float[] backColor, Rects rects, Texts texts, Map map, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
-        super(SIZE, false, Location.CENTER, backColor, rects, texts, mousePosControl, mouseButtonControl);
+        super(SIZE, 2, false, Location.CENTER, backColor, rects, texts, mousePosControl, mouseButtonControl);
+        setText(-2, "MAP");
         this.map = map;
-
         String[] mapTexts = map.getTexts();
         for (int i = 0; i < size; i++)
             setText(i, mapTexts[i]);

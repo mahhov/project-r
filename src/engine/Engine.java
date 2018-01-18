@@ -103,18 +103,21 @@ public class Engine {
 }
 
 // todo
-// ~~ high priority ~~
-// equipment ui
-// crafting & crafting ui
-// weapon equipment & crafting
-// bug with mouse locking / unlocking
+// ~~ ordered ~~
+// ui pane offset & inventory ui title
+// inventory ui ordering
+// character width
 // close other panes open when open a new group
-// thinner text drawing
+// equipment ui & equiping / unequiping
+// bug with mouse locking / unlocking
+// crafting ui & crafting
+
+// ~~ high priority ~~
+// weapon equipment & crafting
 // combat
 // enemies
 // progression
 // instances
-// inventory
 // harvesting
 // crafting (best gear: 1. craftable, 2. choices of pros/cons, 3. materials required rare drops from touch monsters)
 // replace string concat with builder

@@ -38,20 +38,21 @@ abstract class UiPane {
     private static final float[] HIGHLIGHT_COLOR = new float[] {0, 1, 0, 1};
     private static final float MARGIN = 0.01f;
     final int size;
+    private int offset;
     private float itemLeft, itemTop, itemRight, itemBottom, itemOffsetY, itemHeight, itemHeightRatio;
     private Rects.Rect backRect;
     private Texts.Text texts[];
     private int highlighted;
-
     private boolean visible;
 
-    UiPane(int size, boolean visible, Location location, float[] backColor, Rects rects, Texts texts) { // todo support title
+    UiPane(int size, int offset, boolean visible, Location location, float[] backColor, Rects rects, Texts texts) { // todo support title
         this.size = size;
+        this.offset = offset;
 
         backRect = rects.addRect(backColor);
         backRect.setCoordinates(location.left, location.top, location.right, location.bottom);
 
-        int rows = MathNumbers.max(size, location.rows);
+        int rows = MathNumbers.max(size + offset, location.rows);
         itemLeft = location.left + MARGIN;
         itemTop = location.top - MARGIN;
         itemRight = location.right - MARGIN;
@@ -98,26 +99,26 @@ abstract class UiPane {
     }
 
     void setText(int i, String text) {
-        texts[i].setText(text);
+        texts[i + offset].setText(text);
     }
 
     void setHighlight(int i) {
         if (highlighted != -1)
-            texts[highlighted].setColor(null);
+            texts[highlighted + offset].setColor(null);
         highlighted = i;
         if (highlighted != -1)
-            texts[highlighted].setColor(HIGHLIGHT_COLOR);
+            texts[highlighted + offset].setColor(HIGHLIGHT_COLOR);
     }
 
     void setHighlightAndRefreshText(int i) {
         if (highlighted != -1) {
-            texts[highlighted].setColor(null);
-            texts[highlighted].refreshText();
+            texts[highlighted + offset].setColor(null);
+            texts[highlighted + offset].refreshText();
         }
         highlighted = i;
         if (highlighted != -1) {
-            texts[highlighted].setColor(HIGHLIGHT_COLOR);
-            texts[highlighted].refreshText();
+            texts[highlighted + offset].setColor(HIGHLIGHT_COLOR);
+            texts[highlighted + offset].refreshText();
         }
     }
 
@@ -131,9 +132,12 @@ abstract class UiPane {
             return -1;
         float shiftedY = (itemTop - y) / itemOffsetY;
         int intShiftedY = (int) shiftedY;
+        if (intShiftedY < offset)
+            return -1;
+        intShiftedY -= offset;
         if (intShiftedY >= size)
             return -1;
-        if (shiftedY - intShiftedY > itemHeightRatio)
+        if (shiftedY - intShiftedY - offset > itemHeightRatio)
             return -1;
         return intShiftedY;
     }

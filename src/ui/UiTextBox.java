@@ -8,7 +8,7 @@ class UiTextBox extends UiPane {
     private TextSystem textSystem;
 
     UiTextBox(float[] backColor, Rects rects, Texts texts, TextSystem textSystem) {
-        super(SIZE, true, Location.BOTTOM, backColor, rects, texts);
+        super(SIZE, 0, true, Location.BOTTOM, backColor, rects, texts);
         this.textSystem = textSystem;
     }
 

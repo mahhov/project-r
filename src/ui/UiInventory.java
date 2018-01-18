@@ -9,7 +9,8 @@ class UiInventory extends UiPane {
     private Inventory inventory;
 
     UiInventory(float[] backColor, Rects rects, Texts texts, Inventory inventory) {
-        super(SIZE, false, Location.LEFT, backColor, rects, texts);
+        super(SIZE, 2,false, Location.LEFT, backColor, rects, texts);
+        setText(-2, "INVENTORY");
         this.inventory = inventory;
     }
 
