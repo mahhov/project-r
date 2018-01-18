@@ -17,9 +17,9 @@ class UiEquipment extends UiInteractivePane {
 
     @Override
     void updateTexts() {
-        int selected = getSelected();
+        int highlighted = getHighlighted();
 
-        setHighlight(selected);
+        setHighlight(highlighted);
 
         for (int i = 0; i < size; i++)
             setText(i, equipment.getText(Equipment.getGearType(i)));

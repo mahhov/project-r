@@ -39,6 +39,13 @@ public class Inventory implements TextSystem {
         return false;
     }
 
+
+    public void swap(int moving, int selected) {
+        Item temp = items[moving];
+        items[moving] = items[selected];
+        items[selected] = temp;
+    }
+
     public int getSize() {
         return items.length;
     }

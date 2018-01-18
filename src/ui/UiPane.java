@@ -35,19 +35,20 @@ abstract class UiPane {
         }
     }
 
-    private static final float[] HIGHLIGHT_COLOR = new float[] {0, 1, 0, 1};
+    private static final float[] HIGHLIGHT_COLOR = new float[] {0, 1, 0, 1}, SELECT_COLOR = new float[] {0, .5f, 1, 1};
     private static final float MARGIN = 0.01f;
     final int size;
     private int offset;
+    private int highlighted, selected;
     private float itemLeft, itemTop, itemRight, itemBottom, itemOffsetY, itemHeight, itemHeightRatio;
     private Rects.Rect backRect;
     private Texts.Text texts[];
-    private int highlighted;
     private boolean visible;
 
     UiPane(int size, int offset, boolean visible, Location location, float[] backColor, Rects rects, Texts texts) { // todo support title
         this.size = size;
         this.offset = offset;
+        highlighted = selected = -1;
 
         backRect = rects.addRect(backColor);
         backRect.setCoordinates(location.left, location.top, location.right, location.bottom);
@@ -103,28 +104,36 @@ abstract class UiPane {
     }
 
     void setHighlight(int i) {
-        if (highlighted != -1)
-            texts[highlighted + offset].setColor(null);
+        int prevHighlighted = highlighted;
         highlighted = i;
-        if (highlighted != -1)
-            texts[highlighted + offset].setColor(HIGHLIGHT_COLOR);
+        refreshColor(prevHighlighted);
+        refreshColor(highlighted);
     }
 
-    void setHighlightAndRefreshText(int i) {
-        if (highlighted != -1) {
-            texts[highlighted + offset].setColor(null);
-            texts[highlighted + offset].refreshText();
-        }
-        highlighted = i;
-        if (highlighted != -1) {
-            texts[highlighted + offset].setColor(HIGHLIGHT_COLOR);
-            texts[highlighted + offset].refreshText();
-        }
+    void setSelect(int i) {
+        int prevSelected = selected;
+        selected = i;
+        refreshColor(prevSelected);
+        refreshColor(selected);
+    }
+
+    int getSelected() {
+        return selected;
+    }
+
+    private void refreshColor(int i) {
+        if (i != -1)
+            if (i == selected)
+                texts[i + offset].setColor(SELECT_COLOR);
+            else if (i == highlighted)
+                texts[i + offset].setColor(HIGHLIGHT_COLOR);
+            else
+                texts[i + offset].setColor(null);
     }
 
     void update() {
         if (visible)
-            updateTexts();
+            updateTexts(); // todo don't call updateTexts every loop
     }
 
     int getIntersecting(float x, float y) {

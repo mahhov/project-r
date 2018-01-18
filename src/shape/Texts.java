@@ -150,12 +150,10 @@ public class Texts {
             }
         }
 
-        public void refreshText() {
-            setText(text);
-        }
-
         public void setColor(float[] color) {
             this.color = color == null ? DEFAULT_COLOR : color;
+            for (Character character : characters)
+                character.setColor(this.color);
         }
 
         public void disable() {

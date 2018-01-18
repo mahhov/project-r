@@ -29,7 +29,7 @@ abstract class UiInteractivePane extends UiPane {
             mousePosControl.lock();
     }
 
-    int getSelected() {
+    int getHighlighted() {
         return getIntersecting(mousePosControl.getAbsX(), mousePosControl.getAbsY());
     }
 

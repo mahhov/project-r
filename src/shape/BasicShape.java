@@ -10,7 +10,7 @@ class BasicShape {
         vertices = new float[] {left, top, left, bottom, right, bottom, right, top, left, top, right, bottom};
     }
 
-    public void setColor(float[] color){
+    public void setColor(float[] color) {
         colors = MathArrays.repeatArray(color, 6);
     }
 

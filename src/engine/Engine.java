@@ -104,7 +104,6 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
-// inventory ui ordering
 // equipment ui & equiping / unequiping
 // crafting ui & crafting
 

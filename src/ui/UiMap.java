@@ -21,9 +21,9 @@ class UiMap extends UiInteractivePane {
 
     @Override
     void updateTexts() {
-        int selected = getSelected();
-        if (selected != -1 && getClick() == MouseButtonControl.PRIMARY)
-            map.load(selected);
-        setHighlightAndRefreshText(selected);
+        int highlighted = getHighlighted();
+        if (highlighted != -1 && getClick() == MouseButtonControl.PRIMARY)
+            map.load(highlighted);
+        setHighlight(highlighted);
     }
 }

@@ -17,15 +17,15 @@ class UiExperience extends UiInteractivePane {
 
     @Override
     void updateTexts() {
-        int selected = getSelected();
+        int highlighted = getHighlighted();
         int click = getClick();
 
-        if (selected != -1)
+        if (highlighted != -1)
             if (click == MouseButtonControl.PRIMARY)
-                experience.spendPoint(Experience.getSkill(selected), 1);
+                experience.spendPoint(Experience.getSkill(highlighted), 1);
             else if (click == MouseButtonControl.SECONDARY)
-                experience.spendPoint(Experience.getSkill(selected), 10);
-        setHighlight(selected);
+                experience.spendPoint(Experience.getSkill(highlighted), 10);
+        setHighlight(highlighted);
 
         for (int i = 0; i < size; i++)
             setText(i, experience.getText(Experience.getSkill(i)));
