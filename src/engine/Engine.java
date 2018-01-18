@@ -18,7 +18,7 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
-    private static final int WINDOW_SIZE = 400;
+    private static final int WINDOW_SIZE = 800;
     public static final int SCALE = 50, SCALE_Z = 16;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
@@ -104,10 +104,8 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
-// ui pane offset & inventory ui title
-// inventory ui ordering
-// character width
 // close other panes open when open a new group
+// inventory ui ordering
 // equipment ui & equiping / unequiping
 // bug with mouse locking / unlocking
 // crafting ui & crafting

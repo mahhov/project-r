@@ -102,7 +102,7 @@ public class Texts {
 
     public static class Character extends BasicShape {
         public void setCharacter(char character) {
-            textureCoordinates = AlphabetTexture.getCharacterCordinates(character);
+            textureCoordinates = AlphabetTexture.getCharacterCoordinates(character);
         }
     }
 
@@ -140,11 +140,11 @@ public class Texts {
             char[] chars = text.toCharArray();
             float charWidth = autoWidth ? top - bottom : (right - left) / chars.length;
             characters.removeAll(); // todo reuse characters
-            for (int i = 0; i < chars.length; i++) {
-                float offset = left + i * charWidth;
+            float offset = left;
+            for (char c : chars) {
                 Character character = new Character();
-                character.setCoordinates(offset, top, offset + charWidth, bottom);
-                character.setCharacter(chars[i]);
+                character.setCoordinates(offset, top, offset += charWidth * AlphabetTexture.CHAR_WIDTHS[c], bottom);
+                character.setCharacter(c);
                 character.setColor(color);
                 characters.addTail(character);
             }
