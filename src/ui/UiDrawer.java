@@ -54,11 +54,11 @@ public class UiDrawer {
 
         // panes
         stats = new UiStats(BACK_COLOR, rects, texts, human.getStats());
-        equipment = new UiEquipment(BACK_COLOR, rects, texts, human.getEquipment(), mousePosControl, mouseButtonControl);
-        experience = new UiExperience(BACK_COLOR, rects, texts, human.getExperience(), mousePosControl, mouseButtonControl);
+        equipment = new UiEquipment(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human.getEquipment());
+        experience = new UiExperience(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human.getExperience());
         inventory = new UiInventory(BACK_COLOR, rects, texts, human.getInventory());
         //        crafting
-        this.map = new UiMap(BACK_COLOR, rects, texts, map, mousePosControl, mouseButtonControl);
+        this.map = new UiMap(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, map);
         textBox = new UiTextBox(BACK_COLOR, rects, texts, human.getInventory());
 
         paneGroups = new UiPaneGroup[5];

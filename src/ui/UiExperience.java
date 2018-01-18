@@ -9,7 +9,7 @@ import shape.Texts;
 class UiExperience extends UiInteractivePane {
     private Experience experience;
 
-    UiExperience(float[] backColor, Rects rects, Texts texts, Experience experience, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
+    UiExperience(float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl, Experience experience) {
         super(Experience.getSkillCount(), 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
         setText(-2, "UNSPENT POINTS: " + experience.getUnspentPoints());
         this.experience = experience;

@@ -10,7 +10,7 @@ class UiMap extends UiInteractivePane {
     private static final int SIZE = 16;
     private Map map;
 
-    UiMap(float[] backColor, Rects rects, Texts texts, Map map, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
+    UiMap(float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl, Map map) {
         super(SIZE, 2, false, Location.CENTER, backColor, rects, texts, mousePosControl, mouseButtonControl);
         setText(-2, "MAP");
         this.map = map;
