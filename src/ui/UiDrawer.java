@@ -84,7 +84,11 @@ public class UiDrawer {
             hud.show();
 
         for (UiPaneGroup paneGroup : paneGroups)
-            paneGroup.handleKeyPress(keyControl);
+            if (paneGroup.shouldOpen(keyControl)) {
+                hideAll();
+                paneGroup.showAll();
+                break;
+            }
 
         stats.update();
         equipment.update();
@@ -99,6 +103,15 @@ public class UiDrawer {
 
         rects.doneAdding();
         texts.doneAdding();
+    }
+
+    private void hideAll() {
+        stats.setInvisible();
+        equipment.setInvisible();
+        experience.setInvisible();
+        inventory.setInvisible();
+        //        crafting.setInvisible();
+        map.setInvisible();
     }
 
     public void updateFps(int fps) {

@@ -104,7 +104,6 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
-// close other panes open when open a new group
 // inventory ui ordering
 // equipment ui & equiping / unequiping
 // bug with mouse locking / unlocking

@@ -11,16 +11,16 @@ class UiPaneGroup {
         this.panes = panes;
     }
 
-    void handleKeyPress(KeyControl keyControl) {
+    boolean shouldOpen(KeyControl keyControl) {
         if (!keyControl.isKeyPressed(keyBind))
-            return;
+            return false;
 
-        boolean active = isActive();
+        if (!isActive())
+            return true;
 
-        if (!active)
-            showAll();
-        else
-            hideAll();
+        hideAll();
+
+        return false;
     }
 
     private boolean isActive() {
@@ -30,7 +30,7 @@ class UiPaneGroup {
         return true;
     }
 
-    private void showAll() {
+    void showAll() {
         for (UiPane pane : panes)
             pane.setVisible();
     }
