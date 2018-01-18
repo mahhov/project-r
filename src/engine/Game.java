@@ -33,6 +33,7 @@ public class Game {
     }
 
     public void loadMap(int selected) {
+        mousePosControl.lock();
         if (world != null)
             world.shutDownGeneratorExecutors();
         world = new World(64 * Engine.SCALE, 64 * Engine.SCALE, 16 * Engine.SCALE_Z, camera);
