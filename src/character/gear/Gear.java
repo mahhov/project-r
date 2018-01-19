@@ -4,7 +4,6 @@ import character.Equipment;
 import item.Item;
 
 public class Gear extends Item {
-    public static final int ID = 1;
     public static final String NAME = "Gear";
 
     public static final int GEAR_MAX_PROPERTIES = 7;
@@ -17,8 +16,8 @@ public class Gear extends Item {
     private Property[] properties;
     private int numProperties;
 
-    Gear() {
-        super(ID, NAME, false);
+    Gear(int id) {
+        super(id, NAME, false);
         enchantability = 100;
         properties = new Property[GEAR_MAX_PROPERTIES];
     }
