@@ -27,6 +27,7 @@ abstract class UiInteractivePane extends UiPane {
         super.setInvisible();
         if (mousePosControl != null)
             mousePosControl.lock();
+        setSelect(-1);
     }
 
     int getHighlighted() {

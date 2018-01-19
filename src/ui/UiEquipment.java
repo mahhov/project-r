@@ -19,12 +19,6 @@ class UiEquipment extends UiInteractivePane {
     }
 
     @Override
-    void setInvisible() {
-        super.setInvisible();
-        setSelect(-1);
-    }
-
-    @Override
     void updateTexts() {
         int highlighted = getHighlighted();
         if (highlighted >= TOP_SIZE)
