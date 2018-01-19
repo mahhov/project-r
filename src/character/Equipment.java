@@ -68,12 +68,24 @@ public class Equipment {
         return sum;
     }
 
+    Gear getGear(GearType gearType) {
+        return gears[gearType.value];
+    }
+
+    void unequip(GearType gearType) {
+        gears[gearType.value] = null;
+    }
+
     public String getText(GearType gearType) {
-        return gearType.name + " " + gears[gearType.value].getText();
+        return !isUnequiped(gearType) ? gearType.name + " " + gears[gearType.value].getText() : "--Unequiped--";
     }
 
     public String getText(GearType gearType, int property) {
         return gears[gearType.value].getText(property);
+    }
+
+    public boolean isUnequiped(GearType gearType) {
+        return gears[gearType.value] == null;
     }
 
     public static int getGearTypeCount() {
