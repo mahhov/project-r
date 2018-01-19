@@ -18,16 +18,17 @@ class UiInventory extends UiInteractivePane {
 
     @Override
     void updateTexts() {
-        int highlighetd = getHighlighted();
-        setHighlight(highlighetd);
+        int highlighted = getHighlighted();
+        setHighlight(highlighted);
 
         if (getClick() == MouseButtonControl.PRIMARY) {
             int selected = getSelected();
-            if (selected == -1)
-                setSelect(highlighetd);
-            else {
-                if (highlighetd != -1)
-                    inventory.swap(selected, highlighetd);
+            if (selected == -1) {
+                if (highlighted != -1 && inventory.getItem(highlighted) != null)
+                    setSelect(highlighted);
+            } else {
+                if (highlighted != -1)
+                    inventory.swap(selected, highlighted);
                 setSelect(-1);
             }
         }

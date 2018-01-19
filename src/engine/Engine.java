@@ -104,7 +104,7 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
-// equipment ui & equiping / unequiping
+// equiping / unequiping
 // crafting ui & crafting
 
 // ~~ high priority ~~
