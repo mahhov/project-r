@@ -5,7 +5,7 @@ public abstract class Item {
     public final String name;
     public final boolean stackable;
 
-    Item(int id, String name, boolean stackable) {
+    public Item(int id, String name, boolean stackable) {
         this.id = id;
         this.name = name;
         this.stackable = stackable;

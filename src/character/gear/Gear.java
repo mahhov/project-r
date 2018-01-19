@@ -1,8 +1,12 @@
 package character.gear;
 
 import character.Equipment;
+import item.Item;
 
-public class Gear {
+public class Gear extends Item {
+    public static final int ID = 1;
+    public static final String NAME = "Gear";
+
     public static final int GEAR_MAX_PROPERTIES = 7;
     private static final float SOURCE_LEVEL_VALUE_BONUS = 10;
     private static final float PRIMARY_ENCHANT_SECOND_TIER_VALUE_BONUS = .5f;
@@ -14,6 +18,7 @@ public class Gear {
     private int numProperties;
 
     Gear() {
+        super(ID, NAME, false);
         enchantability = 100;
         properties = new Property[GEAR_MAX_PROPERTIES];
     }
@@ -31,9 +36,9 @@ public class Gear {
     }
 
     public String getText() {
-        return "juba"; // todo placeholder
+        return "juba"; // todo placeholder & merge this with NAME field
     }
-    
+
     public String getText(int property) {
         return property < numProperties ? properties[property].getText() : "";
     }
