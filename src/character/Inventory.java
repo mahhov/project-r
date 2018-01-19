@@ -15,14 +15,14 @@ public class Inventory implements TextSystem {
         log = new Queue<>(LOG_SIZE);
     }
 
-    void add(Item item) {
-        if (findRoomAndAdd(item))
+    void addWithLog(Item item) {
+        if (add(item))
             log.add(String.format("Obtained %s", item.getText()));
         else
             log.add(String.format("Inventory full !! Lost %s", item.getText()));
     }
 
-    private boolean findRoomAndAdd(Item item) {
+    boolean add(Item item) {
         if (item.stackable)
             for (Item inventoryItem : items)
                 if (inventoryItem != null && inventoryItem.id == item.id) {

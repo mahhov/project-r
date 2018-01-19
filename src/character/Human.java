@@ -246,7 +246,12 @@ public class Human implements WorldElement, Follow {
     }
 
     void inventoryAdd(Item item) {
-        inventory.add(item);
+        inventory.addWithLog(item);
+    }
+
+    public void unequip(Equipment.GearType gearType) {
+        if (inventory.add(equipment.getGear(gearType)))
+            equipment.unequip(gearType);
     }
 
     @Override
