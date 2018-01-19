@@ -21,7 +21,7 @@ public class Equipment {
         ATTACK_POWER("Attack Power", Source.EARTH), ATTACK_SPEED("Attack Speed", Source.FIRE), ACCURACY("Accuracy", Source.WATER), RANGE("Range", Source.AIR),
         MOVE_SPEED("Move Speed", Source.EARTH), JUMP_SPEED("Jump Speed", Source.FIRE), JET_SPOWER("Jet Spower", Source.WATER), FLY_SPEED("Fly Speed", Source.AIR);
 
-        final String name;
+        public final String name;
         final int value;
         final Source source;
 
@@ -49,7 +49,7 @@ public class Equipment {
     private Gear[] gears;
     private Stats stats; // todo update stats when equipment updated
 
-    public Equipment(Stats stats) {
+    Equipment(Stats stats) {
         gears = new Gear[getGearTypeCount()];
 
         gears[GearType.BODY.value] = new Body();
@@ -70,6 +70,10 @@ public class Equipment {
 
     public String getText(GearType gearType) {
         return gearType.name + " " + gears[gearType.value].getText();
+    }
+
+    public String getText(GearType gearType, int property) {
+        return gears[gearType.value].getText(property);
     }
 
     public static int getGearTypeCount() {

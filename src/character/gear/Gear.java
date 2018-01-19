@@ -3,6 +3,7 @@ package character.gear;
 import character.Equipment;
 
 public class Gear {
+    public static final int GEAR_MAX_PROPERTIES = 7;
     private static final float SOURCE_LEVEL_VALUE_BONUS = 10;
     private static final float PRIMARY_ENCHANT_SECOND_TIER_VALUE_BONUS = .5f;
     private static final float SECONDARY_ENCHANT_ADDITIONAL_GLOW_VALUE_BONUS = .1f;
@@ -14,7 +15,7 @@ public class Gear {
 
     Gear() {
         enchantability = 100;
-        properties = new Property[7];
+        properties = new Property[GEAR_MAX_PROPERTIES];
     }
 
     public void addProperty(Property property) {
@@ -31,5 +32,9 @@ public class Gear {
 
     public String getText() {
         return "juba"; // todo placeholder
+    }
+    
+    public String getText(int property) {
+        return property < numProperties ? properties[property].getText() : "";
     }
 }

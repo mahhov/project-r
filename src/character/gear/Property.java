@@ -18,4 +18,8 @@ public class Property {
     int value() {
         return value;
     }
+
+    String getText() {
+        return propertyType.name + " " + value;
+    }
 }
