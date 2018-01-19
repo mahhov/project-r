@@ -57,6 +57,8 @@ public class Game {
         uiDrawer.draw();
         ShaderManager.setTextShader();
         uiDrawer.drawText();
+
+        mouseButtonControl.next();
     }
 
     void updateFps(int fps) {
