@@ -83,7 +83,7 @@ public class Equipment {
     }
 
     public String getText(GearType gearType) {
-        return isEquiped(gearType) ? gearType.name + " " + gears[gearType.value].getText() : "--Unequiped--";
+        return isEquiped(gearType) ? gears[gearType.value].getText() : "--Unequiped--";
     }
 
     public String getText(GearType gearType, int property) {

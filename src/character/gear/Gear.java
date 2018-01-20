@@ -4,8 +4,6 @@ import character.Equipment;
 import item.Item;
 
 public class Gear extends Item {
-    public static final String NAME = "Gear";
-
     public static final int GEAR_MAX_PROPERTIES = 7;
     private static final float SOURCE_LEVEL_VALUE_BONUS = 10;
     private static final float PRIMARY_ENCHANT_SECOND_TIER_VALUE_BONUS = .5f;
@@ -17,7 +15,7 @@ public class Gear extends Item {
     private int numProperties;
 
     Gear(int id) {
-        super(id, NAME, false);
+        super(id, "", false);
         enchantability = 100;
         properties = new Property[GEAR_MAX_PROPERTIES];
     }
@@ -34,8 +32,9 @@ public class Gear extends Item {
         return sum;
     }
 
+    @Override
     public String getText() {
-        return "juba"; // todo placeholder & merge this with NAME field
+        return "juba"; // todo placeholder
     }
 
     public String getText(int property) {
