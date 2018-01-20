@@ -1,5 +1,5 @@
 package character;
 
-class Crafting {
+public class Crafting {
     
 }

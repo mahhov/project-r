@@ -12,6 +12,7 @@ class UiInventory extends UiInteractivePane {
     private Human human;
     private Inventory inventory;
     private UiEquipment uiEquipment;
+    private UiCrafting uiCrafting;
 
     UiInventory(float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl, Human human, Inventory inventory) {
         super(SIZE, 2, false, Location.LEFT, backColor, rects, texts, mousePosControl, mouseButtonControl);
@@ -22,6 +23,10 @@ class UiInventory extends UiInteractivePane {
 
     void setUiEquipment(UiEquipment uiEquipment) {
         this.uiEquipment = uiEquipment;
+    }
+    
+    void setUiCrafting(UiCrafting uiCrafting) {
+        this.uiCrafting = uiCrafting;
     }
 
     @Override

@@ -22,7 +22,7 @@ public class UiDrawer {
     private UiEquipment equipment;
     private UiExperience experience;
     private UiInventory inventory;
-    //    private UiCrafting crafting;
+    private UiCrafting crafting;
     private UiMap map;
     private UiTextBox textBox;
     private Texts.Text fpsText;
@@ -57,19 +57,21 @@ public class UiDrawer {
         equipment = new UiEquipment(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human, human.getEquipment());
         experience = new UiExperience(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human.getExperience());
         inventory = new UiInventory(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human, human.getInventory());
-        //        crafting
+        crafting = new UiCrafting(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human, human.getCrafting());
         this.map = new UiMap(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, map);
         textBox = new UiTextBox(BACK_COLOR, rects, texts, human.getInventory());
 
-        inventory.setUiEquipment(equipment);
         equipment.setUiInventory(inventory);
+        inventory.setUiEquipment(equipment);
+        inventory.setUiCrafting(crafting);
+        crafting.setUiInventory(inventory);
 
         paneGroups = new UiPaneGroup[5];
         int i = 0;
         paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_V, new UiPane[] {stats, equipment});
         paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_C, new UiPane[] {stats, experience});
         paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_I, new UiPane[] {inventory, equipment});
-        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_B, new UiPane[] {inventory}); // crafting
+        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_B, new UiPane[] {inventory, crafting});
         paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_M, new UiPane[] {this.map});
 
         // fps
@@ -99,7 +101,7 @@ public class UiDrawer {
         equipment.update();
         experience.update();
         inventory.update();
-        // crafting.update();
+        crafting.update();
         map.update();
 
         if (keyControl.isKeyPressed(KeyControl.KEY_ENTER))
@@ -115,7 +117,7 @@ public class UiDrawer {
         equipment.setInvisible();
         experience.setInvisible();
         inventory.setInvisible();
-        //        crafting.setInvisible();
+        crafting.setInvisible();
         map.setInvisible();
     }
 
