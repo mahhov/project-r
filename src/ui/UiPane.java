@@ -49,13 +49,15 @@ abstract class UiPane {
     UiPane(int size, int offset, boolean visible, Location location, float[] backColor, Rects rects, Texts texts) { // todo support title
         this.size = size;
         this.offset = offset;
+        int sizeWithOffset = size + offset;
+        
         highlighted = selectedLast = -1;
         selected = new boolean[size];
 
         backRect = rects.addRect(backColor);
         backRect.setCoordinates(location.left, location.top, location.right, location.bottom);
 
-        int rows = MathNumbers.max(size + offset, location.rows);
+        int rows = MathNumbers.max(sizeWithOffset, location.rows);
         itemLeft = location.left + MARGIN;
         itemTop = location.top - MARGIN;
         itemRight = location.right - MARGIN;
@@ -63,8 +65,8 @@ abstract class UiPane {
         itemOffsetY = (itemTop - location.bottom) / rows;
         itemHeight = itemOffsetY - MARGIN;
         itemHeightRatio = itemHeight / itemOffsetY;
-        this.texts = new Texts.Text[rows];
-        for (int i = 0; i < rows; i++) {
+        this.texts = new Texts.Text[sizeWithOffset];
+        for (int i = 0; i < sizeWithOffset; i++) {
             this.texts[i] = texts.addText();
             float topOffset = itemTop - itemOffsetY * i;
             this.texts[i].setCoordinates(itemLeft, topOffset, topOffset - itemHeight);
