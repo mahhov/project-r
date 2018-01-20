@@ -1,6 +1,7 @@
 package character;
 
 import camera.Follow;
+import character.gear.Gear;
 import control.KeyControl;
 import control.MouseButtonControl;
 import control.MousePosControl;
@@ -249,9 +250,25 @@ public class Human implements WorldElement, Follow {
         inventory.addWithLog(item);
     }
 
-    public void unequip(Equipment.GearType gearType) {
+    public void swapEquipment(int inventoryIndex, int equipmentIndex) {
+        Equipment.GearType gearType = Equipment.getGearType(equipmentIndex);
+        if (inventory.getItem(inventoryIndex) == null)
+            unequip(gearType);
+        else
+            equip(inventoryIndex, gearType);
+    }
+
+    private void unequip(Equipment.GearType gearType) {
         if (inventory.add(equipment.getGear(gearType)))
             equipment.unequip(gearType);
+    }
+
+    private void equip(int inventoryItemIndex, Equipment.GearType gearType) {
+        Item inventoryItem = inventory.getItem(inventoryItemIndex);
+        if (inventoryItem.id == gearType.gearId) {
+            inventory.put(inventoryItemIndex, equipment.getGear(gearType));
+            equipment.equip(gearType, (Gear) inventoryItem);
+        }
     }
 
     @Override

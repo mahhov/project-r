@@ -46,6 +46,10 @@ public class Inventory implements TextSystem {
         items[selected] = temp;
     }
 
+    void put(int index, Item item) {
+        items[index] = item;
+    }
+
     public int getSize() {
         return items.length;
     }

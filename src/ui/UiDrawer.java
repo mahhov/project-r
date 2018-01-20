@@ -54,12 +54,15 @@ public class UiDrawer {
 
         // panes
         stats = new UiStats(BACK_COLOR, rects, texts, human.getStats());
-        equipment = new UiEquipment(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human.getEquipment());
+        equipment = new UiEquipment(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human, human.getEquipment());
         experience = new UiExperience(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human.getExperience());
-        inventory = new UiInventory(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human.getInventory());
+        inventory = new UiInventory(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human, human.getInventory());
         //        crafting
         this.map = new UiMap(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, map);
         textBox = new UiTextBox(BACK_COLOR, rects, texts, human.getInventory());
+
+        inventory.setUiEquipment(equipment);
+        equipment.setUiInventory(inventory);
 
         paneGroups = new UiPaneGroup[5];
         int i = 0;
@@ -69,9 +72,11 @@ public class UiDrawer {
         paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_B, new UiPane[] {inventory}); // crafting
         paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_M, new UiPane[] {this.map});
 
+        // fps
         fpsText = texts.addText();
         fpsText.setCoordinates(-1, 1, .95f);
 
+        // control
         this.keyControl = keyControl;
         this.mousePosControl = mousePosControl;
         this.mouseButtonControl = mouseButtonControl;

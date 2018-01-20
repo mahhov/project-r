@@ -33,14 +33,16 @@ public class Equipment {
     }
 
     public enum GearType {
-        BODY("Body"), HELMET("Helmet"), GLOVE("Glove"), BOOT("Boot");
+        BODY("Body", Body.ID), HELMET("Helmet", Helmet.ID), GLOVE("Glove", Glove.ID), BOOT("Boot", Boot.ID);
 
         final String name;
         final int value;
+        public final int gearId;
 
-        GearType(String name) {
+        GearType(String name, int gearId) {
             this.name = name;
             this.value = ordinal();
+            this.gearId = gearId;
         }
     }
 
@@ -76,16 +78,20 @@ public class Equipment {
         gears[gearType.value] = null;
     }
 
+    void equip(GearType gearType, Gear gear) {
+        gears[gearType.value] = gear;
+    }
+
     public String getText(GearType gearType) {
-        return !isUnequiped(gearType) ? gearType.name + " " + gears[gearType.value].getText() : "--Unequiped--";
+        return isEquiped(gearType) ? gearType.name + " " + gears[gearType.value].getText() : "--Unequiped--";
     }
 
     public String getText(GearType gearType, int property) {
         return gears[gearType.value].getText(property);
     }
 
-    public boolean isUnequiped(GearType gearType) {
-        return gears[gearType.value] == null;
+    public boolean isEquiped(GearType gearType) {
+        return gears[gearType.value] != null;
     }
 
     public static int getGearTypeCount() {
