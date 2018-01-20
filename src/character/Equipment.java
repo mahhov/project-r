@@ -3,35 +3,6 @@ package character;
 import character.gear.*;
 
 public class Equipment {
-    public enum Source {
-        EARTH("Earth"), FIRE("Fire"), WATER("Water"), AIR("Air");
-
-        final String name;
-        final int value;
-
-        Source(String name) {
-            this.name = name;
-            this.value = ordinal();
-        }
-    }
-
-    public enum PropertyType {
-        HEALTH_LIFE("Life", Source.EARTH), HEALTH_LIFE_REGEN("Life Regen", Source.FIRE), HEALTH_SHIELD("Shield", Source.WATER), HEALTH_SHIELD_REGEN("Shield Regen", Source.AIR),
-        STAMINA_STAMINA("Stamina", Source.EARTH), STAMINA_STAMINA_REGEN("Stamina Regen", Source.FIRE), STAMINA_RESERVE("Stamina Reserve", Source.WATER), STAMINA_RESERVE_REGEN("Stamina Reserve Regen", Source.AIR),
-        ATTACK_POWER("Attack Power", Source.EARTH), ATTACK_SPEED("Attack Speed", Source.FIRE), ACCURACY("Accuracy", Source.WATER), RANGE("Range", Source.AIR),
-        MOVE_SPEED("Move Speed", Source.EARTH), JUMP_SPEED("Jump Speed", Source.FIRE), JET_SPOWER("Jet Spower", Source.WATER), FLY_SPEED("Fly Speed", Source.AIR);
-
-        public final String name;
-        final int value;
-        final Source source;
-
-        PropertyType(String name, Source source) {
-            this.name = name;
-            this.value = ordinal();
-            this.source = source;
-        }
-    }
-
     public enum GearType {
         BODY("Body", Body.ID), HELMET("Helmet", Helmet.ID), GLOVE("Glove", Glove.ID), BOOT("Boot", Boot.ID);
 
@@ -58,12 +29,12 @@ public class Equipment {
         gears[GearType.HELMET.value] = new Helmet();
         gears[GearType.GLOVE.value] = new Glove();
         gears[GearType.BOOT.value] = new Boot();
-        gears[GearType.HELMET.value].addProperty(new Property(PropertyType.STAMINA_STAMINA_REGEN, 1)); // todo remove
+        gears[GearType.HELMET.value].addProperty(new Property(Property.PropertyType.STAMINA_STAMINA_REGEN, 1)); // todo remove
 
         this.stats = stats;
     }
 
-    int getEquipmentBonus(PropertyType propertyType) {
+    int getEquipmentBonus(Property.PropertyType propertyType) {
         int sum = 0;
         for (Gear gear : gears)
             sum += gear.getEquipmentBonus(propertyType);

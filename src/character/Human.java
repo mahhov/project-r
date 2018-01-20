@@ -33,6 +33,7 @@ public class Human implements WorldElement, Follow {
     private Experience experience;
     private Inventory inventory;
     private Equipment equipment;
+    private Glows glows;
     private Crafting crafting;
 
     private Stamina stamina;
@@ -72,6 +73,7 @@ public class Human implements WorldElement, Follow {
         equipment = new Equipment(stats);
         stats.setFactors(experience, equipment);
         inventory = new Inventory(16);
+        glows = new Glows();
         crafting = new Crafting();
 
         stamina = new Stamina(stats);
@@ -381,6 +383,10 @@ public class Human implements WorldElement, Follow {
 
     public Equipment getEquipment() {
         return equipment;
+    }
+
+    public Glows getGlows() {
+        return glows;
     }
 
     public Crafting getCrafting() {

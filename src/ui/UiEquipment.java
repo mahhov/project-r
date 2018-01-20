@@ -33,13 +33,13 @@ class UiEquipment extends UiInteractivePane {
         setHighlight(highlighted);
 
         if (getClick() == MouseButtonControl.PRIMARY && highlighted != -1) {
-            int inventorySelected = uiInventory.getSelected();
+            int inventorySelected = uiInventory.getSelectedLast();
 
             if (inventorySelected != -1) {
                 human.swapEquipment(inventorySelected, highlighted);
                 uiInventory.setSelect(-1);
                 setSelect(highlighted);
-            } else if (getSelected() == highlighted)
+            } else if (getSelectedLast() == highlighted)
                 setSelect(-1);
             else
                 setSelect(highlighted);
@@ -48,7 +48,7 @@ class UiEquipment extends UiInteractivePane {
         for (int i = 0; i < TOP_SIZE; i++)
             setText(i, equipment.getText(Equipment.getGearType(i)));
 
-        int selected = getSelected();
+        int selected = getSelectedLast();
 
         if (selected != -1 && equipment.isEquiped(Equipment.getGearType(selected)))
             for (int i = 0; i < BOTTOM_SIZE; i++)

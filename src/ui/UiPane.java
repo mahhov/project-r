@@ -39,7 +39,8 @@ abstract class UiPane {
     private static final float MARGIN = 0.01f;
     final int size;
     private int offset;
-    private int highlighted, selected;
+    private int highlighted, selectedLast;
+    private boolean[] selected;
     private float itemLeft, itemTop, itemRight, itemBottom, itemOffsetY, itemHeight, itemHeightRatio;
     private Rects.Rect backRect;
     private Texts.Text texts[];
@@ -48,7 +49,8 @@ abstract class UiPane {
     UiPane(int size, int offset, boolean visible, Location location, float[] backColor, Rects rects, Texts texts) { // todo support title
         this.size = size;
         this.offset = offset;
-        highlighted = selected = -1;
+        highlighted = selectedLast = -1;
+        selected = new boolean[size];
 
         backRect = rects.addRect(backColor);
         backRect.setCoordinates(location.left, location.top, location.right, location.bottom);
@@ -111,19 +113,28 @@ abstract class UiPane {
     }
 
     void setSelect(int i) {
-        int prevSelected = selected;
-        selected = i;
+        int prevSelected = selectedLast;
+        selectedLast = i;
         refreshColor(prevSelected);
-        refreshColor(selected);
+        refreshColor(selectedLast);
     }
 
-    int getSelected() {
-        return selected;
+    void toggleSelect(int i) {
+        selected[i] = !selected[i];
+        refreshColor(i);
+    }
+
+    int getSelectedLast() {
+        return selectedLast;
+    }
+
+    boolean isSelected(int i) {
+        return selected[i];
     }
 
     private void refreshColor(int i) {
         if (i != -1)
-            if (i == selected)
+            if (i == selectedLast || selected[i])
                 texts[i + offset].setColor(SELECT_COLOR);
             else if (i == highlighted)
                 texts[i + offset].setColor(HIGHLIGHT_COLOR);

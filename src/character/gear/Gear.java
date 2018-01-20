@@ -24,7 +24,7 @@ public class Gear extends Item {
         properties[numProperties++] = property;
     }
 
-    public int getEquipmentBonus(Equipment.PropertyType propertyType) {
+    public int getEquipmentBonus(Property.PropertyType propertyType) {
         int sum = 0;
         for (int i = 0; i < numProperties; i++)
             if (properties[i].isOfType(propertyType))

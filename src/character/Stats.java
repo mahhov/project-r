@@ -1,5 +1,7 @@
 package character;
 
+import character.gear.Property;
+
 public class Stats {
     public enum StatType {
         RUN_ACC("Run Speed"), JUMP_ACC("Jump Power"), AIR_ACC("Air Speed"), JET_ACC("Jet Speed"),
@@ -85,15 +87,15 @@ public class Stats {
         stats[StatType.BOOST_ACC.value].update(experience.getSkillPoints(Experience.Skill.BOOST_GLIDE_ACC), 0);
         stats[StatType.GLIDE_ACC.value].update(experience.getSkillPoints(Experience.Skill.BOOST_GLIDE_ACC), 0);
 
-        stats[StatType.STAMINA.value].update(experience.getSkillPoints(Experience.Skill.STAMINA_RAW) + experience.getSkillPoints(Experience.Skill.STAMINA_STAMINA), equipment.getEquipmentBonus(Equipment.PropertyType.STAMINA_STAMINA));
-        stats[StatType.STAMINA_REGEN.value].update(experience.getSkillPoints(Experience.Skill.STAMINA_REGEN) + experience.getSkillPoints(Experience.Skill.STAMINA_STAMINA), equipment.getEquipmentBonus(Equipment.PropertyType.STAMINA_STAMINA_REGEN));
-        stats[StatType.STAMINA_RESERVE.value].update(experience.getSkillPoints(Experience.Skill.STAMINA_RAW) + experience.getSkillPoints(Experience.Skill.STAMINA_RESERVE), equipment.getEquipmentBonus(Equipment.PropertyType.STAMINA_RESERVE));
-        stats[StatType.STAMINA_RESERVE_REGEN.value].update(experience.getSkillPoints(Experience.Skill.STAMINA_REGEN) + experience.getSkillPoints(Experience.Skill.STAMINA_RESERVE), equipment.getEquipmentBonus(Equipment.PropertyType.STAMINA_RESERVE_REGEN));
+        stats[StatType.STAMINA.value].update(experience.getSkillPoints(Experience.Skill.STAMINA_RAW) + experience.getSkillPoints(Experience.Skill.STAMINA_STAMINA), equipment.getEquipmentBonus(Property.PropertyType.STAMINA_STAMINA));
+        stats[StatType.STAMINA_REGEN.value].update(experience.getSkillPoints(Experience.Skill.STAMINA_REGEN) + experience.getSkillPoints(Experience.Skill.STAMINA_STAMINA), equipment.getEquipmentBonus(Property.PropertyType.STAMINA_STAMINA_REGEN));
+        stats[StatType.STAMINA_RESERVE.value].update(experience.getSkillPoints(Experience.Skill.STAMINA_RAW) + experience.getSkillPoints(Experience.Skill.STAMINA_RESERVE), equipment.getEquipmentBonus(Property.PropertyType.STAMINA_RESERVE));
+        stats[StatType.STAMINA_RESERVE_REGEN.value].update(experience.getSkillPoints(Experience.Skill.STAMINA_REGEN) + experience.getSkillPoints(Experience.Skill.STAMINA_RESERVE), equipment.getEquipmentBonus(Property.PropertyType.STAMINA_RESERVE_REGEN));
 
-        stats[StatType.LIFE.value].update(experience.getSkillPoints(Experience.Skill.HEALTH_RAW) + experience.getSkillPoints(Experience.Skill.HEALTH_LIFE), equipment.getEquipmentBonus(Equipment.PropertyType.HEALTH_LIFE));
-        stats[StatType.LIFE_REGEN.value].update(experience.getSkillPoints(Experience.Skill.HEALTH_REGEN) + experience.getSkillPoints(Experience.Skill.HEALTH_LIFE), equipment.getEquipmentBonus(Equipment.PropertyType.HEALTH_LIFE_REGEN));
-        stats[StatType.SHIELD.value].update(experience.getSkillPoints(Experience.Skill.HEALTH_RAW) + experience.getSkillPoints(Experience.Skill.HEALTH_SHIELD), equipment.getEquipmentBonus(Equipment.PropertyType.HEALTH_SHIELD));
-        stats[StatType.SHIELD_REGEN.value].update(experience.getSkillPoints(Experience.Skill.HEALTH_REGEN) + experience.getSkillPoints(Experience.Skill.HEALTH_SHIELD), equipment.getEquipmentBonus(Equipment.PropertyType.HEALTH_SHIELD_REGEN));
+        stats[StatType.LIFE.value].update(experience.getSkillPoints(Experience.Skill.HEALTH_RAW) + experience.getSkillPoints(Experience.Skill.HEALTH_LIFE), equipment.getEquipmentBonus(Property.PropertyType.HEALTH_LIFE));
+        stats[StatType.LIFE_REGEN.value].update(experience.getSkillPoints(Experience.Skill.HEALTH_REGEN) + experience.getSkillPoints(Experience.Skill.HEALTH_LIFE), equipment.getEquipmentBonus(Property.PropertyType.HEALTH_LIFE_REGEN));
+        stats[StatType.SHIELD.value].update(experience.getSkillPoints(Experience.Skill.HEALTH_RAW) + experience.getSkillPoints(Experience.Skill.HEALTH_SHIELD), equipment.getEquipmentBonus(Property.PropertyType.HEALTH_SHIELD));
+        stats[StatType.SHIELD_REGEN.value].update(experience.getSkillPoints(Experience.Skill.HEALTH_REGEN) + experience.getSkillPoints(Experience.Skill.HEALTH_SHIELD), equipment.getEquipmentBonus(Property.PropertyType.HEALTH_SHIELD_REGEN));
     }
 
     float getStat(StatType statType) {

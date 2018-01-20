@@ -35,8 +35,8 @@ class UiInventory extends UiInteractivePane {
         setHighlight(highlighted);
 
         if (getClick() == MouseButtonControl.PRIMARY && highlighted != -1) {
-            int selected = getSelected();
-            int equipmentSelected = uiEquipment.getSelected();
+            int selected = getSelectedLast();
+            int equipmentSelected = uiEquipment.getSelectedLast();
 
             if (selected != -1) {
                 inventory.swap(selected, highlighted);

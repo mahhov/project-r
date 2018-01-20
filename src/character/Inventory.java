@@ -1,6 +1,7 @@
 package character;
 
 import item.Item;
+import item.PlaceholderItem;
 import item.StackableItem;
 import ui.TextSystem;
 import util.Queue;
@@ -13,6 +14,14 @@ public class Inventory implements TextSystem {
     Inventory(int size) {
         items = new Item[size];
         log = new Queue<>(LOG_SIZE);
+
+        add(new PlaceholderItem());
+        add(new PlaceholderItem());
+        add(new PlaceholderItem());
+        add(new PlaceholderItem());
+        add(new PlaceholderItem());
+        add(new PlaceholderItem());
+        add(new PlaceholderItem());
     }
 
     void addWithLog(Item item) {
