@@ -20,7 +20,7 @@ public class Equipment {
     private static final GearType[] GEAR_TYPE_VALUES = GearType.values();
 
     private Gear[] gears;
-    private Stats stats; // todo update stats when equipment updated
+    private Stats stats;
 
     Equipment(Stats stats) {
         gears = new Gear[getGearTypeCount()];
@@ -37,7 +37,8 @@ public class Equipment {
     int getEquipmentBonus(Property.PropertyType propertyType) {
         int sum = 0;
         for (Gear gear : gears)
-            sum += gear.getEquipmentBonus(propertyType);
+            if (gear != null)
+                sum += gear.getEquipmentBonus(propertyType);
         return sum;
     }
 
@@ -47,10 +48,12 @@ public class Equipment {
 
     void unequip(GearType gearType) {
         gears[gearType.value] = null;
+        stats.update();
     }
 
     void equip(GearType gearType, Gear gear) {
         gears[gearType.value] = gear;
+        stats.update();
     }
 
     public String getText(GearType gearType) {
