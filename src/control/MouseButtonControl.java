@@ -5,43 +5,42 @@ import org.lwjgl.glfw.GLFWMouseButtonCallbackI;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class MouseButtonControl implements GLFWMouseButtonCallbackI {
-    public static final int PRIMARY = 0, SECONDARY = 1;
-    private MouseButton buttons[];
+    private Mouse mouses[];
 
     public MouseButtonControl(long window) {
         glfwSetMouseButtonCallback(window, this);
-        buttons = new MouseButton[2];
-        for (int i = 0; i < buttons.length; i++)
-            buttons[i] = new MouseButton();
+        mouses = new Mouse[2];
+        for (int i = 0; i < mouses.length; i++)
+            mouses[i] = new Mouse();
     }
 
-    private void setMouseState(int mouse, State state) {
-        buttons[mouse].setState(state);
+    private void setMouseState(MouseButton mouse, State state) {
+        mouses[mouse.value].setState(state);
     }
 
     public boolean isMousePressed(int mouse) {
-        return buttons[mouse].getState() == State.PRESSED;
+        return mouses[mouse].getState() == State.PRESSED;
     }
 
     public boolean isMouseDown(int mouse) {
-        return buttons[mouse].getState() == State.DOWN;
+        return mouses[mouse].getState() == State.DOWN;
     }
 
     public void next() {
-        for (MouseButton button : buttons)
-            button.next();
+        for (Mouse mouse : mouses)
+            mouse.next();
     }
 
     @Override
     public void invoke(long window, int button, int action, int mods) {
-        int mouse = button == GLFW_MOUSE_BUTTON_1 ? PRIMARY : SECONDARY;
+        MouseButton mouse = button == GLFW_MOUSE_BUTTON_1 ? MouseButton.PRIMARY : MouseButton.SECONDARY;
         if (action == GLFW_RELEASE)
             setMouseState(mouse, State.RELEASED);
         else if (action == GLFW_PRESS)
             setMouseState(mouse, State.PRESSED);
     }
 
-    private class MouseButton {
+    private class Mouse {
         private State state;
         private boolean read;
 
