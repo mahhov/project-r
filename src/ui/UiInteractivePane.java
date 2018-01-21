@@ -35,6 +35,11 @@ abstract class UiInteractivePane extends UiPane {
     }
 
     int getClick() {
-        return mouseButtonControl.isMousePressed(MouseButtonControl.SECONDARY) ? MouseButtonControl.SECONDARY : (mouseButtonControl.isMousePressed(MouseButtonControl.PRIMARY) ? MouseButtonControl.PRIMARY : -1);
+        if (mouseButtonControl.isMousePressed(MouseButtonControl.SECONDARY))
+            return MouseButtonControl.SECONDARY;
+        else if (mouseButtonControl.isMousePressed(MouseButtonControl.PRIMARY))
+            return MouseButtonControl.PRIMARY;
+        else
+            return -1;
     }
 }
