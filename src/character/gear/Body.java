@@ -3,8 +3,8 @@ package character.gear;
 import character.Crafting;
 
 public class Body extends Gear {
-    private static final Property.PropertyType[] PRIMARY_PROPERTIES = new Property.PropertyType[] {};
-    private static final Property.PropertyType[] SECONDARY_PROPERTIES = new Property.PropertyType[] {};
+    private static final Property.PropertyType[] PRIMARY_PROPERTIES = new Property.PropertyType[4];
+    private static final Property.PropertyType[] SECONDARY_PROPERTIES = new Property.PropertyType[4];
 
     static {
         PRIMARY_PROPERTIES[Crafting.Source.EARTH.value] = Property.PropertyType.HEALTH_LIFE;
