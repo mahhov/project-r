@@ -23,7 +23,8 @@ public class Crafting {
     private static final float PRIMARY_MAX_MULT = .5f;
     private static final float SECONDARY_ADDITIONAL_GLOW_MAX_MULT = .1f;
 
-    private static final int ENCHANTABILITY_PENALTY_BASE_RESET = 5, ENCHANTABILITY_PENALTY_PRIMARY_RESET = 5, ENCHANTABILITY_PENALTY_SECONDARY_RESET = 10;
+    private static final int ENCHANTABILITY_PENALTY_BASE_RESET = 5, ENCHANTABILITY_PENALTY_PRIMARY_RESET = 5,
+            ENCHANTABILITY_PENALTY_SECONDARY_RESET = 10, ENCHANTABILITY_PENALTY_ENHANCE_RESET = 10;
 
     private Gear gear;
     private Glows glows; // todo crafting cnosume glows
@@ -152,7 +153,7 @@ public class Crafting {
     }
 
     public void resetSecondary() {
-        if (gear.getNumProperties() != 3 && gear.getNumProperties() != 4)
+        if (gear.getNumProperties() != 4 && gear.getNumProperties() != 5)
             return;
 
         gear.removeProperties(3);
@@ -160,7 +161,11 @@ public class Crafting {
     }
 
     public void resetEnhance() {
-        System.out.println("resetEnhance");
+        if (gear.getNumProperties() != 6 && gear.getNumProperties() != 7)
+            return;
+
+        gear.removeProperties(5);
+        gear.decreaseEnchantability(ENCHANTABILITY_PENALTY_ENHANCE_RESET);
     }
 
     private boolean hasDuplicateGlowSource(Glows.Glow[] glows, Source prevPropertySource) {
