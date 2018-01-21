@@ -106,6 +106,13 @@ public class Engine {
 // ~~ ordered ~~
 // equiping / unequiping
 // crafting ui & crafting
+// weapon crafting
+// lines on ui bars
+// selecting crafting item
+// crafting new item
+// equiping crafted item
+// glow availablilty check on craft
+// crafting help text on posible properties and reason why can't craft
 
 // ~~ high priority ~~
 // weapon equipment & crafting

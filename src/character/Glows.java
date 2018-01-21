@@ -47,6 +47,11 @@ public class Glows {
             glows[i] = MathRandom.random(10, 100);
     }
 
+    void consume(Glow[] glows) {
+        for (Glow glow : glows)
+            this.glows[glow.value]--;
+    }
+
     public String getText(int i) {
         return GLOW_VALUES[i].name + " " + glows[i];
     }

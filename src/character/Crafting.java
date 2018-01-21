@@ -18,7 +18,7 @@ public class Crafting {
         }
     }
 
-    private static final int MIN_VALUE = 10, MAX_VALUE = 30; // 101
+    private static final int MIN_VALUE = 10, MAX_VALUE = 101;
     private static final int BASE_MAX_VALUE_BOOST = 50;
     private static final float PRIMARY_MAX_MULT = .5f;
     private static final float SECONDARY_ADDITIONAL_GLOW_MAX_MULT = .1f;
@@ -27,7 +27,7 @@ public class Crafting {
             ENCHANTABILITY_PENALTY_SECONDARY_RESET = 10, ENCHANTABILITY_PENALTY_ENHANCE_RESET = 10;
 
     private Gear gear;
-    private Glows glows; // todo crafting consume glows
+    private Glows glows;
 
     Crafting(Glows glows) {
         gear = new Helmet();
@@ -40,6 +40,8 @@ public class Crafting {
 
         if (gear.getNumProperties() != 0) // todo error messages for wrong # prop, wrong # glow selected, duplicate glow selected
             return;
+        
+        this.glows.consume(glows);
 
         Glows.Glow glow = glows[0];
 
@@ -73,6 +75,8 @@ public class Crafting {
         if (gear.getNumProperties() != 1 && (gear.getNumProperties() != 2 || hasDuplicateGlowSource(glows, prevPropertySource)))
             return;
 
+        this.glows.consume(glows);
+        
         Glows.Glow glow = glows[MathRandom.random(0, glows.length)];
 
         if (glow.source.length == 2) { // hybrid
@@ -106,6 +110,8 @@ public class Crafting {
         if (gear.getNumProperties() != 3 && (gear.getNumProperties() != 4 || hasDuplicateGlowSource(glows, prevPropertySource)))
             return;
 
+        this.glows.consume(glows);
+        
         Glows.Glow glow = glows[MathRandom.random(0, glows.length)];
         float multiply = (1 + (glows.length - 1) * SECONDARY_ADDITIONAL_GLOW_MAX_MULT) * gear.getEnchantability() / 100f;
 
