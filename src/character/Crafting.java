@@ -3,13 +3,14 @@ package character;
 import character.gear.Gear;
 import character.gear.Helmet;
 import character.gear.Property;
+import util.MathRandom;
 
 public class Crafting {
     public enum Source {
         EARTH("Earth"), FIRE("Fire"), WATER("Water"), AIR("Air");
 
         final String name;
-        final int value;
+        public final int value;
 
         Source(String name) {
             this.name = name;
@@ -17,30 +18,49 @@ public class Crafting {
         }
     }
 
+    private static final int MIN_VALUE = 10, MAX_VALUE = 30; // 101
+    private static final int PRIMARY_MAX_VALUE_BOOST = 50;
+
+    private static final int ENCHANTABILITY_PENALTY_BASE_RESET = 5;
+
+    private static final float SOURCE_LEVEL_VALUE_BONUS = 10;
+    private static final float PRIMARY_ENCHANT_SECOND_TIER_VALUE_BONUS = .5f;
+    private static final float SECONDARY_ENCHANT_ADDITIONAL_GLOW_VALUE_BONUS = .1f;
+    private static final float ENCHANT_VALUE_MULTIPLIER = 1;
+
     private Gear gear;
     private Glows glows;
 
     Crafting(Glows glows) {
         gear = new Helmet();
-        gear.addProperty(new Property(Property.PropertyType.HEALTH_LIFE, 39));
         this.glows = glows;
     }
 
     public void craftBase(Glows.Glow glow) {
-        // check item has 0 properties
+        if (gear.getNumProperties() != 0) // todo error messages for wrong # prop, wrong # glow selected, duplicate glow selected
+            return;
 
-        // check exactly 1 glow selected
+        if (glow.source.length == 2) { // hybrid
+            int index = MathRandom.random(0, 2);
+            Property.PropertyType propertyType = gear.getPrimaryProperty(glow.source[index]);
+            int value = MathRandom.random(MIN_VALUE, MAX_VALUE + PRIMARY_MAX_VALUE_BOOST);
+            gear.addProperty(new Property(propertyType, value));
 
-        // add property
-        // [10-100] for tier 1
-        // [10-100] + 50 for tier 2
-        // [10-100] + 50 for hybrid, randomly selected 
+        } else if (glow.tier == 1) { // tier 1
+            Property.PropertyType propertyType = gear.getPrimaryProperty(glow.source[0]);
+            int value = MathRandom.random(MIN_VALUE, MAX_VALUE);
+            gear.addProperty(new Property(propertyType, value));
+
+        } else { // tier 2
+            Property.PropertyType propertyType = gear.getPrimaryProperty(glow.source[0]);
+            int value = MathRandom.random(MIN_VALUE, MAX_VALUE + PRIMARY_MAX_VALUE_BOOST);
+            gear.addProperty(new Property(propertyType, value));
+        }
     }
 
     public void craftPrimary(Glows.Glow glow1, Glows.Glow glow2, Glows.Glow glow3) {
-        // check item has 1 or 2 properties
-
-        // check exactly 3 glows selected
+        if (gear.getNumProperties() != 1 && gear.getNumProperties() != 2)
+            return;
 
         // if has 2 property
         // check non of tier 1 and 2 selected glows are of same source as property[1]
@@ -53,9 +73,8 @@ public class Crafting {
     }
 
     public void craftSecondary(Glows.Glow[] glows) {
-        // check item has 3 or 4 properties
-
-        // check at least 1 glow selected
+        if (gear.getNumProperties() != 3 && gear.getNumProperties() != 4)
+            return;
 
         // if has 4 properties
         // check non of tier 1 and 2 selected glows are of same source as property[3]
@@ -68,7 +87,8 @@ public class Crafting {
     }
 
     public void craftEnhance() {
-        // check item has 5 or 6 properties
+        if (gear.getNumProperties() != 5 && gear.getNumProperties() != 6)
+            return;
 
         // add property
         // randomly select of 4 glow types
@@ -76,7 +96,11 @@ public class Crafting {
     }
 
     public void resetBase() {
-        System.out.println("resetBase");
+        if (gear.getNumProperties() != 1)
+            return;
+
+        gear.removeProperty();
+        gear.decreaseEnchantability(ENCHANTABILITY_PENALTY_BASE_RESET);
     }
 
     public void resetPrimary() {
@@ -91,11 +115,15 @@ public class Crafting {
         System.out.println("resetEnhance");
     }
 
-    public String getText() {
+    public String getGearText() {
         return gear != null ? gear.getText() : "--Select Gear to Craft--";
     }
 
-    public String getText(int property) {
-        return gear.getText(property);
+    public String getEnchantabilityText() {
+        return gear != null ? "Enchantability: " + gear.getEnchantabilityText() : "";
+    }
+
+    public String getPropertyText(int property) {
+        return gear != null ? gear.getPropertyText(property) : "";
     }
 }

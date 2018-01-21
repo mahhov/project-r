@@ -1,27 +1,40 @@
 package character.gear;
 
-import character.Equipment;
+import character.Crafting;
 import item.Item;
+import util.MathNumbers;
 
 public class Gear extends Item {
-    public static final int GEAR_MAX_PROPERTIES = 7;
-    private static final float SOURCE_LEVEL_VALUE_BONUS = 10;
-    private static final float PRIMARY_ENCHANT_SECOND_TIER_VALUE_BONUS = .5f;
-    private static final float SECONDARY_ENCHANT_ADDITIONAL_GLOW_VALUE_BONUS = .1f;
-    private static final float ENCHANT_VALUE_MULTIPLIER = 1;
+    public static final int GEAR_MAX_PROPERTIES = 7, MIN_ENCHANTABILITY = 10;
 
-    private float enchantability;
+    private Property.PropertyType[] primaryProperties, secondaryProperties;
+
+    private int enchantability;
     private Property[] properties;
     private int numProperties;
 
-    Gear(int id) {
+    Gear(int id, Property.PropertyType[] primaryProperties, Property.PropertyType[] secondaryProperties) {
         super(id, "", false);
+        this.primaryProperties = primaryProperties;
+        this.secondaryProperties = secondaryProperties;
         enchantability = 100;
         properties = new Property[GEAR_MAX_PROPERTIES];
     }
 
     public void addProperty(Property property) {
         properties[numProperties++] = property;
+    }
+
+    public void removeProperty() {
+        numProperties--;
+    }
+
+    public void decreaseEnchantability(int amount) {
+        enchantability = MathNumbers.max(enchantability - amount, MIN_ENCHANTABILITY);
+    }
+
+    public int getEnchantabilityText() {
+        return enchantability;
     }
 
     public int getEquipmentBonus(Property.PropertyType propertyType) {
@@ -32,12 +45,24 @@ public class Gear extends Item {
         return sum;
     }
 
+    public int getNumProperties() {
+        return numProperties;
+    }
+
     @Override
     public String getText() {
         return "juba"; // todo placeholder
     }
 
-    public String getText(int property) {
+    public String getPropertyText(int property) {
         return property < numProperties ? properties[property].getText() : "";
+    }
+
+    public Property.PropertyType getPrimaryProperty(Crafting.Source source) {
+        return primaryProperties[source.value];
+    }
+
+    public Property.PropertyType getSecondaryProperty(Crafting.Source source) {
+        return secondaryProperties[source.value];
     }
 }

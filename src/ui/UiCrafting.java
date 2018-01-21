@@ -10,7 +10,7 @@ import shape.Rects;
 import shape.Texts;
 
 class UiCrafting extends UiInteractivePane {
-    private static final int CRAFTING_TEXTS_OFFSET = Gear.GEAR_MAX_PROPERTIES + 3;
+    private static final int CRAFTING_TEXTS_OFFSET = Gear.GEAR_MAX_PROPERTIES + 4;
     private Human human;
     private Crafting crafting;
     private UiGlows uiGlows;
@@ -78,8 +78,9 @@ class UiCrafting extends UiInteractivePane {
                 crafting.resetEnhance();
         }
 
-        setText(0, crafting.getText());
+        setText(0, crafting.getGearText());
+        setText(1, crafting.getEnchantabilityText());
         for (int i = 0; i < Gear.GEAR_MAX_PROPERTIES; i++)
-            setText(i + 1, crafting.getText(i));
+            setText(i + 2, crafting.getPropertyText(i));
     }
 }

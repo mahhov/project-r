@@ -11,7 +11,7 @@ public class Property {
 
         public final String name;
         final int value;
-        final Crafting.Source source;
+        final Crafting.Source source; // todo needed?
 
         PropertyType(String name, Crafting.Source source) {
             this.name = name;

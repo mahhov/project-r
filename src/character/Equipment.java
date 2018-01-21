@@ -61,7 +61,7 @@ public class Equipment {
     }
 
     public String getText(GearType gearType, int property) {
-        return gears[gearType.value].getText(property);
+        return gears[gearType.value].getPropertyText(property);
     }
 
     public boolean isEquiped(GearType gearType) {
