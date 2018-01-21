@@ -69,6 +69,8 @@ class UiCrafting extends UiInteractivePane {
                 crafting.craftEnhance();
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 10)
                 crafting.resetEnhance();
+
+            uiGlows.refreshSelectedGlows();
         }
 
         setText(0, crafting.getGearText());

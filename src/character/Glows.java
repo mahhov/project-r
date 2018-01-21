@@ -44,12 +44,16 @@ public class Glows {
 
         // todo remove
         for (int i = 0; i < glows.length; i++)
-            glows[i] = MathRandom.random(10, 100);
+            glows[i] = MathRandom.random(0, 5);
     }
 
     void consume(Glow[] glows) {
         for (Glow glow : glows)
             this.glows[glow.value]--;
+    }
+
+    public boolean available(Glow glow) {
+        return glows[glow.value] > 0;
     }
 
     public String getText(int i) {

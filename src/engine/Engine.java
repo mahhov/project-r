@@ -111,7 +111,6 @@ public class Engine {
 // selecting crafting item
 // crafting new item
 // equiping crafted item
-// glow availablilty check on craft
 // crafting help text on posible properties and reason why can't craft
 
 // ~~ high priority ~~

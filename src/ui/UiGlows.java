@@ -25,9 +25,17 @@ class UiGlows extends UiInteractivePane {
         return glows;
     }
 
+    void refreshSelectedGlows() {
+        for (int i = 0; i < Glows.getGlowCount(); i++)
+            if (isSelected(i) && !glows.available(Glows.getGlow(i)))
+                toggleSelect(i);
+    }
+
     @Override
     void updateTexts() {
         int highlighted = getHighlighted();
+        if (highlighted != -1 && highlighted < Glows.getGlowCount() && !glows.available(Glows.getGlow(highlighted)))
+            highlighted = -1;
         setHighlight(highlighted);
 
         if (getClick() == MouseButtonControl.PRIMARY && highlighted != -1)
@@ -36,7 +44,7 @@ class UiGlows extends UiInteractivePane {
 
             else if (highlighted == Glows.getGlowCount() + 1) {
                 for (int i = 0; i < Glows.getGlowCount(); i++)
-                    if (!isSelected(i))
+                    if (!isSelected(i) && glows.available(Glows.getGlow(i)))
                         toggleSelect(i);
 
             } else if (highlighted == Glows.getGlowCount() + 2)
