@@ -5,7 +5,6 @@ import org.lwjgl.glfw.GLFWKeyCallbackI;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class KeyControl implements GLFWKeyCallbackI {
-    private static final int UP = 0, DOWN = 1, PRESSED = 2, RELEASED = 3; // todo replace with enum
     private static final int NUM_KEYS;
     public static final int // todo replace with enum
             KEY_W, KEY_A, KEY_S, KEY_D,
@@ -63,7 +62,7 @@ public class KeyControl implements GLFWKeyCallbackI {
         keys[KEY_M] = new Key(GLFW_KEY_M);
     }
 
-    private void setKeyState(int keyCode, int state) {
+    private void setKeyState(int keyCode, State state) {
         Key key = getKey(keyCode);
         if (key != null)
             key.state = state;
@@ -71,8 +70,8 @@ public class KeyControl implements GLFWKeyCallbackI {
 
     public boolean isKeyPressed(int keyIndex) {
         Key key = keys[keyIndex];
-        if (key.state == PRESSED) {
-            key.state = DOWN;
+        if (key.state == State.PRESSED) {
+            key.state = State.DOWN;
             return true;
         }
         return false;
@@ -80,9 +79,9 @@ public class KeyControl implements GLFWKeyCallbackI {
 
     public boolean isKeyDown(int keyIndex) {
         Key key = keys[keyIndex];
-        if (key.state == PRESSED)
-            key.state = DOWN;
-        return key.state == DOWN;
+        if (key.state == State.PRESSED)
+            key.state = State.DOWN;
+        return key.state == State.DOWN;
     }
 
     private Key getKey(int keyCode) {
@@ -97,13 +96,14 @@ public class KeyControl implements GLFWKeyCallbackI {
         if (keyCode == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
             glfwSetWindowShouldClose(window, true);
         else if (action == GLFW_RELEASE)
-            setKeyState(keyCode, RELEASED);
+            setKeyState(keyCode, State.RELEASED);
         else if (action == GLFW_PRESS)
-            setKeyState(keyCode, PRESSED);
+            setKeyState(keyCode, State.PRESSED);
     }
 
     private class Key {
-        private int keyCode, state;
+        private int keyCode;
+        private State state;
 
         private Key(int keyCode) {
             this.keyCode = keyCode;

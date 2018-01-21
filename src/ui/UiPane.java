@@ -46,7 +46,7 @@ abstract class UiPane {
     private Texts.Text texts[];
     private boolean visible;
 
-    UiPane(int size, int offset, boolean visible, Location location, float[] backColor, Rects rects, Texts texts) { // todo support title
+    UiPane(int size, int offset, boolean visible, Location location, float[] backColor, Rects rects, Texts texts) {
         this.size = size;
         this.offset = offset;
         int sizeWithOffset = size + offset;
