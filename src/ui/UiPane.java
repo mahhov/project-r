@@ -50,7 +50,7 @@ abstract class UiPane {
         this.size = size;
         this.offset = offset;
         int sizeWithOffset = size + offset;
-        
+
         highlighted = selectedLast = -1;
         selected = new boolean[size];
 
@@ -132,6 +132,10 @@ abstract class UiPane {
 
     boolean isSelected(int i) {
         return selected[i];
+    }
+
+    boolean[] getSelectedToggles() {
+        return selected;
     }
 
     private void refreshColor(int i) {

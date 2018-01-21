@@ -16,12 +16,46 @@ public class Crafting {
             this.value = ordinal();
         }
     }
-    
-    private Gear gear;
 
-    Crafting() {
+    private Gear gear;
+    private Glows glows;
+
+    Crafting(Glows glows) {
         gear = new Helmet();
         gear.addProperty(new Property(Property.PropertyType.HEALTH_LIFE, 39));
+        this.glows = glows;
+    }
+
+    public void craftBase(boolean[] glowsSelected) {
+        System.out.println("craftBase");
+    }
+
+    public void craftPrimary(boolean[] glowsSelected) {
+        System.out.println("craftPrimary");
+    }
+
+    public void craftSecondary(boolean[] glowsSelected) {
+        System.out.println("craftSecondary");
+    }
+
+    public void craftEnhance(boolean[] glowsSelected) {
+        System.out.println("craftEnhance");
+    }
+
+    public void resetBase() {
+        System.out.println("resetBase");
+    }
+
+    public void resetPrimary() {
+        System.out.println("resetPrimary");
+    }
+
+    public void resetSecondary() {
+        System.out.println("resetSecondary");
+    }
+
+    public void resetEnhance() {
+        System.out.println("resetEnhance");
     }
 
     public String getText() {

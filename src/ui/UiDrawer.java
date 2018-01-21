@@ -66,7 +66,7 @@ public class UiDrawer {
         equipment.setUiInventory(inventory);
         inventory.setUiEquipment(equipment);
         inventory.setUiCrafting(crafting);
-        crafting.setUiInventory(inventory);
+        crafting.setUiGlow(glows);
 
         paneGroups = new UiPaneGroup[5];
         int i = 0;

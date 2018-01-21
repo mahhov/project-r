@@ -74,7 +74,7 @@ public class Human implements WorldElement, Follow {
         stats.setFactors(experience, equipment);
         inventory = new Inventory(16);
         glows = new Glows();
-        crafting = new Crafting();
+        crafting = new Crafting(glows);
 
         stamina = new Stamina(stats);
         health = new Health(stats);

@@ -1,7 +1,6 @@
 package ui;
 
 import character.Crafting;
-import character.Equipment;
 import character.Human;
 import character.gear.Gear;
 import control.MouseButtonControl;
@@ -10,75 +9,64 @@ import shape.Rects;
 import shape.Texts;
 
 class UiCrafting extends UiInteractivePane {
-    private static final int TOP_SIZE = Equipment.getGearTypeCount(), BOTTOM_SIZE = Gear.GEAR_MAX_PROPERTIES;
+    private static final int CRAFTING_TEXTS_OFFSET = Gear.GEAR_MAX_PROPERTIES + 3;
     private Human human;
     private Crafting crafting;
-    private UiInventory uiInventory;
+    private UiGlows uiGlows;
 
     UiCrafting(float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl, Human human, Crafting crafting) {
-        super(26, 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
+        super(CRAFTING_TEXTS_OFFSET + 11, 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
         setText(-2, "CRAFTING");
         this.human = human;
         this.crafting = crafting;
 
-        setText(15, "Base");
-        setText(16, "Base Reset");
-        setText(18, "Primary");
-        setText(19, "Primary Reset");
-        setText(21, "Secondary");
-        setText(22, "Secondary Reset");
-        setText(24, "Enhance");
-        setText(25, "Enhance Reset");
+        setText(CRAFTING_TEXTS_OFFSET, "Base");
+        setText(CRAFTING_TEXTS_OFFSET + 1, "Base Reset");
+        setText(CRAFTING_TEXTS_OFFSET + 3, "Primary");
+        setText(CRAFTING_TEXTS_OFFSET + 4, "Primary Reset");
+        setText(CRAFTING_TEXTS_OFFSET + 6, "Secondary");
+        setText(CRAFTING_TEXTS_OFFSET + 7, "Secondary Reset");
+        setText(CRAFTING_TEXTS_OFFSET + 9, "Enhance");
+        setText(CRAFTING_TEXTS_OFFSET + 10, "Enhance Reset");
     }
 
-    void setUiInventory(UiInventory uiInventory) {
-        this.uiInventory = uiInventory;
+    void setUiGlow(UiGlows uiGlows) {
+        this.uiGlows = uiGlows;
     }
 
     @Override
     void updateTexts() {
+        int highlighted = getHighlighted();
+        if (highlighted < CRAFTING_TEXTS_OFFSET)
+            highlighted = -1;
+        else if (highlighted == CRAFTING_TEXTS_OFFSET + 2
+                || highlighted == CRAFTING_TEXTS_OFFSET + 5
+                || highlighted == CRAFTING_TEXTS_OFFSET + 8)
+            highlighted = -1;
+
+        setHighlight(highlighted);
+
+        if (getClick() == MouseButtonControl.PRIMARY && highlighted != -1) {
+            if (highlighted == CRAFTING_TEXTS_OFFSET)
+                crafting.craftBase(uiGlows.getSelectedToggles());
+            else if (highlighted == CRAFTING_TEXTS_OFFSET + 1)
+                crafting.resetBase();
+            else if (highlighted == CRAFTING_TEXTS_OFFSET + 3)
+                crafting.craftPrimary(uiGlows.getSelectedToggles());
+            else if (highlighted == CRAFTING_TEXTS_OFFSET + 4)
+                crafting.resetPrimary();
+            else if (highlighted == CRAFTING_TEXTS_OFFSET + 6)
+                crafting.craftSecondary(uiGlows.getSelectedToggles());
+            else if (highlighted == CRAFTING_TEXTS_OFFSET + 7)
+                crafting.resetSecondary();
+            else if (highlighted == CRAFTING_TEXTS_OFFSET + 9)
+                crafting.craftEnhance(uiGlows.getSelectedToggles());
+            else if (highlighted == CRAFTING_TEXTS_OFFSET + 10)
+                crafting.resetEnhance();
+        }
+
         setText(0, crafting.getText());
         for (int i = 0; i < Gear.GEAR_MAX_PROPERTIES; i++)
             setText(i + 1, crafting.getText(i));
-
-        setText(9, "Earth     " + "Earth II     " + "Earth Fire     " + "Earth Water");
-        setText(10, "Fire     " + "Fire II     " + "Fire Air");
-        setText(11, "Water     " + "Water II     " + "Water Air     " + "Water Fire");
-        setText(12, "Air     " + "Air II     " + "Air Earth");
-
-        //        int highlighted = getHighlighted();
-        //        if (highlighted < 15)
-        //            highlighted = -1;
-        //        setHighlight(highlighted);
-        //
-        //
-        //        if (highlighted >= TOP_SIZE)
-        //            highlighted = -1;
-        //        setHighlight(highlighted);
-        //
-        //        if (getClick() == MouseButtonControl.PRIMARY && highlighted != -1) {
-        //            int inventorySelected = uiInventory.getSelectedLast();
-        //
-        //            if (inventorySelected != -1) {
-        //                human.swapEquipment(inventorySelected, highlighted);
-        //                uiInventory.setSelect(-1);
-        //                setSelect(highlighted);
-        //            } else if (getSelectedLast() == highlighted)
-        //                setSelect(-1);
-        //            else
-        //                setSelect(highlighted);
-        //        }
-        //
-        //        for (int i = 0; i < TOP_SIZE; i++)
-        //            setText(i, equipment.getText(Equipment.getGearType(i)));
-        //
-        //        int selected = getSelectedLast();
-        //
-        //        if (selected != -1 && equipment.isEquiped(Equipment.getGearType(selected)))
-        //            for (int i = 0; i < BOTTOM_SIZE; i++)
-        //                setText(i + TOP_SIZE + 1, equipment.getText(Equipment.getGearType(selected), i));
-        //        else
-        //            for (int i = 0; i < BOTTOM_SIZE; i++)
-        //                setText(i + TOP_SIZE + 1, "");
     }
 }
