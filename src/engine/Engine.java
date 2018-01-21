@@ -111,9 +111,9 @@ public class Engine {
 // selecting crafting item
 // crafting new item
 // equiping crafted item
-// crafting help text on posible properties
 
 // ~~ high priority ~~
+// crafting help text on posible properties
 // weapon equipment & crafting
 // combat
 // enemies
