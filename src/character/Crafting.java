@@ -34,13 +34,13 @@ public class Crafting {
         this.glows = glows;
     }
 
-    public void craftBase(Glows.Glow[] glows) {
+    public String craftBase(Glows.Glow[] glows) {
         if (glows.length != 1)
-            return;
+            return "Must select exactly 1 glows";
 
-        if (gear.getNumProperties() != 0) // todo error messages for wrong # prop, wrong # glow selected, duplicate glow selected
-            return;
-        
+        if (gear.getNumProperties() != 0)
+            return "Item must have no properties";
+
         this.glows.consume(glows);
 
         Glows.Glow glow = glows[0];
@@ -62,21 +62,23 @@ public class Crafting {
             gear.addProperty(new Property(propertyType, value));
         }
 
+        return null;
+
         // [10-100] for tier 1
         // [10-100] + 50 for tier 2
         // [10-100] + 50 for hybrid, randomly selected 
     }
 
-    public void craftPrimary(Glows.Glow[] glows) {
+    public String craftPrimary(Glows.Glow[] glows) {
         if (glows.length != 3)
-            return;
+            return "Must select exactly 3 glows";
 
         Source prevPropertySource = gear.getPropertySource(1);
         if (gear.getNumProperties() != 1 && (gear.getNumProperties() != 2 || hasDuplicateGlowSource(glows, prevPropertySource)))
-            return;
+            return "Item must have 1 or 2 properties";
 
         this.glows.consume(glows);
-        
+
         Glows.Glow glow = glows[MathRandom.random(0, glows.length)];
 
         if (glow.source.length == 2) { // hybrid
@@ -96,22 +98,24 @@ public class Crafting {
             gear.addProperty(new Property(propertyType, value));
         }
 
+        return null;
+
         // randomly select 1 glow
         // [10-(100*.5)] for tier 1
         // [10-100] for tier 2
         // [10-(100*.5)] for hybrid, randomly selected (excluding property[1])
     }
 
-    public void craftSecondary(Glows.Glow[] glows) {
+    public String craftSecondary(Glows.Glow[] glows) {
         if (glows.length == 0)
-            return;
+            return "Must select at least 1 glow";
 
         Source prevPropertySource = gear.getPropertySource(3);
         if (gear.getNumProperties() != 3 && (gear.getNumProperties() != 4 || hasDuplicateGlowSource(glows, prevPropertySource)))
-            return;
+            return "Item must have 3 or 4 properties";
 
         this.glows.consume(glows);
-        
+
         Glows.Glow glow = glows[MathRandom.random(0, glows.length)];
         float multiply = (1 + (glows.length - 1) * SECONDARY_ADDITIONAL_GLOW_MAX_MULT) * gear.getEnchantability() / 100f;
 
@@ -127,56 +131,64 @@ public class Crafting {
             gear.addProperty(new Property(propertyType, value));
         }
 
+        return null;
+
         // randomly select 1 glow
         // multiply = (1 + ((# glows selected - 1) * .1)) * (enchantability/100)
         // [10-(100*multiply)] for tier 1 or tier 2
         // [10-(100*multiply)] for hybrid, randomly selected (excluding property[3])
     }
 
-    public void craftEnhance() {
+    public String craftEnhance() {
         if (gear.getNumProperties() != 5 && gear.getNumProperties() != 6)
-            return;
+            return "Item must have 5 or 6 properties";
 
         Property.PropertyType propertyType = gear.getRandomSecondaryProperty();
         float multiply = gear.getEnchantability() / 100f;
         int value = MathRandom.random(MIN_VALUE, (int) (MAX_VALUE * multiply));
         gear.addProperty(new Property(propertyType, value));
 
+        return null;
+
         // add property
         // randomly select of 4 glow types
         // [10-(100*enchantability/100)]
     }
 
-    public void resetBase() {
+    public String resetBase() {
         if (gear.getNumProperties() != 1)
-            return;
+            return "Item must have exactly 1 property";
 
         gear.removeProperties(0);
         gear.decreaseEnchantability(ENCHANTABILITY_PENALTY_BASE_RESET);
+        return null;
     }
 
-    public void resetPrimary() {
+    public String resetPrimary() {
         if (gear.getNumProperties() != 2 && gear.getNumProperties() != 3)
-            return;
+            return "Item must have 2 or 3 properties";
 
         gear.removeProperties(1);
         gear.decreaseEnchantability(ENCHANTABILITY_PENALTY_PRIMARY_RESET);
+        return null;
     }
 
-    public void resetSecondary() {
+    public String resetSecondary() {
         if (gear.getNumProperties() != 4 && gear.getNumProperties() != 5)
-            return;
+            return "Item must have 4 or 5 properties";
 
         gear.removeProperties(3);
         gear.decreaseEnchantability(ENCHANTABILITY_PENALTY_SECONDARY_RESET);
+        return null;
     }
 
-    public void resetEnhance() {
+    public String resetEnhance() {
         if (gear.getNumProperties() != 6 && gear.getNumProperties() != 7)
-            return;
+            return "Item must have 6 or 7 properties";
 
         gear.removeProperties(5);
         gear.decreaseEnchantability(ENCHANTABILITY_PENALTY_ENHANCE_RESET);
+        return null;
     }
 
     private boolean hasDuplicateGlowSource(Glows.Glow[] glows, Source prevPropertySource) {

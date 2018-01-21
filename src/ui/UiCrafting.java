@@ -16,7 +16,7 @@ class UiCrafting extends UiInteractivePane {
     private UiGlows uiGlows;
 
     UiCrafting(float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl, Human human, Crafting crafting) {
-        super(CRAFTING_TEXTS_OFFSET + 11, 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
+        super(CRAFTING_TEXTS_OFFSET + 13, 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
         setText(-2, "CRAFTING");
         this.human = human;
         this.crafting = crafting;
@@ -36,6 +36,12 @@ class UiCrafting extends UiInteractivePane {
     }
 
     @Override
+    void setInvisible() {
+        super.setInvisible();
+        setText(CRAFTING_TEXTS_OFFSET + 12, "");
+    }
+
+    @Override
     void updateTexts() {
         int highlighted = getHighlighted();
         if (highlighted < CRAFTING_TEXTS_OFFSET)
@@ -49,26 +55,29 @@ class UiCrafting extends UiInteractivePane {
 
         if (getClick() == MouseButtonControl.PRIMARY && highlighted != -1) {
             Glows.Glow[] glowsSelected = uiGlows.getGlowsSelected();
+            String hintText = null;
 
             if (highlighted == CRAFTING_TEXTS_OFFSET)
-                crafting.craftBase(glowsSelected);
+                hintText = crafting.craftBase(glowsSelected);
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 1)
-                crafting.resetBase();
+                hintText = crafting.resetBase();
 
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 3)
-                crafting.craftPrimary(glowsSelected);
+                hintText = crafting.craftPrimary(glowsSelected);
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 4)
-                crafting.resetPrimary();
+                hintText = crafting.resetPrimary();
 
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 6)
-                crafting.craftSecondary(glowsSelected);
+                hintText = crafting.craftSecondary(glowsSelected);
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 7)
-                crafting.resetSecondary();
+                hintText = crafting.resetSecondary();
 
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 9)
-                crafting.craftEnhance();
+                hintText = crafting.craftEnhance();
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 10)
-                crafting.resetEnhance();
+                hintText = crafting.resetEnhance();
+
+            setText(CRAFTING_TEXTS_OFFSET + 12, hintText != null ? hintText : "");
 
             uiGlows.refreshSelectedGlows();
         }
