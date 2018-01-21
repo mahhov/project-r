@@ -21,17 +21,12 @@ public class Crafting {
     private static final int MIN_VALUE = 10, MAX_VALUE = 30; // 101
     private static final int BASE_MAX_VALUE_BOOST = 50;
     private static final float PRIMARY_MAX_MULT = .5f;
-    private static final float SECONDARY_MAX_MULT = .1f;
+    private static final float SECONDARY_ADDITIONAL_GLOW_MAX_MULT = .1f;
 
-    private static final int ENCHANTABILITY_PENALTY_BASE_RESET = 5, ENCHANTABILITY_PENALTY_PRIMARY_RESET = 5;
-
-    private static final float SOURCE_LEVEL_VALUE_BONUS = 10;
-    private static final float PRIMARY_ENCHANT_SECOND_TIER_VALUE_BONUS = .5f;
-    private static final float SECONDARY_ENCHANT_ADDITIONAL_GLOW_VALUE_BONUS = .1f;
-    private static final float ENCHANT_VALUE_MULTIPLIER = 1;
+    private static final int ENCHANTABILITY_PENALTY_BASE_RESET = 5, ENCHANTABILITY_PENALTY_PRIMARY_RESET = 5, ENCHANTABILITY_PENALTY_SECONDARY_RESET = 10;
 
     private Gear gear;
-    private Glows glows;
+    private Glows glows; // todo crafting cnosume glows
 
     Crafting(Glows glows) {
         gear = new Helmet();
@@ -111,7 +106,7 @@ public class Crafting {
             return;
 
         Glows.Glow glow = glows[MathRandom.random(0, glows.length)];
-        float multiply = (1 + (glows.length - 1) * SECONDARY_MAX_MULT) * gear.getEnchantability() / 100;
+        float multiply = (1 + (glows.length - 1) * SECONDARY_ADDITIONAL_GLOW_MAX_MULT) * gear.getEnchantability() / 100;
 
         if (glow.source.length == 2) { // hybrid
             Source source = getNonDuplicateGlowSourceForHybridGlow(glow, prevPropertySource);
@@ -157,7 +152,11 @@ public class Crafting {
     }
 
     public void resetSecondary() {
-        System.out.println("resetSecondary");
+        if (gear.getNumProperties() != 3 && gear.getNumProperties() != 4)
+            return;
+
+        gear.removeProperties(3);
+        gear.decreaseEnchantability(ENCHANTABILITY_PENALTY_SECONDARY_RESET);
     }
 
     public void resetEnhance() {
@@ -192,4 +191,3 @@ public class Crafting {
         return gear != null ? gear.getPropertyText(property) : "";
     }
 }
-// todo crafting cnosume glows
