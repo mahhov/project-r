@@ -12,7 +12,7 @@ public class MathRandom {
 
     // exclusive
     public static int random(int min, int max) {
-        return R.nextInt(max - min) + min;
+        return max > min ? R.nextInt(max - min) + min : min;
     }
 
     public static boolean random(double trueWeight) {

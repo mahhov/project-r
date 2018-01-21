@@ -27,7 +27,7 @@ public class Crafting {
             ENCHANTABILITY_PENALTY_SECONDARY_RESET = 10, ENCHANTABILITY_PENALTY_ENHANCE_RESET = 10;
 
     private Gear gear;
-    private Glows glows; // todo crafting cnosume glows
+    private Glows glows; // todo crafting consume glows
 
     Crafting(Glows glows) {
         gear = new Helmet();
@@ -107,7 +107,7 @@ public class Crafting {
             return;
 
         Glows.Glow glow = glows[MathRandom.random(0, glows.length)];
-        float multiply = (1 + (glows.length - 1) * SECONDARY_ADDITIONAL_GLOW_MAX_MULT) * gear.getEnchantability() / 100;
+        float multiply = (1 + (glows.length - 1) * SECONDARY_ADDITIONAL_GLOW_MAX_MULT) * gear.getEnchantability() / 100f;
 
         if (glow.source.length == 2) { // hybrid
             Source source = getNonDuplicateGlowSourceForHybridGlow(glow, prevPropertySource);
@@ -130,6 +130,11 @@ public class Crafting {
     public void craftEnhance() {
         if (gear.getNumProperties() != 5 && gear.getNumProperties() != 6)
             return;
+
+        Property.PropertyType propertyType = gear.getRandomSecondaryProperty();
+        float multiply = gear.getEnchantability() / 100f;
+        int value = MathRandom.random(MIN_VALUE, (int) (MAX_VALUE * multiply));
+        gear.addProperty(new Property(propertyType, value));
 
         // add property
         // randomly select of 4 glow types

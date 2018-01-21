@@ -3,6 +3,7 @@ package character.gear;
 import character.Crafting;
 import item.Item;
 import util.MathNumbers;
+import util.MathRandom;
 
 public class Gear extends Item {
     public static final int GEAR_MAX_PROPERTIES = 7, MIN_ENCHANTABILITY = 10;
@@ -68,5 +69,9 @@ public class Gear extends Item {
 
     public Property.PropertyType getSecondaryProperty(Crafting.Source source) {
         return secondaryProperties[source.value];
+    }
+
+    public Property.PropertyType getRandomSecondaryProperty() {
+        return secondaryProperties[MathRandom.random(0, secondaryProperties.length)];
     }
 }
