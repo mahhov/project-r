@@ -3,6 +3,7 @@ package ui;
 import character.Equipment;
 import character.Human;
 import character.gear.Gear;
+import control.MouseButton;
 import control.MouseButtonControl;
 import control.MousePosControl;
 import shape.Rects;
@@ -32,7 +33,7 @@ class UiEquipment extends UiInteractivePane {
             highlighted = -1;
         setHighlight(highlighted);
 
-        if (getClick() == MouseButtonControl.PRIMARY && highlighted != -1) {
+        if (getClick() == MouseButton.PRIMARY && highlighted != -1) {
             int inventorySelected = uiInventory.getSelectedLast();
 
             if (inventorySelected != -1) {

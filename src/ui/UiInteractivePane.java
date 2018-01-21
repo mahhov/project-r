@@ -1,5 +1,6 @@
 package ui;
 
+import control.MouseButton;
 import control.MouseButtonControl;
 import control.MousePosControl;
 import shape.Rects;
@@ -34,12 +35,12 @@ abstract class UiInteractivePane extends UiPane {
         return getIntersecting(mousePosControl.getAbsX(), mousePosControl.getAbsY());
     }
 
-    int getClick() {
-        if (mouseButtonControl.isMousePressed(MouseButtonControl.SECONDARY))
-            return MouseButtonControl.SECONDARY;
-        else if (mouseButtonControl.isMousePressed(MouseButtonControl.PRIMARY))
-            return MouseButtonControl.PRIMARY;
+    MouseButton getClick() {
+        if (mouseButtonControl.isMousePressed(MouseButton.SECONDARY))
+            return MouseButton.SECONDARY;
+        else if (mouseButtonControl.isMousePressed(MouseButton.PRIMARY))
+            return MouseButton.PRIMARY;
         else
-            return -1;
+            return MouseButton.NONE;
     }
 }

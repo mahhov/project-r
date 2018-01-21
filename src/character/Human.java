@@ -3,6 +3,7 @@ package character;
 import camera.Follow;
 import character.gear.Gear;
 import control.KeyControl;
+import control.MouseButton;
 import control.MouseButtonControl;
 import control.MousePosControl;
 import item.Item;
@@ -94,7 +95,7 @@ public class Human implements WorldElement, Follow {
     @Override
     public boolean update(World world) {
         boolean shiftPress = keyControl.isKeyPressed(KeyControl.KEY_SHIFT);
-        zoom ^= mousePosControl.isLocked() && mouseButtonControl.isMousePressed(MouseButtonControl.SECONDARY);
+        zoom ^= mousePosControl.isLocked() && mouseButtonControl.isMousePressed(MouseButton.SECONDARY);
 
         stamina.regen();
         health.regen();
@@ -115,7 +116,7 @@ public class Human implements WorldElement, Follow {
 
         applyVelocity();
 
-        doThrow(mousePosControl.isLocked() && mouseButtonControl.isMouseDown(MouseButtonControl.PRIMARY), world);
+        doThrow(mousePosControl.isLocked() && mouseButtonControl.isMouseDown(MouseButton.PRIMARY), world);
 
         return false;
     }

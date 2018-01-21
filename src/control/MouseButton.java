@@ -1,7 +1,7 @@
 package control;
 
-enum MouseButton {
-    PRIMARY, SECONDARY;
+public enum MouseButton {
+    PRIMARY, SECONDARY, NONE;
 
     final int value;
 

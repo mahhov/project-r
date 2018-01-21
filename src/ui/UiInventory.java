@@ -2,6 +2,7 @@ package ui;
 
 import character.Human;
 import character.Inventory;
+import control.MouseButton;
 import control.MouseButtonControl;
 import control.MousePosControl;
 import shape.Rects;
@@ -24,7 +25,7 @@ class UiInventory extends UiInteractivePane {
     void setUiEquipment(UiEquipment uiEquipment) {
         this.uiEquipment = uiEquipment;
     }
-    
+
     void setUiCrafting(UiCrafting uiCrafting) {
         this.uiCrafting = uiCrafting;
     }
@@ -34,7 +35,7 @@ class UiInventory extends UiInteractivePane {
         int highlighted = getHighlighted();
         setHighlight(highlighted);
 
-        if (getClick() == MouseButtonControl.PRIMARY && highlighted != -1) {
+        if (getClick() == MouseButton.PRIMARY && highlighted != -1) {
             int selected = getSelectedLast();
             int equipmentSelected = uiEquipment.getSelectedLast();
 

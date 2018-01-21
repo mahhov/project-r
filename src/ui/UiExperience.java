@@ -1,6 +1,7 @@
 package ui;
 
 import character.Experience;
+import control.MouseButton;
 import control.MouseButtonControl;
 import control.MousePosControl;
 import shape.Rects;
@@ -18,12 +19,12 @@ class UiExperience extends UiInteractivePane {
     @Override
     void updateTexts() {
         int highlighted = getHighlighted();
-        int click = getClick();
+        MouseButton click = getClick();
 
         if (highlighted != -1)
-            if (click == MouseButtonControl.PRIMARY)
+            if (click == MouseButton.PRIMARY)
                 experience.spendPoint(Experience.getSkill(highlighted), 1);
-            else if (click == MouseButtonControl.SECONDARY)
+            else if (click == MouseButton.SECONDARY)
                 experience.spendPoint(Experience.getSkill(highlighted), 10);
         setHighlight(highlighted);
 

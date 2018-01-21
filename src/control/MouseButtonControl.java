@@ -14,16 +14,16 @@ public class MouseButtonControl implements GLFWMouseButtonCallbackI {
             mouses[i] = new Mouse();
     }
 
-    private void setMouseState(MouseButton mouse, State state) {
-        mouses[mouse.value].setState(state);
+    private void setMouseState(MouseButton mouseButton, State state) {
+        mouses[mouseButton.value].setState(state);
     }
 
-    public boolean isMousePressed(int mouse) {
-        return mouses[mouse].getState() == State.PRESSED;
+    public boolean isMousePressed(MouseButton mouseButton) {
+        return mouses[mouseButton.value].getState() == State.PRESSED;
     }
 
-    public boolean isMouseDown(int mouse) {
-        return mouses[mouse].getState() == State.DOWN;
+    public boolean isMouseDown(MouseButton mouseButton) {
+        return mouses[mouseButton.value].getState() == State.DOWN;
     }
 
     public void next() {
@@ -33,11 +33,11 @@ public class MouseButtonControl implements GLFWMouseButtonCallbackI {
 
     @Override
     public void invoke(long window, int button, int action, int mods) {
-        MouseButton mouse = button == GLFW_MOUSE_BUTTON_1 ? MouseButton.PRIMARY : MouseButton.SECONDARY;
+        MouseButton mouseButton = button == GLFW_MOUSE_BUTTON_1 ? MouseButton.PRIMARY : MouseButton.SECONDARY;
         if (action == GLFW_RELEASE)
-            setMouseState(mouse, State.RELEASED);
+            setMouseState(mouseButton, State.RELEASED);
         else if (action == GLFW_PRESS)
-            setMouseState(mouse, State.PRESSED);
+            setMouseState(mouseButton, State.PRESSED);
     }
 
     private class Mouse {

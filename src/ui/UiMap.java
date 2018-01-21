@@ -1,5 +1,6 @@
 package ui;
 
+import control.MouseButton;
 import control.MouseButtonControl;
 import control.MousePosControl;
 import map.Map;
@@ -22,7 +23,7 @@ class UiMap extends UiInteractivePane {
     @Override
     void updateTexts() {
         int highlighted = getHighlighted();
-        if (highlighted != -1 && getClick() == MouseButtonControl.PRIMARY)
+        if (highlighted != -1 && getClick() == MouseButton.PRIMARY)
             map.load(highlighted);
         setHighlight(highlighted);
     }
