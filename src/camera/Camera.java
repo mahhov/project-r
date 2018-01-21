@@ -1,5 +1,6 @@
 package camera;
 
+import control.KeyButton;
 import control.KeyControl;
 import engine.Engine;
 import geometry.CoordinateI3;
@@ -58,14 +59,14 @@ public class Camera implements IntersectionPicker.Picker {
     }
 
     private void trail(KeyControl keyControl) {
-        if (keyControl.isKeyDown(KeyControl.KEY_R))
+        if (keyControl.isKeyDown(KeyButton.KEY_R))
             trailVert = MathNumbers.min(trailVert + TRAIL_VERT_SPEED, TRAIL_VERT_MAX);
-        if (keyControl.isKeyDown(KeyControl.KEY_F))
+        if (keyControl.isKeyDown(KeyButton.KEY_F))
             trailVert = MathNumbers.max(trailVert - TRAIL_VERT_SPEED, TRAIL_VERT_MIN);
 
-        if (keyControl.isKeyDown(KeyControl.KEY_Z))
+        if (keyControl.isKeyDown(KeyButton.KEY_Z))
             trailDistance = MathNumbers.min(trailDistance + TRAIL_DISTANCE_SPEED, TRAIL_DISTANCE_MAX);
-        if (keyControl.isKeyDown(KeyControl.KEY_X))
+        if (keyControl.isKeyDown(KeyButton.KEY_X))
             trailDistance = MathNumbers.max(trailDistance - TRAIL_DISTANCE_SPEED, TRAIL_DISTANCE_MIN);
     }
 

@@ -2,10 +2,7 @@ package character;
 
 import camera.Follow;
 import character.gear.Gear;
-import control.KeyControl;
-import control.MouseButton;
-import control.MouseButtonControl;
-import control.MousePosControl;
+import control.*;
 import item.Item;
 import shape.CubeInstancedFaces;
 import util.MathAngles;
@@ -94,7 +91,7 @@ public class Human implements WorldElement, Follow {
 
     @Override
     public boolean update(World world) {
-        boolean shiftPress = keyControl.isKeyPressed(KeyControl.KEY_SHIFT);
+        boolean shiftPress = keyControl.isKeyPressed(KeyButton.KEY_SHIFT);
         zoom ^= mousePosControl.isLocked() && mouseButtonControl.isMousePressed(MouseButton.SECONDARY);
 
         stamina.regen();
@@ -104,9 +101,9 @@ public class Human implements WorldElement, Follow {
         computeAxis();
         doRunningMove(keyControl);
 
-        if (keyControl.isKeyPressed(KeyControl.KEY_SPACE))
+        if (keyControl.isKeyPressed(KeyButton.KEY_SPACE))
             doJump();
-        if (keyControl.isKeyDown(KeyControl.KEY_SPACE))
+        if (keyControl.isKeyDown(KeyButton.KEY_SPACE))
             doJet();
 
         doBoost(shiftPress);
@@ -142,29 +139,29 @@ public class Human implements WorldElement, Follow {
             acc = stats.getStat(Stats.StatType.BOOST_ACC);
         else if (!air)
             acc = stats.getStat(Stats.StatType.RUN_ACC);
-        else if (keyControl.isKeyDown(KeyControl.KEY_SHIFT) && stamina.available(Stamina.StaminaCost.GLIDE)) {
+        else if (keyControl.isKeyDown(KeyButton.KEY_SHIFT) && stamina.available(Stamina.StaminaCost.GLIDE)) {
             stamina.deplete(Stamina.StaminaCost.GLIDE);
             acc = stats.getStat(Stats.StatType.GLIDE_ACC);
             vz -= stats.getStat(Stats.StatType.GLIDE_DESCENT_ACC);
         } else
             acc = stats.getStat(Stats.StatType.AIR_ACC);
 
-        if (keyControl.isKeyDown(KeyControl.KEY_W)) {
+        if (keyControl.isKeyDown(KeyButton.KEY_W)) {
             vx += norm[0] * acc;
             vy += norm[1] * acc;
         }
 
-        if (keyControl.isKeyDown(KeyControl.KEY_S)) {
+        if (keyControl.isKeyDown(KeyButton.KEY_S)) {
             vx -= norm[0] * acc;
             vy -= norm[1] * acc;
         }
 
-        if (keyControl.isKeyDown(KeyControl.KEY_A)) {
+        if (keyControl.isKeyDown(KeyButton.KEY_A)) {
             vx -= right[0] * acc;
             vy -= right[1] * acc;
         }
 
-        if (keyControl.isKeyDown(KeyControl.KEY_D)) {
+        if (keyControl.isKeyDown(KeyButton.KEY_D)) {
             vx += right[0] * acc;
             vy += right[1] * acc;
         }

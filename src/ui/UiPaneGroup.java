@@ -1,12 +1,13 @@
 package ui;
 
+import control.KeyButton;
 import control.KeyControl;
 
 class UiPaneGroup {
-    private int keyBind;
+    private KeyButton keyBind;
     private UiPane[] panes;
 
-    UiPaneGroup(int keyBind, UiPane[] panes) {
+    UiPaneGroup(KeyButton keyBind, UiPane[] panes) {
         this.keyBind = keyBind;
         this.panes = panes;
     }

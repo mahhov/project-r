@@ -1,6 +1,7 @@
 package ui;
 
 import character.Human;
+import control.KeyButton;
 import control.KeyControl;
 import control.MouseButtonControl;
 import control.MousePosControl;
@@ -70,11 +71,11 @@ public class UiDrawer {
 
         paneGroups = new UiPaneGroup[5];
         int i = 0;
-        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_V, new UiPane[] {stats, equipment});
-        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_C, new UiPane[] {stats, experience});
-        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_I, new UiPane[] {inventory, equipment});
-        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_B, new UiPane[] {glows, crafting});
-        paneGroups[i++] = new UiPaneGroup(KeyControl.KEY_M, new UiPane[] {this.map});
+        paneGroups[i++] = new UiPaneGroup(KeyButton.KEY_V, new UiPane[] {stats, equipment});
+        paneGroups[i++] = new UiPaneGroup(KeyButton.KEY_C, new UiPane[] {stats, experience});
+        paneGroups[i++] = new UiPaneGroup(KeyButton.KEY_I, new UiPane[] {inventory, equipment});
+        paneGroups[i++] = new UiPaneGroup(KeyButton.KEY_B, new UiPane[] {glows, crafting});
+        paneGroups[i++] = new UiPaneGroup(KeyButton.KEY_M, new UiPane[] {this.map});
 
         // fps
         fpsText = texts.addText();
@@ -107,7 +108,7 @@ public class UiDrawer {
         crafting.update();
         map.update();
 
-        if (keyControl.isKeyPressed(KeyControl.KEY_ENTER))
+        if (keyControl.isKeyPressed(KeyButton.KEY_ENTER))
             textBox.toggle();
         textBox.update();
 
