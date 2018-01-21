@@ -138,6 +138,16 @@ abstract class UiPane {
         return selected;
     }
 
+    int[] getSelectedList() {
+        int[] selectedList = new int[size + 1];
+        int count = 0;
+        for (int i = 0; i < size; i++)
+            if (selected[i])
+                selectedList[++count] = i;
+        selectedList[0] = count;
+        return selectedList;
+    }
+
     private void refreshColor(int i) {
         if (i != -1)
             if (i == selectedLast || selected[i])

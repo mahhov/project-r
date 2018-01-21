@@ -1,6 +1,7 @@
 package ui;
 
 import character.Crafting;
+import character.Glows;
 import character.Human;
 import character.gear.Gear;
 import control.MouseButtonControl;
@@ -47,20 +48,32 @@ class UiCrafting extends UiInteractivePane {
         setHighlight(highlighted);
 
         if (getClick() == MouseButtonControl.PRIMARY && highlighted != -1) {
-            if (highlighted == CRAFTING_TEXTS_OFFSET)
-                crafting.craftBase(uiGlows.getSelectedToggles());
-            else if (highlighted == CRAFTING_TEXTS_OFFSET + 1)
+            int[] glowsSelected = uiGlows.getSelectedList();
+
+            if (highlighted == CRAFTING_TEXTS_OFFSET) {
+                if (glowsSelected[0] == 1)
+                    crafting.craftBase(Glows.getGlow(glowsSelected[1]));
+            } else if (highlighted == CRAFTING_TEXTS_OFFSET + 1)
                 crafting.resetBase();
-            else if (highlighted == CRAFTING_TEXTS_OFFSET + 3)
-                crafting.craftPrimary(uiGlows.getSelectedToggles());
-            else if (highlighted == CRAFTING_TEXTS_OFFSET + 4)
+
+            else if (highlighted == CRAFTING_TEXTS_OFFSET + 3) {
+                if (glowsSelected[0] == 3)
+                    crafting.craftPrimary(Glows.getGlow(glowsSelected[1]), Glows.getGlow(glowsSelected[2]), Glows.getGlow(glowsSelected[3]));
+            } else if (highlighted == CRAFTING_TEXTS_OFFSET + 4)
                 crafting.resetPrimary();
-            else if (highlighted == CRAFTING_TEXTS_OFFSET + 6)
-                crafting.craftSecondary(uiGlows.getSelectedToggles());
-            else if (highlighted == CRAFTING_TEXTS_OFFSET + 7)
+
+            else if (highlighted == CRAFTING_TEXTS_OFFSET + 6) {
+                if (glowsSelected[0] > 0) {
+                    Glows.Glow[] glows = new Glows.Glow[glowsSelected[0]];
+                    for (int i = 0; i < glows.length; i++)
+                        glows[i] = Glows.getGlow(glowsSelected[i + 1]);
+                    crafting.craftSecondary(glows);
+                }
+            } else if (highlighted == CRAFTING_TEXTS_OFFSET + 7)
                 crafting.resetSecondary();
+
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 9)
-                crafting.craftEnhance(uiGlows.getSelectedToggles());
+                crafting.craftEnhance();
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 10)
                 crafting.resetEnhance();
         }
