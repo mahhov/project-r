@@ -17,6 +17,14 @@ class UiGlows extends UiInteractivePane {
         this.glows = glows;
     }
 
+    Glows.Glow[] getGlowsSelected() {
+        int[] selectedList = getSelectedList();
+        Glows.Glow[] glows = new Glows.Glow[selectedList[0]];
+        for (int i = 0; i < glows.length; i++)
+            glows[i] = Glows.getGlow(selectedList[i + 1]);
+        return glows;
+    }
+
     @Override
     void updateTexts() {
         int highlighted = getHighlighted();

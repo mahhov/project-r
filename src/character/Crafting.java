@@ -19,7 +19,8 @@ public class Crafting {
     }
 
     private static final int MIN_VALUE = 10, MAX_VALUE = 30; // 101
-    private static final int PRIMARY_MAX_VALUE_BOOST = 50;
+    private static final int BASE_MAX_VALUE_BOOST = 50;
+    private static final float PRIMARY_MAX_MULT = .5f;
 
     private static final int ENCHANTABILITY_PENALTY_BASE_RESET = 5;
 
@@ -36,14 +37,19 @@ public class Crafting {
         this.glows = glows;
     }
 
-    public void craftBase(Glows.Glow glow) {
+    public void craftBase(Glows.Glow[] glows) {
+        if (glows.length != 1)
+            return;
+
         if (gear.getNumProperties() != 0) // todo error messages for wrong # prop, wrong # glow selected, duplicate glow selected
             return;
+
+        Glows.Glow glow = glows[0];
 
         if (glow.source.length == 2) { // hybrid
             int index = MathRandom.random(0, 2);
             Property.PropertyType propertyType = gear.getPrimaryProperty(glow.source[index]);
-            int value = MathRandom.random(MIN_VALUE, MAX_VALUE + PRIMARY_MAX_VALUE_BOOST);
+            int value = MathRandom.random(MIN_VALUE, MAX_VALUE + BASE_MAX_VALUE_BOOST);
             gear.addProperty(new Property(propertyType, value));
 
         } else if (glow.tier == 1) { // tier 1
@@ -53,19 +59,46 @@ public class Crafting {
 
         } else { // tier 2
             Property.PropertyType propertyType = gear.getPrimaryProperty(glow.source[0]);
-            int value = MathRandom.random(MIN_VALUE, MAX_VALUE + PRIMARY_MAX_VALUE_BOOST);
+            int value = MathRandom.random(MIN_VALUE, MAX_VALUE + BASE_MAX_VALUE_BOOST);
             gear.addProperty(new Property(propertyType, value));
         }
+
+        // [10-100] for tier 1
+        // [10-100] + 50 for tier 2
+        // [10-100] + 50 for hybrid, randomly selected 
     }
 
-    public void craftPrimary(Glows.Glow glow1, Glows.Glow glow2, Glows.Glow glow3) {
-        if (gear.getNumProperties() != 1 && gear.getNumProperties() != 2)
+    public void craftPrimary(Glows.Glow[] glows) {
+        if (glows.length != 3)
             return;
 
-        // if has 2 property
-        // check non of tier 1 and 2 selected glows are of same source as property[1]
+        Source prevPropertySource = gear.getPropertySource(1);
+        if (gear.getNumProperties() == 2) {
+            for (Glows.Glow glow : glows)
+                if (glow.source.length == 1 && glow.source[0] == prevPropertySource)
+                    return;
+        } else if (gear.getNumProperties() != 1)
+            return;
 
-        // add property
+        Glows.Glow glow = glows[MathRandom.random(0, glows.length)];
+
+        if (glow.source.length == 2) { // hybrid
+            int index = glow.source[0] == prevPropertySource ? 1 : (glow.source[1] == prevPropertySource ? 0 : MathRandom.random(0, 2));
+            Property.PropertyType propertyType = gear.getPrimaryProperty(glow.source[index]);
+            int value = MathRandom.random(MIN_VALUE, (int) (MAX_VALUE * PRIMARY_MAX_MULT));
+            gear.addProperty(new Property(propertyType, value));
+
+        } else if (glow.tier == 1) { // tier 1
+            Property.PropertyType propertyType = gear.getPrimaryProperty(glow.source[0]);
+            int value = MathRandom.random(MIN_VALUE, (int) (MAX_VALUE * PRIMARY_MAX_MULT));
+            gear.addProperty(new Property(propertyType, value));
+
+        } else { // tier 2
+            Property.PropertyType propertyType = gear.getPrimaryProperty(glow.source[0]);
+            int value = MathRandom.random(MIN_VALUE, MAX_VALUE);
+            gear.addProperty(new Property(propertyType, value));
+        }
+
         // randomly select 1 glow
         // [10-(100*.5)] for tier 1
         // [10-100] for tier 2

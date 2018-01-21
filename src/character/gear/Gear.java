@@ -29,6 +29,10 @@ public class Gear extends Item {
         numProperties--;
     }
 
+    public Crafting.Source getPropertySource(int index) {
+        return index < numProperties ? properties[index].propertyType.source : null;
+    }
+
     public void decreaseEnchantability(int amount) {
         enchantability = MathNumbers.max(enchantability - amount, MIN_ENCHANTABILITY);
     }
