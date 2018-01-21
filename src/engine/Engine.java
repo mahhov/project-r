@@ -104,13 +104,10 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
-// equiping / unequiping
-// crafting ui & crafting
-// weapon crafting
 // lines on ui bars
-// selecting crafting item
+// selecting item to craft, and returning crafted item to inventory
 // crafting new item
-// equiping crafted item
+// weapon crafting
 
 // ~~ high priority ~~
 // crafting help text on posible properties
