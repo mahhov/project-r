@@ -21,6 +21,7 @@ public class Crafting {
     private static final int MIN_VALUE = 10, MAX_VALUE = 30; // 101
     private static final int BASE_MAX_VALUE_BOOST = 50;
     private static final float PRIMARY_MAX_MULT = .5f;
+    private static final float SECONDARY_MAX_MULT = .1f;
 
     private static final int ENCHANTABILITY_PENALTY_BASE_RESET = 5, ENCHANTABILITY_PENALTY_PRIMARY_RESET = 5;
 
@@ -73,18 +74,14 @@ public class Crafting {
             return;
 
         Source prevPropertySource = gear.getPropertySource(1);
-        if (gear.getNumProperties() == 2) {
-            for (Glows.Glow glow : glows)
-                if (glow.source.length == 1 && glow.source[0] == prevPropertySource)
-                    return;
-        } else if (gear.getNumProperties() != 1)
+        if (gear.getNumProperties() != 1 && (gear.getNumProperties() != 2 || hasDuplicateGlowSource(glows, prevPropertySource)))
             return;
 
         Glows.Glow glow = glows[MathRandom.random(0, glows.length)];
 
         if (glow.source.length == 2) { // hybrid
-            int index = glow.source[0] == prevPropertySource ? 1 : (glow.source[1] == prevPropertySource ? 0 : MathRandom.random(0, 2));
-            Property.PropertyType propertyType = gear.getPrimaryProperty(glow.source[index]);
+            Source source = getNonDuplicateGlowSourceForHybridGlow(glow, prevPropertySource);
+            Property.PropertyType propertyType = gear.getPrimaryProperty(source);
             int value = MathRandom.random(MIN_VALUE, (int) (MAX_VALUE * PRIMARY_MAX_MULT));
             gear.addProperty(new Property(propertyType, value));
 
@@ -106,17 +103,32 @@ public class Crafting {
     }
 
     public void craftSecondary(Glows.Glow[] glows) {
-        if (gear.getNumProperties() != 3 && gear.getNumProperties() != 4)
+        if (glows.length == 0)
             return;
 
-        // if has 4 properties
-        // check non of tier 1 and 2 selected glows are of same source as property[3]
+        Source prevPropertySource = gear.getPropertySource(3);
+        if (gear.getNumProperties() != 3 && (gear.getNumProperties() != 4 || hasDuplicateGlowSource(glows, prevPropertySource)))
+            return;
 
-        // add property
+        Glows.Glow glow = glows[MathRandom.random(0, glows.length)];
+        float multiply = (1 + (glows.length - 1) * SECONDARY_MAX_MULT) * gear.getEnchantability() / 100;
+
+        if (glow.source.length == 2) { // hybrid
+            Source source = getNonDuplicateGlowSourceForHybridGlow(glow, prevPropertySource);
+            Property.PropertyType propertyType = gear.getSecondaryProperty(source);
+            int value = MathRandom.random(MIN_VALUE, (int) (MAX_VALUE * multiply));
+            gear.addProperty(new Property(propertyType, value));
+
+        } else { // tier 1 or tier 2
+            Property.PropertyType propertyType = gear.getSecondaryProperty(glow.source[0]);
+            int value = MathRandom.random(MIN_VALUE, (int) (MAX_VALUE * multiply));
+            gear.addProperty(new Property(propertyType, value));
+        }
+
         // randomly select 1 glow
-        // multiply = 1 + ((# glows selected - 1) * .1)
-        // [10-(100*multiply*enchantability/100)] for tier 1 or tier 2
-        // [10-(100*multiply*enchantability/100)] for hybrid, randomly selected (excluding property[3])
+        // multiply = (1 + ((# glows selected - 1) * .1)) * (enchantability/100)
+        // [10-(100*multiply)] for tier 1 or tier 2
+        // [10-(100*multiply)] for hybrid, randomly selected (excluding property[3])
     }
 
     public void craftEnhance() {
@@ -152,15 +164,32 @@ public class Crafting {
         System.out.println("resetEnhance");
     }
 
+    private boolean hasDuplicateGlowSource(Glows.Glow[] glows, Source prevPropertySource) {
+        for (Glows.Glow glow : glows)
+            if (glow.source.length == 1 && glow.source[0] == prevPropertySource)
+                return true;
+        return false;
+    }
+
+    private Source getNonDuplicateGlowSourceForHybridGlow(Glows.Glow glow, Source prevPropertySource) {
+        if (glow.source[0] == prevPropertySource)
+            return glow.source[1];
+        else if (glow.source[1] == prevPropertySource)
+            return glow.source[0];
+        else
+            return glow.source[MathRandom.random(0, 2)];
+    }
+
     public String getGearText() {
         return gear != null ? gear.getText() : "--Select Gear to Craft--";
     }
 
     public String getEnchantabilityText() {
-        return gear != null ? "Enchantability: " + gear.getEnchantabilityText() : "";
+        return gear != null ? "Enchantability: " + gear.getEnchantability() : "";
     }
 
     public String getPropertyText(int property) {
         return gear != null ? gear.getPropertyText(property) : "";
     }
 }
+// todo crafting cnosume glows

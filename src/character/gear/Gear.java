@@ -37,7 +37,7 @@ public class Gear extends Item {
         enchantability = MathNumbers.max(enchantability - amount, MIN_ENCHANTABILITY);
     }
 
-    public int getEnchantabilityText() {
+    public int getEnchantability() {
         return enchantability;
     }
 
