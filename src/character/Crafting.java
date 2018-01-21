@@ -22,7 +22,7 @@ public class Crafting {
     private static final int BASE_MAX_VALUE_BOOST = 50;
     private static final float PRIMARY_MAX_MULT = .5f;
 
-    private static final int ENCHANTABILITY_PENALTY_BASE_RESET = 5;
+    private static final int ENCHANTABILITY_PENALTY_BASE_RESET = 5, ENCHANTABILITY_PENALTY_PRIMARY_RESET = 5;
 
     private static final float SOURCE_LEVEL_VALUE_BONUS = 10;
     private static final float PRIMARY_ENCHANT_SECOND_TIER_VALUE_BONUS = .5f;
@@ -132,12 +132,16 @@ public class Crafting {
         if (gear.getNumProperties() != 1)
             return;
 
-        gear.removeProperty();
+        gear.removeProperties(0);
         gear.decreaseEnchantability(ENCHANTABILITY_PENALTY_BASE_RESET);
     }
 
     public void resetPrimary() {
-        System.out.println("resetPrimary");
+        if (gear.getNumProperties() != 2 && gear.getNumProperties() != 3)
+            return;
+
+        gear.removeProperties(1);
+        gear.decreaseEnchantability(ENCHANTABILITY_PENALTY_PRIMARY_RESET);
     }
 
     public void resetSecondary() {

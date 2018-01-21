@@ -25,8 +25,8 @@ public class Gear extends Item {
         properties[numProperties++] = property;
     }
 
-    public void removeProperty() {
-        numProperties--;
+    public void removeProperties(int keep) {
+        numProperties = keep;
     }
 
     public Crafting.Source getPropertySource(int index) {
