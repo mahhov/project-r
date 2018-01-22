@@ -74,4 +74,8 @@ public class Gear extends Item {
     public Property.PropertyType getRandomSecondaryProperty() {
         return secondaryProperties[MathRandom.random(0, secondaryProperties.length)];
     }
+
+    public static boolean isGear(int id) {
+        return id == Helmet.ID || id == Glove.ID || id == Boot.ID || id == Body.ID;
+    }
 }

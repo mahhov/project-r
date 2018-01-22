@@ -11,13 +11,13 @@ import shape.Rects;
 import shape.Texts;
 
 class UiCrafting extends UiInteractivePane {
-    private static final int CRAFTING_TEXTS_OFFSET = Gear.GEAR_MAX_PROPERTIES + 4;
+    private static final int CRAFTING_TEXTS_OFFSET = Gear.GEAR_MAX_PROPERTIES + 4, CRAFTING_TEXTS_HINT = CRAFTING_TEXTS_OFFSET + 12, CRAFTING_TEXTS_BUTTONS_OFFSET = CRAFTING_TEXTS_HINT + 2;
     private Human human;
     private Crafting crafting;
     private UiGlows uiGlows;
 
     UiCrafting(float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl, Human human, Crafting crafting) {
-        super(CRAFTING_TEXTS_OFFSET + 13, 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
+        super(CRAFTING_TEXTS_BUTTONS_OFFSET + 2, 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
         setText(-2, "CRAFTING");
         this.human = human;
         this.crafting = crafting;
@@ -30,6 +30,9 @@ class UiCrafting extends UiInteractivePane {
         setText(CRAFTING_TEXTS_OFFSET + 7, "Secondary Reset");
         setText(CRAFTING_TEXTS_OFFSET + 9, "Enhance");
         setText(CRAFTING_TEXTS_OFFSET + 10, "Enhance Reset");
+
+        setText(CRAFTING_TEXTS_BUTTONS_OFFSET, "Prev Item");
+        setText(CRAFTING_TEXTS_BUTTONS_OFFSET + 1, "Next Item");
     }
 
     void setUiGlow(UiGlows uiGlows) {
@@ -39,7 +42,7 @@ class UiCrafting extends UiInteractivePane {
     @Override
     void setInvisible() {
         super.setInvisible();
-        setText(CRAFTING_TEXTS_OFFSET + 12, "");
+        setText(CRAFTING_TEXTS_HINT, "");
     }
 
     @Override
@@ -51,12 +54,15 @@ class UiCrafting extends UiInteractivePane {
                 || highlighted == CRAFTING_TEXTS_OFFSET + 5
                 || highlighted == CRAFTING_TEXTS_OFFSET + 8)
             highlighted = -1;
+        else if (highlighted > CRAFTING_TEXTS_OFFSET + 10 && highlighted < CRAFTING_TEXTS_BUTTONS_OFFSET)
+            highlighted = -1;
 
         setHighlight(highlighted);
 
         if (getClick() == MouseButton.PRIMARY && highlighted != -1) {
             Glows.Glow[] glowsSelected = uiGlows.getGlowsSelected();
             String hintText = null;
+            boolean crafted = true;
 
             if (highlighted == CRAFTING_TEXTS_OFFSET)
                 hintText = crafting.craftBase(glowsSelected);
@@ -78,9 +84,18 @@ class UiCrafting extends UiInteractivePane {
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 10)
                 hintText = crafting.resetEnhance();
 
-            setText(CRAFTING_TEXTS_OFFSET + 12, hintText != null ? hintText : "");
+            else
+                crafted = false;
 
-            uiGlows.refreshSelectedGlows();
+            if (crafted) {
+                setText(CRAFTING_TEXTS_HINT, hintText != null ? hintText : "");
+                uiGlows.refreshSelectedGlows();
+            }
+
+            if (highlighted == CRAFTING_TEXTS_BUTTONS_OFFSET)
+                crafting.selectInventoryGear(-1);
+            else if (highlighted == CRAFTING_TEXTS_BUTTONS_OFFSET + 1)
+                crafting.selectInventoryGear(1);
         }
 
         setText(0, crafting.getGearText());

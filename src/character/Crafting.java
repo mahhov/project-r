@@ -1,8 +1,8 @@
 package character;
 
 import character.gear.Gear;
-import character.gear.Helmet;
 import character.gear.Property;
+import item.Item;
 import util.MathRandom;
 
 public class Crafting {
@@ -26,15 +26,39 @@ public class Crafting {
     private static final int ENCHANTABILITY_PENALTY_BASE_RESET = 5, ENCHANTABILITY_PENALTY_PRIMARY_RESET = 5,
             ENCHANTABILITY_PENALTY_SECONDARY_RESET = 10, ENCHANTABILITY_PENALTY_ENHANCE_RESET = 10;
 
+    private int inventorySelect;
     private Gear gear;
+    private Inventory inventory;
     private Glows glows;
 
-    Crafting(Glows glows) {
-        gear = new Helmet();
+    Crafting(Inventory inventory, Glows glows) {
+        this.inventory = inventory;
         this.glows = glows;
     }
 
+    public void selectInventoryGear(int delta) {
+        int start = inventorySelect;
+        Item item;
+        do {
+            inventorySelect += delta;
+            if (inventorySelect > inventory.getSize())
+                inventorySelect -= inventory.getSize();
+            else if (inventorySelect < 0)
+                inventorySelect += inventory.getSize();
+
+            item = inventory.getItem(inventorySelect);
+
+            if (item != null && Gear.isGear(item.id)) {
+                gear = (Gear) item;
+                return;
+            }
+        } while (inventorySelect != start);
+    }
+
     public String craftBase(Glows.Glow[] glows) {
+        if (gear == null)
+            return "Must select a gear";
+
         if (glows.length != 1)
             return "Must select exactly 1 glows";
 
@@ -70,6 +94,9 @@ public class Crafting {
     }
 
     public String craftPrimary(Glows.Glow[] glows) {
+        if (gear == null)
+            return "Must select a gear";
+
         if (glows.length != 3)
             return "Must select exactly 3 glows";
 
@@ -107,6 +134,9 @@ public class Crafting {
     }
 
     public String craftSecondary(Glows.Glow[] glows) {
+        if (gear == null)
+            return "Must select a gear";
+
         if (glows.length == 0)
             return "Must select at least 1 glow";
 
@@ -140,6 +170,9 @@ public class Crafting {
     }
 
     public String craftEnhance() {
+        if (gear == null)
+            return "Must select a gear";
+
         if (gear.getNumProperties() != 5 && gear.getNumProperties() != 6)
             return "Item must have 5 or 6 properties";
 
@@ -156,6 +189,9 @@ public class Crafting {
     }
 
     public String resetBase() {
+        if (gear == null)
+            return "Must select a gear";
+
         if (gear.getNumProperties() != 1)
             return "Item must have exactly 1 property";
 
@@ -165,6 +201,9 @@ public class Crafting {
     }
 
     public String resetPrimary() {
+        if (gear == null)
+            return "Must select a gear";
+
         if (gear.getNumProperties() != 2 && gear.getNumProperties() != 3)
             return "Item must have 2 or 3 properties";
 
@@ -174,6 +213,9 @@ public class Crafting {
     }
 
     public String resetSecondary() {
+        if (gear == null)
+            return "Must select a gear";
+
         if (gear.getNumProperties() != 4 && gear.getNumProperties() != 5)
             return "Item must have 4 or 5 properties";
 
@@ -183,6 +225,9 @@ public class Crafting {
     }
 
     public String resetEnhance() {
+        if (gear == null)
+            return "Must select a gear";
+
         if (gear.getNumProperties() != 6 && gear.getNumProperties() != 7)
             return "Item must have 6 or 7 properties";
 

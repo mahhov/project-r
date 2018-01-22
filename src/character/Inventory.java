@@ -1,5 +1,6 @@
 package character;
 
+import character.gear.Helmet;
 import item.Item;
 import item.PlaceholderItem;
 import item.StackableItem;
@@ -15,13 +16,18 @@ public class Inventory implements TextSystem {
         items = new Item[size];
         log = new Queue<>(LOG_SIZE);
 
+        // todo remove
+        add(new PlaceholderItem());
+        add(new Helmet());
         add(new PlaceholderItem());
         add(new PlaceholderItem());
+        add(new Helmet());
         add(new PlaceholderItem());
         add(new PlaceholderItem());
+        add(new Helmet());
         add(new PlaceholderItem());
         add(new PlaceholderItem());
-        add(new PlaceholderItem());
+        add(new Helmet());
     }
 
     void addWithLog(Item item) {

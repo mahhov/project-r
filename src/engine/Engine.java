@@ -18,7 +18,7 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
-    private static final int WINDOW_SIZE = 1000;
+    private static final int WINDOW_SIZE = 700;
     public static final int SCALE = 50, SCALE_Z = 16;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
@@ -132,3 +132,18 @@ public class Engine {
 // support cubes of different colors in same CubeInstancedFaces
 // multi thread chunk loading
 // particles
+
+
+// smaller ui text
+// crafting ui error hints to log
+// crafting next/prev item selector
+// inventlry, equipment, and crafting ui item writer
+
+// weapon modules crafting
+// crafting enchant level / exp requirement
+// crafting consume multiple of each glow
+// forging
+
+// big monsters / gloob & doom / boss telegraphed abilities
+// supplies
+// harvesting
