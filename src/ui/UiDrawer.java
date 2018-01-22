@@ -62,7 +62,7 @@ public class UiDrawer {
         glows = new UiGlows(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human.getGlows());
         crafting = new UiCrafting(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human, human.getCrafting());
         this.map = new UiMap(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, map);
-        textBox = new UiTextBox(BACK_COLOR, rects, texts, human.getInventory());
+        textBox = new UiTextBox(BACK_COLOR, rects, texts, human.getLog());
 
         equipment.setUiInventory(inventory);
         inventory.setUiEquipment(equipment);

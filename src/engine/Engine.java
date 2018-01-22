@@ -104,7 +104,6 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
-// crafting ui error hints to log
 // inventlry, equipment, and crafting ui item writer
 // crafting consume multiple of each glow
 // lines on ui bars
@@ -127,6 +126,7 @@ public class Engine {
 // big monsters / gloob & doom / boss telegraphed abilities
 // supplies / consumables
 // harvesting
+// ui log scrolling
 
 // ~~ low priority ~~
 // camera culling

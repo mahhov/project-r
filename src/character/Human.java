@@ -26,6 +26,7 @@ public class Human implements WorldElement, Follow {
     private static final float STAMINA = 20, STAMINA_REGEN = .1f, STAMINA_RESERVE = 150, STAMINA_RESERVE_REGEN = .05f;
     private static final float LIFE = 100, LIFE_REGEN = .1f, SHIELD = 100, SHIELD_REGEN = 1, SHIELD_REGEN_DELAY = 75;
 
+    private Log log;
     private Stats stats;
     private static final int EXPERIENCE_PER_LEVEL = 100;
     private Experience experience;
@@ -66,13 +67,14 @@ public class Human implements WorldElement, Follow {
         norm = new float[2];
         right = new float[2];
 
+        log = new Log();
         stats = new Stats(RUN_ACC, JUMP_ACC, AIR_ACC, JET_ACC, BOOST_ACC, GLIDE_ACC, GLIDE_DESCENT_ACC, STAMINA, STAMINA_REGEN, STAMINA_RESERVE, STAMINA_RESERVE_REGEN, LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, SHIELD_REGEN_DELAY);
         experience = new Experience(EXPERIENCE_PER_LEVEL, stats);
         equipment = new Equipment(stats);
         stats.setFactors(experience, equipment);
-        inventory = new Inventory(16);
+        inventory = new Inventory(16, log);
         glows = new Glows();
-        crafting = new Crafting(inventory, glows);
+        crafting = new Crafting(log, inventory, glows);
 
         stamina = new Stamina(stats);
         health = new Health(stats);
@@ -365,6 +367,10 @@ public class Human implements WorldElement, Follow {
 
     public float getExperiencePercent() {
         return experience.percent();
+    }
+
+    public Log getLog() {
+        return log;
     }
 
     public Stats getStats() {

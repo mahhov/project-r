@@ -20,7 +20,6 @@ class UiBar {
         rect = rects.addRect(color);
     }
 
-
     void setPercentFill(float percent) {
         this.percent += (percent - this.percent) * PERCENT_WEIGHT;
         rect.setCoordinates(left, top, left + width * this.percent, bottom);

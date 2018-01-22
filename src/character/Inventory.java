@@ -4,18 +4,15 @@ import character.gear.Helmet;
 import item.Item;
 import item.PlaceholderItem;
 import item.StackableItem;
-import ui.TextSystem;
-import util.Queue;
 
-public class Inventory implements TextSystem {
-    private static final int LOG_SIZE = 8;
+public class Inventory {
     private Item[] items;
-    private Queue<String> log;
+    private Log log;
 
-    Inventory(int size) {
+    Inventory(int size, Log log) {
         items = new Item[size];
-        log = new Queue<>(LOG_SIZE);
-
+        this.log = log;
+        
         // todo remove
         add(new PlaceholderItem());
         add(new Helmet());
@@ -54,7 +51,6 @@ public class Inventory implements TextSystem {
         return false;
     }
 
-
     public void swap(int moving, int selected) {
         Item temp = items[moving];
         items[moving] = items[selected];
@@ -71,10 +67,5 @@ public class Inventory implements TextSystem {
 
     public Item getItem(int i) {
         return i < items.length ? items[i] : null;
-    }
-
-    @Override
-    public Iterable<String> getTexts() {
-        return log;
     }
 }

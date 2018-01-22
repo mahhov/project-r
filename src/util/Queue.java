@@ -2,7 +2,7 @@ package util;
 
 import java.util.Iterator;
 
-public class Queue<T> implements Iterable<T> {
+public class Queue<T> implements Iterable<T> { // todo implement using array instead of nodes, for constant time random access, to support log scrollign
     private int maxSize;
     private Node head, tail;
     private int size;

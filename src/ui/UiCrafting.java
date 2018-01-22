@@ -11,7 +11,7 @@ import shape.Rects;
 import shape.Texts;
 
 class UiCrafting extends UiInteractivePane {
-    private static final int CRAFTING_TEXTS_OFFSET = Gear.GEAR_MAX_PROPERTIES + 4, CRAFTING_TEXTS_HINT = CRAFTING_TEXTS_OFFSET + 12, CRAFTING_TEXTS_BUTTONS_OFFSET = CRAFTING_TEXTS_HINT + 2;
+    private static final int CRAFTING_TEXTS_OFFSET = Gear.GEAR_MAX_PROPERTIES + 4, CRAFTING_TEXTS_BUTTONS_OFFSET = CRAFTING_TEXTS_OFFSET + 12;
     private Human human;
     private Crafting crafting;
     private UiGlows uiGlows;
@@ -42,7 +42,6 @@ class UiCrafting extends UiInteractivePane {
     @Override
     void setInvisible() {
         super.setInvisible();
-        setText(CRAFTING_TEXTS_HINT, "");
     }
 
     @Override
@@ -61,36 +60,33 @@ class UiCrafting extends UiInteractivePane {
 
         if (getClick() == MouseButton.PRIMARY && highlighted != -1) {
             Glows.Glow[] glowsSelected = uiGlows.getGlowsSelected();
-            String hintText = null;
             boolean crafted = true;
 
             if (highlighted == CRAFTING_TEXTS_OFFSET)
-                hintText = crafting.craftBase(glowsSelected);
+                crafting.craftBase(glowsSelected);
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 1)
-                hintText = crafting.resetBase();
+                crafting.resetBase();
 
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 3)
-                hintText = crafting.craftPrimary(glowsSelected);
+                crafting.craftPrimary(glowsSelected);
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 4)
-                hintText = crafting.resetPrimary();
+                crafting.resetPrimary();
 
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 6)
-                hintText = crafting.craftSecondary(glowsSelected);
+                crafting.craftSecondary(glowsSelected);
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 7)
-                hintText = crafting.resetSecondary();
+                crafting.resetSecondary();
 
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 9)
-                hintText = crafting.craftEnhance();
+                crafting.craftEnhance();
             else if (highlighted == CRAFTING_TEXTS_OFFSET + 10)
-                hintText = crafting.resetEnhance();
+                crafting.resetEnhance();
 
             else
                 crafted = false;
 
-            if (crafted) {
-                setText(CRAFTING_TEXTS_HINT, hintText != null ? hintText : "");
+            if (crafted)
                 uiGlows.refreshSelectedGlows();
-            }
 
             if (highlighted == CRAFTING_TEXTS_BUTTONS_OFFSET)
                 crafting.selectInventoryGear(-1);
