@@ -12,7 +12,7 @@ import shape.Texts;
 public class UiDrawer {
     static float SMALL_MARGIN = .02f, MEDIUM_MARGIN = .1f;
     private static float CENTER_RECT_SIZE = .01f, CENTER_RECT_COLOR[] = new float[] {.1f, .5f, .3f, 1};
-    static final float[] BACK_COLOR = new float[] {.3f, .3f, .3f, .3f};
+    static final float[] BACK_COLOR = new float[] {.3f, .3f, .3f, .5f};
 
     private Human human;
     private Rects rects;
