@@ -12,17 +12,17 @@ import shape.Texts;
 
 class UiInventory extends UiInteractivePane {
     private static final int SIZE = 16; // todo align with inventory.size
-    private GearWriter gearWriter;
     private Human human;
     private Inventory inventory;
     private UiEquipment uiEquipment;
+    private GearWriter gearWriter;
 
     UiInventory(float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl, Human human, Inventory inventory) {
         super(SIZE + GearWriter.SIZE + 1, 2, false, Location.LEFT, backColor, rects, texts, mousePosControl, mouseButtonControl);
-        setText(-2, "INVENTORY");
-        gearWriter = new GearWriter(this, SIZE + 1, "");
         this.human = human;
         this.inventory = inventory;
+        gearWriter = new GearWriter(this, SIZE + 1, "");
+        setText(-2, "INVENTORY");
     }
 
     void setUiEquipment(UiEquipment uiEquipment) {

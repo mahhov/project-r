@@ -280,15 +280,7 @@ public class Crafting {
             return glow.source[MathRandom.random(0, 2)];
     }
 
-    public String getGearText() {
-        return gear != null ? gear.getText() : "--Select Gear to Craft--";
-    }
-
-    public String getEnchantabilityText() {
-        return gear != null ? "Enchantability: " + gear.getEnchantability() : "";
-    }
-
-    public String getPropertyText(int property) {
-        return gear != null ? gear.getPropertyText(property) : "";
+    public Gear getGear() {
+        return gear;
     }
 }

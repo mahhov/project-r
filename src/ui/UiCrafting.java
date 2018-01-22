@@ -15,13 +15,16 @@ class UiCrafting extends UiInteractivePane {
     private Human human;
     private Crafting crafting;
     private UiGlows uiGlows;
+    private GearWriter gearWriter;
 
     UiCrafting(float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl, Human human, Crafting crafting) {
         super(CRAFTING_TEXTS_BUTTONS_OFFSET + 2, 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
-        setText(-2, "CRAFTING");
         this.human = human;
         this.crafting = crafting;
 
+        gearWriter = new GearWriter(this, 0, "--Select Gear to Craft--");
+
+        setText(-2, "CRAFTING");
         setText(CRAFTING_TEXTS_OFFSET, "Base");
         setText(CRAFTING_TEXTS_OFFSET + 1, "Base Reset");
         setText(CRAFTING_TEXTS_OFFSET + 3, "Primary");
@@ -88,15 +91,15 @@ class UiCrafting extends UiInteractivePane {
             if (crafted)
                 uiGlows.refreshSelectedGlows();
 
-            if (highlighted == CRAFTING_TEXTS_BUTTONS_OFFSET)
+            if (highlighted == CRAFTING_TEXTS_BUTTONS_OFFSET) {
                 crafting.selectInventoryGear(-1);
-            else if (highlighted == CRAFTING_TEXTS_BUTTONS_OFFSET + 1)
+                gearWriter.setGear(crafting.getGear());
+            } else if (highlighted == CRAFTING_TEXTS_BUTTONS_OFFSET + 1) {
                 crafting.selectInventoryGear(1);
+                gearWriter.setGear(crafting.getGear());
+            } else
+                gearWriter.refreshText();
         }
 
-        setText(0, crafting.getGearText());
-        setText(1, crafting.getEnchantabilityText());
-        for (int i = 0; i < Gear.GEAR_MAX_PROPERTIES; i++)
-            setText(i + 2, crafting.getPropertyText(i));
     }
 }
