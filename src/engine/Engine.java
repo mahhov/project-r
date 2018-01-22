@@ -104,7 +104,6 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
-// inventlry, equipment, and crafting ui item writer
 // crafting consume multiple of each glow
 // lines on ui bars
 // selecting item to craft, and returning crafted item to inventory
