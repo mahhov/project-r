@@ -7,7 +7,7 @@ import util.MathRandom;
 
 public class Crafting {
     public enum Source {
-        EARTH("Earth"), FIRE("Fire"), WATER("Water"), AIR("Air");
+        EARTH("earth"), FIRE("fire"), WATER("water"), AIR("air");
 
         final String name;
         public final int value;
@@ -113,9 +113,14 @@ public class Crafting {
             return;
         }
 
+        if (gear.getNumProperties() != 1 && gear.getNumProperties() != 2) {
+            log.add("Item must have 1 or 2 properties");
+            return;
+        }
+
         Source prevPropertySource = gear.getPropertySource(1);
-        if (gear.getNumProperties() != 1 && (gear.getNumProperties() != 2 || hasDuplicateGlowSource(glows, prevPropertySource))) {
-            log.add("Item must have 1 or 2 properties"); // todo unique log for duplicate versus wrong # of glows selected
+        if (gear.getNumProperties() == 2 && hasDuplicateGlowSource(glows, prevPropertySource)) {
+            log.add("Item already has primary property of source " + prevPropertySource.name);
             return;
         }
 
@@ -160,9 +165,14 @@ public class Crafting {
             return;
         }
 
-        Source prevPropertySource = gear.getPropertySource(3);
-        if (gear.getNumProperties() != 3 && (gear.getNumProperties() != 4 || hasDuplicateGlowSource(glows, prevPropertySource))) {
+        if (gear.getNumProperties() != 3 && gear.getNumProperties() != 4) {
             log.add("Item must have 3 or 4 properties");
+            return;
+        }
+
+        Source prevPropertySource = gear.getPropertySource(3);
+        if (gear.getNumProperties() == 4 && hasDuplicateGlowSource(glows, prevPropertySource)) {
+            log.add("Item already has secondary property of source " + prevPropertySource.name);
             return;
         }
 
