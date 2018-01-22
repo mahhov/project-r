@@ -18,9 +18,9 @@ abstract class UiPane {
             PANE_TOP = 1 - UiDrawer.MEDIUM_MARGIN - PANE_OFFSET;
 
     enum Location {
-        LEFT(UiHud.BAR_COL1_LEFT, PANE_TOP, -PANE_OFFSET, PANE_BOTTOM, 24),
-        RIGHT(PANE_OFFSET, PANE_TOP, UiHud.BAR_COL2_RIGHT, PANE_BOTTOM, 24),
-        CENTER(UiHud.BAR_COL1_LEFT, PANE_TOP, UiHud.BAR_COL2_RIGHT, PANE_BOTTOM, 24),
+        LEFT(UiHud.BAR_COL1_LEFT, PANE_TOP, -PANE_OFFSET, PANE_BOTTOM, 30),
+        RIGHT(PANE_OFFSET, PANE_TOP, UiHud.BAR_COL2_RIGHT, PANE_BOTTOM, 30),
+        CENTER(UiHud.BAR_COL1_LEFT, PANE_TOP, UiHud.BAR_COL2_RIGHT, PANE_BOTTOM, 30),
         BOTTOM(BOTTOM_PANE_LEFT, BOTTOM_PANE_TOP, BOTTOM_PANE_RIGHT, BOTTOM_PANE_BOTTOM, 8);
 
         private final float left, top, right, bottom;
@@ -36,7 +36,7 @@ abstract class UiPane {
     }
 
     private static final float[] HIGHLIGHT_COLOR = new float[] {0, 1, 0, 1}, SELECT_COLOR = new float[] {0, .5f, 1, 1};
-    private static final float MARGIN = 0.01f;
+    private static final float MARGIN = 0.03f, INNER_MARGIN = .001f;
     final int size;
     private int offset;
     private int highlighted, selectedLast;
@@ -62,8 +62,8 @@ abstract class UiPane {
         itemTop = location.top - MARGIN;
         itemRight = location.right - MARGIN;
         itemBottom = location.bottom + MARGIN;
-        itemOffsetY = (itemTop - location.bottom) / rows;
-        itemHeight = itemOffsetY - MARGIN;
+        itemOffsetY = (itemTop - itemBottom + INNER_MARGIN) / rows;
+        itemHeight = itemOffsetY - INNER_MARGIN;
         itemHeightRatio = itemHeight / itemOffsetY;
         this.texts = new Texts.Text[sizeWithOffset];
         for (int i = 0; i < sizeWithOffset; i++) {
