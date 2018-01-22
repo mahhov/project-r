@@ -22,9 +22,9 @@ public class Crafting {
     private static final int BASE_MAX_VALUE_BOOST = 50;
     private static final float PRIMARY_MAX_MULT = .5f;
     private static final float SECONDARY_ADDITIONAL_GLOW_MAX_MULT = .1f;
-
     private static final int ENCHANTABILITY_PENALTY_BASE_RESET = 5, ENCHANTABILITY_PENALTY_PRIMARY_RESET = 5,
             ENCHANTABILITY_PENALTY_SECONDARY_RESET = 10, ENCHANTABILITY_PENALTY_ENHANCE_RESET = 10;
+    private static final int GLOW_COST_BASE = 1, GLOW_COST_PRIMARY = 5, GLOW_COST_SECONDARY = 5;
 
     private int inventorySelect;
     private Gear gear;
@@ -73,7 +73,10 @@ public class Crafting {
             return;
         }
 
-        this.glows.consume(glows);
+        if (!this.glows.consume(glows, GLOW_COST_BASE)) {
+            log.add("Requires " + GLOW_COST_BASE + " of each glow selected");
+            return;
+        }
 
         Glows.Glow glow = glows[0];
 
@@ -112,11 +115,14 @@ public class Crafting {
 
         Source prevPropertySource = gear.getPropertySource(1);
         if (gear.getNumProperties() != 1 && (gear.getNumProperties() != 2 || hasDuplicateGlowSource(glows, prevPropertySource))) {
-            log.add("Item must have 1 or 2 properties");
+            log.add("Item must have 1 or 2 properties"); // todo unique log for duplicate versus wrong # of glows selected
             return;
         }
 
-        this.glows.consume(glows);
+        if (!this.glows.consume(glows, GLOW_COST_PRIMARY)) {
+            log.add("Requires " + GLOW_COST_PRIMARY + " of each glow selected");
+            return;
+        }
 
         Glows.Glow glow = glows[MathRandom.random(0, glows.length)];
 
@@ -160,7 +166,10 @@ public class Crafting {
             return;
         }
 
-        this.glows.consume(glows);
+        if (!this.glows.consume(glows, GLOW_COST_SECONDARY)) {
+            log.add("Requires " + GLOW_COST_SECONDARY + " of each glow selected");
+            return;
+        }
 
         Glows.Glow glow = glows[MathRandom.random(0, glows.length)];
         float multiply = (1 + (glows.length - 1) * SECONDARY_ADDITIONAL_GLOW_MAX_MULT) * gear.getEnchantability() / 100f;

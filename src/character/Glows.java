@@ -1,7 +1,5 @@
 package character;
 
-import util.MathRandom;
-
 public class Glows {
     public enum Glow {
         EARTH("Earth", Crafting.Source.EARTH, 1), EARTH2("Earth II", Crafting.Source.EARTH, 2),
@@ -44,12 +42,17 @@ public class Glows {
 
         // todo remove
         for (int i = 0; i < glows.length; i++)
-            glows[i] = MathRandom.random(0, 5);
+            glows[i] = i;
     }
 
-    void consume(Glow[] glows) {
+    boolean consume(Glow[] glows, int amount) {
         for (Glow glow : glows)
-            this.glows[glow.value]--;
+            if (this.glows[glow.value] < amount)
+                return false;
+
+        for (Glow glow : glows)
+            this.glows[glow.value] -= amount;
+        return true;
     }
 
     public boolean available(Glow glow) {
