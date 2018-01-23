@@ -1,6 +1,7 @@
 package character.gear;
 
 import character.Crafting;
+import character.Equipment;
 import item.Item;
 import util.MathNumbers;
 import util.MathRandom;
@@ -20,6 +21,21 @@ public class Gear extends Item {
         this.secondaryProperties = secondaryProperties;
         enchantability = 100;
         properties = new Property[GEAR_MAX_PROPERTIES];
+    }
+
+    public static Gear create(Equipment.GearType gearType) {
+        switch (gearType) {
+            case BODY:
+                return new Body();
+            case HELMET:
+                return new Helmet();
+            case GLOVE:
+                return new Glove();
+            case BOOT:
+                return new Boot();
+            default:
+                return null;
+        }
     }
 
     public void addProperty(Property property) {

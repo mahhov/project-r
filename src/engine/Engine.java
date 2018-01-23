@@ -106,7 +106,6 @@ public class Engine {
 // ~~ ordered ~~
 // lines on ui bars
 // weapon crafting
-// forging
 
 // ~~ high priority ~~
 // crafting enchant level / exp requirement

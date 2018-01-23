@@ -4,16 +4,18 @@ import character.gear.*;
 
 public class Equipment {
     public enum GearType {
-        BODY("Body", Body.ID), HELMET("Helmet", Helmet.ID), GLOVE("Glove", Glove.ID), BOOT("Boot", Boot.ID);
+        BODY("Body", Body.ID, 400), HELMET("Helmet", Helmet.ID, 200), GLOVE("Glove", Glove.ID, 200), BOOT("Boot", Boot.ID, 200);
 
         final String name;
         final int value;
         public final int gearId;
+        final int metalCost;
 
-        GearType(String name, int gearId) {
+        GearType(String name, int gearId, int metalCost) {
             this.name = name;
             this.value = ordinal();
             this.gearId = gearId;
+            this.metalCost = metalCost;
         }
     }
 

@@ -34,6 +34,7 @@ public class Human implements WorldElement, Follow {
     private Equipment equipment;
     private Glows glows;
     private Crafting crafting;
+    private Forge forge;
 
     private Stamina stamina;
     private Health health;
@@ -75,6 +76,7 @@ public class Human implements WorldElement, Follow {
         inventory = new Inventory(16, log);
         glows = new Glows();
         crafting = new Crafting(log, inventory, glows);
+        forge = new Forge(log, inventory);
 
         stamina = new Stamina(stats);
         health = new Health(stats);
@@ -395,5 +397,9 @@ public class Human implements WorldElement, Follow {
 
     public Crafting getCrafting() {
         return crafting;
+    }
+
+    public Forge getForge() {
+        return forge;
     }
 }

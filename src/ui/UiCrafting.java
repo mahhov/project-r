@@ -43,11 +43,6 @@ class UiCrafting extends UiInteractivePane {
     }
 
     @Override
-    void setInvisible() {
-        super.setInvisible();
-    }
-
-    @Override
     void updateTexts() {
         int highlighted = getHighlighted();
         if (highlighted < CRAFTING_TEXTS_OFFSET)
@@ -100,6 +95,5 @@ class UiCrafting extends UiInteractivePane {
             } else
                 gearWriter.refreshText();
         }
-
     }
 }
