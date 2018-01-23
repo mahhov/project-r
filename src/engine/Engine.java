@@ -18,7 +18,7 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
-    private static final int WINDOW_SIZE = 800;
+    private static final int WINDOW_SIZE = 600;
     public static final int SCALE = 50, SCALE_Z = 16;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
@@ -104,16 +104,13 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
-// crafting consume multiple of each glow
 // lines on ui bars
-// selecting item to craft, and returning crafted item to inventory
-// crafting new item
 // weapon crafting
 // forging
 
 // ~~ high priority ~~
 // crafting enchant level / exp requirement
-// crafting help text on posible properties
+// crafting help text on posible properties and # of glows consumed
 // weapon equipment & crafting (modules, weapon max weight, module base weight .5 + .25 per property, module properties random 1-4)
 // combat
 // enemies
