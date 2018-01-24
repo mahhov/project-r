@@ -47,7 +47,7 @@ public class UiDrawer {
 
     public UiDrawer(Human human, Map map, KeyControl keyControl, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
         this.human = human;
-        rects = new Rects(200); // todo allow dynamic growing size
+        rects = new Rects(1000); // todo allow dynamic growing size
         texts = new Texts(1000);
 
         // center crosshair
