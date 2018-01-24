@@ -18,7 +18,7 @@ public class Body extends Gear {
         SECONDARY_PROPERTIES[Crafting.Source.AIR.value] = Property.PropertyType.HEALTH_SHIELD_REGEN;
     }
 
-    public static final int ID = 3;
+    public static final int ID = 2;
 
     public Body() {
         super(ID, PRIMARY_PROPERTIES, SECONDARY_PROPERTIES);

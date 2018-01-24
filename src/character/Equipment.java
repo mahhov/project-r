@@ -4,7 +4,7 @@ import character.gear.*;
 
 public class Equipment {
     public enum GearType {
-        BODY("Body", Body.ID, 400), HELMET("Helmet", Helmet.ID, 200), GLOVE("Glove", Glove.ID, 200), BOOT("Boot", Boot.ID, 200);
+        BODY("Body", Body.ID, 400), HELMET("Helmet", Helmet.ID, 200), GLOVE("Glove", Glove.ID, 200), BOOT("Boot", Boot.ID, 200), WEAPON("Weapon", Weapon.ID, 600);
 
         final String name;
         final int value;
@@ -31,6 +31,7 @@ public class Equipment {
         gears[GearType.HELMET.value] = new Helmet();
         gears[GearType.GLOVE.value] = new Glove();
         gears[GearType.BOOT.value] = new Boot();
+        gears[GearType.WEAPON.value] = new Boot();
         gears[GearType.HELMET.value].addProperty(new Property(Property.PropertyType.STAMINA_STAMINA_REGEN, 1)); // todo remove
 
         this.stats = stats;

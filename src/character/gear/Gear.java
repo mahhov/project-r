@@ -33,8 +33,10 @@ public class Gear extends Item {
                 return new Glove();
             case BOOT:
                 return new Boot();
+            case WEAPON:
+                return new Weapon();
             default:
-                return null;
+                throw new RuntimeException("gear type not caught in Gear.create");
         }
     }
 

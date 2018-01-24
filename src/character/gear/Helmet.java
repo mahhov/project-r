@@ -18,7 +18,7 @@ public class Helmet extends Gear {
         SECONDARY_PROPERTIES[Crafting.Source.AIR.value] = Property.PropertyType.STAMINA_RESERVE_REGEN;
     }
 
-    public static final int ID = 2;
+    public static final int ID = 3;
 
     public Helmet() {
         super(ID, PRIMARY_PROPERTIES, SECONDARY_PROPERTIES);
