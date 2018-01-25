@@ -19,7 +19,7 @@ class UiBar {
 
     UiBar(float left, float top, float right, float bottom, float[] color, float[] backColor, Rects rects) {
         this.color = color;
-        this.minColor = MathUtil.colorMult(color, MIN_COLOR_MULT);
+        minColor = MathUtil.colorMult(color, MIN_COLOR_MULT);
 
         backRect = rects.addRect(BORDER_COLOR);
         backRect.setCoordinates(left - BORDER, top + BORDER, right + BORDER, bottom - BORDER);
@@ -31,6 +31,14 @@ class UiBar {
             float offset = left + w * i;
             this.rects[i].setCoordinates(offset, top, offset + w, bottom);
         }
+
+        // todo finalize ui bars
+        //        float[] lineColor = new float[] {1 - (1 - color[0]) / 2, 1 - (1 - color[1]) / 2, 1 - (1 - color[2]) / 2, 1};
+        //        for (int i = 1; i < NUM_RECTS; i++) {
+        //            Rects.Rect rect = rects.addRect(lineColor);
+        //            float offset = left + w * i;
+        //            rect.setCoordinates(offset - BORDER / 2, top, offset + BORDER / 2, bottom);
+        //        }
     }
 
     void setPercentFill(float percent) {
