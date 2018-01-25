@@ -35,6 +35,8 @@ public class Gear extends Item {
                 return new Boot();
             case WEAPON:
                 return new Weapon();
+            case MODULE:
+                return new Module();
             default:
                 throw new RuntimeException("gear type not caught in Gear.create");
         }

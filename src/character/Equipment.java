@@ -4,7 +4,7 @@ import character.gear.*;
 
 public class Equipment {
     public enum GearType {
-        BODY("Body", Body.ID, 400), HELMET("Helmet", Helmet.ID, 200), GLOVE("Glove", Glove.ID, 200), BOOT("Boot", Boot.ID, 200), WEAPON("Weapon", Weapon.ID, 600);
+        BODY("Body", Body.ID, 400), HELMET("Helmet", Helmet.ID, 200), GLOVE("Glove", Glove.ID, 200), BOOT("Boot", Boot.ID, 200), WEAPON("Weapon", Weapon.ID, 600), MODULE("Module", Module.ID, 100);
 
         final String name;
         final int value;
@@ -20,29 +20,41 @@ public class Equipment {
     }
 
     private static final GearType[] GEAR_TYPE_VALUES = GearType.values();
+    public static final int MODULE_COUNT = 6;
 
     private Gear[] gears;
+    private Module[] modules;
     private Stats stats;
 
     Equipment(Stats stats) {
         gears = new Gear[getGearTypeCount()];
 
-        gears[GearType.BODY.value] = new Body();
-        gears[GearType.HELMET.value] = new Helmet();
-        gears[GearType.GLOVE.value] = new Glove();
-        gears[GearType.BOOT.value] = new Boot();
-        gears[GearType.WEAPON.value] = new Boot();
+        for (int i = 0; i < gears.length; i++)
+            gears[i] = Gear.create(GEAR_TYPE_VALUES[i]);
+
         gears[GearType.HELMET.value].addProperty(new Property(Property.PropertyType.STAMINA_STAMINA_REGEN, 1)); // todo remove
+
+        modules = new Module[MODULE_COUNT];
 
         this.stats = stats;
     }
 
     int getEquipmentBonus(Property.PropertyType propertyType) {
         int sum = 0;
+
         for (Gear gear : gears)
             if (gear != null)
                 sum += gear.getEquipmentBonus(propertyType);
+
+        for (Module module : modules)
+            if (module != null)
+                sum += module.getEquipmentBonus(propertyType);
+
         return sum;
+    }
+
+    public Gear getGear(GearType gearType) {
+        return gears[gearType.value];
     }
 
     void unequip(GearType gearType) {
@@ -55,16 +67,30 @@ public class Equipment {
         stats.update();
     }
 
-    public String getText(GearType gearType) {
+    public Module getModule(int moduleIndex) {
+        return modules[moduleIndex];
+    }
+
+    void unequipModule(int moduleIndex) {
+        modules[moduleIndex] = null;
+        stats.update();
+    }
+
+    void equipModule(int moduleIndex, Module module) {
+        modules[moduleIndex] = module;
+        stats.update();
+    }
+
+    public String getGearText(GearType gearType) {
         return gears[gearType.value] != null ? gears[gearType.value].getText() : "--Unequiped--";
     }
 
-    public Gear getGear(GearType gearType) {
-        return gears[gearType.value];
+    public String getModuleText(int i) {
+        return modules[i] != null ? modules[i].getText() : "--Unequiped--";
     }
 
     public static int getGearTypeCount() {
-        return GEAR_TYPE_VALUES.length;
+        return GEAR_TYPE_VALUES.length - 1;
     }
 
     public static GearType getGearType(int i) {

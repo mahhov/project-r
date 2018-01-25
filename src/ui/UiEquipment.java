@@ -9,7 +9,7 @@ import shape.Rects;
 import shape.Texts;
 
 class UiEquipment extends UiInteractivePane {
-    private static final int TOP_SIZE = Equipment.getGearTypeCount();
+    private static final int TOP_GEAR_SIZE = Equipment.getGearTypeCount(), TOP_MODULE_SIZE = Equipment.MODULE_COUNT, TOP_SIZE = TOP_GEAR_SIZE + TOP_MODULE_SIZE;
     private Human human;
     private Equipment equipment;
     private UiInventory uiInventory;
@@ -38,20 +38,31 @@ class UiEquipment extends UiInteractivePane {
             int inventorySelected = uiInventory.getSelectedLast();
 
             if (inventorySelected != -1) {
-                human.swapEquipment(inventorySelected, highlighted);
+                if (highlighted < TOP_GEAR_SIZE) {
+                    human.swapEquipment(inventorySelected, highlighted);
+                    gearWriter.setGear(equipment.getGear(Equipment.getGearType(highlighted)));
+                } else {
+                    human.swapEquipmentModule(inventorySelected, highlighted - TOP_GEAR_SIZE);
+                    gearWriter.setGear(equipment.getModule(highlighted - TOP_GEAR_SIZE));
+                }
                 uiInventory.setSelect(-1);
                 setSelect(highlighted);
-                gearWriter.setGear(equipment.getGear(Equipment.getGearType(highlighted)));
             } else if (getSelectedLast() == highlighted) {
                 setSelect(-1);
                 gearWriter.setGear(null);
             } else {
                 setSelect(highlighted);
-                gearWriter.setGear(equipment.getGear(Equipment.getGearType(highlighted)));
+                if (highlighted < TOP_GEAR_SIZE)
+                    gearWriter.setGear(equipment.getGear(Equipment.getGearType(highlighted)));
+                else
+                    gearWriter.setGear(equipment.getModule(highlighted - TOP_GEAR_SIZE));
             }
         }
 
-        for (int i = 0; i < TOP_SIZE; i++)
-            setText(i, equipment.getText(Equipment.getGearType(i)));
+        for (int i = 0; i < TOP_GEAR_SIZE; i++)
+            setText(i, equipment.getGearText(Equipment.getGearType(i)));
+
+        for (int i = TOP_GEAR_SIZE; i < TOP_SIZE; i++)
+            setText(i, equipment.getModuleText(i - TOP_GEAR_SIZE));
     }
 }

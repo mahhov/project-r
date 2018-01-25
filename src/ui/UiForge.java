@@ -13,7 +13,7 @@ class UiForge extends UiInteractivePane {
     private Forge forge;
 
     UiForge(float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl, Forge forge) {
-        super(Equipment.getGearTypeCount() + GEAR_OFFSET, 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
+        super(Equipment.getGearTypeCount() + 1 + GEAR_OFFSET, 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
         this.forge = forge;
 
         setText(-2, "FORGE");

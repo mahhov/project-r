@@ -2,6 +2,7 @@ package character;
 
 import camera.Follow;
 import character.gear.Gear;
+import character.gear.Module;
 import control.*;
 import item.Item;
 import shape.CubeInstancedFaces;
@@ -263,7 +264,8 @@ public class Human implements WorldElement, Follow {
     }
 
     private void unequip(Equipment.GearType gearType) {
-        if (inventory.add(equipment.getGear(gearType)))
+        Item item = equipment.getGear(gearType);
+        if (item != null && inventory.add(item))
             equipment.unequip(gearType);
     }
 
@@ -272,6 +274,27 @@ public class Human implements WorldElement, Follow {
         if (inventoryItem.id == gearType.gearId) {
             inventory.put(inventoryItemIndex, equipment.getGear(gearType));
             equipment.equip(gearType, (Gear) inventoryItem);
+        }
+    }
+
+    public void swapEquipmentModule(int inventoryIndex, int moduleIndex) {
+        if (inventory.getItem(inventoryIndex) == null)
+            unequipModule(moduleIndex);
+        else
+            equipModule(inventoryIndex, moduleIndex);
+    }
+
+    private void unequipModule(int moduleIndex) {
+        Item item = equipment.getModule(moduleIndex);
+        if (item != null && inventory.add(item))
+            equipment.unequipModule(moduleIndex);
+    }
+
+    private void equipModule(int inventoryItemIndex, int moduleIndex) {
+        Item inventoryItem = inventory.getItem(inventoryItemIndex);
+        if (inventoryItem.id == Equipment.GearType.MODULE.gearId) {
+            inventory.put(inventoryItemIndex, equipment.getModule(moduleIndex));
+            equipment.equipModule(moduleIndex, (Module) inventoryItem);
         }
     }
 

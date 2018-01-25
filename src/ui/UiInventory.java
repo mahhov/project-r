@@ -1,5 +1,6 @@
 package ui;
 
+import character.Equipment;
 import character.Human;
 import character.Inventory;
 import character.gear.Gear;
@@ -48,7 +49,10 @@ class UiInventory extends UiInteractivePane {
                 inventory.swap(selected, highlighted);
                 setSelect(-1);
             } else if (equipmentSelected != -1) {
-                human.swapEquipment(highlighted, equipmentSelected);
+                if (equipmentSelected < Equipment.getGearTypeCount())
+                    human.swapEquipment(highlighted, equipmentSelected);
+                else
+                    human.swapEquipmentModule(highlighted, equipmentSelected - Equipment.getGearTypeCount());
                 uiEquipment.setSelect(-1);
                 setSelect(highlighted);
             } else if (inventory.getItem(highlighted) == null)
