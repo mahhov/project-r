@@ -70,4 +70,8 @@ public class Equipment {
     public static GearType getGearType(int i) {
         return GEAR_TYPE_VALUES[i];
     }
+
+    public static GearType[] getGearTypes() {
+        return GEAR_TYPE_VALUES;
+    }
 }

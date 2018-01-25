@@ -16,7 +16,7 @@ public class Gear extends Item {
     private int numProperties;
 
     Gear(int id, Property.PropertyType[] primaryProperties, Property.PropertyType[] secondaryProperties) {
-        super(id, "", false);
+        super(id, MathRandom.randomString(), false);
         this.primaryProperties = primaryProperties;
         this.secondaryProperties = secondaryProperties;
         enchantability = 100;
@@ -72,11 +72,6 @@ public class Gear extends Item {
         return numProperties;
     }
 
-    @Override
-    public String getText() {
-        return "juba"; // todo placeholder
-    }
-
     public String getPropertyText(int property) {
         return property < numProperties ? properties[property].getText() : "";
     }
@@ -94,6 +89,9 @@ public class Gear extends Item {
     }
 
     public static boolean isGear(int id) {
-        return id == Helmet.ID || id == Glove.ID || id == Boot.ID || id == Body.ID;
+        for (Equipment.GearType gearType : Equipment.getGearTypes())
+            if (gearType.gearId == id)
+                return true;
+        return false;
     }
 }

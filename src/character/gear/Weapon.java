@@ -17,4 +17,9 @@ public class Weapon extends Gear {
     public Weapon() {
         super(ID, PROPERTIES, PROPERTIES);
     }
+
+    @Override
+    public String getText() {
+        return "WEAPON ~~~";
+    }
 }

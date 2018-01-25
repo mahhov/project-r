@@ -18,4 +18,8 @@ public class MathRandom {
     public static boolean random(double trueWeight) {
         return R.nextDouble() < trueWeight;
     }
+
+    public static String randomString() {
+        return "random string " + random(0, 100);
+    }
 }

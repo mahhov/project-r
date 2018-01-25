@@ -18,7 +18,7 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Engine {
-    private static final int WINDOW_SIZE = 600;
+    private static final int WINDOW_SIZE = 1000;
     public static final int SCALE = 50, SCALE_Z = 16;
 
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
@@ -104,7 +104,6 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
-// lines on ui bars
 // weapon crafting
 
 // ~~ high priority ~~
@@ -122,6 +121,7 @@ public class Engine {
 // supplies / consumables
 // harvesting
 // ui log scrolling
+// redo ui
 
 // ~~ low priority ~~
 // camera culling
