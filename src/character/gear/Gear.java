@@ -96,4 +96,8 @@ public class Gear extends Item {
                 return true;
         return false;
     }
+
+    public static boolean isModule(int id) {
+        return Equipment.GearType.MODULE.gearId == id;
+    }
 }

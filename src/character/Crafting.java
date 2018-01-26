@@ -50,7 +50,7 @@ public class Crafting {
 
             item = inventory.getItem(inventorySelect);
 
-            if (item != null && Gear.isGear(item.id)) {
+            if (item != null && Gear.isGear(item.id) && !Gear.isModule(item.id)) {
                 gear = (Gear) item;
                 return;
             }

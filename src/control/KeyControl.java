@@ -27,6 +27,7 @@ public class KeyControl implements GLFWKeyCallbackI {
         keys[KeyButton.KEY_V.value] = new Key(GLFW_KEY_V);
         keys[KeyButton.KEY_I.value] = new Key(GLFW_KEY_I);
         keys[KeyButton.KEY_B.value] = new Key(GLFW_KEY_B);
+        keys[KeyButton.KEY_G.value] = new Key(GLFW_KEY_G);
         keys[KeyButton.KEY_N.value] = new Key(GLFW_KEY_N);
         keys[KeyButton.KEY_M.value] = new Key(GLFW_KEY_M);
     }

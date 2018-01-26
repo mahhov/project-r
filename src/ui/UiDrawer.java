@@ -25,6 +25,7 @@ public class UiDrawer {
     private UiInventory inventory;
     private UiGlows glows;
     private UiCrafting crafting;
+    private UiModuleCrafting moduleCrafting;
     private UiForge forge;
     private UiMap map;
     private UiTextBox textBox;
@@ -36,6 +37,7 @@ public class UiDrawer {
         Stats & Experience (C)
         Inventory & Equipment (I)
         Glows & Crafting (B)
+        Glows & Module Crafting (G)
         Inventory & Forge (N)
         Map (M)
      */
@@ -62,7 +64,8 @@ public class UiDrawer {
         experience = new UiExperience(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human.getExperience());
         inventory = new UiInventory(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human, human.getInventory());
         glows = new UiGlows(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human.getGlows());
-        crafting = new UiCrafting(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human, human.getCrafting());
+        crafting = new UiCrafting(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human.getCrafting());
+        moduleCrafting = new UiModuleCrafting(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human.getModuleCrafting());
         forge = new UiForge(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human.getForge());
         this.map = new UiMap(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, map);
         textBox = new UiTextBox(BACK_COLOR, rects, texts, human.getLog());
@@ -70,15 +73,17 @@ public class UiDrawer {
         equipment.setUiInventory(inventory);
         inventory.setUiEquipment(equipment);
         crafting.setUiGlow(glows);
+        moduleCrafting.setUiGlow(glows);
 
-        paneGroups = new UiPaneGroup[6];
+        paneGroups = new UiPaneGroup[7];
         int i = 0;
         paneGroups[i++] = new UiPaneGroup(KeyButton.KEY_V, new UiPane[] {stats, equipment});
         paneGroups[i++] = new UiPaneGroup(KeyButton.KEY_C, new UiPane[] {stats, experience});
         paneGroups[i++] = new UiPaneGroup(KeyButton.KEY_I, new UiPane[] {inventory, equipment});
         paneGroups[i++] = new UiPaneGroup(KeyButton.KEY_B, new UiPane[] {glows, crafting});
-        paneGroups[i++] = new UiPaneGroup(KeyButton.KEY_M, new UiPane[] {this.map});
+        paneGroups[i++] = new UiPaneGroup(KeyButton.KEY_G, new UiPane[] {glows, moduleCrafting});
         paneGroups[i++] = new UiPaneGroup(KeyButton.KEY_N, new UiPane[] {inventory, forge});
+        paneGroups[i++] = new UiPaneGroup(KeyButton.KEY_M, new UiPane[] {this.map});
 
         // fps
         fpsText = texts.addText();
@@ -109,6 +114,7 @@ public class UiDrawer {
         inventory.update();
         glows.update();
         crafting.update();
+        moduleCrafting.update();
         forge.update();
         map.update();
 
@@ -127,6 +133,7 @@ public class UiDrawer {
         inventory.setInvisible();
         glows.setInvisible();
         crafting.setInvisible();
+        moduleCrafting.setInvisible();
         forge.setInvisible();
         map.setInvisible();
     }

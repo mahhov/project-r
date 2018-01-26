@@ -2,7 +2,6 @@ package ui;
 
 import character.Crafting;
 import character.Glows;
-import character.Human;
 import character.gear.Gear;
 import control.MouseButton;
 import control.MouseButtonControl;
@@ -11,15 +10,13 @@ import shape.Rects;
 import shape.Texts;
 
 class UiCrafting extends UiInteractivePane {
-    private static final int CRAFTING_TEXTS_OFFSET = Gear.GEAR_MAX_PROPERTIES + 4, CRAFTING_TEXTS_BUTTONS_OFFSET = CRAFTING_TEXTS_OFFSET + 12;
-    private Human human;
+    private static final int CRAFTING_TEXTS_OFFSET = Gear.GEAR_MAX_PROPERTIES + 4, SELECTOR_TEXTS_OFFSET = CRAFTING_TEXTS_OFFSET + 12;
     private Crafting crafting;
     private UiGlows uiGlows;
     private GearWriter gearWriter;
 
-    UiCrafting(float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl, Human human, Crafting crafting) {
-        super(CRAFTING_TEXTS_BUTTONS_OFFSET + 2, 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
-        this.human = human;
+    UiCrafting(float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl, Crafting crafting) {
+        super(SELECTOR_TEXTS_OFFSET + 2, 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
         this.crafting = crafting;
 
         gearWriter = new GearWriter(this, 0, "--Select Gear to Craft--");
@@ -34,8 +31,8 @@ class UiCrafting extends UiInteractivePane {
         setText(CRAFTING_TEXTS_OFFSET + 9, "Enhance");
         setText(CRAFTING_TEXTS_OFFSET + 10, "Enhance Reset");
 
-        setText(CRAFTING_TEXTS_BUTTONS_OFFSET, "Prev Item");
-        setText(CRAFTING_TEXTS_BUTTONS_OFFSET + 1, "Next Item");
+        setText(SELECTOR_TEXTS_OFFSET, "Prev Item");
+        setText(SELECTOR_TEXTS_OFFSET + 1, "Next Item");
     }
 
     void setUiGlow(UiGlows uiGlows) {
@@ -45,13 +42,11 @@ class UiCrafting extends UiInteractivePane {
     @Override
     void updateTexts() {
         int highlighted = getHighlighted();
-        if (highlighted < CRAFTING_TEXTS_OFFSET)
-            highlighted = -1;
-        else if (highlighted == CRAFTING_TEXTS_OFFSET + 2
+        if (highlighted < CRAFTING_TEXTS_OFFSET
+                || highlighted == CRAFTING_TEXTS_OFFSET + 2
                 || highlighted == CRAFTING_TEXTS_OFFSET + 5
-                || highlighted == CRAFTING_TEXTS_OFFSET + 8)
-            highlighted = -1;
-        else if (highlighted > CRAFTING_TEXTS_OFFSET + 10 && highlighted < CRAFTING_TEXTS_BUTTONS_OFFSET)
+                || highlighted == CRAFTING_TEXTS_OFFSET + 8
+                || highlighted == CRAFTING_TEXTS_OFFSET + 11)
             highlighted = -1;
 
         setHighlight(highlighted);
@@ -86,10 +81,10 @@ class UiCrafting extends UiInteractivePane {
             if (crafted)
                 uiGlows.refreshSelectedGlows();
 
-            if (highlighted == CRAFTING_TEXTS_BUTTONS_OFFSET) {
+            if (highlighted == SELECTOR_TEXTS_OFFSET) {
                 crafting.selectInventoryGear(-1);
                 gearWriter.setGear(crafting.getGear());
-            } else if (highlighted == CRAFTING_TEXTS_BUTTONS_OFFSET + 1) {
+            } else if (highlighted == SELECTOR_TEXTS_OFFSET + 1) {
                 crafting.selectInventoryGear(1);
                 gearWriter.setGear(crafting.getGear());
             } else

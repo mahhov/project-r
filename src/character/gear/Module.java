@@ -3,6 +3,8 @@ package character.gear;
 import character.Crafting;
 
 public class Module extends Gear {
+    public static final int MODULE_MAX_PROPERTIES = 6, MIN_ENCHANTABILITY = 10;
+    
     private static final Property.PropertyType[] PRIMARY_PROPERTIES = new Property.PropertyType[4];
     private static final Property.PropertyType[] SECONDARY_PROPERTIES = new Property.PropertyType[4];
 
