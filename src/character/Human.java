@@ -271,10 +271,10 @@ public class Human implements WorldElement, Follow {
             equipment.unequip(gearType);
     }
 
-    private void equip(int inventoryItemIndex, Equipment.GearType gearType) {
-        Item inventoryItem = inventory.getItem(inventoryItemIndex);
+    private void equip(int inventoryIndex, Equipment.GearType gearType) {
+        Item inventoryItem = inventory.getItem(inventoryIndex);
         if (inventoryItem.id == gearType.gearId) {
-            inventory.put(inventoryItemIndex, equipment.getGear(gearType));
+            inventory.put(inventoryIndex, equipment.getGear(gearType));
             equipment.equip(gearType, (Gear) inventoryItem);
         }
     }
@@ -292,10 +292,10 @@ public class Human implements WorldElement, Follow {
             equipment.unequipModule(moduleIndex);
     }
 
-    private void equipModule(int inventoryItemIndex, int moduleIndex) {
-        Item inventoryItem = inventory.getItem(inventoryItemIndex);
+    private void equipModule(int inventoryIndex, int moduleIndex) {
+        Item inventoryItem = inventory.getItem(inventoryIndex);
         if (inventoryItem.id == Equipment.GearType.MODULE.gearId) {
-            inventory.put(inventoryItemIndex, equipment.getModule(moduleIndex));
+            inventory.put(inventoryIndex, equipment.getModule(moduleIndex));
             equipment.equipModule(moduleIndex, (Module) inventoryItem);
         }
     }
