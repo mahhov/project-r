@@ -30,5 +30,5 @@ void main() {
     float specularFactor = calcSpecularFactor(-lightDirection);
     float brightness = min(specularFactor + diffuseFactor * diffusePower + ambientFactor, 1);
     // brightness = floor(brightness * 5) / 5;
-    fragColor = vertexColor * brightness;
+    fragColor = vertexColor * brightness * 0;
 }
