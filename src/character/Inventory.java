@@ -1,8 +1,6 @@
 package character;
 
-import character.gear.Helmet;
 import item.Item;
-import item.PlaceholderItem;
 import item.StackableItem;
 
 public class Inventory {
@@ -12,19 +10,6 @@ public class Inventory {
     Inventory(int size, Log log) {
         items = new Item[size];
         this.log = log;
-        
-        // todo remove
-        add(new PlaceholderItem());
-        add(new Helmet());
-        add(new PlaceholderItem());
-        add(new PlaceholderItem());
-        add(new Helmet());
-        add(new PlaceholderItem());
-        add(new PlaceholderItem());
-        add(new Helmet());
-        add(new PlaceholderItem());
-        add(new PlaceholderItem());
-        add(new Helmet());
     }
 
     void addWithLog(Item item) {

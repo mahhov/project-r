@@ -21,7 +21,7 @@ class UiModuleCrafting extends UiInteractivePane {
 
         gearWriter = new GearWriter(this, 0, "--Select Gear to Craft--");
 
-        setText(-2, "CRAFTING");
+        setText(-2, "MODULE CRAFTING");
         setText(CRAFTING_TEXTS_OFFSET, "Base");
         setText(CRAFTING_TEXTS_OFFSET + 1, "Base Reset");
 

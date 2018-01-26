@@ -86,6 +86,10 @@ public class Gear extends Item {
         return secondaryProperties[source.value];
     }
 
+    public Property.PropertyType getRandomPrimaryProperty() {
+        return primaryProperties[MathRandom.random(0, primaryProperties.length)];
+    }
+
     public Property.PropertyType getRandomSecondaryProperty() {
         return secondaryProperties[MathRandom.random(0, secondaryProperties.length)];
     }

@@ -20,7 +20,7 @@ public class Body extends Gear {
 
     public static final int ID = 2;
 
-    public Body() {
+    Body() {
         super(ID, PRIMARY_PROPERTIES, SECONDARY_PROPERTIES);
     }
 }

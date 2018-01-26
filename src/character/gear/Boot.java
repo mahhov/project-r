@@ -20,7 +20,7 @@ public class Boot extends Gear {
 
     public static final int ID = 5;
 
-    public Boot() {
+    Boot() {
         super(ID, PRIMARY_PROPERTIES, SECONDARY_PROPERTIES);
     }
 }

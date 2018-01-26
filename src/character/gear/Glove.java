@@ -20,7 +20,7 @@ public class Glove extends Gear {
 
     public static final int ID = 4;
 
-    public Glove() {
+    Glove() {
         super(ID, PRIMARY_PROPERTIES, SECONDARY_PROPERTIES);
     }
 }

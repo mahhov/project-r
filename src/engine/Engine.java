@@ -104,7 +104,7 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
-// module crafting
+// module and weapon weight system
 // bug with inventory selecting null after some equipment / inventory interactions 
 
 // ~~ high priority ~~

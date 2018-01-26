@@ -2,13 +2,12 @@ package character;
 
 import character.gear.Gear;
 import character.gear.Module;
+import character.gear.Property;
 import item.Item;
 import util.MathRandom;
 
 public class ModuleCrafting {
-    public static final int MODULE_MAX_PROPERTIES = 7, MIN_ENCHANTABILITY = 10;
-
-    private static final int MIN_VALUE = 10, MAX_VALUE = 101;
+    private static final int MIN_VALUE = 50, MAX_VALUE = 151;
     private static final int ENCHANTABILITY_PENALTY_BASE_RESET = 5;
     private static final int GLOW_COST_BASE = 10;
 
@@ -44,79 +43,45 @@ public class ModuleCrafting {
     }
 
     public void craftBase(Glows.Glow[] glows) {
-        //        if (module == null) {
-        //            log.add("Must select a gear");
-        //            return;
-        //        }
-        //
-        //        if (glows.length != 1) {
-        //            log.add("Must select exactly 1 glows");
-        //            return;
-        //        }
-        //
-        //        if (module.getNumProperties() != 0) {
-        //            log.add("Item must have no properties");
-        //            return;
-        //        }
-        //
-        //        if (!this.glows.consume(glows, GLOW_COST_BASE)) {
-        //            log.add("Requires " + GLOW_COST_BASE + " of each glow selected");
-        //            return;
-        //        }
-        //
-        //        Glows.Glow glow = glows[0];
-        //
-        //        if (glow.source.length == 2) { // hybrid
-        //            int index = MathRandom.random(0, 2);
-        //            Property.PropertyType propertyType = gear.getPrimaryProperty(glow.source[index]);
-        //            int value = MathRandom.random(MIN_VALUE, MAX_VALUE + BASE_MAX_VALUE_BOOST);
-        //            gear.addProperty(new Property(propertyType, value));
-        //
-        //        } else if (glow.tier == 1) { // tier 1
-        //            Property.PropertyType propertyType = gear.getPrimaryProperty(glow.source[0]);
-        //            int value = MathRandom.random(MIN_VALUE, MAX_VALUE);
-        //            gear.addProperty(new Property(propertyType, value));
-        //
-        //        } else { // tier 2
-        //            Property.PropertyType propertyType = gear.getPrimaryProperty(glow.source[0]);
-        //            int value = MathRandom.random(MIN_VALUE, MAX_VALUE + BASE_MAX_VALUE_BOOST);
-        //            gear.addProperty(new Property(propertyType, value));
-        //        }
+        if (module == null) {
+            log.add("Must select a gear");
+            return;
+        }
 
-        // [10-100] for tier 1
-        // [10-100] + 50 for tier 2
-        // [10-100] + 50 for hybrid, randomly selected 
+        if (glows.length != 4) {
+            log.add("Must select exactly 4 glows");
+            return;
+        }
+
+        if (module.getNumProperties() >= Module.MODULE_MAX_PROPERTIES) {
+            log.add("Item must have at most " + Module.MODULE_MAX_PROPERTIES + " properties");
+            return;
+        }
+
+        if (!this.glows.consume(glows, GLOW_COST_BASE)) {
+            log.add("Requires " + GLOW_COST_BASE + " of each glow selected");
+            return;
+        }
+
+        Property.PropertyType propertyType = module.getRandomPrimaryProperty();
+        float multiply = module.getEnchantability() / 100f;
+        int value = MathRandom.random(MIN_VALUE, (int) (MAX_VALUE * multiply));
+        module.addProperty(new Property(propertyType, value));
     }
 
     public void resetBase() {
-        //        if (module == null) {
-        //            log.add("Must select a module");
-        //            return;
-        //        }
-        //
-        //        if (module.getNumProperties() == 0) {
-        //            log.add("Item must have at least 1 property");
-        //            return;
-        //        }
-        //
-        //        module.removeProperties(0);
-        //        module.decreaseEnchantability(ENCHANTABILITY_PENALTY_BASE_RESET);
-    }
+        if (module == null) {
+            log.add("Must select a module");
+            return;
+        }
 
-    private boolean hasDuplicateGlowSource(Glows.Glow[] glows, Crafting.Source prevPropertySource) {
-        for (Glows.Glow glow : glows)
-            if (glow.source.length == 1 && glow.source[0] == prevPropertySource)
-                return true;
-        return false;
-    }
+        if (module.getNumProperties() == 0) {
+            log.add("Item must have at least 1 property");
+            return;
+        }
 
-    private Crafting.Source getNonDuplicateGlowSourceForHybridGlow(Glows.Glow glow, Crafting.Source prevPropertySource) {
-        if (glow.source[0] == prevPropertySource)
-            return glow.source[1];
-        else if (glow.source[1] == prevPropertySource)
-            return glow.source[0];
-        else
-            return glow.source[MathRandom.random(0, 2)];
+        module.removeProperties(0);
+        module.decreaseEnchantability(ENCHANTABILITY_PENALTY_BASE_RESET);
     }
 
     public Module getModule() {

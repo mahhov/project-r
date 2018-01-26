@@ -14,7 +14,7 @@ public class Weapon extends Gear {
 
     public static final int ID = 6;
 
-    public Weapon() {
+    Weapon() {
         super(ID, PROPERTIES, PROPERTIES);
     }
 

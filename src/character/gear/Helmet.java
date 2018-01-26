@@ -20,7 +20,7 @@ public class Helmet extends Gear {
 
     public static final int ID = 3;
 
-    public Helmet() {
+    Helmet() {
         super(ID, PRIMARY_PROPERTIES, SECONDARY_PROPERTIES);
     }
 }
