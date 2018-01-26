@@ -5,8 +5,8 @@ import util.MathNumbers;
 import util.MathUtil;
 
 class UiBar {
-    private static final float[] BORDER_COLOR = {1, 1, 1, 1};
-    private static final float BORDER = .002f;
+    private static final float[] BORDER_COLOR = {0, 0, 0, .5f};
+    private static final float BORDER = .002f * 4, LINE_BORDER = .002f * 1;
     private static final int NUM_RECTS = 6;
     private static float MIN_COLOR_MULT = .5f;
 
@@ -32,13 +32,11 @@ class UiBar {
             this.rects[i].setCoordinates(offset, top, offset + w, bottom);
         }
 
-        // todo finalize ui bars
-        //        float[] lineColor = new float[] {1 - (1 - color[0]) / 2, 1 - (1 - color[1]) / 2, 1 - (1 - color[2]) / 2, 1};
-        //        for (int i = 1; i < NUM_RECTS; i++) {
-        //            Rects.Rect rect = rects.addRect(lineColor);
-        //            float offset = left + w * i;
-        //            rect.setCoordinates(offset - BORDER / 2, top, offset + BORDER / 2, bottom);
-        //        }
+        for (int i = 1; i < NUM_RECTS; i++) {
+            Rects.Rect rect = rects.addRect(minColor);
+            float offset = left + w * i;
+            rect.setCoordinates(offset - LINE_BORDER, top, offset + LINE_BORDER, bottom);
+        }
     }
 
     void setPercentFill(float percent) {
