@@ -39,7 +39,6 @@ public class Game {
         world = new World(64 * Engine.SCALE, 64 * Engine.SCALE, 16 * Engine.SCALE_Z, camera);
         human = new Human(32 * Engine.SCALE, 0, 8 * Engine.SCALE_Z, 0, 0, world.getIntersectionMover(), world.getIntersectionPicker(), keyControl, mousePosControl, mouseButtonControl);
         world.setHuman(human);
-        world.addRandomMonsters(100);
         ShaderManager.setTextShader();
         uiDrawer = new UiDrawer(human, map, keyControl, mousePosControl, mouseButtonControl);
         camera.setFollow(human);

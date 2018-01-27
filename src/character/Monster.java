@@ -52,7 +52,7 @@ public class Monster extends Character {
     @Override
     boolean die() {
         human.inventoryAdd(new Coin(MathRandom.random(5, 15)));
-        human.experienceAdd(3000); // 30
+        human.experienceAdd(30);
         return true;
     }
 }

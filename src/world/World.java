@@ -181,12 +181,22 @@ public class World implements Map {
                 CoordinateI3 coordinate = generator.getCoordinate();
                 chunks[coordinate.x][coordinate.y][coordinate.z] = generator.getFuture().get();
                 generator.complete();
+                populateChunk(coordinate);
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
 
         if (generators.size() > 0)
             Timer.time(0, "Chunk creation " + generators.size());
+    }
+
+    private void populateChunk(CoordinateI3 coordinate) {
+        for (int i = 0; i < 10; i++) {
+            int x = coordinate.x * CHUNK_SIZE + MathRandom.random(0, CHUNK_SIZE);
+            int y = coordinate.y * CHUNK_SIZE + MathRandom.random(0, CHUNK_SIZE);
+            int z = 8 * Engine.SCALE_Z;
+            addWorldElement(new Monster(x, y, z, 0, 0, intersectionMover, human, dynamicCubeInstancedFaces));
+        }
     }
 
     public void shutDownGeneratorExecutors() {
