@@ -3,7 +3,7 @@ package ui;
 import character.Equipment;
 import character.Human;
 import character.Inventory;
-import character.gear.Gear;
+import item.gear.Gear;
 import control.MouseButton;
 import control.MouseButtonControl;
 import control.MousePosControl;

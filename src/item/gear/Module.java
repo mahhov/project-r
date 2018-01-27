@@ -1,4 +1,4 @@
-package character.gear;
+package item.gear;
 
 import character.Crafting;
 

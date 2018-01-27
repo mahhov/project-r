@@ -1,6 +1,6 @@
 package character;
 
-import character.gear.*;
+import item.gear.*;
 
 public class Equipment {
     public enum GearType {

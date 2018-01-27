@@ -1,7 +1,7 @@
 package character;
 
-import character.gear.Gear;
-import character.gear.Property;
+import item.gear.Gear;
+import item.gear.Property;
 import item.Item;
 import util.MathRandom;
 

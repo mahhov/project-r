@@ -1,6 +1,6 @@
 package character;
 
-import character.gear.Gear;
+import item.gear.Gear;
 
 public class Forge {
     private int metal;

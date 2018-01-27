@@ -1,6 +1,6 @@
 package character;
 
-import character.gear.Property;
+import item.gear.Property;
 
 public class Stats {
     public enum StatType {

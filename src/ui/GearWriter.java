@@ -1,7 +1,7 @@
 package ui;
 
-import character.gear.Gear;
-import character.gear.Module;
+import item.gear.Gear;
+import item.gear.Module;
 
 class GearWriter {
     static final int SIZE = Gear.GEAR_MAX_PROPERTIES + 2;

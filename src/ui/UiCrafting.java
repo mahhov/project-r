@@ -2,7 +2,7 @@ package ui;
 
 import character.Crafting;
 import character.Glows;
-import character.gear.Gear;
+import item.gear.Gear;
 import control.MouseButton;
 import control.MouseButtonControl;
 import control.MousePosControl;

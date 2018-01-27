@@ -1,10 +1,10 @@
 package character;
 
 import camera.Follow;
-import character.gear.Gear;
-import character.gear.Module;
 import control.*;
 import item.Item;
+import item.gear.Gear;
+import item.gear.Module;
 import shape.CubeInstancedFaces;
 import util.MathAngles;
 import util.MathNumbers;
