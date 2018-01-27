@@ -27,25 +27,19 @@ class UiEquipment extends UiInteractivePane {
         this.uiInventory = uiInventory;
     }
 
-    void setSelect(int i) {
-        super.setSelect(i);
-        
-        if (gearWriter == null)
-            return;
-        if (i == -1)
-            gearWriter.setGear(null);
-        else if (i < TOP_GEAR_SIZE)
-            gearWriter.setGear(equipment.getGear(Equipment.getGearType(i)));
-        else
-            gearWriter.setGear(equipment.getModule(i - TOP_GEAR_SIZE));
-    }
-
     @Override
     void updateTexts() {
         int highlighted = getHighlighted();
         if (highlighted >= TOP_SIZE)
             highlighted = -1;
         setHighlight(highlighted);
+
+        if (highlighted == -1)
+            gearWriter.setGear(null);
+        else if (highlighted < TOP_GEAR_SIZE)
+            gearWriter.setGear(equipment.getGear(Equipment.getGearType(highlighted)));
+        else
+            gearWriter.setGear(equipment.getModule(highlighted - TOP_GEAR_SIZE));
 
         if (getClick() == MouseButton.PRIMARY && highlighted != -1) {
             int inventorySelected = uiInventory.getSelectedLast();

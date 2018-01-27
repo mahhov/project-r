@@ -14,9 +14,9 @@ public class Module extends Gear {
         PRIMARY_PROPERTIES[Crafting.Source.AIR.value] = Property.PropertyType.RANGE;
     }
 
-    public static final int ID = 2;
+    public static final int ID = 7;
     private static final int BASE_WEIGHT = 2;
-    
+
     Module() {
         super(ID, PRIMARY_PROPERTIES, null);
     }
