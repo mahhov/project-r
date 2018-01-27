@@ -266,7 +266,7 @@ public class Human implements WorldElement, Follow {
             if (equipmentGear != null && inventory.add(equipmentGear))
                 equipment.unequip(gearType);
         } else if (inventoryItem.id == gearType.gearId) {
-            inventory.put(inventoryIndex, equipment.getGear(gearType));
+            inventory.put(inventoryIndex, equipmentGear);
             equipment.equip(gearType, (Gear) inventoryItem);
         }
     }
@@ -278,13 +278,8 @@ public class Human implements WorldElement, Follow {
         if (inventoryItem == null) {
             if (equipmentModule != null && inventory.add(equipmentModule))
                 equipment.unequipModule(moduleIndex);
-        } else if (inventoryItem.id == Equipment.GearType.MODULE.gearId) {
-            Module inventoryModule = (Module) inventoryItem;
-            if (equipment.checkSwapModuleWeight(equipmentModule == null ? 0 : equipmentModule.getWeight(), inventoryModule.getWeight())) {
-                inventory.put(inventoryIndex, equipmentModule);
-                equipment.equipModule(moduleIndex, inventoryModule);
-            }
-        }
+        } else if (Gear.isModule(inventoryItem.id) && equipment.equipModule(moduleIndex, (Module) inventoryItem))
+            inventory.put(inventoryIndex, equipmentModule);
     }
 
     @Override

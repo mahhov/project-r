@@ -28,14 +28,9 @@ public class Equipment {
 
     Equipment(Stats stats) {
         gears = new Gear[getGearTypeCount()];
-
         for (int i = 0; i < gears.length; i++)
             gears[i] = Gear.create(GEAR_TYPE_VALUES[i]);
-
-        gears[GearType.HELMET.value].addProperty(new Property(Property.PropertyType.STAMINA_STAMINA_REGEN, 1)); // todo remove
-
         modules = new Module[MODULE_COUNT];
-
         this.stats = stats;
     }
 
@@ -76,17 +71,21 @@ public class Equipment {
         stats.update();
     }
 
-    void equipModule(int moduleIndex, Module module) {
+    boolean equipModule(int moduleIndex, Module module) {
+        if (totalModuleWight() + module.getWeight() - modules[moduleIndex].getWeight() > Module.MAX_MODULE_WEIGHT) // todo make MAX_MODULE_WEIGHT property of stats 
+            return false;
+
         modules[moduleIndex] = module;
         stats.update();
+        return true;
     }
 
-    boolean checkSwapModuleWeight(int weightReduction, int weightIncrease) { // todo merge into eqiupModule
-        int weight = weightIncrease - weightReduction;
+    private int totalModuleWight() {
+        int weight = 0;
         for (Module module : modules)
             if (module != null)
                 weight += module.getWeight();
-        return weight <= Module.MAX_MODULE_WEIGHT; // todo make property of stats 
+        return weight;
     }
 
     public String getGearText(GearType gearType) {
