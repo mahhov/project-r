@@ -43,7 +43,8 @@ public class IntersectionPicker extends Intersectioner {
                 y += dy * delta;
                 z += dz * delta;
 
-                if (hit(x, y, z, halfSize) != null)
+                hitElement = hit(x, y, z, halfSize);
+                if (hitElement != null)
                     return createIntersection();
             }
         }
