@@ -81,6 +81,14 @@ public class Equipment {
         stats.update();
     }
 
+    boolean checkSwapModuleWeight(int weightReduction, int weightIncrease) { // todo merge into eqiupModule
+        int weight = weightIncrease - weightReduction;
+        for (Module module : modules)
+            if (module != null)
+                weight += module.getWeight();
+        return weight <= Module.MAX_MODULE_WEIGHT; // todo make property of stats 
+    }
+
     public String getGearText(GearType gearType) {
         return gears[gearType.value] != null ? gears[gearType.value].getText() : "--Unequiped--";
     }

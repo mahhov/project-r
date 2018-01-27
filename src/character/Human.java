@@ -258,45 +258,32 @@ public class Human implements WorldElement, Follow {
     }
 
     public void swapEquipment(int inventoryIndex, int equipmentIndex) {
-        Equipment.GearType gearType = Equipment.getGearType(equipmentIndex);
-        if (inventory.getItem(inventoryIndex) == null)
-            unequip(gearType);
-        else
-            equip(inventoryIndex, gearType);
-    }
-
-    private void unequip(Equipment.GearType gearType) {
-        Item item = equipment.getGear(gearType);
-        if (item != null && inventory.add(item))
-            equipment.unequip(gearType);
-    }
-
-    private void equip(int inventoryIndex, Equipment.GearType gearType) {
         Item inventoryItem = inventory.getItem(inventoryIndex);
-        if (inventoryItem.id == gearType.gearId) {
+        Equipment.GearType gearType = Equipment.getGearType(equipmentIndex);
+        Gear equipmentGear = equipment.getGear(gearType);
+
+        if (inventoryItem == null) {
+            if (equipmentGear != null && inventory.add(equipmentGear))
+                equipment.unequip(gearType);
+        } else if (inventoryItem.id == gearType.gearId) {
             inventory.put(inventoryIndex, equipment.getGear(gearType));
             equipment.equip(gearType, (Gear) inventoryItem);
         }
     }
 
     public void swapEquipmentModule(int inventoryIndex, int moduleIndex) {
-        if (inventory.getItem(inventoryIndex) == null)
-            unequipModule(moduleIndex);
-        else
-            equipModule(inventoryIndex, moduleIndex);
-    }
-
-    private void unequipModule(int moduleIndex) {
-        Item item = equipment.getModule(moduleIndex);
-        if (item != null && inventory.add(item))
-            equipment.unequipModule(moduleIndex);
-    }
-
-    private void equipModule(int inventoryIndex, int moduleIndex) {
         Item inventoryItem = inventory.getItem(inventoryIndex);
-        if (inventoryItem.id == Equipment.GearType.MODULE.gearId) {
-            inventory.put(inventoryIndex, equipment.getModule(moduleIndex));
-            equipment.equipModule(moduleIndex, (Module) inventoryItem);
+        Module equipmentModule = equipment.getModule(moduleIndex);
+
+        if (inventoryItem == null) {
+            if (equipmentModule != null && inventory.add(equipmentModule))
+                equipment.unequipModule(moduleIndex);
+        } else if (inventoryItem.id == Equipment.GearType.MODULE.gearId) {
+            Module inventoryModule = (Module) inventoryItem;
+            if (equipment.checkSwapModuleWeight(equipmentModule == null ? 0 : equipmentModule.getWeight(), inventoryModule.getWeight())) {
+                inventory.put(inventoryIndex, equipmentModule);
+                equipment.equipModule(moduleIndex, inventoryModule);
+            }
         }
     }
 

@@ -3,7 +3,7 @@ package character.gear;
 import character.Crafting;
 
 public class Module extends Gear {
-    public static final int MODULE_MAX_PROPERTIES = 6;
+    public static final int MODULE_MAX_PROPERTIES = 6, MAX_MODULE_WEIGHT = 24;
 
     private static final Property.PropertyType[] PRIMARY_PROPERTIES = new Property.PropertyType[4];
 
@@ -15,9 +15,14 @@ public class Module extends Gear {
     }
 
     public static final int ID = 2;
-
+    private static final int BASE_WEIGHT = 2;
+    
     Module() {
         super(ID, PRIMARY_PROPERTIES, null);
+    }
+
+    public int getWeight() {
+        return BASE_WEIGHT + getNumProperties();
     }
 
     @Override

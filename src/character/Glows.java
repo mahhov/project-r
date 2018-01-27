@@ -42,7 +42,7 @@ public class Glows {
 
         // todo remove
         for (int i = 0; i < glows.length; i++)
-            glows[i] = i * 5;
+            glows[i] = i * 500;
     }
 
     boolean consume(Glow[] glows, int amount) {

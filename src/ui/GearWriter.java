@@ -29,9 +29,17 @@ class GearWriter {
 
         } else {
             pane.setText(offset, gear.getText());
-            pane.setText(offset + 1, "Enchantability: " + gear.getEnchantability());
+            pane.setText(offset + 1, getDetails());
             for (int i = 0; i < Gear.GEAR_MAX_PROPERTIES; i++)
                 pane.setText(offset + 2 + i, gear.getPropertyText(i));
         }
+    }
+
+    String getDetails() {
+        return "Enchantability: " + gear.getEnchantability();
+    }
+
+    Gear getGear() {
+        return gear;
     }
 }

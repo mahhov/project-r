@@ -104,8 +104,7 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
-// module and weapon weight system
-// bug with inventory selecting null after some equipment / inventory interactions 
+// clear gear writer on delselect due to unequiping / equiping in uicrafting
 
 // ~~ high priority ~~
 // crafting enchant level / exp requirement
@@ -123,6 +122,9 @@ public class Engine {
 // harvesting
 // ui log scrolling
 // redo ui
+// module and weapon weight system
+// bug with inventory selecting null after some equipment / inventory interactions
+// unequiping goes to first empty inventory slot instead of clicked slot
 
 // ~~ low priority ~~
 // camera culling

@@ -54,7 +54,7 @@ public class ModuleCrafting {
         }
 
         if (module.getNumProperties() >= Module.MODULE_MAX_PROPERTIES) {
-            log.add("Item must have at most " + Module.MODULE_MAX_PROPERTIES + " properties");
+            log.add("Item must have at most " + (Module.MODULE_MAX_PROPERTIES - 1) + " properties");
             return;
         }
 
