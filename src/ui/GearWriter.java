@@ -1,6 +1,7 @@
 package ui;
 
 import character.gear.Gear;
+import character.gear.Module;
 
 class GearWriter {
     static final int SIZE = Gear.GEAR_MAX_PROPERTIES + 2;
@@ -35,11 +36,10 @@ class GearWriter {
         }
     }
 
-    String getDetails() {
-        return "Enchantability: " + gear.getEnchantability();
-    }
-
-    Gear getGear() {
-        return gear;
+    private String getDetails() {
+        if (Gear.isModule(gear.id))
+            return "Enchantability: " + gear.getEnchantability() + "; Weight: " + ((Module) gear).getWeight();
+        else
+            return "Enchantability: " + gear.getEnchantability();
     }
 }

@@ -13,13 +13,13 @@ class UiModuleCrafting extends UiInteractivePane {
     private static final int CRAFTING_TEXTS_OFFSET = Gear.GEAR_MAX_PROPERTIES + 4, SELECTOR_TEXTS_OFFSET = CRAFTING_TEXTS_OFFSET + 3;
     private ModuleCrafting moduleCrafting;
     private UiGlows uiGlows;
-    private GearModuleWriter gearWriter;
+    private GearWriter gearWriter;
 
     UiModuleCrafting(float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl, ModuleCrafting moduleCrafting) {
         super(SELECTOR_TEXTS_OFFSET + 2, 2, false, Location.RIGHT, backColor, rects, texts, mousePosControl, mouseButtonControl);
         this.moduleCrafting = moduleCrafting;
 
-        gearWriter = new GearModuleWriter(this, 0, "--Select Gear to Craft--");
+        gearWriter = new GearWriter(this, 0, "--Select Gear to Craft--");
 
         setText(-2, "MODULE CRAFTING");
         setText(CRAFTING_TEXTS_OFFSET, "Base");

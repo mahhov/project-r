@@ -123,6 +123,7 @@ public class Engine {
 // redo ui
 // module and weapon weight system
 // unequiping goes to first empty inventory slot instead of clicked slot
+// include max weight limit on ui equipment
 
 // ~~ low priority ~~
 // camera culling
