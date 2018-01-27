@@ -104,6 +104,7 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
+// randomly generated enemies
 
 // ~~ high priority ~~
 // crafting enchant level / exp requirement
@@ -118,7 +119,6 @@ public class Engine {
 // replace string concat with builder
 // big monsters / gloob & doom / boss telegraphed abilities
 // supplies / consumables
-// harvesting
 // ui log scrolling
 // redo ui
 // module and weapon weight system
