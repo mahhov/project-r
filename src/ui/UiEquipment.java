@@ -27,6 +27,19 @@ class UiEquipment extends UiInteractivePane {
         this.uiInventory = uiInventory;
     }
 
+    void setSelect(int i) {
+        super.setSelect(i);
+        
+        if (gearWriter == null)
+            return;
+        if (i == -1)
+            gearWriter.setGear(null);
+        else if (i < TOP_GEAR_SIZE)
+            gearWriter.setGear(equipment.getGear(Equipment.getGearType(i)));
+        else
+            gearWriter.setGear(equipment.getModule(i - TOP_GEAR_SIZE));
+    }
+
     @Override
     void updateTexts() {
         int highlighted = getHighlighted();
@@ -38,25 +51,16 @@ class UiEquipment extends UiInteractivePane {
             int inventorySelected = uiInventory.getSelectedLast();
 
             if (inventorySelected != -1) {
-                if (highlighted < TOP_GEAR_SIZE) {
+                if (highlighted < TOP_GEAR_SIZE)
                     human.swapEquipment(inventorySelected, highlighted);
-                    gearWriter.setGear(equipment.getGear(Equipment.getGearType(highlighted)));
-                } else {
+                else
                     human.swapEquipmentModule(inventorySelected, highlighted - TOP_GEAR_SIZE);
-                    gearWriter.setGear(equipment.getModule(highlighted - TOP_GEAR_SIZE));
-                }
                 uiInventory.setSelect(-1);
                 setSelect(highlighted);
-            } else if (getSelectedLast() == highlighted) {
+            } else if (getSelectedLast() == highlighted)
                 setSelect(-1);
-                gearWriter.setGear(null);
-            } else {
+            else
                 setSelect(highlighted);
-                if (highlighted < TOP_GEAR_SIZE)
-                    gearWriter.setGear(equipment.getGear(Equipment.getGearType(highlighted)));
-                else
-                    gearWriter.setGear(equipment.getModule(highlighted - TOP_GEAR_SIZE));
-            }
         }
 
         for (int i = 0; i < TOP_GEAR_SIZE; i++)

@@ -54,10 +54,9 @@ class UiInventory extends UiInteractivePane {
                 else
                     human.swapEquipmentModule(highlighted, equipmentSelected - Equipment.getGearTypeCount());
                 uiEquipment.setSelect(-1);
-                setSelect(highlighted);
-            } else if (inventory.getItem(highlighted) == null)
-                setSelect(-1);
-            else
+                if (inventory.getItem(highlighted) != null)
+                    setSelect(highlighted);
+            } else if (inventory.getItem(highlighted) != null)
                 setSelect(highlighted);
         }
 
