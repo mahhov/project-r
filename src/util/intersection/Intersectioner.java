@@ -80,15 +80,11 @@ class Intersectioner {
         return true;
     }
 
-    int movableXWithRise(int x, float y, float z) {
-        outerloop:
-        for (int zi = 1; zi <= 2; zi++) {
-            for (int yi = -1; yi <= 1; yi++)
-                if (!map.movable(x, (int) (y + yi * halfSize), (int) (z + zi * halfSize)))
-                    continue outerloop;
-            return zi;
-        }
-        return 0;
+    boolean movableXWithRise(int x, float y, float z) {
+        for (int yi = -1; yi <= 1; yi++)
+            if (!map.movable(x, (int) (y + yi * halfSize), (int) (z + 1)))
+                return false;
+        return true;
     }
 
     boolean movableY(float x, int y, float z) {
@@ -99,15 +95,11 @@ class Intersectioner {
         return true;
     }
 
-    int movableYWithRise(float x, int y, float z) {
-        outerloop:
-        for (int zi = 1; zi <= 2; zi++) {
-            for (int xi = -1; xi <= 1; xi++)
-                if (!map.movable((int) (x + xi * halfSize), y, (int) (z + zi * halfSize)))
-                    continue outerloop;
-            return zi;
-        }
-        return 0;
+    boolean movableYWithRise(float x, int y, float z) {
+        for (int xi = -1; xi <= 1; xi++)
+            if (!map.movable((int) (x + xi * halfSize), y, (int) (z + 1)))
+                return false;
+        return true;
     }
 
     boolean movableZ(float x, float y, int z) {

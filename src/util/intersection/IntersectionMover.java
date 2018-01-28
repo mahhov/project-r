@@ -34,8 +34,7 @@ public class IntersectionMover extends Intersectioner {
                 nextZ = MathNumbers.intNeg(edgeZ + dz * delta);
 
                 if (selectedDelta == 0 && !movableX(nextX, y, z)) {
-                    int rise = movableXWithRise(nextX, y, z);
-                    if (rise > 0)
+                    if (movableXWithRise(nextX, y, z))
                         z++;
                     else {
                         collisionX = true;
@@ -47,8 +46,7 @@ public class IntersectionMover extends Intersectioner {
                     }
 
                 } else if (selectedDelta == 1 && !movableY(x, nextY, z)) {
-                    int rise = movableYWithRise(x, nextY, z);
-                    if (rise > 0)
+                    if (movableYWithRise(x, nextY, z))
                         z++;
                     else {
                         collisionY = true;
