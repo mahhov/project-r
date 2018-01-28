@@ -22,20 +22,14 @@ class UiBar {
         minColor = MathUtil.colorMult(color, MIN_COLOR_MULT);
 
         backRect = rects.addRect(BORDER_COLOR);
-        backRect.setCoordinates(left - BORDER, top + BORDER, right + BORDER, bottom - BORDER);
+        backRect.setCoordinates(left - BORDER + LINE_BORDER, top + BORDER, right + BORDER - LINE_BORDER, bottom - BORDER);
 
         this.rects = new Rects.Rect[NUM_RECTS];
         float w = (right - left) / NUM_RECTS;
         for (int i = 0; i < NUM_RECTS; i++) {
             this.rects[i] = rects.addRect(color);
             float offset = left + w * i;
-            this.rects[i].setCoordinates(offset, top, offset + w, bottom);
-        }
-
-        for (int i = 1; i < NUM_RECTS; i++) {
-            Rects.Rect rect = rects.addRect(minColor);
-            float offset = left + w * i;
-            rect.setCoordinates(offset - LINE_BORDER, top, offset + LINE_BORDER, bottom); // todo hide dividor lines when bar hidden
+            this.rects[i].setCoordinates(offset + LINE_BORDER, top, offset + w - LINE_BORDER, bottom);
         }
     }
 
