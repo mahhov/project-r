@@ -1,9 +1,9 @@
 package character.monster;
 
 public class MonsterGenerator {
-    public static MonsterDetails createWormDetails() {
+    public static MonsterDetails createBugDetails() {
         MonsterDetails details = new MonsterDetails();
-        details.size = .3f;
+        details.size = .5f;
         details.movement = MonsterDetails.Movement.WALK;
         details.movementSpeed = .5f;
         details.hostility = MonsterDetails.Hostility.RUNAWAY;

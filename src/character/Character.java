@@ -21,10 +21,10 @@ public abstract class Character implements WorldElement { // todo support human 
     private Health health;
 
     // position
-    private static final float SIZE = 4;
     private float x, y, z;
     private float vx, vy, vz;
     private float theta, thetaZ;
+    private float size;
     private IntersectionMover intersectionMover;
 
     private CubeInstancedFaces cubeInstancedFaces;
@@ -32,12 +32,13 @@ public abstract class Character implements WorldElement { // todo support human 
     private CoordinateI3 worldCoordinate;
     private LList<WorldElement>.Node worldElementNode;
 
-    Character(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Stats stats, float[] color, CubeInstancedFaces cubeInstancedFaces) {
+    Character(float x, float y, float z, float theta, float thetaZ, float size, IntersectionMover intersectionMover, Stats stats, float[] color, CubeInstancedFaces cubeInstancedFaces) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.theta = theta;
         this.thetaZ = thetaZ;
+        this.size = size;
         this.intersectionMover = intersectionMover;
 
         this.health = new Health(stats);
@@ -116,7 +117,7 @@ public abstract class Character implements WorldElement { // todo support human 
     }
 
     private void applyVelocity() {
-        Intersection intersection = intersectionMover.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), SIZE);
+        Intersection intersection = intersectionMover.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), size);
         x = intersection.coordinate.getX();
         y = intersection.coordinate.getY();
         z = intersection.coordinate.getZ();
@@ -144,7 +145,7 @@ public abstract class Character implements WorldElement { // todo support human 
 
     @Override
     public void draw() {
-        cubeInstancedFaces.add(x, z, -y, theta, thetaZ, SIZE);
+        cubeInstancedFaces.add(x, z, -y, theta, thetaZ, size);
     }
 
     @Override
@@ -164,7 +165,7 @@ public abstract class Character implements WorldElement { // todo support human 
 
     @Override
     public float getSize() {
-        return SIZE;
+        return size;
     }
 
     public float getLifePercent() {

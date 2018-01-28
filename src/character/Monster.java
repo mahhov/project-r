@@ -19,7 +19,7 @@ public class Monster extends Character {
     private MonsterDetails monsterDetails;
 
     public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails monsterDetails) {
-        super(x, y, z, theta, thetaZ, intersectionMover, createStats(monsterDetails), COLOR, cubeInstancedFaces);
+        super(x, y, z, theta, thetaZ, monsterDetails.size, intersectionMover, createStats(monsterDetails), COLOR, cubeInstancedFaces);
         this.human = human;
         moveControl = new MoveControl();
         this.monsterDetails = monsterDetails;

@@ -191,7 +191,7 @@ public class World implements Map {
             int x = coordinate.x * CHUNK_SIZE + MathRandom.random(0, CHUNK_SIZE);
             int y = coordinate.y * CHUNK_SIZE + MathRandom.random(0, CHUNK_SIZE);
             int z = 8 * Engine.SCALE_Z;
-            addWorldElement(new Monster(x, y, z, 0, 0, intersectionMover, human, dynamicCubeInstancedFaces, MonsterGenerator.createWormDetails()));
+            addWorldElement(new Monster(x, y, z, 0, 0, intersectionMover, human, dynamicCubeInstancedFaces, MonsterGenerator.createBugDetails()));
         }
     }
 
