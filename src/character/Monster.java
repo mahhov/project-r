@@ -1,5 +1,6 @@
 package character;
 
+import character.monster.MonsterDetails;
 import item.Coin;
 import shape.CubeInstancedFaces;
 import util.MathNumbers;
@@ -12,20 +13,24 @@ public class Monster extends Character {
     private static final float CHASE_DISTANCE = 3000, DAMAGE_DISTANCE = 100, DAMAGE_AMOUNT = .2f;
 
     public static final float[] COLOR = new float[] {1, 0, 0};
-    private static final float LIFE = 20, LIFE_REGEN = .1f, SHIELD = 20, SHIELD_REGEN = 1f;
-    private static final int SHIELD_REGEN_DELAY = 75;
 
     private Human human;
     private MoveControl moveControl;
+    private MonsterDetails monsterDetails;
 
-    public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Human human, CubeInstancedFaces cubeInstancedFaces) {
-        super(x, y, z, theta, thetaZ, intersectionMover, new Stats(LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, SHIELD_REGEN_DELAY), COLOR, cubeInstancedFaces);
+    public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails monsterDetails) {
+        super(x, y, z, theta, thetaZ, intersectionMover, createStats(monsterDetails), COLOR, cubeInstancedFaces);
         this.human = human;
         moveControl = new MoveControl();
+        this.monsterDetails = monsterDetails;
+    }
+
+    private static Stats createStats(MonsterDetails monsterDetails) {
+        return new Stats(monsterDetails.life, .1f, monsterDetails.shield, 1, 75);
     }
 
     @Override
-    MoveControl createMoveControl(World world) {
+    MoveControl getMoveControl(World world) {
         float dx = human.getX() - getX();
         float dy = human.getY() - getY();
         float dz = human.getZ() - getZ();

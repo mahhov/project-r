@@ -51,7 +51,7 @@ public abstract class Character implements WorldElement { // todo support human 
             world.removeDynamicElement(worldCoordinate, worldElementNode);
             return die();
         }
-        move(createMoveControl(world));
+        move(getMoveControl(world));
         moveInWorld(world);
         return false;
     }
@@ -65,7 +65,7 @@ public abstract class Character implements WorldElement { // todo support human 
         worldCoordinate = newWorldCoordinate;
     }
 
-    MoveControl createMoveControl(World world) {
+    MoveControl getMoveControl(World world) {
         return new MoveControl();
     }
 

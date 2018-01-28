@@ -2,6 +2,7 @@ package world;
 
 import character.Human;
 import character.Monster;
+import character.monster.MonsterGenerator;
 import engine.Engine;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
@@ -73,11 +74,6 @@ public class World implements Map {
     public void setHuman(Human human) {
         addWorldElement(human);
         this.human = human;
-    }
-
-    public void addRandomMonsters(int n) {
-        for (int i = 0; i < n; i++)
-            addWorldElement(new Monster(MathRandom.random(0, width), MathRandom.random(0, length), 8 * Engine.SCALE_Z, 0, 0, intersectionMover, human, dynamicCubeInstancedFaces));
     }
 
     public void addProjectile(Projectile projectile) {
@@ -195,7 +191,7 @@ public class World implements Map {
             int x = coordinate.x * CHUNK_SIZE + MathRandom.random(0, CHUNK_SIZE);
             int y = coordinate.y * CHUNK_SIZE + MathRandom.random(0, CHUNK_SIZE);
             int z = 8 * Engine.SCALE_Z;
-            addWorldElement(new Monster(x, y, z, 0, 0, intersectionMover, human, dynamicCubeInstancedFaces));
+            addWorldElement(new Monster(x, y, z, 0, 0, intersectionMover, human, dynamicCubeInstancedFaces, MonsterGenerator.createWormDetails()));
         }
     }
 
