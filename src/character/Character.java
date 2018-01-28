@@ -24,7 +24,7 @@ public abstract class Character implements WorldElement { // todo support human 
     private float x, y, z;
     private float vx, vy, vz;
     private float theta, thetaZ;
-    private float size;
+    private float size, speed;
     private IntersectionMover intersectionMover;
 
     private CubeInstancedFaces cubeInstancedFaces;
@@ -32,13 +32,14 @@ public abstract class Character implements WorldElement { // todo support human 
     private CoordinateI3 worldCoordinate;
     private LList<WorldElement>.Node worldElementNode;
 
-    Character(float x, float y, float z, float theta, float thetaZ, float size, IntersectionMover intersectionMover, Stats stats, float[] color, CubeInstancedFaces cubeInstancedFaces) {
+    Character(float x, float y, float z, float theta, float thetaZ, float size, float speed, IntersectionMover intersectionMover, Stats stats, float[] color, CubeInstancedFaces cubeInstancedFaces) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.theta = theta;
         this.thetaZ = thetaZ;
         this.size = size;
+        this.speed = speed;
         this.intersectionMover = intersectionMover;
 
         this.health = new Health(stats);
@@ -93,7 +94,7 @@ public abstract class Character implements WorldElement { // todo support human 
     private void doRunningMove(MoveControl moveControl) {
         float acc = air ? AIR_ACC : RUN_ACC;
 
-        float[] dir = MathNumbers.setMagnitude(moveControl.dx, moveControl.dy, 0, acc);
+        float[] dir = MathNumbers.setMagnitude(moveControl.dx, moveControl.dy, 0, acc * speed);
         vx += dir[0];
         vy += dir[1];
     }
