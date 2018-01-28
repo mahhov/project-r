@@ -105,7 +105,6 @@ public class Engine {
 // todo
 // ~~ ordered ~~
 // randomly generated enemies
-// fix monster not dieing bug
 
 // ~~ high priority ~~
 // crafting enchant level / exp requirement

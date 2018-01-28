@@ -47,8 +47,10 @@ public abstract class Character implements WorldElement { // todo support human 
 
     @Override
     public boolean update(World world) {
-        if (health.depleted())
+        if (health.depleted()) {
+            world.removeDynamicElement(worldCoordinate, worldElementNode);
             return die();
+        }
         move(createMoveControl(world));
         moveInWorld(world);
         return false;
