@@ -16,6 +16,8 @@ import world.WorldElement;
 import world.projectile.Projectile;
 
 public class Human implements WorldElement, Follow {
+    private static final int WORLD_ELEMENT_ID = 0;
+
     private static final float ROTATE_SPEED_MOUSE = .008f;
     private static final float[] COLOR = new float[] {0, 1, 0};
 
@@ -53,6 +55,7 @@ public class Human implements WorldElement, Follow {
 
     private IntersectionMover intersectionMover;
     private IntersectionPicker intersectionPicker;
+    private WorldElement pickElement;
 
     private CubeInstancedFaces cubeInstancedFaces;
 
@@ -120,7 +123,10 @@ public class Human implements WorldElement, Follow {
 
         applyVelocity();
 
-        doThrow(mousePosControl.isLocked() && mouseButtonControl.isMouseDown(MouseButton.PRIMARY), world);
+        Intersection pick = intersectionPicker.find();
+        pickElement = pick.hitElement;
+
+        doThrow(mousePosControl.isLocked() && mouseButtonControl.isMouseDown(MouseButton.PRIMARY), world, pick);
 
         return false;
     }
@@ -229,13 +235,12 @@ public class Human implements WorldElement, Follow {
             vy = 0;
     }
 
-    private void doThrow(boolean primaryDown, World world) {
+    private void doThrow(boolean primaryDown, World world, Intersection pick) {
         throwTimer.update();
 
         if (primaryDown && throwTimer.ready() && stamina.available(Stamina.StaminaCost.THROW)) {
             stamina.deplete(Stamina.StaminaCost.THROW);
             throwTimer.activate();
-            Intersection pick = intersectionPicker.find();
             float topZ = z + SIZE / 2;
             float dx = pick.coordinate.getX() - x;
             float dy = pick.coordinate.getY() - y;
@@ -412,5 +417,14 @@ public class Human implements WorldElement, Follow {
 
     public Forge getForge() {
         return forge;
+    }
+
+    public WorldElement getPickElement() {
+        return pickElement;
+    }
+
+    @Override
+    public int getId() {
+        return WORLD_ELEMENT_ID;
     }
 }

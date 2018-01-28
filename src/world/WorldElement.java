@@ -14,4 +14,6 @@ public interface WorldElement {
     float getZ();
 
     float getSize();
+
+    int getId();
 }

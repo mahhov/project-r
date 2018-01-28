@@ -9,7 +9,9 @@ import util.intersection.IntersectionMover;
 import world.World;
 import world.WorldElement;
 
-class Character implements WorldElement { // todo support human movement
+public abstract class Character implements WorldElement { // todo support human movement
+    public static final int WORLD_ELEMENT_ID = 1;
+
     // mobility
     private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1;
     private static final float JUMP_ACC = 1f, RUN_ACC = .07f, AIR_ACC = .02f;
@@ -161,5 +163,17 @@ class Character implements WorldElement { // todo support human movement
     @Override
     public float getSize() {
         return SIZE;
+    }
+
+    public float getLifePercent() {
+        return health.percentLife();
+    }
+
+    public float getShieldPercent() {
+        return health.percentShield();
+    }
+
+    public int getId() {
+        return WORLD_ELEMENT_ID;
     }
 }

@@ -12,8 +12,8 @@ public class Monster extends Character {
     private static final float CHASE_DISTANCE = 3000, DAMAGE_DISTANCE = 100, DAMAGE_AMOUNT = .2f;
 
     public static final float[] COLOR = new float[] {1, 0, 0};
-    private static final float LIFE = 10, LIFE_REGEN = 0, SHIELD = 0, SHIELD_REGEN = 0;
-    private static final int SHIELD_REGEN_DELAY = 0;
+    private static final float LIFE = 20, LIFE_REGEN = .1f, SHIELD = 20, SHIELD_REGEN = 1f;
+    private static final int SHIELD_REGEN_DELAY = 75;
 
     private Human human;
     private MoveControl moveControl;

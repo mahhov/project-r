@@ -35,7 +35,7 @@ class UiBar {
         for (int i = 1; i < NUM_RECTS; i++) {
             Rects.Rect rect = rects.addRect(minColor);
             float offset = left + w * i;
-            rect.setCoordinates(offset - LINE_BORDER, top, offset + LINE_BORDER, bottom);
+            rect.setCoordinates(offset - LINE_BORDER, top, offset + LINE_BORDER, bottom); // todo hide dividor lines when bar hidden
         }
     }
 
