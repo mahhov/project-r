@@ -9,7 +9,7 @@ class Health {
 
     Health(Stats stats) {
         this.stats = stats;
-        life = stats.getStat(Stats.StatType.LIFE);
+        life = stats.getStat(Stats.StatType.LIFE); // todo avoid calling getStat every time. have local stat values updated when stat is updated
         shield = stats.getStat(Stats.StatType.SHIELD);
     }
 
@@ -41,6 +41,6 @@ class Health {
     }
 
     float percentShield() {
-        return shield / stats.getStat(Stats.StatType.SHIELD);
+        return stats.getStat(Stats.StatType.SHIELD) == 0 ? -1 : shield / stats.getStat(Stats.StatType.SHIELD);
     }
 }

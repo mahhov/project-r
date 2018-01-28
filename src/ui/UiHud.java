@@ -94,9 +94,14 @@ class UiHud {
             pickLifeBar.hide();
         } else {
             Monster monster = (Monster) pick;
-            pickShieldBar.show(); // todo hide shield if monster only ever had life
+            float shield = monster.getShieldPercent();
+            if (shield != -1) {
+                pickShieldBar.show();
+                pickShieldBar.setPercentFill(shield);
+            } else
+                pickShieldBar.hide();
+
             pickLifeBar.show();
-            pickShieldBar.setPercentFill(monster.getShieldPercent());
             pickLifeBar.setPercentFill(monster.getLifePercent());
         }
         shieldBar.setPercentFill(human.getShieldPercent());
