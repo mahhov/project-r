@@ -216,19 +216,29 @@ public class World implements Map {
         int intZ = (int) z;
         int searchRange = (int) (range + largestElementSize / 2) + 1;
 
-        for (int xi = intX - searchRange; xi <= intX + searchRange; xi++)
-            for (int yi = intY - searchRange; yi <= intY + searchRange; yi++)
-                for (int zi = intZ - searchRange; zi <= intZ + searchRange; zi++) {
-                    CoordinateI3 coordinate = new CoordinateI3(xi, yi, zi);
-                    if (inBounds(coordinate)) {
-                        CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
-                        if (getChunk(chunkCoordinate) != null) {
-                            WorldElement hit = getChunk(chunkCoordinate).checkDynamicElement(x, y, z, range);
-                            if (hit != null)
-                                return hit;
-                        }
-                    }
-                }
+        int minX = MathNumbers.max(intX - searchRange, 0);
+        int maxX = MathNumbers.min(intX + searchRange, width - 1);
+        int minY = MathNumbers.max(intY - searchRange, 0);
+        int maxY = MathNumbers.min(intY + searchRange, length - 1);
+        int minZ = MathNumbers.max(intZ - searchRange, 0);
+        int maxZ = MathNumbers.min(intZ + searchRange, height - 1);
+
+        minX /= CHUNK_SIZE;
+        minY /= CHUNK_SIZE;
+        minZ /= CHUNK_SIZE;
+        maxX /= CHUNK_SIZE;
+        maxY /= CHUNK_SIZE;
+        maxZ /= CHUNK_SIZE;
+
+        WorldChunk chunk;
+        WorldElement hit;
+
+        for (int xi = minX; xi <= maxX; xi++)
+            for (int yi = minY; yi <= maxY; yi++)
+                for (int zi = minZ; zi <= maxZ; zi++)
+                    if ((chunk = chunks[xi][yi][zi]) != null)
+                        if ((hit = chunk.checkDynamicElement(x, y, z, range)) != null)
+                            return hit;
 
         return null;
     }
