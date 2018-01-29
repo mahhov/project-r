@@ -1,7 +1,7 @@
 package character;
 
-class MoveControl {
-    float dx, dy;
-    boolean jump, glide, boost;
-    float theta, thetaZ;
+public class MoveControl {
+    public float dx, dy, speed;
+    public boolean jump, glide, boost;
+    public float theta, thetaZ;
 }

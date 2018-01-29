@@ -7,7 +7,8 @@ public class MonsterGenerator {
         details.movement = MonsterDetails.Movement.WALK;
         details.movementSpeed = .3f;
         details.hostility = MonsterDetails.Hostility.RUNAWAY;
-        details.hostilityRunawaySpeed = 1f;
+        details.hostilitySpeed = 1f;
+        details.hostilityDistance = 10;
         details.armour = MonsterDetails.Armour.NONE;
         details.life = 10;
         return details;

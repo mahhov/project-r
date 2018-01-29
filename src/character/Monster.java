@@ -1,9 +1,9 @@
 package character;
 
 import character.monster.MonsterDetails;
+import character.monster.RunawayOnSightMonsterMotion;
 import item.Coin;
 import shape.CubeInstancedFaces;
-import util.MathNumbers;
 import util.MathRandom;
 import util.intersection.IntersectionMover;
 import world.World;
@@ -15,14 +15,14 @@ public class Monster extends Character {
     public static final float[] COLOR = new float[] {1, 0, 0};
 
     private Human human;
-    private MoveControl moveControl;
     private MonsterDetails monsterDetails;
+    private RunawayOnSightMonsterMotion motion;
 
     public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails monsterDetails) {
-        super(x, y, z, theta, thetaZ, monsterDetails.size, monsterDetails.movementSpeed, intersectionMover, createStats(monsterDetails), COLOR, cubeInstancedFaces);
+        super(x, y, z, theta, thetaZ, monsterDetails.size, intersectionMover, createStats(monsterDetails), COLOR, cubeInstancedFaces);
         this.human = human;
-        moveControl = new MoveControl();
         this.monsterDetails = monsterDetails;
+        motion = new RunawayOnSightMonsterMotion(this, human, monsterDetails.movementSpeed, monsterDetails.hostilitySpeed, monsterDetails.hostilityDistance);
     }
 
     private static Stats createStats(MonsterDetails monsterDetails) {
@@ -30,28 +30,9 @@ public class Monster extends Character {
     }
 
     @Override
-    MoveControl getMoveControl(World world) {
-        float dx = human.getX() - getX();
-        float dy = human.getY() - getY();
-        float dz = human.getZ() - getZ();
-        float distanceSqr = MathNumbers.magnitudeSqr(dx, dy, dz);
-
-        if (distanceSqr <= DAMAGE_DISTANCE) {
-            human.takeDamage(DAMAGE_AMOUNT);
-        }
-
-        if (distanceSqr > DAMAGE_DISTANCE && distanceSqr < CHASE_DISTANCE) {
-            moveControl.dx = dx;
-            moveControl.dy = dy;
-        } else {
-            moveControl.dx = 0;
-            moveControl.dy = 0;
-        }
-
-        if (distanceSqr < CHASE_DISTANCE)
-            moveControl.theta = (float) Math.atan2(dy, dx);
-
-        return moveControl;
+    MoveControl getMoveControl(World world) { // todo maybe just pass motion to character and no need to override getMoveControl
+        motion.update();
+        return motion.moveControl;
     }
 
     @Override
