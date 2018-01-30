@@ -31,9 +31,7 @@ public class IntersectionPicker extends Intersectioner {
             chooseDelta();
 
             delta += MathNumbers.EPSILON;
-            nextX = MathNumbers.intNeg(x + dx * delta);
-            nextY = MathNumbers.intNeg(y + dy * delta);
-            nextZ = MathNumbers.intNeg(z + dz * delta);
+            setNextXYZ();
 
             if (!movable(nextX, nextY, nextZ))
                 return createIntersection();

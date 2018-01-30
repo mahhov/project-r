@@ -27,9 +27,9 @@ class Intersectioner {
         z = orig[2];
 
         dir = MathNumbers.setMagnitude(dir[0], dir[1], dir[2], 1);
-        dx = dir[0];
-        dy = dir[1];
-        dz = dir[2];
+        dx = MathNumbers.zero(dir[0]);
+        dy = MathNumbers.zero(dir[1]);
+        dz = MathNumbers.zero(dir[2]);
 
         halfSize = size / 2;
         edgeDx = MathNumbers.isZero(dx) ? 0 : (dx < 0 ? -halfSize : halfSize);
@@ -45,7 +45,7 @@ class Intersectioner {
         if (dir > 0)
             return ((int) pos + 1 - pos) / dir;
         else if (dir < 0) {
-            return (pos - (int) (pos - MathNumbers.EPSILON)) / -dir;
+            return (pos - (int) pos) / -dir;
         } else
             return 2;
     }
@@ -65,6 +65,22 @@ class Intersectioner {
         } else {
             selectedDelta = 2;
             delta = deltaZ;
+        }
+    }
+
+    void setNextXYZ() {
+        if (selectedDelta == 0) {
+            nextX = MathNumbers.intNeg(edgeX) + (dx < 0 ? -1 : 1);
+            nextY = MathNumbers.intNeg(edgeY);
+            nextZ = MathNumbers.intNeg(edgeZ);
+        } else if (selectedDelta == 1) {
+            nextX = MathNumbers.intNeg(edgeX);
+            nextY = MathNumbers.intNeg(edgeY) + (dy < 0 ? -1 : 1);
+            nextZ = MathNumbers.intNeg(edgeZ);
+        } else {
+            nextX = MathNumbers.intNeg(edgeX);
+            nextY = MathNumbers.intNeg(edgeY);
+            nextZ = MathNumbers.intNeg(edgeZ) + (dz < 0 ? -1 : 1);
         }
     }
 

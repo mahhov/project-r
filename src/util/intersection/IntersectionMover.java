@@ -24,14 +24,13 @@ public class IntersectionMover extends Intersectioner {
 
             chooseDelta();
 
-            if (delta > maxMove)
+            if (delta > maxMove) {
+                maxMove = MathNumbers.max(maxMove - MathNumbers.EPSILON, 0);
                 return createIntersection(x + dx * maxMove, y + dy * maxMove, z + dz * maxMove);
 
-            else {
+            } else {
                 delta += MathNumbers.EPSILON;
-                nextX = MathNumbers.intNeg(edgeX + dx * delta);
-                nextY = MathNumbers.intNeg(edgeY + dy * delta);
-                nextZ = MathNumbers.intNeg(edgeZ + dz * delta);
+                setNextXYZ();
 
                 if (selectedDelta == 0 && !movableX(nextX, y, z)) {
                     if (movableXWithRise(nextX, y, z))

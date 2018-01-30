@@ -56,6 +56,10 @@ public class MathNumbers {
         return value < EPSILON && value > -EPSILON;
     }
 
+    public static float zero(float value) {
+        return isZero(value) ? 0 : value;
+    }
+
     public static boolean isAllZero(float values[]) {
         for (float value : values)
             if (!isZero(value))

@@ -24,7 +24,7 @@ import java.util.concurrent.Executors;
 
 public class World implements Map {
     static final int CHUNK_SIZE = 128;
-    private static final int DRAW_CHUNKS = 3;
+    private static final int DRAW_CHUNKS = 3; // todo why no terrain drawn when draw chunks = 0 ?
     private static final int THREAD_COUNT = 4;
 
     private ExecutorService generatorExecutors;
@@ -143,7 +143,7 @@ public class World implements Map {
     private boolean hasCube(CoordinateI3 coordinate) {
         CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
         CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
-        return getChunk(chunkCoordinate) != null && getChunk(chunkCoordinate).hasCube(cubeCoordinate);
+        return getChunk(chunkCoordinate) == null || getChunk(chunkCoordinate).hasCube(cubeCoordinate);
     }
 
     public void draw() {

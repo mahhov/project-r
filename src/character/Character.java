@@ -53,7 +53,8 @@ public abstract class Character implements WorldElement { // todo support human 
             return die();
         }
         move(getMoveControl(world));
-        moveInWorld(world);
+        if (world.movable((int) x, (int) y, (int) z))
+            moveInWorld(world);
         return false;
     }
 
