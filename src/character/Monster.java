@@ -1,7 +1,8 @@
 package character;
 
 import character.monster.MonsterDetails;
-import character.monster.RunawayOnSightMonsterMotion;
+import character.monster.MonsterGenerator;
+import character.monster.motion.MonsterMotion;
 import item.Coin;
 import shape.CubeInstancedFaces;
 import util.MathRandom;
@@ -15,18 +16,18 @@ public class Monster extends Character {
     public static final float[] COLOR = new float[] {1, 0, 0};
 
     private Human human;
-    private MonsterDetails monsterDetails;
-    private RunawayOnSightMonsterMotion motion;
+    private MonsterDetails details;
+    private MonsterMotion motion;
 
-    public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails monsterDetails) {
-        super(x, y, z, theta, thetaZ, monsterDetails.size, intersectionMover, createStats(monsterDetails), COLOR, cubeInstancedFaces);
+    public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
+        super(x, y, z, theta, thetaZ, details.size, intersectionMover, createStats(details), COLOR, cubeInstancedFaces);
         this.human = human;
-        this.monsterDetails = monsterDetails;
-        motion = new RunawayOnSightMonsterMotion(this, human, monsterDetails.movementSpeed, monsterDetails.hostilitySpeed, monsterDetails.hostilityDistance);
+        this.details = details;
+        motion = MonsterGenerator.createMotion(this, human, details);
     }
 
-    private static Stats createStats(MonsterDetails monsterDetails) {
-        return new Stats(monsterDetails.life, .1f, monsterDetails.shield, 1, 75);
+    private static Stats createStats(MonsterDetails details) {
+        return new Stats(details.life, .1f, details.shield, 1, 75);
     }
 
     @Override

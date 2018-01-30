@@ -423,8 +423,15 @@ public class Human implements WorldElement, Follow {
         return pickElement;
     }
 
+    // other getters
+
     @Override
     public int getId() {
         return WORLD_ELEMENT_ID;
+    }
+
+
+    public boolean isDangerous() {
+        return throwTimer.justActiveated();
     }
 }
