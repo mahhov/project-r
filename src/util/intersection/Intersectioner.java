@@ -68,19 +68,19 @@ class Intersectioner {
         }
     }
 
-    void setNextXYZ() {
+    void setNextXYZ(float x, float y, float z) {
         if (selectedDelta == 0) {
-            nextX = MathNumbers.intNeg(edgeX) + (dx < 0 ? -1 : 1);
-            nextY = MathNumbers.intNeg(edgeY);
-            nextZ = MathNumbers.intNeg(edgeZ);
+            nextX = MathNumbers.intNeg(x) + (dx < 0 ? -1 : 1);
+            nextY = MathNumbers.intNeg(y);
+            nextZ = MathNumbers.intNeg(z);
         } else if (selectedDelta == 1) {
-            nextX = MathNumbers.intNeg(edgeX);
-            nextY = MathNumbers.intNeg(edgeY) + (dy < 0 ? -1 : 1);
-            nextZ = MathNumbers.intNeg(edgeZ);
+            nextX = MathNumbers.intNeg(x);
+            nextY = MathNumbers.intNeg(y) + (dy < 0 ? -1 : 1);
+            nextZ = MathNumbers.intNeg(z);
         } else {
-            nextX = MathNumbers.intNeg(edgeX);
-            nextY = MathNumbers.intNeg(edgeY);
-            nextZ = MathNumbers.intNeg(edgeZ) + (dz < 0 ? -1 : 1);
+            nextX = MathNumbers.intNeg(x);
+            nextY = MathNumbers.intNeg(y);
+            nextZ = MathNumbers.intNeg(z) + (dz < 0 ? -1 : 1);
         }
     }
 

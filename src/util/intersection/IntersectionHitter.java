@@ -34,7 +34,7 @@ public class IntersectionHitter extends Intersectioner {
 
             } else {
                 delta += MathNumbers.EPSILON;
-                setNextXYZ();
+                setNextXYZ(edgeX, edgeY, edgeZ);
 
                 if (selectedDelta == 0 && !movableX(nextX, y, z)) {
                     grounded = true;

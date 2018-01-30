@@ -31,7 +31,7 @@ public class IntersectionPicker extends Intersectioner {
             chooseDelta();
 
             delta += MathNumbers.EPSILON;
-            setNextXYZ();
+            setNextXYZ(x, y, z);
 
             if (!movable(nextX, nextY, nextZ))
                 return createIntersection();
