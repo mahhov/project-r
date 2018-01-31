@@ -3,7 +3,7 @@ package character.monster;
 public class MonsterDetails {
     enum Movement {WALK, FLY, JUMP, UNDERGROUND}
 
-    enum Hostility {RUNAWAY_ON_SIGHT, RUNAWAY_ON_DANGER, RETALIATE, AGGRESSIVE}
+    enum Hostility {RUNAWAY, RETALIATE, AGGRESSIVE}
 
     enum Armour {SHIELD, PLATED, NONE}
 
@@ -11,10 +11,10 @@ public class MonsterDetails {
 
     public Movement movement;
     public float runAcc, airAcc, jetAcc;
-    public float wanderSpeed, hostilitySpeed;
+    public float wanderSpeed;
 
     public Hostility hostility;
-    public float runawaySightDistance, runawayDangerDistance;
+    public float hostilitySpeed, hostilitySightDistance, hostilityDangerDistance;
 
     public Armour armour;
     public float life, shield, damageReduction;

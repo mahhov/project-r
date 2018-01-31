@@ -137,3 +137,4 @@ public class Engine {
 // support cubes of different colors in same CubeInstancedFaces
 // multi thread chunk loading
 // particles
+// try seinding vec3 for instanced world drawing instead of mat

@@ -3,13 +3,13 @@ package character.monster.motion;
 import util.MathNumbers;
 import util.MathRandom;
 
-public class RunawayMotion extends MonsterMotion {
+public class RetaliateMotion extends MonsterMotion {
     private static final int RUNAWAY_TIME = 300, WANDER_TIME = 100;
     private static final float WANDER_PROB = .7f;
 
     private Timer runawayTimer;
 
-    public RunawayMotion() {
+    public RetaliateMotion() {
         super();
         runawayTimer = new Timer();
     }
@@ -37,6 +37,6 @@ public class RunawayMotion extends MonsterMotion {
 
         jet();
 
-        // todo being damaged (even if from distance greater than hostilityDangerDistanceSqr), activate runawayTimer
+        // todo make retaliate instead of runaway
     }
 }

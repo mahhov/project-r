@@ -52,7 +52,7 @@ public class CubeInstancedFaces {
             sides[i] = new ShapeInstanced(SIDE_VERTICIES[i], SIDE_COLORS[i], SIDE_NORMALS[i], INDICIES);
     }
 
-    public CubeInstancedFaces(float[] color) {
+    public CubeInstancedFaces(float[] color) { // todo accept color per cube
         color = MathArrays.repeatArray(color, 4);
 
         sides = new ShapeInstanced[6];
