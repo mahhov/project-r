@@ -26,6 +26,7 @@ public class World implements Map {
     static final int CHUNK_SIZE = 128;
     private static final int DRAW_CHUNKS = 3; // todo why no terrain drawn when draw chunks = 0 ?
     private static final int THREAD_COUNT = 4;
+    private static final float[] WORLD_COLOR = new float[] {1, 1, 1};
 
     private ExecutorService generatorExecutors;
 
@@ -169,7 +170,7 @@ public class World implements Map {
                 for (int chunkZ = viewStart.z; chunkZ < viewEnd.z; chunkZ++) {
                     CoordinateI3 coordinate = new CoordinateI3(chunkX, chunkY, chunkZ);
                     if (getChunk(coordinate) == null)
-                        generators.addTail(new WorldChunkGenerator(generatorExecutors, new CubeInstancedFaces(), coordinate, worldGenerator));
+                        generators.addTail(new WorldChunkGenerator(generatorExecutors, new CubeInstancedFaces(WORLD_COLOR), coordinate, worldGenerator));
                 }
 
         for (WorldChunkGenerator generator : generators)
