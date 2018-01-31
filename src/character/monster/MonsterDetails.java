@@ -10,10 +10,11 @@ public class MonsterDetails {
     public float size;
 
     public Movement movement;
-    public float movementSpeed;
+    public float runAcc, airAcc, jetAcc;
+    public float wanderSpeed, hostilitySpeed;
 
     public Hostility hostility;
-    public float hostilitySpeed, runawaySightDistance, runawayDangerDistance;
+    public float runawaySightDistance, runawayDangerDistance;
 
     public Armour armour;
     public float life, shield, damageReduction;

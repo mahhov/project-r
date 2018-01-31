@@ -14,7 +14,7 @@ public abstract class Character implements WorldElement { // todo support human 
 
     // mobility
     private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1;
-    private static final float JUMP_ACC = 1f, RUN_ACC = .07f, AIR_ACC = .02f;
+    private static final float JUMP_ACC = 1f;
     private boolean air;
 
     // health
@@ -24,6 +24,7 @@ public abstract class Character implements WorldElement { // todo support human 
     private float x, y, z;
     private float vx, vy, vz;
     private float theta, thetaZ;
+    private float runAcc, airAcc, jetAcc;
     private float size;
     private IntersectionMover intersectionMover;
 
@@ -32,12 +33,15 @@ public abstract class Character implements WorldElement { // todo support human 
     private CoordinateI3 worldCoordinate;
     private LList<WorldElement>.Node worldElementNode;
 
-    Character(float x, float y, float z, float theta, float thetaZ, float size, IntersectionMover intersectionMover, Stats stats, float[] color, CubeInstancedFaces cubeInstancedFaces) {
+    Character(float x, float y, float z, float theta, float thetaZ, float runAcc, float airAcc, float jetAcc, float size, IntersectionMover intersectionMover, Stats stats, float[] color, CubeInstancedFaces cubeInstancedFaces) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.theta = theta;
         this.thetaZ = thetaZ;
+        this.runAcc = runAcc;
+        this.airAcc = airAcc;
+        this.jetAcc = jetAcc;
         this.size = size;
         this.intersectionMover = intersectionMover;
 
@@ -77,8 +81,11 @@ public abstract class Character implements WorldElement { // todo support human 
         doRotations(moveControl);
         doRunningMove(moveControl);
 
-        if (moveControl.jump)
+        if (moveControl.jump && !air)
             doJump();
+
+        if (moveControl.dz > 0)
+            doJet(moveControl);
 
         vz -= GRAVITY;
         doFriction();
@@ -92,7 +99,7 @@ public abstract class Character implements WorldElement { // todo support human 
     }
 
     private void doRunningMove(MoveControl moveControl) {
-        float acc = air ? AIR_ACC : RUN_ACC;
+        float acc = air ? airAcc : runAcc;
 
         float[] dir = MathNumbers.setMagnitude(moveControl.dx, moveControl.dy, 0, moveControl.speed * acc);
         vx += dir[0];
@@ -103,6 +110,10 @@ public abstract class Character implements WorldElement { // todo support human 
         vx *= JUMP_MULT;
         vy *= JUMP_MULT;
         vz += JUMP_ACC;
+    }
+
+    private void doJet(MoveControl moveControl) {
+        vz += MathNumbers.min(moveControl.dz, jetAcc);
     }
 
     private void doFriction() {

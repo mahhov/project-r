@@ -9,18 +9,21 @@ import util.MathRandom;
 public class RunawayMotion extends MonsterMotion {
     private static final int RUNAWAY_TIME = 300, WANDER_TIME = 100;
     private static final float WANDER_PROB = .7f;
+    private static final float FLY_SMOOTH_MULT = .1f;
 
     private float wanderSpeed, runawaySpeed;
     private float runawaySightDistanceSqr, runawayDangerDistanceSqr;
     private Timer runawayTimer;
+    private float flyHeight;
 
-    public RunawayMotion(Monster monster, Human human, float wanderSpeed, float runawaySpeed, float runawaySightDistance, float runawayDangerDistance) {
+    public RunawayMotion(Monster monster, Human human, float wanderSpeed, float runawaySpeed, float runawaySightDistance, float runawayDangerDistance, float flyHeight) {
         super(monster, human);
         this.wanderSpeed = wanderSpeed;
         this.runawaySpeed = runawaySpeed;
         runawaySightDistanceSqr = runawaySightDistance * runawaySightDistance;
         runawayDangerDistanceSqr = runawayDangerDistance * runawayDangerDistance;
         runawayTimer = new Timer();
+        this.flyHeight = flyHeight;
     }
 
     public void update() {
@@ -43,6 +46,9 @@ public class RunawayMotion extends MonsterMotion {
             else
                 stand();
         }
+
+        float deltaZ = flyHeight - monster.getZ();
+        moveControl.dz = deltaZ > 0 ? deltaZ * FLY_SMOOTH_MULT : 0;
     }
 
     private void run(float dx, float dy) {
