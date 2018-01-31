@@ -49,11 +49,19 @@ public class MonsterGenerator {
     }
 
     public static MonsterMotion createMotion(Monster monster, Human human, MonsterDetails details) {
+        MonsterMotion motion = motionHostility(details);
+        motion.setBase(monster, human, details.wanderSpeed);
+        if (details.movement == MonsterDetails.Movement.FLY)
+            motion.setFlyHeight(100);
+        return motion;
+    }
+
+    private static MonsterMotion motionHostility(MonsterDetails details) {
         switch (details.hostility) {
             case RUNAWAY_ON_SIGHT:
-                return new RunawayMotion(monster, human, details.wanderSpeed, details.hostilitySpeed, details.runawaySightDistance, 0, details.movement == MonsterDetails.Movement.FLY ? 100 : 0);
+                return new RunawayMotion(details.hostilitySpeed, details.runawaySightDistance, 0);
             case RUNAWAY_ON_DANGER:
-                return new RunawayMotion(monster, human, details.wanderSpeed, details.hostilitySpeed, details.runawaySightDistance, details.runawayDangerDistance, details.movement == MonsterDetails.Movement.FLY ? 100 : 0);
+                return new RunawayMotion(details.hostilitySpeed, details.runawaySightDistance, details.runawayDangerDistance);
             default:
                 throw new RuntimeException("monster hostility type not caught in MonsterGenerator.createMotion");
         }

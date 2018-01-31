@@ -1,8 +1,5 @@
 package character.monster.motion;
 
-import character.Human;
-import character.Monster;
-import util.MathAngles;
 import util.MathNumbers;
 import util.MathRandom;
 
@@ -11,19 +8,16 @@ public class RunawayMotion extends MonsterMotion {
     private static final float WANDER_PROB = .7f;
     private static final float FLY_SMOOTH_MULT = .1f;
 
-    private float wanderSpeed, runawaySpeed;
+    private float runawaySpeed;
     private float runawaySightDistanceSqr, runawayDangerDistanceSqr;
     private Timer runawayTimer;
-    private float flyHeight;
 
-    public RunawayMotion(Monster monster, Human human, float wanderSpeed, float runawaySpeed, float runawaySightDistance, float runawayDangerDistance, float flyHeight) {
-        super(monster, human);
-        this.wanderSpeed = wanderSpeed;
+    public RunawayMotion(float runawaySpeed, float runawaySightDistance, float runawayDangerDistance) {
+        super();
         this.runawaySpeed = runawaySpeed;
         runawaySightDistanceSqr = runawaySightDistance * runawaySightDistance;
         runawayDangerDistanceSqr = runawayDangerDistance * runawayDangerDistance;
         runawayTimer = new Timer();
-        this.flyHeight = flyHeight;
     }
 
     public void update() {
@@ -49,6 +43,8 @@ public class RunawayMotion extends MonsterMotion {
 
         float deltaZ = flyHeight - monster.getZ();
         moveControl.dz = deltaZ > 0 ? deltaZ * FLY_SMOOTH_MULT : 0;
+
+        // todo being damaged (even if from distance greater than runawayDangerDistanceSqr), activate runawayTimer
     }
 
     private void run(float dx, float dy) {
@@ -56,14 +52,6 @@ public class RunawayMotion extends MonsterMotion {
         moveControl.dy = dy;
         moveControl.speed = runawaySpeed;
         moveControl.theta = (float) Math.atan2(dy, dx);
-    }
-
-    private void wander() {
-        float angle = MathRandom.random(0, MathAngles.PI * 2);
-        moveControl.dx = MathAngles.cos(angle);
-        moveControl.dy = MathAngles.sin(angle);
-        moveControl.speed = wanderSpeed;
-        moveControl.theta = (float) Math.atan2(moveControl.dy, moveControl.dx);
     }
 
     private void stand() {
