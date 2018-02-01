@@ -56,7 +56,7 @@ public class MonsterGenerator {
 
     public static MonsterDetails createGoatDetails() {
         MonsterDetails details = new MonsterDetails();
-        details.color = new float[] {1, 0, 0};
+        details.color = new float[] {1, 1, 0};
         details.size = 1.5f;
         details.movement = MonsterDetails.Movement.WALK;
         details.runAcc = .07f;

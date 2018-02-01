@@ -22,4 +22,8 @@ public class MathRandom {
     public static String randomString() {
         return "random string " + random(0, 100);
     }
+
+    public static float[] randomColor() {
+        return new float[] {random(0, 1f), random(0, 1f), random(0, 1f)};
+    }
 }
