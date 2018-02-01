@@ -10,6 +10,8 @@ import world.WorldElement;
 public class Projectile implements WorldElement {
     private static final int WORLD_ELEMENT_ID = 2;
 
+    private static final float[] COLOR = new float[] {0, 0, 1};
+
     private static final float SIZE = .3f, AREA = 3, SPEED = 3, DAMAGE = 10;
     private static final float AIR_FRICTION = 1f, GRAVITY = 0f;
 
@@ -60,7 +62,7 @@ public class Projectile implements WorldElement {
 
     @Override
     public void draw() {
-        cubeInstancedFaces.add(x, z, -y, 0, 0, SIZE);
+        cubeInstancedFaces.add(x, z, -y, 0, 0, SIZE, COLOR);
     }
 
     @Override

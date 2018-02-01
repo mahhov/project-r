@@ -157,7 +157,7 @@ public abstract class Character implements WorldElement { // todo support human 
 
     @Override
     public void draw() {
-        cubeInstancedFaces.add(x, z, -y, theta, thetaZ, size);
+        cubeInstancedFaces.add(x, z, -y, theta, thetaZ, size, Monster.COLOR);
     }
 
     @Override

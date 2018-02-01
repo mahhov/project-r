@@ -92,7 +92,7 @@ public class Human implements WorldElement, Follow {
         this.intersectionMover = intersectionMover;
         this.intersectionPicker = intersectionPicker;
 
-        cubeInstancedFaces = new CubeInstancedFaces(COLOR);
+        cubeInstancedFaces = new CubeInstancedFaces();
 
         this.keyControl = keyControl;
         this.mousePosControl = mousePosControl;
@@ -292,7 +292,7 @@ public class Human implements WorldElement, Follow {
         if (zoom)
             return;
         cubeInstancedFaces.reset();
-        cubeInstancedFaces.add(x, z, -y, theta, thetaZ, SIZE);
+        cubeInstancedFaces.add(x, z, -y, theta, thetaZ, SIZE, COLOR);
         cubeInstancedFaces.doneAdding();
         cubeInstancedFaces.draw();
     }

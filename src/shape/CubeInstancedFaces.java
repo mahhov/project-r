@@ -18,7 +18,7 @@ public class CubeInstancedFaces {
             S, -S, -S, // 7 : (right, back, bottom)
     };
 
-    private static final float[][] SIDE_VERTICIES = new float[6][], SIDE_COLORS = new float[6][], SIDE_NORMALS = new float[6][];
+    private static final float[][] SIDE_VERTICIES = new float[6][], SIDE_NORMALS = new float[6][];
     private static final byte[] INDICIES = new byte[] {0, 2, 3, 1, 0, 3};
 
     static {
@@ -28,13 +28,6 @@ public class CubeInstancedFaces {
         SIDE_VERTICIES[BACK_SIDE] = MathArrays.pluckArray3(VERTICIES, new int[] {6, 2, 7, 3});
         SIDE_VERTICIES[TOP_SIDE] = MathArrays.pluckArray3(VERTICIES, new int[] {2, 6, 0, 4});
         SIDE_VERTICIES[BOTTOM_SIDE] = MathArrays.pluckArray3(VERTICIES, new int[] {1, 5, 3, 7});
-
-        SIDE_COLORS[LEFT_SIDE] = MathArrays.repeatArray(new float[] {1, 1, 1}, 4);
-        SIDE_COLORS[RIGHT_SIDE] = SIDE_COLORS[LEFT_SIDE];
-        SIDE_COLORS[FRONT_SIDE] = SIDE_COLORS[LEFT_SIDE];
-        SIDE_COLORS[BACK_SIDE] = SIDE_COLORS[LEFT_SIDE];
-        SIDE_COLORS[TOP_SIDE] = SIDE_COLORS[LEFT_SIDE];
-        SIDE_COLORS[BOTTOM_SIDE] = SIDE_COLORS[LEFT_SIDE];
 
         SIDE_NORMALS[LEFT_SIDE] = MathArrays.repeatArray(new float[] {-1, 0, 0}, 4);
         SIDE_NORMALS[RIGHT_SIDE] = MathArrays.repeatArray(new float[] {1, 0, 0}, 4);
@@ -46,49 +39,41 @@ public class CubeInstancedFaces {
 
     private ShapeInstanced[] sides;
 
-    public CubeInstancedFaces() {
+    public CubeInstancedFaces() {   
         sides = new ShapeInstanced[6];
         for (int i = 0; i < sides.length; i++)
-            sides[i] = new ShapeInstanced(SIDE_VERTICIES[i], SIDE_COLORS[i], SIDE_NORMALS[i], INDICIES);
+            sides[i] = new ShapeInstanced(SIDE_VERTICIES[i], SIDE_NORMALS[i], INDICIES);
     }
 
-    public CubeInstancedFaces(float[] color) { // todo accept color per cube
-        color = MathArrays.repeatArray(color, 4);
-
-        sides = new ShapeInstanced[6];
-        for (int i = 0; i < sides.length; i++)
-            sides[i] = new ShapeInstanced(SIDE_VERTICIES[i], color, SIDE_NORMALS[i], INDICIES);
+    public void add(float x, float y, float z, float[] color) {
+        add(SimpleMatrix4f.translate(x, y, z), color);
     }
 
-    public void add(float x, float y, float z) {
-        add(SimpleMatrix4f.translate(x, y, z));
+    public void add(float x, float y, float z, boolean sides[], float[] color) {
+        add(SimpleMatrix4f.translate(x, y, z), sides, color);
     }
 
-    public void add(float x, float y, float z, boolean sides[]) {
-        add(SimpleMatrix4f.translate(x, y, z), sides);
+    public void add(float x, float y, float z, float theta, float thetaZ, float[] color) {
+        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ), color);
     }
 
-    public void add(float x, float y, float z, float theta, float thetaZ) {
-        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ));
+    public void add(float x, float y, float z, float theta, float thetaZ, boolean sides[], float[] color) {
+        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ), sides, color);
     }
 
-    public void add(float x, float y, float z, float theta, float thetaZ, boolean sides[]) {
-        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ), sides);
+    public void add(float x, float y, float z, float theta, float thetaZ, float scale, float[] color) {
+        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ, scale), color);
     }
 
-    public void add(float x, float y, float z, float theta, float thetaZ, float scale) {
-        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ, scale));
-    }
-
-    private void add(SimpleMatrix4f modelMatrix) {
+    private void add(SimpleMatrix4f modelMatrix, float[] color) {
         for (int i = 0; i < 6; i++)
-            sides[i].add(modelMatrix);
+            sides[i].add(modelMatrix, color);
     }
 
-    private void add(SimpleMatrix4f modelMatrix, boolean sides[]) {
+    private void add(SimpleMatrix4f modelMatrix, boolean sides[], float[] color) {
         for (int i = 0; i < 6; i++)
             if (sides[i])
-                this.sides[i].add(modelMatrix);
+                this.sides[i].add(modelMatrix, color);
     }
 
     public void doneAdding() {

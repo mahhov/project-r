@@ -34,7 +34,7 @@ class WorldChunk {
                     if (map[x + 1][y + 1][z + 1] == 1) {
                         if ((sides = checkAddCube(x, y, z)) != null) {
                             drawEmpty = false;
-                            cubeInstancedFaces.add(x + .5f + offsetX, z + .5f + offsetZ, -(y + .5f + offsetY), sides);
+                            cubeInstancedFaces.add(x + .5f + offsetX, z + .5f + offsetZ, -(y + .5f + offsetY), sides, World.WORLD_COLOR);
                         }
                     }
     }

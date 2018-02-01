@@ -18,27 +18,24 @@ import static org.lwjgl.opengl.GL33.glVertexAttribDivisor;
 
 class ShapeInstanced {
     private int numIndicies;
-    private FloatBuffer verticesBuffer, colorsBuffer, normalsBuffer;
+    private FloatBuffer verticesBuffer, normalsBuffer;
     private ByteBuffer indiciesBuffer;
     private int vaoId;
 
-    private int modelsVboId;
-    private LList<SimpleMatrix4f> models;
+    private int modelsVboId, colorsVboId;
+    private LList<InstanceDetail> instanceDetails;
 
-    ShapeInstanced(float[] vertices, float[] colors, float[] normals, byte[] indicies) {
+    ShapeInstanced(float[] vertices, float[] normals, byte[] indicies) {
         numIndicies = indicies.length;
-        createBuffers(vertices, colors, normals, indicies);
+        createBuffers(vertices, normals, indicies);
         createVao();
 
-        models = new LList<>();
+        instanceDetails = new LList<>();
     }
 
-    private void createBuffers(float[] vertices, float[] colors, float[] normals, byte[] indicies) {
+    private void createBuffers(float[] vertices, float[] normals, byte[] indicies) {
         verticesBuffer = MemoryUtil.memAllocFloat(vertices.length);
         verticesBuffer.put(vertices).flip();
-
-        colorsBuffer = MemoryUtil.memAllocFloat(colors.length);
-        colorsBuffer.put(colors).flip();
 
         normalsBuffer = MemoryUtil.memAllocFloat(normals.length);
         normalsBuffer.put(normals).flip();
@@ -58,13 +55,6 @@ class ShapeInstanced {
         glEnableVertexAttribArray(0);
         MemoryUtil.memFree(verticesBuffer);
 
-        int colorsVboId = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, colorsVboId);
-        glBufferData(GL_ARRAY_BUFFER, colorsBuffer, GL_STATIC_DRAW);
-        glVertexAttribPointer(5, 3, GL_FLOAT, false, 0, 0);
-        glEnableVertexAttribArray(5);
-        MemoryUtil.memFree(colorsBuffer);
-
         int normalsVboId = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, normalsVboId);
         glBufferData(GL_ARRAY_BUFFER, normalsBuffer, GL_STATIC_DRAW);
@@ -78,24 +68,30 @@ class ShapeInstanced {
         MemoryUtil.memFree(indiciesBuffer);
 
         modelsVboId = glGenBuffers();
+
+        colorsVboId = glGenBuffers();
     }
 
-    void add(SimpleMatrix4f modelMatrix) {
-        models.addTail(modelMatrix);
+    void add(SimpleMatrix4f modelMatrix, float[] color) {
+        instanceDetails.addTail(new InstanceDetail(modelMatrix, color));
     }
 
     void doneAdding() {
         glBindVertexArray(vaoId);
 
-        FloatBuffer modelsBuffer = MemoryUtil.memAllocFloat(models.size() * 16);
-        for (SimpleMatrix4f model : models)
-            model.toBufferSub(modelsBuffer);
+        FloatBuffer modelsBuffer = MemoryUtil.memAllocFloat(instanceDetails.size() * 16); // todo reuse same buffer? (likewise for shaped instanced but there only called once when chunk generated)
+        FloatBuffer colorsBuffer = MemoryUtil.memAllocFloat(instanceDetails.size() * 3);
+        for (InstanceDetail instanceDetail : instanceDetails) {
+            instanceDetail.modelMatrix.toBufferSub(modelsBuffer);
+            colorsBuffer.put(instanceDetail.colors);
+        }
         modelsBuffer.flip();
+        colorsBuffer.flip();
 
-        int floatBytes = Float.SIZE / Byte.SIZE;
+        int floatBytes = Float.SIZE / Byte.SIZE; // todo static final (likewise for shaped instanced)
+
         glBindBuffer(GL_ARRAY_BUFFER, modelsVboId);
         glBufferData(GL_ARRAY_BUFFER, modelsBuffer, GL_STATIC_DRAW);
-
         for (int i = 0; i < 4; i++) {
             int loc = i + 1;
             glVertexAttribPointer(loc, 4, GL_FLOAT, false, 16 * floatBytes, i * 4 * floatBytes); // todo: probably don't have to repeat this every time doneAdding is invoked 
@@ -103,15 +99,32 @@ class ShapeInstanced {
             glEnableVertexAttribArray(loc);
         }
 
+        glBindBuffer(GL_ARRAY_BUFFER, colorsVboId);
+        glBufferData(GL_ARRAY_BUFFER, colorsBuffer, GL_STATIC_DRAW);
+        glVertexAttribPointer(5, 3, GL_FLOAT, false, 0, 0);
+        glVertexAttribDivisor(5, 1);
+        glEnableVertexAttribArray(5);
+
         MemoryUtil.memFree(modelsBuffer);
+        MemoryUtil.memFree(colorsBuffer);
     }
 
     void reset() {
-        models.removeAll();
+        instanceDetails.removeAll();
     }
 
     void draw() {
         glBindVertexArray(vaoId);
-        glDrawElementsInstanced(GL_TRIANGLES, numIndicies, GL_UNSIGNED_BYTE, 0, models.size());
+        glDrawElementsInstanced(GL_TRIANGLES, numIndicies, GL_UNSIGNED_BYTE, 0, instanceDetails.size());
+    }
+
+    private class InstanceDetail {
+        private SimpleMatrix4f modelMatrix;
+        private float[] colors;
+
+        private InstanceDetail(SimpleMatrix4f modelMatrix, float[] colors) {
+            this.modelMatrix = modelMatrix;
+            this.colors = colors;
+        }
     }
 }
