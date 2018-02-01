@@ -16,7 +16,7 @@ class UiHud {
             BAR_TROW2_BOTTOM = BAR_TROW2_TOP - THIN_BAR_HEIGHT,
             BAR_ROW2_BOTTOM = -1 + UiDrawer.MEDIUM_MARGIN,
             BAR_ROW2_TOP = BAR_ROW2_BOTTOM + BAR_HEIGHT,
-            BAR_ROW1_BOTTOM = BAR_ROW2_TOP + UiDrawer.SMALL_MARGIN,
+            BAR_ROW1_BOTTOM = BAR_ROW2_TOP + UiDrawer.SMALL_MARGIN + UiBar.BORDER,
             BAR_ROW1_TOP = BAR_ROW1_BOTTOM + BAR_HEIGHT;
     static final float
             BAR_COL1_LEFT = -1 + UiDrawer.MEDIUM_MARGIN,
@@ -26,7 +26,7 @@ class UiHud {
 
     private static final float
             BAR_ROW3_HEIGHT = THIN_BAR_HEIGHT,
-            BAR_ROW3_TOP = BAR_ROW2_BOTTOM - UiDrawer.SMALL_MARGIN,
+            BAR_ROW3_TOP = BAR_ROW2_BOTTOM - UiDrawer.SMALL_MARGIN - UiBar.BORDER,
             BAR_ROW3_BOTTOM = BAR_ROW3_TOP - BAR_ROW3_HEIGHT,
             BAR_ROW3_TEXT_BOTTOM = -1 + UiDrawer.SMALL_MARGIN;
 

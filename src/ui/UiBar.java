@@ -6,7 +6,8 @@ import util.MathUtil;
 
 class UiBar {
     private static final float[] BORDER_COLOR = {0, 0, 0, .5f};
-    private static final float BORDER = .002f * 4, LINE_BORDER = .002f * 1;
+    static final float BORDER = .002f * 4;
+    private static final float LINE_BORDER = .002f * 1;
     private static final int NUM_RECTS = 6;
     private static float MIN_COLOR_MULT = .5f;
 
