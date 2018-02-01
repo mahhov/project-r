@@ -3,6 +3,8 @@ package util.intersection;
 import util.MathNumbers;
 
 public class IntersectionPicker extends Intersectioner {
+    private static final float RANGE = .5f;
+    
     private Picker picker;
 
     public IntersectionPicker(Map map, Picker picker) {
@@ -41,7 +43,7 @@ public class IntersectionPicker extends Intersectioner {
                 y += dy * delta;
                 z += dz * delta;
 
-                hitElement = hit(x, y, z, halfSize);
+                hitElement = hit(x, y, z, RANGE);
                 if (hitElement != null)
                     return createIntersection();
             }
