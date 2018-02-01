@@ -1,6 +1,7 @@
 package world.particle;
 
 import shape.CubeInstancedFaces;
+import util.MathRandom;
 import world.World;
 import world.WorldLightElement;
 
@@ -19,7 +20,7 @@ public class Particle implements WorldLightElement {
         this.vx = vx;
         this.vy = vy;
         this.vz = vz;
-        this.time = time;
+        this.time = MathRandom.random(time / 2, time);
         this.color = color;
         this.size = size;
     }
