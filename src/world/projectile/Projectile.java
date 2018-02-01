@@ -8,6 +8,7 @@ import util.intersection.IntersectionHitter;
 import world.World;
 import world.WorldElement;
 import world.particle.SmokeParticle;
+import world.particle.TrailParticle;
 
 public class Projectile implements WorldElement {
     private static final int WORLD_ELEMENT_ID = 2;
@@ -46,7 +47,7 @@ public class Projectile implements WorldElement {
         vz = (vz - GRAVITY) * AIR_FRICTION;
 
         float t = MathRandom.random(0, 1f);
-        world.addParticle(new SmokeParticle(x + vx * t, y + vy * t, z + vz * t, COLOR));
+        world.addParticle(new TrailParticle(x + vx * t, y + vy * t, z + vz * t, COLOR));
 
         Intersection intersection = intersectionHitter.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), SIZE);
 
@@ -56,6 +57,10 @@ public class Projectile implements WorldElement {
 
         if (intersection.hitElement != null || intersection.grounded) {
             world.doDamage(x, y, z, AREA, DAMAGE);
+
+            for (int i = 0; i < 50; i++)
+                world.addParticle(new SmokeParticle(x, y, z, COLOR));
+
             return true;
         }
         return false;
