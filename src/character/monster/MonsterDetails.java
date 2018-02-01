@@ -7,6 +7,7 @@ public class MonsterDetails {
 
     enum Armour {SHIELD, PLATED, NONE}
 
+    public float[] color;
     public float size;
 
     public Movement movement;

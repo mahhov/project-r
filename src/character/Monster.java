@@ -13,14 +13,12 @@ public class Monster extends Character {
     // todo ai
     private static final float CHASE_DISTANCE = 3000, DAMAGE_DISTANCE = 100, DAMAGE_AMOUNT = .2f;
 
-    public static final float[] COLOR = new float[] {0, 1, 0};
-
     private Human human;
     private MonsterDetails details;
     private MonsterMotion motion;
 
     public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
-        super(x, y, z, theta, thetaZ, details.runAcc, details.airAcc, details.jetAcc, details.size, intersectionMover, createStats(details), COLOR, cubeInstancedFaces);
+        super(x, y, z, theta, thetaZ, details.runAcc, details.airAcc, details.jetAcc, details.size, intersectionMover, createStats(details), details.color, cubeInstancedFaces);
         this.human = human;
         this.details = details;
         motion = MonsterGenerator.createMotion(this, human, details);

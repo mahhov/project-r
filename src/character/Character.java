@@ -17,9 +17,6 @@ public abstract class Character implements WorldElement { // todo support human 
     private static final float JUMP_ACC = 1f;
     private boolean air;
 
-    // health
-    private Health health;
-
     // position
     private float x, y, z;
     private float vx, vy, vz;
@@ -28,6 +25,10 @@ public abstract class Character implements WorldElement { // todo support human 
     private float size;
     private IntersectionMover intersectionMover;
 
+    private Health health;
+
+    private float[] color;
+    
     private CubeInstancedFaces cubeInstancedFaces;
 
     private CoordinateI3 worldCoordinate;
@@ -47,6 +48,8 @@ public abstract class Character implements WorldElement { // todo support human 
 
         this.health = new Health(stats);
 
+        this.color = color;
+        
         this.cubeInstancedFaces = cubeInstancedFaces;
     }
 
@@ -157,7 +160,7 @@ public abstract class Character implements WorldElement { // todo support human 
 
     @Override
     public void draw() {
-        cubeInstancedFaces.add(x, z, -y, theta, thetaZ, size, Monster.COLOR);
+        cubeInstancedFaces.add(x, z, -y, theta, thetaZ, size, color);
     }
 
     @Override
