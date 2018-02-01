@@ -2,6 +2,7 @@ package world.projectile;
 
 import shape.CubeInstancedFaces;
 import util.MathNumbers;
+import util.MathRandom;
 import util.intersection.Intersection;
 import util.intersection.IntersectionHitter;
 import world.World;
@@ -40,11 +41,12 @@ public class Projectile implements WorldElement {
 
     @Override
     public boolean update(World world) {
-        world.addParticle(new SmokeParticle(x, y, z, COLOR));
-
         vx *= AIR_FRICTION;
         vy *= AIR_FRICTION;
         vz = (vz - GRAVITY) * AIR_FRICTION;
+
+        float t = MathRandom.random(0, 1f);
+        world.addParticle(new SmokeParticle(x + vx * t, y + vy * t, z + vz * t, COLOR));
 
         Intersection intersection = intersectionHitter.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), SIZE);
 
