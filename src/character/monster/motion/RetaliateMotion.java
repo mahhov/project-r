@@ -7,7 +7,7 @@ public class RetaliateMotion extends MonsterMotion {
     private static final int RETALIATE_TIME = 300, WANDER_TIME = 100;
     private static final float WANDER_PROB = .7f;
     private static final float RETALIATE_DISTANCE_SPEED_MULT = .2f;
-    private static final float RETALIATE_FORGET_DISTANCE_SQR = 100;
+    private static final float RETALIATE_DISTANCE_SQR = 10, RETALIATE_FORGET_DISTANCE_SQR = 100;
 
     private Timer timer;
     private boolean damageTaken;
@@ -42,7 +42,10 @@ public class RetaliateMotion extends MonsterMotion {
 
         } else if (retaliate) {
             float flatDistanceSqr = MathNumbers.magnitudeSqr(dx, dy);
-            run(dx, dy, MathNumbers.min(hostilitySpeed, flatDistanceSqr * RETALIATE_DISTANCE_SPEED_MULT));
+            if (flatDistanceSqr < RETALIATE_DISTANCE_SQR)
+                stand();
+            else
+                run(dx, dy, MathNumbers.min(hostilitySpeed, flatDistanceSqr * RETALIATE_DISTANCE_SPEED_MULT));
             if (flatDistanceSqr < RETALIATE_FORGET_DISTANCE_SQR)
                 timer.reset(RETALIATE_TIME);
         }
