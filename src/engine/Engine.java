@@ -128,12 +128,8 @@ public class Engine {
 // ~~ low priority ~~
 // camera culling
 // multi-light support
-// multithread world chunk fill
 // blur distant
 // polygon outline
 // more efficient is(draw/world)empty tracking
 // shadows
-// support cubes of different colors in same CubeInstancedFaces
-// multi thread chunk loading
-// particles
 // try seinding vec3 for instanced world drawing instead of mat
