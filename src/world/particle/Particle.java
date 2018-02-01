@@ -7,7 +7,7 @@ import world.WorldLightElement;
 
 public class Particle implements WorldLightElement {
     private float x, y, z;
-    private float vx, vy, vz;
+    float vx, vy, vz;
     private int time;
     private float color[], size;
 

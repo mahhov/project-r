@@ -7,7 +7,6 @@ import util.intersection.Intersection;
 import util.intersection.IntersectionHitter;
 import world.World;
 import world.WorldElement;
-import world.particle.SmokeParticle;
 import world.particle.TrailParticle;
 
 public class Projectile implements WorldElement {
@@ -57,10 +56,6 @@ public class Projectile implements WorldElement {
 
         if (intersection.hitElement != null || intersection.grounded) {
             world.doDamage(x, y, z, AREA, DAMAGE);
-
-            for (int i = 0; i < 50; i++)
-                world.addParticle(new SmokeParticle(x, y, z, COLOR));
-
             return true;
         }
         return false;
