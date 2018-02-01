@@ -69,6 +69,7 @@ public class UiDrawer {
         forge = new UiForge(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, human.getForge());
         this.map = new UiMap(BACK_COLOR, rects, texts, mousePosControl, mouseButtonControl, map);
         textBox = new UiTextBox(BACK_COLOR, rects, texts, human.getLog());
+        //        textBox.toggle();
 
         equipment.setUiInventory(inventory);
         inventory.setUiEquipment(equipment);
@@ -96,6 +97,7 @@ public class UiDrawer {
     }
 
     public void update() {
+        //        if (human.isFollowZoom() || true)
         if (human.isFollowZoom())
             hud.hide();
         else

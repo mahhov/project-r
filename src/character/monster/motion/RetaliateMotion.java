@@ -6,6 +6,7 @@ import util.MathRandom;
 public class RetaliateMotion extends MonsterMotion {
     private static final int WANDER_TIME = 100;
     private static final float WANDER_PROB = .7f;
+    private static final float RETALIATE_DISTANCE_SPEED_MULT = .2f;
 
     private Timer timer;
     private boolean damageTaken;
@@ -30,7 +31,8 @@ public class RetaliateMotion extends MonsterMotion {
         }
 
         if (retaliate) {
-            run(dx, dy, hostilitySpeed);
+            float flatDistanceSqr = MathNumbers.magnitudeSqr(dx, dy);
+            run(dx, dy, MathNumbers.min(hostilitySpeed, flatDistanceSqr * RETALIATE_DISTANCE_SPEED_MULT));
 
         } else if (timer.done()) {
             timer.reset(WANDER_TIME);
@@ -41,9 +43,8 @@ public class RetaliateMotion extends MonsterMotion {
         }
 
         jet();
-    } 
+    }
     // todo stop retaliation after time with no damaged human nor monster
-    // todo dont overrun when close to human 
 
     @Override
     public void damageTaken() {

@@ -4,7 +4,7 @@ import util.MathNumbers;
 
 public class IntersectionPicker extends Intersectioner {
     private static final float RANGE = .5f;
-    
+
     private Picker picker;
 
     public IntersectionPicker(Map map, Picker picker) {
