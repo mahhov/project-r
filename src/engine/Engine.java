@@ -133,7 +133,6 @@ public class Engine {
 // polygon outline
 // more efficient is(draw/world)empty tracking
 // shadows
-// investigate if should retain STATIC_DRAW
 // support cubes of different colors in same CubeInstancedFaces
 // multi thread chunk loading
 // particles

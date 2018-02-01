@@ -17,6 +17,8 @@ import static org.lwjgl.opengl.GL31.glDrawElementsInstanced;
 import static org.lwjgl.opengl.GL33.glVertexAttribDivisor;
 
 class ShapeInstanced {
+    private static final int FLOAT_BYTES = Float.SIZE / Byte.SIZE;
+
     private int numIndicies;
     private FloatBuffer verticesBuffer, normalsBuffer;
     private ByteBuffer indiciesBuffer;
@@ -68,8 +70,19 @@ class ShapeInstanced {
         MemoryUtil.memFree(indiciesBuffer);
 
         modelsVboId = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, modelsVboId);
+        for (int i = 0; i < 4; i++) {
+            int loc = i + 1;
+            glVertexAttribPointer(loc, 4, GL_FLOAT, false, 16 * FLOAT_BYTES, i * 4 * FLOAT_BYTES);
+            glVertexAttribDivisor(loc, 1);
+            glEnableVertexAttribArray(loc);
+        }
 
         colorsVboId = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, colorsVboId);
+        glVertexAttribPointer(5, 3, GL_FLOAT, false, 0, 0);
+        glVertexAttribDivisor(5, 1);
+        glEnableVertexAttribArray(5);
     }
 
     void add(SimpleMatrix4f modelMatrix, float[] color) {
@@ -79,7 +92,7 @@ class ShapeInstanced {
     void doneAdding() {
         glBindVertexArray(vaoId);
 
-        FloatBuffer modelsBuffer = MemoryUtil.memAllocFloat(instanceDetails.size() * 16); // todo reuse same buffer? (likewise for shaped instanced but there only called once when chunk generated)
+        FloatBuffer modelsBuffer = MemoryUtil.memAllocFloat(instanceDetails.size() * 16); // todo reuse same buffer?
         FloatBuffer colorsBuffer = MemoryUtil.memAllocFloat(instanceDetails.size() * 3);
         for (InstanceDetail instanceDetail : instanceDetails) {
             instanceDetail.modelMatrix.toBufferSub(modelsBuffer);
@@ -88,22 +101,11 @@ class ShapeInstanced {
         modelsBuffer.flip();
         colorsBuffer.flip();
 
-        int floatBytes = Float.SIZE / Byte.SIZE; // todo static final (likewise for shaped instanced)
-
         glBindBuffer(GL_ARRAY_BUFFER, modelsVboId);
         glBufferData(GL_ARRAY_BUFFER, modelsBuffer, GL_STATIC_DRAW);
-        for (int i = 0; i < 4; i++) {
-            int loc = i + 1;
-            glVertexAttribPointer(loc, 4, GL_FLOAT, false, 16 * floatBytes, i * 4 * floatBytes); // todo: probably don't have to repeat this every time doneAdding is invoked 
-            glVertexAttribDivisor(loc, 1);
-            glEnableVertexAttribArray(loc);
-        }
 
         glBindBuffer(GL_ARRAY_BUFFER, colorsVboId);
         glBufferData(GL_ARRAY_BUFFER, colorsBuffer, GL_STATIC_DRAW);
-        glVertexAttribPointer(5, 3, GL_FLOAT, false, 0, 0);
-        glVertexAttribDivisor(5, 1);
-        glEnableVertexAttribArray(5);
 
         MemoryUtil.memFree(modelsBuffer);
         MemoryUtil.memFree(colorsBuffer);
