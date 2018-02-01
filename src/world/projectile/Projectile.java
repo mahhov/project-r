@@ -6,6 +6,7 @@ import util.intersection.Intersection;
 import util.intersection.IntersectionHitter;
 import world.World;
 import world.WorldElement;
+import world.particle.SmokeParticle;
 
 public class Projectile implements WorldElement {
     private static final int WORLD_ELEMENT_ID = 2;
@@ -39,6 +40,8 @@ public class Projectile implements WorldElement {
 
     @Override
     public boolean update(World world) {
+        world.addParticle(new SmokeParticle(x, y, z, COLOR));
+
         vx *= AIR_FRICTION;
         vy *= AIR_FRICTION;
         vz = (vz - GRAVITY) * AIR_FRICTION;

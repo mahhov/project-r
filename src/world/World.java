@@ -16,6 +16,7 @@ import util.intersection.IntersectionPicker;
 import util.intersection.Map;
 import world.generator.SimplexHeightMapWorldGenerator;
 import world.generator.WorldGenerator;
+import world.particle.Particle;
 import world.projectile.Projectile;
 
 import java.util.concurrent.ExecutionException;
@@ -38,6 +39,7 @@ public class World implements Map {
 
     private Human human;
     private LList<WorldElement> elements;
+    private LList<WorldLightElement> lightElements;
     private IntersectionMover intersectionMover;
     private IntersectionPicker intersectionPicker;
     private IntersectionHitter intersectionHitter;
@@ -60,6 +62,7 @@ public class World implements Map {
         worldGenerator = new SimplexHeightMapWorldGenerator(CHUNK_SIZE, CHUNK_SIZE, CHUNK_SIZE, height / 2);
 
         elements = new LList<>();
+        lightElements = new LList<>();
         intersectionMover = new IntersectionMover(this);
         intersectionPicker = new IntersectionPicker(this, picker);
         intersectionHitter = new IntersectionHitter(this);
@@ -72,6 +75,10 @@ public class World implements Map {
         largestElementSize = MathNumbers.max(largestElementSize, element.getSize());
     }
 
+    private void addWorldLightElement(WorldLightElement element) {
+        lightElements.addTail(element);
+    }
+
     public void setHuman(Human human) {
         addWorldElement(human);
         this.human = human;
@@ -80,6 +87,11 @@ public class World implements Map {
     public void addProjectile(Projectile projectile) {
         projectile.connectWorld(intersectionHitter, dynamicCubeInstancedFaces);
         addWorldElement(projectile);
+    }
+
+    public void addParticle(Particle particle) {
+        particle.connectWorld(dynamicCubeInstancedFaces);
+        addWorldLightElement(particle);
     }
 
     public LList<WorldElement>.Node addDynamicElement(CoordinateI3 coordinate, WorldElement element) {
@@ -125,6 +137,10 @@ public class World implements Map {
         for (LList<WorldElement>.Node elementNode : elements.nodeIterator())
             if (elementNode.getValue().update(this))
                 elements.remove(elementNode);
+
+        for (LList<WorldLightElement>.Node elementNode : lightElements.nodeIterator())
+            if (elementNode.getValue().update(this))
+                lightElements.remove(elementNode);
     }
 
     public void doDamage(float x, float y, float z, float range, float amount) {
@@ -156,6 +172,8 @@ public class World implements Map {
 
         dynamicCubeInstancedFaces.reset();
         for (WorldElement element : elements)
+            element.draw();
+        for (WorldLightElement element : lightElements)
             element.draw();
         dynamicCubeInstancedFaces.doneAdding();
         dynamicCubeInstancedFaces.draw();
