@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
 
 public class World implements Map {
     static final int CHUNK_SIZE = 128;
-    private static final int DRAW_CHUNKS = 3; // todo why no terrain drawn when draw chunks = 0 ?
+    private static final int DRAW_CHUNKS = 3;
     private static final int THREAD_COUNT = 4;
     static final float[] WORLD_COLOR = new float[] {1, 1, 1};
 
