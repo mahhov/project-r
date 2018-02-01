@@ -13,7 +13,8 @@ public abstract class Character implements WorldElement { // todo support human 
     public static final int WORLD_ELEMENT_ID = 1;
 
     // mobility
-    private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1;
+    public static final float GRAVITY = .1f;
+    private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, JUMP_MULT = 1;
     private static final float JUMP_ACC = 1f;
     private boolean air;
 
@@ -28,7 +29,7 @@ public abstract class Character implements WorldElement { // todo support human 
     private Health health;
 
     private float[] color;
-    
+
     private CubeInstancedFaces cubeInstancedFaces;
 
     private CoordinateI3 worldCoordinate;
@@ -49,7 +50,7 @@ public abstract class Character implements WorldElement { // todo support human 
         this.health = new Health(stats);
 
         this.color = color;
-        
+
         this.cubeInstancedFaces = cubeInstancedFaces;
     }
 

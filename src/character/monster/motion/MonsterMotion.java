@@ -1,5 +1,6 @@
 package character.monster.motion;
 
+import character.Character;
 import character.Human;
 import character.Monster;
 import character.MoveControl;
@@ -7,14 +8,14 @@ import util.MathAngles;
 import util.MathRandom;
 
 public class MonsterMotion {
-    private static final float FLY_SMOOTH_MULT = .1f;
+    private static final float FLY_SMOOTH_MULT = .001f;
 
     Monster monster;
     Human human;
     public final MoveControl moveControl;
 
     private float wanderSpeed;
-    private float flyHeight;
+    private float avgFlyHeight, flyHeight;
     float hostilitySpeed;
     float hostilitySightDistanceSqr, hostilityDangerDistanceSqr;
 
@@ -32,7 +33,7 @@ public class MonsterMotion {
     }
 
     public void setFlyHeight(int flyHeight) {
-        this.flyHeight = flyHeight;
+        avgFlyHeight = flyHeight;
     }
 
     public void setHostilityParams(float hostilitySpeed, float hostilitySightDistance, float hostilityDangerDistance) {
@@ -47,6 +48,7 @@ public class MonsterMotion {
         moveControl.dy = MathAngles.sin(angle);
         moveControl.speed = wanderSpeed;
         moveControl.theta = (float) Math.atan2(moveControl.dy, moveControl.dx);
+        flyHeight = MathRandom.random(avgFlyHeight, avgFlyHeight * 1.1f);
     }
 
     void run(float dx, float dy, float speed) {
@@ -64,7 +66,7 @@ public class MonsterMotion {
 
     void jet() {
         float deltaZ = flyHeight - monster.getZ();
-        moveControl.dz = deltaZ > 0 ? deltaZ * FLY_SMOOTH_MULT : 0;
+        moveControl.dz = Character.GRAVITY + deltaZ * FLY_SMOOTH_MULT;
     }
 
     public void damageTaken() {

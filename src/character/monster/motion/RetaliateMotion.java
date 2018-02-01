@@ -33,7 +33,7 @@ public class RetaliateMotion extends MonsterMotion {
         }
 
         if (timer.done()) {
-            timer.reset(WANDER_TIME);
+            timer.reset(MathRandom.random(WANDER_TIME / 2, WANDER_TIME));
             retaliate = false;
             if (MathRandom.random(WANDER_PROB))
                 wander();
