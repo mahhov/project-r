@@ -66,4 +66,7 @@ public class MonsterMotion {
         float deltaZ = flyHeight - monster.getZ();
         moveControl.dz = deltaZ > 0 ? deltaZ * FLY_SMOOTH_MULT : 0;
     }
+
+    public void damageTaken() {
+    }
 }

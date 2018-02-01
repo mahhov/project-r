@@ -40,4 +40,10 @@ public class Monster extends Character {
         human.experienceAdd(30);
         return true;
     }
+
+    @Override
+    public void takeDamage(float amount) {
+        motion.damageTaken();
+        super.takeDamage(amount);
+    }
 }

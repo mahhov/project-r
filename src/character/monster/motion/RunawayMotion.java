@@ -8,6 +8,7 @@ public class RunawayMotion extends MonsterMotion {
     private static final float WANDER_PROB = .7f;
 
     private Timer runawayTimer;
+    private boolean damageTaken;
 
     public RunawayMotion() {
         super();
@@ -22,9 +23,10 @@ public class RunawayMotion extends MonsterMotion {
 
         runawayTimer.update();
 
-        if (distanceSqr < hostilitySightDistanceSqr || (distanceSqr < hostilityDangerDistanceSqr && human.isDangerous())) {
+        if (distanceSqr < hostilitySightDistanceSqr || (distanceSqr < hostilityDangerDistanceSqr && human.isDangerous()) || damageTaken) {
             runawayTimer.reset(RUNAWAY_TIME);
             run(dx, dy, hostilitySpeed);
+            damageTaken = false;
         }
 
         if (runawayTimer.done()) {
@@ -36,7 +38,10 @@ public class RunawayMotion extends MonsterMotion {
         }
 
         jet();
+    }
 
-        // todo being damaged (even if from distance greater than hostilityDangerDistanceSqr), activate runawayTimer
+    @Override
+    public void damageTaken() {
+        damageTaken = true;
     }
 }
