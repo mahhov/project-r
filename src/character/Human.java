@@ -13,6 +13,7 @@ import util.intersection.IntersectionMover;
 import util.intersection.IntersectionPicker;
 import world.World;
 import world.WorldElement;
+import world.particle.JetParticle;
 import world.projectile.Projectile;
 
 public class Human implements WorldElement, Follow {
@@ -115,7 +116,7 @@ public class Human implements WorldElement, Follow {
 
         if (keyControl.isKeyPressed(KeyButton.KEY_SPACE))
             doJump();
-        doJet(keyControl.isKeyDown(KeyButton.KEY_SPACE));
+        doJet(world, keyControl.isKeyDown(KeyButton.KEY_SPACE));
 
         doBoost(shiftPress);
 
@@ -200,10 +201,11 @@ public class Human implements WorldElement, Follow {
         air = true;
     }
 
-    private void doJet(boolean active) {
+    private void doJet(World world, boolean active) {
         if (active && stamina.available(Stamina.StaminaCost.JET)) {
             stamina.deplete(Stamina.StaminaCost.JET);
             vjet = MathNumbers.min(vjet + VJET_PLUS, stats.getStat(Stats.StatType.JET_ACC));
+            world.addParticle(new JetParticle(x, y, z));
         } else
             vjet = MathNumbers.max(vjet - VJET_MINUS, 0);
 
