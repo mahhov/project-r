@@ -4,11 +4,12 @@ import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.LList;
 import world.generator.WorldGenerator;
+import world.generator.WorldMap;
 
 class WorldChunk {
     private CubeInstancedFaces cubeInstancedFaces;
     private int offsetX, offsetY, offsetZ;
-    private byte[][][] map;
+    private WorldMap worldMap;
     private boolean drawEmpty;
     private DynamicCell dynamicCells;
 
@@ -21,7 +22,7 @@ class WorldChunk {
 
         dynamicCells = new DynamicCell();
 
-        map = generator.generate(offsetX, offsetY, offsetZ);
+        worldMap = generator.generate(offsetX, offsetY, offsetZ);
         fill();
     }
 
@@ -29,14 +30,15 @@ class WorldChunk {
         boolean[] sides;
 
         for (int x = 0; x < World.CHUNK_SIZE; x++)
-            for (int y = 0; y < World.CHUNK_SIZE; y++)
+            for (int y = 0; y < World.CHUNK_SIZE; y++) {
+                int terrain = worldMap.getTerrain(x, y);
                 for (int z = 0; z < World.CHUNK_SIZE; z++)
-                    if (map[x + 1][y + 1][z + 1] == 1) {
+                    if (worldMap.map[x + 1][y + 1][z + 1] == 1)
                         if ((sides = checkAddCube(x, y, z)) != null) {
                             drawEmpty = false;
-                            cubeInstancedFaces.add(x + .5f + offsetX, z + .5f + offsetZ, -(y + .5f + offsetY), sides, World.WORLD_COLOR);
+                            cubeInstancedFaces.add(x + .5f + offsetX, z + .5f + offsetZ, -(y + .5f + offsetY), sides, World.WORLD_COLOR_TERRAIN[terrain]);
                         }
-                    }
+            }
     }
 
     void doneFilling() {
@@ -62,11 +64,11 @@ class WorldChunk {
     }
 
     private boolean hasCube(int x, int y, int z) {
-        return map[x + 1][y + 1][z + 1] != 0;
+        return worldMap.map[x + 1][y + 1][z + 1] != 0;
     }
 
     boolean hasCube(CoordinateI3 cubeCoordinate) {
-        return map[cubeCoordinate.x + 1][cubeCoordinate.y + 1][cubeCoordinate.z + 1] != 0;
+        return worldMap.map[cubeCoordinate.x + 1][cubeCoordinate.y + 1][cubeCoordinate.z + 1] != 0;
     }
 
     LList<WorldElement>.Node addDynamicElement(WorldElement element) {

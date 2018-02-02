@@ -28,7 +28,11 @@ public class MathNumbers {
         return v1 < v2 ? (v1 < v3 ? v1 : v3) : (v2 < v3 ? v2 : v3);
     }
 
-    public static float maxMin(float v, float max, float min) {
+    public static float minMax(float v, float min, float max) {
+        return v > max ? max : (v < min ? min : v);
+    }
+
+    public static int minMax(int v, int min, int max) {
         return v > max ? max : (v < min ? min : v);
     }
 

@@ -133,7 +133,7 @@ public class Human implements WorldElement, Follow {
 
     private void doRotations(MousePosControl mousePosControl) {
         theta -= ROTATE_SPEED_MOUSE * mousePosControl.getMoveX();
-        thetaZ = MathNumbers.maxMin(thetaZ - ROTATE_SPEED_MOUSE * mousePosControl.getMoveY(), MathAngles.PI / 2, -MathAngles.PI / 2);
+        thetaZ = MathNumbers.minMax(thetaZ - ROTATE_SPEED_MOUSE * mousePosControl.getMoveY(), -MathAngles.PI / 2, MathAngles.PI / 2);
     }
 
     private void computeAxis() {

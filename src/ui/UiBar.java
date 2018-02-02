@@ -44,7 +44,7 @@ class UiBar {
             rects[i].setColor(color);
 
         if (i < NUM_RECTS) {
-            float mult = MathNumbers.maxMin(fill - i, 1, 0);
+            float mult = MathNumbers.minMax(fill - i, 0, 1);
             mult = mult * (1 - MIN_COLOR_MULT) + MIN_COLOR_MULT;
             rects[i].setColor(MathUtil.colorMult(color, mult));
 

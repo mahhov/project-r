@@ -24,10 +24,22 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class World implements Map {
+    static final float[] WORLD_COLOR = new float[] {1, 1, 1};
+    static final float[][] WORLD_COLOR_TERRAIN = new float[][] { // todo terrain significnace other than colors
+            new float[] {.3f, 0f, 0f},
+            new float[] {.4f, .3f, .3f},
+            new float[] {.5f, .5f, .5f},
+            new float[] {.5f, .7f, .5f},
+            new float[] {.5f, .8f, .6f},
+            new float[] {.5f, .8f, .8f},
+            new float[] {.5f, .8f, 1f},
+            new float[] {.3f, .5f, 1f},
+            new float[] {0f, .3f, 1f},
+    };
+
     static final int CHUNK_SIZE = 128;
     private static final int DRAW_CHUNKS = 3;
     private static final int THREAD_COUNT = 4;
-    static final float[] WORLD_COLOR = new float[] {1, 1, 1};
 
     private ExecutorService generatorExecutors;
 
