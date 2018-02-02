@@ -10,8 +10,6 @@ public class Forge {
     Forge(Log log, Inventory inventory) {
         this.log = log;
         this.inventory = inventory;
-        // todo remove
-        metal = 1000;
     }
 
     public void forge(Equipment.GearType gearType) {

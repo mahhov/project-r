@@ -107,6 +107,7 @@ public class Engine {
 // todo
 // ~~ ordered ~~
 // randomly generated enemies
+// loot
 
 // ~~ high priority ~~
 // crafting enchant level / exp requirement
