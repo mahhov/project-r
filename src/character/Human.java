@@ -72,6 +72,7 @@ public class Human implements WorldElement, Follow {
         this.thetaZ = thetaZ;
         norm = new float[2];
         right = new float[2];
+        air = true;
 
         log = new Log();
         stats = new Stats(RUN_ACC, JUMP_ACC, AIR_ACC, JET_ACC, BOOST_ACC, GLIDE_ACC, GLIDE_DESCENT_ACC, STAMINA, STAMINA_REGEN, STAMINA_RESERVE, STAMINA_RESERVE_REGEN, LIFE, LIFE_REGEN, SHIELD, SHIELD_REGEN, SHIELD_REGEN_DELAY);
@@ -188,6 +189,7 @@ public class Human implements WorldElement, Follow {
         vy *= JUMP_MULT;
         vz += stats.getStat(Stats.StatType.JUMP_ACC);
         vjet = MathNumbers.max(vjet, VJET_JUMP);
+        air = true;
     }
 
     private void doJet(boolean active) {
@@ -229,8 +231,7 @@ public class Human implements WorldElement, Follow {
         if (intersection.grounded) {
             air = false;
             vz = 0;
-        } else
-            air = true;
+        }
 
         if (intersection.collisionX)
             vx = 0;
