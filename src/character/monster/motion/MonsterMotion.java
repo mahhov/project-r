@@ -43,7 +43,7 @@ public class MonsterMotion {
     }
 
     void wander() {
-        float angle = MathRandom.random(0, MathAngles.PI * 2);
+        float angle = MathRandom.randomAngle();
         moveControl.dx = MathAngles.cos(angle);
         moveControl.dy = MathAngles.sin(angle);
         moveControl.speed = wanderSpeed;

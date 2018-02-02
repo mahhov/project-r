@@ -26,4 +26,8 @@ public class MathRandom {
     public static float[] randomColor() {
         return new float[] {random(0, 1f), random(0, 1f), random(0, 1f)};
     }
+
+    public static float randomAngle() {
+        return random(0, MathAngles.PI * 2);
+    }
 }

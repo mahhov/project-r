@@ -10,6 +10,7 @@ public class Particle implements WorldLightElement {
     float vx, vy, vz;
     private int time;
     private float color[], size;
+    private float theta, thetaZ;
 
     private CubeInstancedFaces cubeInstancedFaces;
 
@@ -23,6 +24,8 @@ public class Particle implements WorldLightElement {
         this.time = MathRandom.random(time / 2, time);
         this.color = color;
         this.size = size;
+        theta = MathRandom.randomAngle();
+        thetaZ = MathRandom.randomAngle();
     }
 
     public void connectWorld(CubeInstancedFaces cubeInstancedFaces) {
@@ -38,6 +41,6 @@ public class Particle implements WorldLightElement {
     }
 
     public void draw() {
-        cubeInstancedFaces.add(x, z, -y, 0, 0, size, color);
+        cubeInstancedFaces.add(x, z, -y, theta, thetaZ, size, color);
     }
 }
