@@ -1,7 +1,7 @@
 package util;
 
 public class MathNumbers {
-    public static final float EPSILON = 0.001f;
+    public static final float EPSILON = 0.001f, BIG_EPSILON = .01f;
     public static final float LOG2 = (float) Math.log(2);
 
     public static float max(float v1, float v2) {
