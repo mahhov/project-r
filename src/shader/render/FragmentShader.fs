@@ -8,7 +8,7 @@ in vec3 vertexColor;
 
 out vec3 fragColor;
 
-const float ambientFactor = .2, diffusePower = .8, specularPower = 15;
+const float ambientFactor = .2, diffusePower = 1.2, specularPower = 15;
 const vec3 lightPosition = vec3(128, 250, -128);
 const vec3 cameraForward = vec3(0, 0, 1);
 
