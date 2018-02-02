@@ -9,7 +9,7 @@ in vec3 vertexColor;
 out vec3 fragColor;
 
 const float ambientFactor = .2, diffusePower = 1.2, specularPower = 15;
-const vec3 lightPosition = vec3(128, 250, -128);
+const vec3 lightPosition = vec3(1000, 2500, -500);
 const vec3 cameraForward = vec3(0, 0, 1);
 
 float calcDiffuseFactor(vec3 lightDirection) {
