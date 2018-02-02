@@ -48,8 +48,16 @@ public class MathNumbers {
         float currentMagnitude = magnitude(x, y, z);
         if (isZero(currentMagnitude))
             return new float[] {0, 0, 0};
-        float mult = magnitude / magnitude(x, y, z);
+        float mult = magnitude / currentMagnitude;
         return new float[] {x * mult, y * mult, z * mult};
+    }
+
+    public static float[] setMagnitude(float x, float y, float magnitude) {
+        float currentMagnitude = magnitude(x, y);
+        if (isZero(currentMagnitude))
+            return new float[] {0, 0, 0};
+        float mult = magnitude / currentMagnitude;
+        return new float[] {x * mult, y * mult};
     }
 
     public static float magnitudeSqr(float dx, float dy) {

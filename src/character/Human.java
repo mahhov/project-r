@@ -147,7 +147,7 @@ public class Human implements WorldElement, Follow {
         right[1] = -norm[0];
     }
 
-    private void doRunningMove(KeyControl keyControl) { // todo make it so diagonall movement is no faster than vertical/horizontal
+    private void doRunningMove(KeyControl keyControl) {
         float acc;
         if (boostTimer.active())
             acc = stats.getStat(Stats.StatType.BOOST_ACC);
@@ -160,25 +160,32 @@ public class Human implements WorldElement, Follow {
         } else
             acc = stats.getStat(Stats.StatType.AIR_ACC);
 
+        float dx = 0, dy = 0;
+
         if (keyControl.isKeyDown(KeyButton.KEY_W)) {
-            vx += norm[0] * acc;
-            vy += norm[1] * acc;
+            dx += norm[0];
+            dy += norm[1];
         }
 
         if (keyControl.isKeyDown(KeyButton.KEY_S)) {
-            vx -= norm[0] * acc;
-            vy -= norm[1] * acc;
+            dx -= norm[0];
+            dy -= norm[1];
         }
 
         if (keyControl.isKeyDown(KeyButton.KEY_A)) {
-            vx -= right[0] * acc;
-            vy -= right[1] * acc;
+            dx -= right[0];
+            dy -= right[1];
         }
 
         if (keyControl.isKeyDown(KeyButton.KEY_D)) {
-            vx += right[0] * acc;
-            vy += right[1] * acc;
+            dx += right[0];
+            dy += right[1];
         }
+
+        float[] dxy = MathNumbers.setMagnitude(dx, dy, 1);
+
+        vx += dxy[0] * acc;
+        vy += dxy[1] * acc;
     }
 
     private void doJump() {
