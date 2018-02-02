@@ -21,13 +21,12 @@ public class Human implements WorldElement, Follow {
     private static final float ROTATE_SPEED_MOUSE = .008f;
     private static final float[] COLOR = new float[] {0, 1, 0};
 
-    // mobility
+    // mobility constants
     private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1;
-    private boolean air;
-
-    private static final float RUN_ACC = .07f, JUMP_ACC = 1f, AIR_ACC = .02f, JET_ACC = .11f, BOOST_ACC = .07f, GLIDE_ACC = .05f, GLIDE_DESCENT_ACC = .02f;
+    private static final float RUN_ACC = .07f, JUMP_ACC = .1f, AIR_ACC = .02f, JET_ACC = .11f, BOOST_ACC = .07f, GLIDE_ACC = .05f, GLIDE_DESCENT_ACC = .02f;
     private static final float STAMINA = 20, STAMINA_REGEN = .1f, STAMINA_RESERVE = 150, STAMINA_RESERVE_REGEN = .05f;
     private static final float LIFE = 100, LIFE_REGEN = .1f, SHIELD = 100, SHIELD_REGEN = 1, SHIELD_REGEN_DELAY = 75;
+    private static final float VJET_PLUS = .002f, VJET_MINUS = .001f, VJET_JUMP = .1f;
 
     private Log log;
     private Stats stats;
@@ -48,9 +47,10 @@ public class Human implements WorldElement, Follow {
     // position
     private static final float SIZE = 1;
     private float x, y, z;
-    private float vx, vy, vz;
+    private float vx, vy, vz, vjet;
     private float theta, thetaZ;
     private float[] norm, right;
+    private boolean air;
     private boolean zoom;
 
     private IntersectionMover intersectionMover;
@@ -113,8 +113,7 @@ public class Human implements WorldElement, Follow {
 
         if (keyControl.isKeyPressed(KeyButton.KEY_SPACE))
             doJump();
-        if (keyControl.isKeyDown(KeyButton.KEY_SPACE))
-            doJet();
+        doJet(keyControl.isKeyDown(KeyButton.KEY_SPACE));
 
         doBoost(shiftPress);
 
@@ -188,13 +187,17 @@ public class Human implements WorldElement, Follow {
         vx *= JUMP_MULT;
         vy *= JUMP_MULT;
         vz += stats.getStat(Stats.StatType.JUMP_ACC);
+        vjet = MathNumbers.max(vjet, VJET_JUMP);
     }
 
-    private void doJet() {
-        if (!stamina.available(Stamina.StaminaCost.JET))
-            return;
-        stamina.deplete(Stamina.StaminaCost.JET);
-        vz += stats.getStat(Stats.StatType.JET_ACC);
+    private void doJet(boolean active) {
+        if (active && stamina.available(Stamina.StaminaCost.JET)) {
+            stamina.deplete(Stamina.StaminaCost.JET);
+            vjet = MathNumbers.min(vjet + VJET_PLUS, stats.getStat(Stats.StatType.JET_ACC));
+        } else
+            vjet = MathNumbers.max(vjet - VJET_MINUS, 0);
+
+        vz += vjet;
     }
 
     private void doBoost(boolean shiftPress) {
