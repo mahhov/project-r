@@ -26,15 +26,15 @@ import java.util.concurrent.Executors;
 public class World implements Map {
     static final float[] WORLD_COLOR = new float[] {1, 1, 1};
     static final float[][] WORLD_COLOR_TERRAIN = new float[][] { // todo terrain significnace other than colors
-            new float[] {.3f, 0f, 0f},
-            new float[] {.4f, .3f, .3f},
-            new float[] {.5f, .5f, .5f},
-            new float[] {.5f, .7f, .5f},
-            new float[] {.5f, .8f, .6f},
-            new float[] {.5f, .8f, .8f},
-            new float[] {.5f, .8f, 1f},
-            new float[] {.3f, .5f, 1f},
-            new float[] {0f, .3f, 1f},
+            new float[] {.3f, 0f, 0f}, // dark red
+            new float[] {.4f, .3f, .3f}, // dark gray
+            new float[] {.5f, .5f, .5f}, // gray
+            new float[] {.5f, .6f, .5f}, // green
+            new float[] {.5f, .8f, .6f}, // light green
+            new float[] {.5f, .8f, .8f}, // turquoise
+            new float[] {.5f, .8f, 1f}, // light blue
+            new float[] {.9f, .9f, 1f}, // blue white
+            new float[] {1f, 1f, 1f}, // white 
     };
 
     static final int CHUNK_SIZE = 128;
