@@ -1,6 +1,6 @@
 #version 330 core
 
-const int LIGHTING_FADE_DISTANCE = 50, LIGHTING_MAX_DISTANCE = 200;
+const int LIGHTING_FADE_DISTANCE = 200, LIGHTING_MAX_DISTANCE = LIGHTING_FADE_DISTANCE + 150;
 const float DISTANT_LIGHT = .7;
 const float ambientFactor = .2, diffusePower = .6, specularPower = 15;
 const vec3[] lightDirection = vec3[] (normalize(vec3(2, 5, -1)), normalize(vec3(-1, 5, 2)));
