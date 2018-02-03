@@ -2,6 +2,7 @@ package character;
 
 import character.monster.MonsterDetails;
 import character.monster.MonsterGenerator;
+import character.monster.attack.MonsterAttack;
 import character.monster.motion.MonsterMotion;
 import item.Coin;
 import shape.CubeInstancedFaces;
@@ -11,21 +12,24 @@ import world.World;
 
 public class Monster extends Character {
     // todo ai
-    private static final float CHASE_DISTANCE = 3000, DAMAGE_DISTANCE = 100, DAMAGE_AMOUNT = .2f;
-
     private Human human;
-    private MonsterDetails details;
+    private MonsterAttack attack;
     private MonsterMotion motion;
 
     public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
         super(x, y, z, theta, thetaZ, details.runAcc, details.airAcc, details.jetAcc, details.size, intersectionMover, createStats(details), details.color, cubeInstancedFaces);
         this.human = human;
-        this.details = details;
+        attack = MonsterGenerator.createAttack(this, human, details);
         motion = MonsterGenerator.createMotion(this, human, details);
     }
 
     private static Stats createStats(MonsterDetails details) {
         return new Stats(details.life, .1f, details.shield, 1, 75);
+    }
+
+    @Override
+    void doAttack() {
+        attack.update();
     }
 
     @Override

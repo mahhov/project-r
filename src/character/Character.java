@@ -60,10 +60,14 @@ public abstract class Character implements WorldElement { // todo support human 
             world.removeDynamicElement(worldCoordinate, worldElementNode);
             return die();
         }
+        doAttack();
         move(getMoveControl(world));
         if (world.movable((int) x, (int) y, (int) z))
             moveInWorld(world);
         return false;
+    }
+
+    void doAttack() {
     }
 
     private void moveInWorld(World world) {

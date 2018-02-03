@@ -2,6 +2,8 @@ package character.monster;
 
 import character.Human;
 import character.Monster;
+import character.monster.attack.MonsterAttack;
+import character.monster.attack.ProximateyBurnAttack;
 import character.monster.motion.MonsterMotion;
 import character.monster.motion.RetaliateMotion;
 import character.monster.motion.RunawayMotion;
@@ -80,6 +82,12 @@ public class MonsterGenerator {
         details.armour = MonsterDetails.Armour.NONE;
         details.life = 50;
         return details;
+    }
+
+    public static MonsterAttack createAttack(Monster monster, Human human, MonsterDetails details) {
+        MonsterAttack attack = new ProximateyBurnAttack();
+        attack.setBase(monster, human);
+        return attack;
     }
 
     public static MonsterMotion createMotion(Monster monster, Human human, MonsterDetails details) {
