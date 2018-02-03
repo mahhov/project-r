@@ -22,7 +22,7 @@ public class MonsterGenerator {
 
     public static MonsterDetails createBugDetails() {
         MonsterDetails details = new MonsterDetails();
-        details.color = new float[] {0, 1, 1};
+        details.color = new float[] {0, 1, 1, 1};
         details.size = .5f;
         details.movement = MonsterDetails.Movement.WALK;
         details.runAcc = .07f;
@@ -38,7 +38,7 @@ public class MonsterGenerator {
 
     public static MonsterDetails createBirdDetails() {
         MonsterDetails details = new MonsterDetails();
-        details.color = new float[] {0, 1, .5f};
+        details.color = new float[] {0, 1, .5f, 1};
         details.size = 1;
         details.movement = MonsterDetails.Movement.FLY;
         details.runAcc = .07f;
@@ -56,7 +56,7 @@ public class MonsterGenerator {
 
     public static MonsterDetails createGoatDetails() {
         MonsterDetails details = new MonsterDetails();
-        details.color = new float[] {1, 1, 0};
+        details.color = new float[] {1, 1, 0, 1};
         details.size = 1.5f;
         details.movement = MonsterDetails.Movement.WALK;
         details.runAcc = .07f;
@@ -70,7 +70,7 @@ public class MonsterGenerator {
 
     public static MonsterDetails createWolfDetails() {
         MonsterDetails details = new MonsterDetails();
-        details.color = new float[] {1, 0, 0};
+        details.color = new float[] {1, 0, 0, 1};
         details.size = 2f;
         details.movement = MonsterDetails.Movement.WALK;
         details.runAcc = .07f;

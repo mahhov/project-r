@@ -8,13 +8,22 @@ public class ShaderManager {
             uiShader = new ShaderProgram("ui"),
             textShader = new ShaderProgram("text");
 
+    static {
+        glDepthFunc(GL_LESS);
+        glEnable(GL_CULL_FACE);
+        glEnable(GL_TEXTURE_2D);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_BLEND);
+        
+        glClearColor(.5f, .8f, 1, 1);
+    }
+
     public static int getRenderShaderProgramId() {
         return renderShader.getProgramId();
     }
 
     public static void setRenderShader() {
         glEnable(GL_DEPTH_TEST);
-        glDisable(GL_BLEND);
         renderShader.bind();
     }
 
@@ -24,7 +33,6 @@ public class ShaderManager {
 
     public static void setUiShader() {
         glDisable(GL_DEPTH_TEST);
-        glEnable(GL_BLEND);
         uiShader.bind();
     }
 
@@ -34,7 +42,6 @@ public class ShaderManager {
 
     public static void setTextShader() {
         glDisable(GL_DEPTH_TEST);
-        glEnable(GL_BLEND);
         textShader.bind();
     }
 }

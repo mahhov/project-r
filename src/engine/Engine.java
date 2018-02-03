@@ -58,13 +58,6 @@ public class Engine {
         glfwSwapInterval(1);
         glfwShowWindow(window);
         GL.createCapabilities();
-
-        glDepthFunc(GL_LESS);
-        glEnable(GL_CULL_FACE);
-        glEnable(GL_TEXTURE_2D);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-        glClearColor(.5f, .8f, 1, 1);
     }
 
     private void destroyLwjgl() {

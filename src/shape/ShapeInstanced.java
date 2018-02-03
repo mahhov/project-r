@@ -80,7 +80,7 @@ class ShapeInstanced {
 
         colorsVboId = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, colorsVboId);
-        glVertexAttribPointer(5, 3, GL_FLOAT, false, 0, 0);
+        glVertexAttribPointer(5, 4, GL_FLOAT, false, 0, 0);
         glVertexAttribDivisor(5, 1);
         glEnableVertexAttribArray(5);
     }
@@ -93,7 +93,7 @@ class ShapeInstanced {
         glBindVertexArray(vaoId);
 
         FloatBuffer modelsBuffer = MemoryUtil.memAllocFloat(instanceDetails.size() * 16); // todo reuse same buffer?
-        FloatBuffer colorsBuffer = MemoryUtil.memAllocFloat(instanceDetails.size() * 3);
+        FloatBuffer colorsBuffer = MemoryUtil.memAllocFloat(instanceDetails.size() * 4);
         for (InstanceDetail instanceDetail : instanceDetails) {
             instanceDetail.modelMatrix.toBufferSub(modelsBuffer);
             colorsBuffer.put(instanceDetail.colors);

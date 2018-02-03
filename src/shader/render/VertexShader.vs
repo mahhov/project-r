@@ -5,9 +5,9 @@ uniform mat4 projection, view;
 layout (location=0) in vec3 position;
 layout (location=1) in mat4 model;
 layout (location=6) in vec3 normal;
-layout (location=5) in vec3 color;
+layout (location=5) in vec4 color;
 
-out vec3 vertexColor;
+out vec4 vertexColor;
 const int LIGHTING_FADE_DISTANCE = 50, LIGHTING_MAX_DISTANCE = 200;
 const float DISTANT_LIGHT = .7;
 const float ambientFactor = .2, diffusePower = .6, specularPower = 15;
@@ -65,5 +65,5 @@ void main() {
     gl_Position = projection * vmPosition;
     
     float distance = length(vmPosition.xyz);
-    vertexColor = color * calcBrightness(distance, mVertexPosition, mVertexNormal);
+    vertexColor = vec4(color.rgb * calcBrightness(distance, mVertexPosition, mVertexNormal), color.a);
 }
