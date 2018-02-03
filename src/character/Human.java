@@ -21,7 +21,7 @@ public class Human implements WorldElement, Follow {
 
     private static final float MAX_THETA_Z = MathAngles.PI / 2 - MathNumbers.BIG_EPSILON;
     private static final float ROTATE_SPEED_MOUSE = .008f;
-    private static final float[] COLOR = new float[] {0, 1, 0, 1};
+    private static final float[] COLOR = new float[] {1, 1, 1, 1};
 
     // mobility constants
     private static final float FRICTION = 0.8f, AIR_FRICTION = 0.97f, GRAVITY = .1f, JUMP_MULT = 1;

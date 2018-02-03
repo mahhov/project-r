@@ -99,10 +99,10 @@ public class SimpleMatrix4f {
     public static SimpleMatrix4f scale(float scale) {
         SimpleMatrix4f scaled = new SimpleMatrix4f();
 
-        scaled.m00 = scale;
-        scaled.m11 = scale;
-        scaled.m22 = scale;
-        scaled.m33 = 1f;
+        scaled.m00 = 1;
+        scaled.m11 = 1;
+        scaled.m22 = 1;
+        scaled.m33 = 1 / scale;
 
         return scaled;
     }
