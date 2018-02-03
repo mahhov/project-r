@@ -29,7 +29,7 @@ public class Monster extends Character {
 
     @Override
     void doAttack() {
-        attack.update();
+        attack.update(motion.isHostile());
     }
 
     @Override

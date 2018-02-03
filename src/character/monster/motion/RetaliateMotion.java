@@ -57,4 +57,9 @@ public class RetaliateMotion extends MonsterMotion {
     public void damageTaken() {
         damageTaken = true;
     }
+
+    @Override
+    public boolean isHostile() {
+        return retaliate;
+    }
 }

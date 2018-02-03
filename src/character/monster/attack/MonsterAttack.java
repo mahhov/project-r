@@ -7,12 +7,12 @@ public class MonsterAttack {
     Monster monster;
     Human human;
 
-    float attackSpeed, attackDamage, attackRange, attackSize, attackAoe;
+    float attackSpeed, attackDamage, attackRange, attackSize, attackAoeSqr;
 
     MonsterAttack() {
     }
 
-    public void update() {
+    public void update(boolean hostile) {
     }
 
     public void setBase(Monster monster, Human human) {
@@ -25,6 +25,6 @@ public class MonsterAttack {
         this.attackDamage = attackDamage;
         this.attackRange = attackRange;
         this.attackSize = attackSize;
-        this.attackAoe = attackAoe;
+        attackAoeSqr = attackAoe * attackAoe;
     }
 }

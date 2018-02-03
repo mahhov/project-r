@@ -70,7 +70,9 @@ public class MonsterGenerator {
         details.hostility = MonsterDetails.Hostility.RETALIATE;
         details.armour = MonsterDetails.Armour.NONE;
         details.life = 50;
-        details.attack = MonsterDetails.Attack.NONE;
+        details.attack = MonsterDetails.Attack.DEGEN;
+        details.attackDamage = 1;
+        details.attackAoe = 10;
         return details;
     }
 

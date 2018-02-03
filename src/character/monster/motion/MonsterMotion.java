@@ -71,4 +71,8 @@ public class MonsterMotion {
 
     public void damageTaken() {
     }
+
+    public boolean isHostile() {
+        return false;
+    }
 }
