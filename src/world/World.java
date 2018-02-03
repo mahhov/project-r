@@ -200,7 +200,7 @@ public class World implements Map {
                 for (int chunkZ = viewStart.z; chunkZ < viewEnd.z; chunkZ++) {
                     CoordinateI3 coordinate = new CoordinateI3(chunkX, chunkY, chunkZ);
                     if (getChunk(coordinate) == null)
-                        generators.addTail(new WorldChunkGenerator(generatorExecutors, new CubeInstancedFaces(), coordinate, worldGenerator));
+                        generators.addTail(new WorldChunkGenerator(generatorExecutors, coordinate, worldGenerator));
                 }
 
         for (WorldChunkGenerator generator : generators)

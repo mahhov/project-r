@@ -16,8 +16,8 @@ class WorldChunkGenerator implements Callable<WorldChunk> {
     private Future<WorldChunk> future;
     private WorldChunk worldChunk;
 
-    WorldChunkGenerator(ExecutorService executor, CubeInstancedFaces cubeInstancedFaces, CoordinateI3 coordinate, WorldGenerator generator) {
-        this.cubeInstancedFaces = cubeInstancedFaces;
+    WorldChunkGenerator(ExecutorService executor, CoordinateI3 coordinate, WorldGenerator generator) {
+        this.cubeInstancedFaces = new CubeInstancedFaces();
         this.coordinate = coordinate;
         this.generator = generator;
         future = executor.submit(this);
