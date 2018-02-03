@@ -46,7 +46,7 @@ public class Projectile implements WorldElement {
         vz = (vz - GRAVITY) * AIR_FRICTION;
 
         float t = MathRandom.random(0, 1f);
-        world.addParticle(new TrailParticle(x + vx * t, y + vy * t, z + vz * t, COLOR));
+        world.addParticle(new TrailParticle(x + vx * t, y + vy * t, z + vz * t));
 
         Intersection intersection = intersectionHitter.find(new float[] {x, y, z}, new float[] {vx, vy, vz}, MathNumbers.magnitude(vx, vy, vz), SIZE);
 
