@@ -36,7 +36,7 @@ public class MonsterMotion {
         avgFlyHeight = flyHeight;
     }
 
-    public void setHostilityParams(float hostilitySpeed, float hostilitySightDistance, float hostilityDangerDistance) {
+    public void setParams(float hostilitySpeed, float hostilitySightDistance, float hostilityDangerDistance) {
         this.hostilitySpeed = hostilitySpeed;
         hostilitySightDistanceSqr = hostilitySightDistance * hostilitySightDistance;
         hostilityDangerDistanceSqr = hostilityDangerDistance * hostilityDangerDistance;

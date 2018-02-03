@@ -7,6 +7,8 @@ public class MonsterDetails {
 
     enum Armour {SHIELD, PLATED, NONE}
 
+    enum Attack {NONE, DEGEN, MELEE, PROJECTILE, TRAP}
+
     public float[] color;
     public float size;
 
@@ -19,4 +21,7 @@ public class MonsterDetails {
 
     public Armour armour;
     public float life, shield, damageReduction;
+
+    public Attack attack;
+    public float attackSpeed, attackDamage, attackRange, attackSize, attackAoe;
 }

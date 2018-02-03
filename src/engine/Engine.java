@@ -101,6 +101,7 @@ public class Engine {
 // ~~ ordered ~~
 // randomly generated enemies
 // loot
+// fix jitter when grounding
 
 // ~~ high priority ~~
 // crafting enchant level / exp requirement

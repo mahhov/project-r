@@ -2,8 +2,9 @@ package character.monster;
 
 import character.Human;
 import character.Monster;
+import character.monster.attack.DegenAttack;
 import character.monster.attack.MonsterAttack;
-import character.monster.attack.ProximateyBurnAttack;
+import character.monster.attack.NoneAttack;
 import character.monster.motion.MonsterMotion;
 import character.monster.motion.RetaliateMotion;
 import character.monster.motion.RunawayMotion;
@@ -35,6 +36,7 @@ public class MonsterGenerator {
         details.hostilityDangerDistance = 10;
         details.armour = MonsterDetails.Armour.NONE;
         details.life = 10;
+        details.attack = MonsterDetails.Attack.NONE;
         return details;
     }
 
@@ -53,6 +55,7 @@ public class MonsterGenerator {
         details.hostilityDangerDistance = 10;
         details.armour = MonsterDetails.Armour.NONE;
         details.life = 10;
+        details.attack = MonsterDetails.Attack.NONE;
         return details;
     }
 
@@ -67,6 +70,7 @@ public class MonsterGenerator {
         details.hostility = MonsterDetails.Hostility.RETALIATE;
         details.armour = MonsterDetails.Armour.NONE;
         details.life = 50;
+        details.attack = MonsterDetails.Attack.NONE;
         return details;
     }
 
@@ -81,32 +85,45 @@ public class MonsterGenerator {
         details.hostility = MonsterDetails.Hostility.AGGRESSIVE;
         details.armour = MonsterDetails.Armour.NONE;
         details.life = 50;
+        details.attack = MonsterDetails.Attack.NONE;
         return details;
     }
 
     public static MonsterAttack createAttack(Monster monster, Human human, MonsterDetails details) {
-        MonsterAttack attack = new ProximateyBurnAttack();
+        MonsterAttack attack = baseAttack(details);
         attack.setBase(monster, human);
+        attack.setParams(details.attackSpeed, details.attackDamage, details.attackRange, details.attackSize, details.attackAoe);
         return attack;
     }
 
+    private static MonsterAttack baseAttack(MonsterDetails details) {
+        switch (details.attack) {
+            case NONE:
+                return new NoneAttack();
+            case DEGEN:
+                return new DegenAttack();
+            default:
+                throw new RuntimeException("monster attack type not caught in MonsterGenerator.baseAttack");
+        }
+    }
+
     public static MonsterMotion createMotion(Monster monster, Human human, MonsterDetails details) {
-        MonsterMotion motion = motionHostility(details);
+        MonsterMotion motion = baseMotion(details);
         motion.setBase(monster, human, details.wanderSpeed);
         if (details.movement == MonsterDetails.Movement.FLY)
             motion.setFlyHeight(100);
-        motion.setHostilityParams(details.hostilitySpeed, details.hostilitySightDistance, details.hostilityDangerDistance);
+        motion.setParams(details.hostilitySpeed, details.hostilitySightDistance, details.hostilityDangerDistance);
         return motion;
     }
 
-    private static MonsterMotion motionHostility(MonsterDetails details) {
+    private static MonsterMotion baseMotion(MonsterDetails details) {
         switch (details.hostility) {
             case RUNAWAY:
                 return new RunawayMotion();
             case RETALIATE:
                 return new RetaliateMotion();
             default:
-                throw new RuntimeException("monster hostility type not caught in MonsterGenerator.createMotion");
+                throw new RuntimeException("monster hostility type not caught in MonsterGenerator.baseMotion");
         }
     }
 }

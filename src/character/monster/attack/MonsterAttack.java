@@ -7,6 +7,8 @@ public class MonsterAttack {
     Monster monster;
     Human human;
 
+    float attackSpeed, attackDamage, attackRange, attackSize, attackAoe;
+
     MonsterAttack() {
     }
 
@@ -18,6 +20,11 @@ public class MonsterAttack {
         this.human = human;
     }
 
-    public void setParams() {
+    public void setParams(float attackSpeed, float attackDamage, float attackRange, float attackSize, float attackAoe) {
+        this.attackSpeed = attackSpeed;
+        this.attackDamage = attackDamage;
+        this.attackRange = attackRange;
+        this.attackSize = attackSize;
+        this.attackAoe = attackAoe;
     }
 }
