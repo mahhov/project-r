@@ -27,7 +27,7 @@ public class Camera implements IntersectionPicker.Picker {
     private static final float TRAIL_VERT_MIN = 0, TRAIL_VERT_MAX = 25, TRAIL_VERT_SPEED = .2f;
     private float trailDistance, trailVert;
 
-    private int projectionMatrixLoc, viewMatrixLoc, antialiasLoc;
+    private int projectionMatrixLoc, viewMatrixLoc, viewPositionLoc, antialiasLoc;
     private FloatBuffer viewMatrixBuffer;
     private int antialiasValue;
 
@@ -46,6 +46,8 @@ public class Camera implements IntersectionPicker.Picker {
         viewMatrixBuffer = MemoryUtil.memAllocFloat(16);
         setViewMatrix(1);
 
+        viewPositionLoc = glGetUniformLocation(renderProgramId, "viewPosition");
+
         antialiasLoc = glGetUniformLocation(renderProgramId, "antialias");
         setantialiasMode(antialiasValue = 1);
     }
@@ -59,6 +61,8 @@ public class Camera implements IntersectionPicker.Picker {
             follow();
             setViewMatrix(1);
         }
+
+        setViewPosition();
 
         if (keyControl.isKeyPressed(KeyButton.KEY_0))
             setantialiasMode(antialiasValue = 1 - antialiasValue);
@@ -137,6 +141,10 @@ public class Camera implements IntersectionPicker.Picker {
     private void setViewMatrix(float scale) {
         SimpleMatrix4f.invModelMatrix(x, y, z, theta, thetaZ, scale).toBuffer(viewMatrixBuffer);
         glUniformMatrix4fv(viewMatrixLoc, false, viewMatrixBuffer);
+    }
+
+    private void setViewPosition() {
+        glUniform3f(viewPositionLoc, x, y, z);
     }
 
     private void setantialiasMode(int antiValue) {

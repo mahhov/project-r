@@ -8,6 +8,7 @@ const vec4[] lightPosition = vec4[] (vec4(1600, 150, 0, 100)); // last element i
 const vec3 cameraForward = vec3(0, 0, 1);
 
 uniform mat4 projection, view;
+uniform vec3 viewPosition;
 uniform bool antialias;
 
 layout (location=0) in vec3 position;
@@ -28,36 +29,36 @@ float calcSpecularFactor(vec3 mVertexNormal, vec3 lightDirection) {
     return pow(factor, specularPower);
 }
 
-float calcLightDirection(vec3 mVertexNormal, vec3 lightDirection) {
+float calcLightDirection(vec3 mVertexNormal, vec3 lightDirection, bool specular) {
     float diffuseFactor = calcDiffuseFactor(mVertexNormal, lightDirection);
-    float specularFactor = calcSpecularFactor(mVertexNormal, lightDirection);
+    float specularFactor = specular ? calcSpecularFactor(mVertexNormal, lightDirection) : 0;
     return diffuseFactor * diffusePower + specularFactor;
 }
 
-float calcLightPosition(vec3 mVertexPosition, vec3 mVertexNormal, vec3 lightPosition, float lightIntensity) {
+float calcLightPosition(vec3 mVertexPosition, vec3 mVertexNormal, vec3 lightPosition, float lightIntensity, bool specular) {
     vec3 lightDirection = lightPosition - mVertexPosition;
     float lightDistance = length(lightPosition - mVertexPosition);
-    return calcLightDirection(mVertexNormal, lightDirection / lightDistance) / lightDistance * lightIntensity;
+    return calcLightDirection(mVertexNormal, lightDirection / lightDistance, specular) / lightDistance * lightIntensity;
 }
 
-float calcLightBrightness(vec3 mVertexPosition, vec3 mVertexNormal) {
+float calcLightBrightness(vec3 mVertexPosition, vec3 mVertexNormal, bool specular) {
     float brightness = ambientFactor;
-    brightness += calcLightDirection(mVertexNormal, lightDirection[0]);
-    brightness += calcLightDirection(mVertexNormal, lightDirection[1]);
-    // brightness += calcLightPosition(mVertexPosition, mVertexNormal, lightPosition[0].xyz, lightPosition[0].w);
+    brightness += calcLightDirection(mVertexNormal, lightDirection[0], specular);
+    brightness += calcLightDirection(mVertexNormal, lightDirection[1], specular);
+    // brightness += calcLightPosition(mVertexPosition, mVertexNormal, lightPosition[0].xyz, lightPosition[0].w, specular);
     return brightness;
 }
 
 float calcDistantBrightness(vec3 mVertexPosition) {
-    return DISTANT_LIGHT;
+    return calcLightBrightness(mVertexPosition, normalize(viewPosition - mVertexPosition), false);
 }
 
 float calcBrightness(float distance, vec3 mVertexPosition, vec3 mVertexNormal) {
     if (!antialias || distance < LIGHTING_FADE_DISTANCE)
-        return min(calcLightBrightness(mVertexPosition, mVertexNormal), 1);
+        return min(calcLightBrightness(mVertexPosition, mVertexNormal, true), 1);
    
     else if (distance < LIGHTING_MAX_DISTANCE) {
-        float brightness = min(calcLightBrightness(mVertexPosition, mVertexNormal), 1);
+        float brightness = min(calcLightBrightness(mVertexPosition, mVertexNormal, true), 1);
         return mix(brightness, calcDistantBrightness(mVertexPosition), (distance - LIGHTING_FADE_DISTANCE) / (LIGHTING_MAX_DISTANCE - LIGHTING_FADE_DISTANCE));    
     
     } else
