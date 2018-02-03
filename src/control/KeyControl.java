@@ -30,6 +30,7 @@ public class KeyControl implements GLFWKeyCallbackI {
         keys[KeyButton.KEY_G.value] = new Key(GLFW_KEY_G);
         keys[KeyButton.KEY_N.value] = new Key(GLFW_KEY_N);
         keys[KeyButton.KEY_M.value] = new Key(GLFW_KEY_M);
+        keys[KeyButton.KEY_0.value] = new Key(GLFW_KEY_0);
     }
 
     private void setKeyState(int keyCode, State state) {

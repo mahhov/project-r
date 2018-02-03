@@ -12,8 +12,7 @@ import util.intersection.IntersectionPicker;
 
 import java.nio.FloatBuffer;
 
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
+import static org.lwjgl.opengl.GL20.*;
 
 public class Camera implements IntersectionPicker.Picker {
     private static final float FIELD_OF_VIEW = MathAngles.toRadians(60);
@@ -28,8 +27,9 @@ public class Camera implements IntersectionPicker.Picker {
     private static final float TRAIL_VERT_MIN = 0, TRAIL_VERT_MAX = 25, TRAIL_VERT_SPEED = .2f;
     private float trailDistance, trailVert;
 
-    private int projectionMatrixLoc, viewMatrixLoc;
+    private int projectionMatrixLoc, viewMatrixLoc, antialiasLoc;
     private FloatBuffer viewMatrixBuffer;
+    private int antialiasValue;
 
     public Camera(int renderProgramId) {
         x = 32 * Engine.SCALE;
@@ -45,6 +45,9 @@ public class Camera implements IntersectionPicker.Picker {
         viewMatrixLoc = glGetUniformLocation(renderProgramId, "view");
         viewMatrixBuffer = MemoryUtil.memAllocFloat(16);
         setViewMatrix(1);
+
+        antialiasLoc = glGetUniformLocation(renderProgramId, "antialias");
+        setantialiasMode(antialiasValue = 1);
     }
 
     public void update(KeyControl keyControl) {
@@ -56,6 +59,9 @@ public class Camera implements IntersectionPicker.Picker {
             follow();
             setViewMatrix(1);
         }
+
+        if (keyControl.isKeyPressed(KeyButton.KEY_0))
+            setantialiasMode(antialiasValue = 1 - antialiasValue);
     }
 
     private void trail(KeyControl keyControl) {
@@ -131,6 +137,10 @@ public class Camera implements IntersectionPicker.Picker {
     private void setViewMatrix(float scale) {
         SimpleMatrix4f.invModelMatrix(x, y, z, theta, thetaZ, scale).toBuffer(viewMatrixBuffer);
         glUniformMatrix4fv(viewMatrixLoc, false, viewMatrixBuffer);
+    }
+
+    private void setantialiasMode(int antiValue) {
+        glUniform1i(antialiasLoc, antiValue);
     }
 
     public CoordinateI3 getWorldCoordinate() {
