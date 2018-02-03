@@ -3,7 +3,7 @@ package world.particle;
 import util.MathRandom;
 
 public class JetParticle extends Particle {
-    private static final float[] COLOR = new float[] {1, 1, 1, 1};
+    private static final float[] COLOR = new float[] {1, 1, 1, .5f};
     private static final float MAX_V = .005f, Z_V_SHIFT = MAX_V * 2 / 3;
     private static final float SPREAD = .25f;
     private static int TIME = 300;
