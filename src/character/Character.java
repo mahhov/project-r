@@ -58,7 +58,7 @@ public abstract class Character implements WorldElement { // todo support human 
     public boolean update(World world) {
         if (health.depleted()) {
             world.removeDynamicElement(worldCoordinate, worldElementNode);
-            return die();
+            return die(world);
         }
         doAttack();
         move(getMoveControl(world));
@@ -154,7 +154,7 @@ public abstract class Character implements WorldElement { // todo support human 
             vy = 0;
     }
 
-    boolean die() {
+    boolean die(World world) {
         return true;
     }
 

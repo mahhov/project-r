@@ -8,6 +8,7 @@ import character.monster.motion.MonsterMotion;
 import shape.CubeInstancedFaces;
 import util.intersection.IntersectionMover;
 import world.World;
+import world.particle.SmokeParticle;
 
 public class Monster extends Character {
     // todo ai
@@ -40,7 +41,9 @@ public class Monster extends Character {
     }
 
     @Override
-    boolean die() {
+    boolean die(World world) {
+        for (int i = 0; i < 50; i++)
+            world.addParticle(new SmokeParticle(getX(), getY(), getZ()));
         rewards.apply();
         return true;
     }
