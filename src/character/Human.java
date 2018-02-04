@@ -268,11 +268,11 @@ public class Human implements WorldElement, Follow {
         health.deplete(amount);
     }
 
-    void experienceAdd(int amount) {
+    public void experienceAdd(int amount) {
         experience.add(amount);
     }
 
-    void inventoryAdd(Item item) {
+    public void inventoryAdd(Item item) {
         inventory.addWithLog(item);
     }
 

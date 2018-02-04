@@ -8,14 +8,13 @@ import character.monster.attack.NoneAttack;
 import character.monster.motion.MonsterMotion;
 import character.monster.motion.RetaliateMotion;
 import character.monster.motion.RunawayMotion;
+import util.Distribution;
 import util.MathRandom;
 
 public class MonsterGenerator {
     public static MonsterDetails createRandomDetails() {
         float random = MathRandom.random(0, 1f);
-        if (random > 1.9)
-            return createWolfDetails();
-        else if (random > .8)
+        if (random > .8)
             return createGoatDetails();
         else if (random > .4)
             return createBugDetails();
@@ -37,6 +36,10 @@ public class MonsterGenerator {
         details.armour = MonsterDetails.Armour.NONE;
         details.life = 10;
         details.attack = MonsterDetails.Attack.NONE;
+        details.metalReward = new Distribution(0, 0);
+        details.glowReward = new Distribution[] {};
+        details.coinReward = new Distribution(10, 20);
+        details.experienceReward = 10;
         return details;
     }
 
@@ -56,6 +59,10 @@ public class MonsterGenerator {
         details.armour = MonsterDetails.Armour.NONE;
         details.life = 10;
         details.attack = MonsterDetails.Attack.NONE;
+        details.metalReward = new Distribution(0, 0);
+        details.glowReward = new Distribution[] {};
+        details.coinReward = new Distribution(15, 25);
+        details.experienceReward = 10;
         return details;
     }
 
@@ -73,21 +80,10 @@ public class MonsterGenerator {
         details.attack = MonsterDetails.Attack.DEGEN;
         details.attackDamage = 1;
         details.attackAoe = 10;
-        return details;
-    }
-
-    public static MonsterDetails createWolfDetails() {
-        MonsterDetails details = new MonsterDetails();
-        details.color = new float[] {1, 0, 0, 1};
-        details.size = 2f;
-        details.movement = MonsterDetails.Movement.WALK;
-        details.runAcc = .07f;
-        details.wanderSpeed = .1f;
-        details.hostilitySpeed = 1;
-        details.hostility = MonsterDetails.Hostility.AGGRESSIVE;
-        details.armour = MonsterDetails.Armour.NONE;
-        details.life = 50;
-        details.attack = MonsterDetails.Attack.NONE;
+        details.metalReward = new Distribution(0, 0);
+        details.glowReward = new Distribution[] {};
+        details.coinReward = new Distribution(20, 30);
+        details.experienceReward = 50;
         return details;
     }
 

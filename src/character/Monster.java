@@ -2,6 +2,7 @@ package character;
 
 import character.monster.MonsterDetails;
 import character.monster.MonsterGenerator;
+import character.monster.MonsterRewards;
 import character.monster.attack.MonsterAttack;
 import character.monster.motion.MonsterMotion;
 import item.Coin;
@@ -15,12 +16,14 @@ public class Monster extends Character {
     private Human human;
     private MonsterAttack attack;
     private MonsterMotion motion;
+    private MonsterRewards rewards;
 
     public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
         super(x, y, z, theta, thetaZ, details.runAcc, details.airAcc, details.jetAcc, details.size, intersectionMover, createStats(details), details.color, cubeInstancedFaces);
         this.human = human;
         attack = MonsterGenerator.createAttack(this, human, details);
         motion = MonsterGenerator.createMotion(this, human, details);
+        rewards = new MonsterRewards(human, details);
     }
 
     private static Stats createStats(MonsterDetails details) {
@@ -40,8 +43,7 @@ public class Monster extends Character {
 
     @Override
     boolean die() {
-        human.inventoryAdd(new Coin(MathRandom.random(5, 15)));
-        human.experienceAdd(30);
+        rewards.apply();
         return true;
     }
 

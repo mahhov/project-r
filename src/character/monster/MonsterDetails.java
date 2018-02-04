@@ -1,5 +1,7 @@
 package character.monster;
 
+import util.Distribution;
+
 public class MonsterDetails {
     enum Movement {WALK, FLY, JUMP, UNDERGROUND}
 
@@ -24,4 +26,7 @@ public class MonsterDetails {
 
     public Attack attack;
     public float attackSpeed, attackDamage, attackRange, attackSize, attackAoe;
+
+    public Distribution metalReward, glowReward[], coinReward;
+    public int experienceReward;
 }
