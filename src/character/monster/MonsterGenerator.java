@@ -8,6 +8,7 @@ import character.monster.attack.NoneAttack;
 import character.monster.motion.MonsterMotion;
 import character.monster.motion.RetaliateMotion;
 import character.monster.motion.RunawayMotion;
+import shape.CubeInstancedFaces;
 import util.Distribution;
 import util.MathRandom;
 
@@ -87,9 +88,9 @@ public class MonsterGenerator {
         return details;
     }
 
-    public static MonsterAttack createAttack(Monster monster, Human human, MonsterDetails details) {
+    public static MonsterAttack createAttack(Monster monster, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
         MonsterAttack attack = baseAttack(details);
-        attack.setBase(monster, human);
+        attack.setBase(monster, human, cubeInstancedFaces);
         attack.setParams(details.attackSpeed, details.attackDamage, details.attackRange, details.attackSize, details.attackAoe);
         return attack;
     }

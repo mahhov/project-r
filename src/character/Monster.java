@@ -5,9 +5,7 @@ import character.monster.MonsterGenerator;
 import character.monster.MonsterRewards;
 import character.monster.attack.MonsterAttack;
 import character.monster.motion.MonsterMotion;
-import item.Coin;
 import shape.CubeInstancedFaces;
-import util.MathRandom;
 import util.intersection.IntersectionMover;
 import world.World;
 
@@ -21,7 +19,7 @@ public class Monster extends Character {
     public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
         super(x, y, z, theta, thetaZ, details.runAcc, details.airAcc, details.jetAcc, details.size, intersectionMover, createStats(details), details.color, cubeInstancedFaces);
         this.human = human;
-        attack = MonsterGenerator.createAttack(this, human, details);
+        attack = MonsterGenerator.createAttack(this, human, cubeInstancedFaces, details);
         motion = MonsterGenerator.createMotion(this, human, details);
         rewards = new MonsterRewards(human, details);
     }
@@ -51,5 +49,11 @@ public class Monster extends Character {
     public void takeDamage(float amount) {
         motion.damageTaken();
         super.takeDamage(amount);
+    }
+
+    @Override
+    public void draw() {
+        super.draw();
+        attack.draw();
     }
 }

@@ -139,11 +139,8 @@ public class Human implements WorldElement, Follow {
     }
 
     private void computeAxis() {
-        // norm
         norm[0] = -MathAngles.sin(theta);
         norm[1] = MathAngles.cos(theta);
-
-        // right
         right[0] = norm[1];
         right[1] = -norm[0];
     }

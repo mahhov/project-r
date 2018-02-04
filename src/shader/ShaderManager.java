@@ -14,7 +14,7 @@ public class ShaderManager {
         glEnable(GL_TEXTURE_2D);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_BLEND);
-        
+
         glClearColor(.5f, .8f, 1, 1);
     }
 

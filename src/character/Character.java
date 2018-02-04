@@ -183,6 +183,10 @@ public abstract class Character implements WorldElement { // todo support human 
         return z;
     }
 
+    public float getTheta() {
+        return theta;
+    }
+
     @Override
     public float getSize() {
         return size;

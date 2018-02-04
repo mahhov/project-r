@@ -20,6 +20,7 @@ public class CubeInstancedFaces {
 
     private static final float[][] SIDE_VERTICIES = new float[6][], SIDE_NORMALS = new float[6][];
     private static final byte[] INDICIES = new byte[] {0, 2, 3, 1, 0, 3};
+    private static final byte[] INDICIES_FLIPPED = new byte[] {0, 3, 2, 1, 3, 0};
 
     static {
         SIDE_VERTICIES[LEFT_SIDE] = MathArrays.pluckArray3(VERTICIES, new int[] {2, 0, 3, 1});
@@ -37,37 +38,34 @@ public class CubeInstancedFaces {
         SIDE_NORMALS[BOTTOM_SIDE] = MathArrays.repeatArray(new float[] {0, -1, 0}, 4);
     }
 
-    private ShapeInstanced[] sides;
+    private ShapeInstanced[] sides, sidesFlipped;
 
-    public CubeInstancedFaces() {   
+    public CubeInstancedFaces() {
         sides = new ShapeInstanced[6];
         for (int i = 0; i < sides.length; i++)
             sides[i] = new ShapeInstanced(SIDE_VERTICIES[i], SIDE_NORMALS[i], INDICIES);
+
+        sidesFlipped = new ShapeInstanced[6];
+        for (int i = 0; i < sidesFlipped.length; i++)
+            sidesFlipped[i] = new ShapeInstanced(SIDE_VERTICIES[i], SIDE_NORMALS[i], INDICIES_FLIPPED);
     }
 
-    public void add(float x, float y, float z, float[] color) {
-        add(SimpleMatrix4f.translate(x, y, z), color);
-    }
+    // xyz, theta(z), sides, scale, color, flipNormals
 
-    public void add(float x, float y, float z, boolean sides[], float[] color) {
-        add(SimpleMatrix4f.translate(x, y, z), sides, color);
-    }
-
-    public void add(float x, float y, float z, float theta, float thetaZ, float[] color) {
-        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ), color);
-    }
-
-    public void add(float x, float y, float z, float theta, float thetaZ, boolean sides[], float[] color) {
-        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ), sides, color);
+    public void add(float x, float y, float z, float theta, float thetaZ, boolean sides[], float scale, float[] color) {
+        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ, scale), sides, color);
     }
 
     public void add(float x, float y, float z, float theta, float thetaZ, float scale, float[] color) {
         add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ, scale), color);
     }
 
-    private void add(SimpleMatrix4f modelMatrix, float[] color) {
-        for (int i = 0; i < 6; i++)
-            sides[i].add(modelMatrix, color);
+    public void add(float x, float y, float z, float theta, float thetaZ, float scale, float[] color, boolean flipNormals) {
+        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ, scale), color, flipNormals);
+    }
+
+    public void add(float x, float y, float z, boolean sides[], float[] color) {
+        add(SimpleMatrix4f.translate(x, y, z), sides, color);
     }
 
     private void add(SimpleMatrix4f modelMatrix, boolean sides[], float[] color) {
@@ -76,18 +74,38 @@ public class CubeInstancedFaces {
                 this.sides[i].add(modelMatrix, color);
     }
 
+    private void add(SimpleMatrix4f modelMatrix, float[] color) {
+        for (int i = 0; i < 6; i++)
+            sides[i].add(modelMatrix, color);
+    }
+
+    private void add(SimpleMatrix4f modelMatrix, float[] color, boolean flipNormals) {
+        if (flipNormals)
+            for (int i = 0; i < 6; i++)
+                sidesFlipped[i].add(modelMatrix, color);
+        else
+            for (int i = 0; i < 6; i++)
+                sides[i].add(modelMatrix, color);
+    }
+
     public void doneAdding() {
-        for (ShapeInstanced side : sides)
-            side.doneAdding();
+        for (int i = 0; i < sides.length; i++) {
+            sides[i].doneAdding();
+            sidesFlipped[i].doneAdding();
+        }
     }
 
     public void reset() {
-        for (ShapeInstanced side : sides)
-            side.reset();
+        for (int i = 0; i < sides.length; i++) {
+            sides[i].reset();
+            sidesFlipped[i].reset();
+        }
     }
 
     public void draw() {
-        for (ShapeInstanced side : sides)
-            side.draw();
+        for (int i = 0; i < sides.length; i++) {
+            sides[i].draw();
+            sidesFlipped[i].draw();
+        }
     }
 }
