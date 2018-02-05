@@ -7,9 +7,6 @@ public class DegenAttack extends MonsterAttack {
 
     @Override
     public void update() {
-        if (!(this.hostile = hostile))
-            return;
-
         float dx = human.getX() - monster.getX();
         float dy = human.getY() - monster.getY();
         float dz = human.getZ() - monster.getZ();
@@ -28,8 +25,6 @@ public class DegenAttack extends MonsterAttack {
 
     @Override
     public void draw() {
-        if (!hostile)
-            return;
         cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, attackAoe * 2, COLOR);
         cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, attackAoe * 2, COLOR, true);
     }

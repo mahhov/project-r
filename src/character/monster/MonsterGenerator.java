@@ -6,6 +6,8 @@ import character.monster.attack.DegenAttack;
 import character.monster.attack.MonsterAttack;
 import character.monster.attack.NoneAttack;
 import character.monster.behavior.MonsterBehavior;
+import character.monster.behavior.RetaliateBehavior;
+import character.monster.behavior.RunawayBehavior;
 import character.monster.motion.MonsterMotion;
 import shape.CubeInstancedFaces;
 import util.Distribution;
@@ -94,7 +96,14 @@ public class MonsterGenerator {
     }
 
     private static MonsterBehavior createBehavior(Monster monster, Human human, MonsterMotion motion, MonsterAttack attack, MonsterDetails details) {
-        return new MonsterBehavior(monster, human, motion, attack, details.hostilitySightDistance * details.hostilitySightDistance, details.hostilityDangerDistance * details.hostilityDangerDistance);
+        switch (details.hostility) {
+            case RUNAWAY:
+                return new RunawayBehavior(monster, human, motion, attack, details.hostilitySightDistance * details.hostilitySightDistance, details.hostilityDangerDistance * details.hostilityDangerDistance);
+            case RETALIATE:
+                return new RetaliateBehavior(monster, human, motion, attack, details.hostilitySightDistance * details.hostilitySightDistance, details.hostilityDangerDistance * details.hostilityDangerDistance);
+            default:
+                throw new RuntimeException("monster hostility type not caught in MonsterGenerator.baseMotion");
+        }
     }
 
     private static MonsterMotion createMotion(Monster monster, Human human, MonsterDetails details) {

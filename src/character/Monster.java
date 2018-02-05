@@ -1,9 +1,9 @@
 package character;
 
-import character.monster.behavior.MonsterBehavior;
 import character.monster.MonsterDetails;
 import character.monster.MonsterGenerator;
 import character.monster.MonsterRewards;
+import character.monster.behavior.MonsterBehavior;
 import shape.CubeInstancedFaces;
 import util.intersection.IntersectionMover;
 import world.World;

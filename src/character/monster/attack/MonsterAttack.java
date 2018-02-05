@@ -11,8 +11,6 @@ public class MonsterAttack {
 
     float attackSpeed, attackDamage, attackRange, attackSize, attackAoe, attackAoeSqr;
 
-    boolean hostile;
-    
     MonsterAttack() {
     }
 
