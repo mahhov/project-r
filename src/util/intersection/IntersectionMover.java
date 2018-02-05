@@ -36,7 +36,7 @@ public class IntersectionMover extends Intersectioner {
                     if (movableXWithRise(nextX, y, z))
                         z++;
                     else {
-                        x = edgeify(x, dx);
+                        x = edgeify(nextX, dx);
                         collisionX = true;
                         if (MathNumbers.isZero(dy) && MathNumbers.isZero(dz))
                             return createIntersection();
@@ -49,7 +49,7 @@ public class IntersectionMover extends Intersectioner {
                     if (movableYWithRise(x, nextY, z))
                         z++;
                     else {
-                        y = edgeify(y, dy);
+                        y = edgeify(nextY, dy);
                         collisionY = true;
                         if (MathNumbers.isZero(dx) && MathNumbers.isZero(dz))
                             return createIntersection();
@@ -60,7 +60,7 @@ public class IntersectionMover extends Intersectioner {
 
                 } else if (selectedDelta == 2 && !movableZ(x, y, nextZ)) {
                     grounded = dz < 0;
-                    z = edgeify(z, dz);
+                    z = edgeify(nextZ, dz);
                     if (MathNumbers.isZero(dx) && MathNumbers.isZero(dy))
                         return createIntersection();
                     dz = 0;

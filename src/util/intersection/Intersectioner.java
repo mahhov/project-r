@@ -139,11 +139,11 @@ class Intersectioner {
         return maxMove * magnitude;
     }
 
-    float edgeify(float pos, float dir) {
+    float edgeify(int nextPos, float dir) {
         if (dir < 0)
-            return MathNumbers.intNeg(pos) + halfSize;
+            return nextPos + 1 + halfSize;
         else
-            return MathNumbers.intNeg(pos) + 1 - halfSize - MathNumbers.EPSILON;
+            return nextPos - halfSize - MathNumbers.EPSILON;
     }
 
     Intersection createIntersection() {
