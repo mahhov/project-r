@@ -5,6 +5,7 @@ import character.Monster;
 import character.monster.attack.DegenAttack;
 import character.monster.attack.MonsterAttack;
 import character.monster.attack.NoneAttack;
+import character.monster.behavior.MonsterBehavior;
 import character.monster.motion.MonsterMotion;
 import shape.CubeInstancedFaces;
 import util.Distribution;

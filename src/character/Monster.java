@@ -1,6 +1,6 @@
 package character;
 
-import character.monster.MonsterBehavior;
+import character.monster.behavior.MonsterBehavior;
 import character.monster.MonsterDetails;
 import character.monster.MonsterGenerator;
 import character.monster.MonsterRewards;

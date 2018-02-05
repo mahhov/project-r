@@ -1,11 +1,10 @@
-package character.monster;
+package character.monster.behavior;
 
 import character.Human;
 import character.Monster;
 import character.MoveControl;
 import character.monster.attack.MonsterAttack;
 import character.monster.motion.MonsterMotion;
-import character.monster.motion.Timer;
 import util.MathNumbers;
 import util.MathRandom;
 
@@ -25,7 +24,7 @@ public class MonsterBehavior {
     private float hostilitySightDistanceSqr, hostilityDangerDistanceSqr;
     private boolean damageTaken;
 
-    MonsterBehavior(Monster monster, Human human, MonsterMotion motion, MonsterAttack attack, float hostilitySightDistanceSqr, float hostilityDangerDistanceSqr) {
+    public MonsterBehavior(Monster monster, Human human, MonsterMotion motion, MonsterAttack attack, float hostilitySightDistanceSqr, float hostilityDangerDistanceSqr) {
         this.monster = monster;
         this.human = human;
         this.motion = motion;
