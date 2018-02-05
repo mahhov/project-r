@@ -60,14 +60,14 @@ public abstract class Character implements WorldElement { // todo support human 
             world.removeDynamicElement(worldCoordinate, worldElementNode);
             return die(world);
         }
-        doAttack();
-        move(getMoveControl(world));
+        updateBehavior();
+        move(getMoveControl());
         if (world.movable((int) x, (int) y, (int) z))
             moveInWorld(world);
         return false;
     }
 
-    void doAttack() {
+    void updateBehavior() {
     }
 
     private void moveInWorld(World world) {
@@ -79,7 +79,7 @@ public abstract class Character implements WorldElement { // todo support human 
         worldCoordinate = newWorldCoordinate;
     }
 
-    MoveControl getMoveControl(World world) {
+    MoveControl getMoveControl() {
         return new MoveControl();
     }
 

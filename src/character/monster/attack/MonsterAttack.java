@@ -16,7 +16,7 @@ public class MonsterAttack {
     MonsterAttack() {
     }
 
-    public void update(boolean hostile) {
+    public void update() {
     }
 
     public void setBase(Monster monster, Human human, CubeInstancedFaces cubeInstancedFaces) {

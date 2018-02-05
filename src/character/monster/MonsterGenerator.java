@@ -6,8 +6,6 @@ import character.monster.attack.DegenAttack;
 import character.monster.attack.MonsterAttack;
 import character.monster.attack.NoneAttack;
 import character.monster.motion.MonsterMotion;
-import character.monster.motion.RetaliateMotion;
-import character.monster.motion.RunawayMotion;
 import shape.CubeInstancedFaces;
 import util.Distribution;
 import util.MathRandom;
@@ -23,7 +21,7 @@ public class MonsterGenerator {
             return createBirdDetails();
     }
 
-    public static MonsterDetails createBugDetails() {
+    private static MonsterDetails createBugDetails() {
         MonsterDetails details = new MonsterDetails();
         details.color = new float[] {0, 1, 1, 1};
         details.size = .5f;
@@ -44,7 +42,7 @@ public class MonsterGenerator {
         return details;
     }
 
-    public static MonsterDetails createBirdDetails() {
+    private static MonsterDetails createBirdDetails() {
         MonsterDetails details = new MonsterDetails();
         details.color = new float[] {0, 1, .5f, 1};
         details.size = 1;
@@ -67,7 +65,7 @@ public class MonsterGenerator {
         return details;
     }
 
-    public static MonsterDetails createGoatDetails() {
+    private static MonsterDetails createGoatDetails() {
         MonsterDetails details = new MonsterDetails();
         details.color = new float[] {1, 1, 0, 1};
         details.size = 1.5f;
@@ -88,7 +86,25 @@ public class MonsterGenerator {
         return details;
     }
 
-    public static MonsterAttack createAttack(Monster monster, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
+    public static MonsterBehavior createBehavior(Monster monster, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
+        MonsterMotion motion = createMotion(monster, human, details);
+        MonsterAttack attack = createAttack(monster, human, cubeInstancedFaces, details);
+        return createBehavior(monster, human, motion, attack, details);
+    }
+
+    private static MonsterBehavior createBehavior(Monster monster, Human human, MonsterMotion motion, MonsterAttack attack, MonsterDetails details) {
+        return new MonsterBehavior(monster, human, motion, attack, details.hostilitySightDistance * details.hostilitySightDistance, details.hostilityDangerDistance * details.hostilityDangerDistance);
+    }
+
+    private static MonsterMotion createMotion(Monster monster, Human human, MonsterDetails details) {
+        MonsterMotion motion = new MonsterMotion(monster);
+        motion.setSpeeds(details.wanderSpeed, details.hostilitySpeed);
+        if (details.movement == MonsterDetails.Movement.FLY)
+            motion.setFlyHeight(100);
+        return motion;
+    }
+
+    private static MonsterAttack createAttack(Monster monster, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
         MonsterAttack attack = baseAttack(details);
         attack.setBase(monster, human, cubeInstancedFaces);
         attack.setParams(details.attackSpeed, details.attackDamage, details.attackRange, details.attackSize, details.attackAoe);
@@ -103,26 +119,6 @@ public class MonsterGenerator {
                 return new DegenAttack();
             default:
                 throw new RuntimeException("monster attack type not caught in MonsterGenerator.baseAttack");
-        }
-    }
-
-    public static MonsterMotion createMotion(Monster monster, Human human, MonsterDetails details) {
-        MonsterMotion motion = baseMotion(details);
-        motion.setBase(monster, human, details.wanderSpeed);
-        if (details.movement == MonsterDetails.Movement.FLY)
-            motion.setFlyHeight(100);
-        motion.setParams(details.hostilitySpeed, details.hostilitySightDistance, details.hostilityDangerDistance);
-        return motion;
-    }
-
-    private static MonsterMotion baseMotion(MonsterDetails details) {
-        switch (details.hostility) {
-            case RUNAWAY:
-                return new RunawayMotion();
-            case RETALIATE:
-                return new RetaliateMotion();
-            default:
-                throw new RuntimeException("monster hostility type not caught in MonsterGenerator.baseMotion");
         }
     }
 }

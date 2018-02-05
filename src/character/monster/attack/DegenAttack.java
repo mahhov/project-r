@@ -6,7 +6,7 @@ public class DegenAttack extends MonsterAttack {
     private static final float[] COLOR = new float[] {1, 0, 0, .5f};
 
     @Override
-    public void update(boolean hostile) {
+    public void update() {
         if (!(this.hostile = hostile))
             return;
 
