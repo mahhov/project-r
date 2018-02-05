@@ -4,6 +4,7 @@ import character.Character;
 import character.Monster;
 import character.MoveControl;
 import util.MathAngles;
+import util.MathNumbers;
 import util.MathRandom;
 import world.WorldElement;
 
@@ -55,6 +56,13 @@ public class MonsterMotion {
         moveControl.dx = dx;
         moveControl.dy = dy;
         moveControl.speed = runSpeed;
+        moveControl.theta = (float) Math.atan2(dy, dx);
+    }
+
+    public void run(float dx, float dy, float maxSpeed) {
+        moveControl.dx = dx;
+        moveControl.dy = dy;
+        moveControl.speed = MathNumbers.min(runSpeed, maxSpeed);
         moveControl.theta = (float) Math.atan2(dy, dx);
     }
 

@@ -9,6 +9,7 @@ import util.MathNumbers;
 public class RetaliateBehavior extends MonsterBehavior {
     private static final int RETALIATE_TIME = 300;
     private static final float RETALIATE_DISTANCE_SQR = 10, RETALIATE_FORGET_DISTANCE_SQR = 100;
+    private static final float RETALIATE_DISTANCE_SPEED_MULT = .05f;
 
     private float hostilitySightDistanceSqr, hostilityDangerDistanceSqr;
 
@@ -41,7 +42,7 @@ public class RetaliateBehavior extends MonsterBehavior {
             if (flatDistanceSqr < RETALIATE_DISTANCE_SQR)
                 motion.stand();
             else
-                motion.run(dx, dy); // speed as flatDistanceSqr * RETALIATE_DISTANCE_SPEED_MULT (.2f)
+                motion.run(dx, dy, flatDistanceSqr * RETALIATE_DISTANCE_SPEED_MULT);
             if (flatDistanceSqr < RETALIATE_FORGET_DISTANCE_SQR)
                 timer.reset(RETALIATE_TIME);
         }
