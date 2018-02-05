@@ -5,6 +5,7 @@ import character.Monster;
 import character.monster.attack.DegenAttack;
 import character.monster.attack.MonsterAttack;
 import character.monster.attack.NoneAttack;
+import character.monster.behavior.AggressiveBehavior;
 import character.monster.behavior.MonsterBehavior;
 import character.monster.behavior.RetaliateBehavior;
 import character.monster.behavior.RunawayBehavior;
@@ -16,7 +17,9 @@ import util.MathRandom;
 public class MonsterGenerator {
     public static MonsterDetails createRandomDetails() {
         float random = MathRandom.random(0, 1f);
-        if (random > .8)
+        if (random > .9f)
+            return createWolfDetails();
+        else if (random > .8)
             return createGoatDetails();
         else if (random > .4)
             return createBugDetails();
@@ -80,11 +83,33 @@ public class MonsterGenerator {
         details.armour = MonsterDetails.Armour.NONE;
         details.life = 50;
         details.attack = MonsterDetails.Attack.DEGEN;
-        details.attackDamage = 1;
+        details.attackDamage = .5f;
         details.attackAoe = 10;
         details.metalReward = new Distribution(0, 0);
         details.glowReward = new Distribution[] {};
         details.coinReward = new Distribution(20, 30);
+        details.experienceReward = 50;
+        return details;
+    }
+
+    private static MonsterDetails createWolfDetails() {
+        MonsterDetails details = new MonsterDetails();
+        details.color = new float[] {1, 0, 0, 1};
+        details.size = 2;
+        details.movement = MonsterDetails.Movement.WALK;
+        details.runAcc = .07f;
+        details.wanderSpeed = .1f;
+        details.hostilitySpeed = 1;
+        details.hostility = MonsterDetails.Hostility.AGGRESSIVE;
+        details.hostilitySightDistance = 20;
+        details.armour = MonsterDetails.Armour.NONE;
+        details.life = 50;
+        details.attack = MonsterDetails.Attack.DEGEN; // todo change attack style to 
+        details.attackDamage = .5f;
+        details.attackAoe = 10;
+        details.metalReward = new Distribution(0, 0);
+        details.glowReward = new Distribution[] {};
+        details.coinReward = new Distribution(25, 35);
         details.experienceReward = 50;
         return details;
     }
@@ -98,9 +123,11 @@ public class MonsterGenerator {
     private static MonsterBehavior createBehavior(Monster monster, Human human, MonsterMotion motion, MonsterAttack attack, MonsterDetails details) {
         switch (details.hostility) {
             case RUNAWAY:
-                return new RunawayBehavior(monster, human, motion, attack, details.hostilitySightDistance * details.hostilitySightDistance, details.hostilityDangerDistance * details.hostilityDangerDistance);
+                return new RunawayBehavior(monster, human, motion, attack, details.hostilitySightDistance, details.hostilityDangerDistance);
             case RETALIATE:
-                return new RetaliateBehavior(monster, human, motion, attack, details.hostilitySightDistance * details.hostilitySightDistance, details.hostilityDangerDistance * details.hostilityDangerDistance);
+                return new RetaliateBehavior(monster, human, motion, attack);
+            case AGGRESSIVE:
+                return new AggressiveBehavior(monster, human, motion, attack, details.hostilitySightDistance);
             default:
                 throw new RuntimeException("monster hostility type not caught in MonsterGenerator.baseMotion");
         }

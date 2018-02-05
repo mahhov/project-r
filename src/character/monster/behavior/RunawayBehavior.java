@@ -9,12 +9,12 @@ import util.MathNumbers;
 public class RunawayBehavior extends MonsterBehavior {
     private static final int RUNAWAY_TIME = 300;
 
-    private float hostilitySightDistanceSqr, hostilityDangerDistanceSqr;
+    private float sightDistanceSqr, dangerDistanceSqr;
 
-    public RunawayBehavior(Monster monster, Human human, MonsterMotion motion, MonsterAttack attack, float hostilitySightDistanceSqr, float hostilityDangerDistanceSqr) {
+    public RunawayBehavior(Monster monster, Human human, MonsterMotion motion, MonsterAttack attack, float sightDistance, float dangerDistance) {
         super(monster, human, motion, attack);
-        this.hostilitySightDistanceSqr = hostilitySightDistanceSqr;
-        this.hostilityDangerDistanceSqr = hostilityDangerDistanceSqr;
+        sightDistanceSqr = sightDistance * sightDistance;
+        dangerDistanceSqr = dangerDistance * dangerDistance;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class RunawayBehavior extends MonsterBehavior {
 
         timer.update();
 
-        if (distanceSqr < hostilitySightDistanceSqr || (distanceSqr < hostilityDangerDistanceSqr && human.isDangerous()) || damageTaken) {
+        if (distanceSqr < sightDistanceSqr || (distanceSqr < dangerDistanceSqr && human.isDangerous()) || damageTaken) {
             timer.reset(RUNAWAY_TIME);
             motion.run(-dx, -dy);
             damageTaken = false;

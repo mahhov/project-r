@@ -6,13 +6,16 @@ import character.monster.attack.MonsterAttack;
 import character.monster.motion.MonsterMotion;
 import util.MathNumbers;
 
-public class RetaliateBehavior extends MonsterBehavior {
+public class AggressiveBehavior extends MonsterBehavior {
     private static final int RETALIATE_TIME = 300;
-    private static final float RETALIATE_DISTANCE_SQR = 10, RETALIATE_FORGET_DISTANCE_SQR = 100;
+    private static final float RETALIATE_DISTANCE_SQR = 10;
     private static final float RETALIATE_DISTANCE_SPEED_MULT = .05f;
 
-    public RetaliateBehavior(Monster monster, Human human, MonsterMotion motion, MonsterAttack attack) {
+    private float detectionRangeSqr;
+
+    public AggressiveBehavior(Monster monster, Human human, MonsterMotion motion, MonsterAttack attack, float detectionRange) {
         super(monster, human, motion, attack);
+        detectionRangeSqr = detectionRange * detectionRange;
     }
 
     @Override
@@ -24,7 +27,7 @@ public class RetaliateBehavior extends MonsterBehavior {
 
         timer.update();
 
-        if (damageTaken) {
+        if (distanceSqr < detectionRangeSqr || damageTaken) {
             timer.reset(RETALIATE_TIME);
             state = State.HOSTILE;
             damageTaken = false;
@@ -39,7 +42,7 @@ public class RetaliateBehavior extends MonsterBehavior {
                 motion.stand();
             else
                 motion.run(dx, dy, flatDistanceSqr * RETALIATE_DISTANCE_SPEED_MULT);
-            if (flatDistanceSqr < RETALIATE_FORGET_DISTANCE_SQR)
+            if (flatDistanceSqr < detectionRangeSqr * 4)
                 timer.reset(RETALIATE_TIME);
         }
 
