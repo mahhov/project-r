@@ -12,7 +12,7 @@ public class MathAngles {
         for (int i = 0; i < TRIG_ACCURACY; i++)
             sinTable[i] = (float) Math.sin(PI / 2 * i / TRIG_ACCURACY);
 
-        Timer.time(0,"Math Angles Init");
+        Timer.time(0, "Math Angles Init");
     }
 
     public static float sin(float xd) {
@@ -40,12 +40,21 @@ public class MathAngles {
         return sign * sinTable[(int) (x * TRIG_ACCURACY)];
     }
 
-    public static float cos(float x) {
-        return sin(x + PI / 2);
+    public static float cos(float theta) {
+        return sin(theta + PI / 2);
     }
 
-    public static float tan(float x) {
-        return sin(x) / cos(x);
+    public static float tan(float theta) {
+        return sin(theta) / cos(theta);
+    }
+
+    public static float[] norm(float theta) {
+        return new float[] {-sin(theta), cos(theta)};
+    }
+
+    public static void norm(float theta, float[] norm) {
+        norm[0] = -sin(theta);
+        norm[1] = cos(theta);
     }
 
     public static float toRadians(float degree) {

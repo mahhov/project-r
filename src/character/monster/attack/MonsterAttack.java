@@ -11,9 +11,6 @@ public class MonsterAttack {
 
     float attackSpeed, attackDamage, attackRange, attackSize, attackAoe, attackAoeSqr;
 
-    MonsterAttack() {
-    }
-
     public void update() {
     }
 

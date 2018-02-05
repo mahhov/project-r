@@ -11,10 +11,7 @@ public class DegenAttack extends MonsterAttack {
         float dy = human.getY() - monster.getY();
         float dz = human.getZ() - monster.getZ();
         float theta = monster.getTheta();
-
-        float[] norm = new float[2];
-        norm[0] = -MathAngles.sin(theta);
-        norm[1] = MathAngles.cos(theta);
+        float[] norm = MathAngles.norm(theta);
 
         float dot1 = norm[0] * dx + norm[1] * dy;
         float dot2 = norm[1] * dx - norm[0] * dy;
