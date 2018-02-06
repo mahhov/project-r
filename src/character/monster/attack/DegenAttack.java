@@ -5,13 +5,13 @@ public class DegenAttack extends MonsterAttack {
 
     @Override
     public void update() {
-        if (inCubeAoe(attackAoe))
+        if (inCubeAoe(attackAoe, attackAoe))
             human.takeDamage(attackDamage);
     }
 
     @Override
     public void draw() {
-        cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, attackAoe * 2, COLOR);
-        cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, attackAoe * 2, COLOR, true);
+        cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, attackAoe * 2, attackAoe * 2, COLOR, false);
+        cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, attackAoe * 2, attackAoe * 2, COLOR, true);
     }
 }

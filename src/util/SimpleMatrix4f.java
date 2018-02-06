@@ -118,16 +118,8 @@ public class SimpleMatrix4f {
         return scaled;
     }
 
-    public static SimpleMatrix4f modelMatrix(float x, float y, float z, float theta, float thetaZ) {
-        SimpleMatrix4f thetaZMatrix = SimpleMatrix4f.rotate(thetaZ, 1, 0, 0);
-        SimpleMatrix4f thetaMatrix = SimpleMatrix4f.rotate(theta, 0, 1, 0);
-        SimpleMatrix4f moveMatrix = SimpleMatrix4f.translate(x, y, z);
-
-        return moveMatrix.multiply(thetaMatrix).multiply(thetaZMatrix);
-    }
-
-    public static SimpleMatrix4f modelMatrix(float x, float y, float z, float theta, float thetaZ, float scale) {
-        SimpleMatrix4f scaleMatrix = SimpleMatrix4f.scale(scale);
+    public static SimpleMatrix4f modelMatrix(float x, float y, float z, float theta, float thetaZ, float scale, float scaleHeight) {
+        SimpleMatrix4f scaleMatrix = SimpleMatrix4f.scale(scale, scaleHeight, scale);
         SimpleMatrix4f thetaZMatrix = SimpleMatrix4f.rotate(thetaZ, 1, 0, 0);
         SimpleMatrix4f thetaMatrix = SimpleMatrix4f.rotate(theta, 0, 1, 0);
         SimpleMatrix4f moveMatrix = SimpleMatrix4f.translate(x, y, z);

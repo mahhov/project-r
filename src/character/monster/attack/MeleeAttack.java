@@ -19,13 +19,13 @@ public class MeleeAttack extends MonsterAttack {
             delay.update();
             if (delay.done()) {
                 attackInProgress = false;
-                if (inCubeAoe(attackRange))
+                if (inCubeAoe(attackRange, 1))
                     human.takeDamage(attackDamage);
             }
 
         } else {
             attack.update();
-            if (attack.done() && inCubeAoe(attackRange)) {
+            if (attack.done() && inCubeAoe(attackRange, 1)) {
                 attack.reset(100); // todo constant
                 delay.reset(ATTACK_DELAY);
                 attackInProgress = true;
@@ -43,8 +43,8 @@ public class MeleeAttack extends MonsterAttack {
         if (attackInProgress) {
             float prog1to0 = delay.getTime() / ATTACK_DELAY;
             float[] color = new float[] {prog1to0, 0, 0, .5f - prog1to0 / 2};
-            cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, attackRange * 2, color);
-            cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, attackRange * 2, color, true);
+            cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, attackRange * 2, 1, color, false);
+            cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, attackRange * 2, 1, color, true);
         }
     }
 }

@@ -36,7 +36,7 @@ public class MonsterAttack {
     public void draw() {
     }
 
-    boolean inCubeAoe(float cubeHalfSize) {
+    boolean inCubeAoe(float cubeHalfSize, float cubeHalfHeight) {
         float dx = human.getX() - monster.getX();
         float dy = human.getY() - monster.getY();
         float dz = human.getZ() - monster.getZ();
@@ -46,6 +46,6 @@ public class MonsterAttack {
         float dot1 = norm[0] * dx + norm[1] * dy;
         float dot2 = norm[1] * dx - norm[0] * dy;
 
-        return dot1 > -cubeHalfSize && dot1 < cubeHalfSize && dot2 > -cubeHalfSize && dot2 < cubeHalfSize && dz > -cubeHalfSize && dz < cubeHalfSize;
+        return dot1 > -cubeHalfSize && dot1 < cubeHalfSize && dot2 > -cubeHalfSize && dot2 < cubeHalfSize && dz > -cubeHalfHeight && dz < cubeHalfHeight;
     }
 }
