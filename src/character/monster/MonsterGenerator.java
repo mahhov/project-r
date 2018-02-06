@@ -106,6 +106,7 @@ public class MonsterGenerator {
         details.armour = MonsterDetails.Armour.NONE;
         details.life = 50;
         details.attack = MonsterDetails.Attack.MELEE;
+        details.attackSpeed = 100;
         details.attackDamage = 50;
         details.attackRange = 10;
         details.metalReward = new Distribution(0, 0);
