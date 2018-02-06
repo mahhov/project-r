@@ -15,4 +15,8 @@ public class Timer {
     public boolean done() {
         return time == 0;
     }
+
+    public int getTime() {
+        return time;
+    }
 }

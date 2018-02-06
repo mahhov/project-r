@@ -3,6 +3,7 @@ package character.monster;
 import character.Human;
 import character.Monster;
 import character.monster.attack.DegenAttack;
+import character.monster.attack.MeleeAttack;
 import character.monster.attack.MonsterAttack;
 import character.monster.attack.NoneAttack;
 import character.monster.behavior.AggressiveBehavior;
@@ -104,9 +105,9 @@ public class MonsterGenerator {
         details.hostilitySightDistance = 20;
         details.armour = MonsterDetails.Armour.NONE;
         details.life = 50;
-        details.attack = MonsterDetails.Attack.DEGEN; // todo change attack style to 
-        details.attackDamage = .5f;
-        details.attackAoe = 10;
+        details.attack = MonsterDetails.Attack.MELEE;
+        details.attackDamage = 50;
+        details.attackRange = 10;
         details.metalReward = new Distribution(0, 0);
         details.glowReward = new Distribution[] {};
         details.coinReward = new Distribution(25, 35);
@@ -154,6 +155,8 @@ public class MonsterGenerator {
                 return new NoneAttack();
             case DEGEN:
                 return new DegenAttack();
+            case MELEE:
+                return new MeleeAttack();
             default:
                 throw new RuntimeException("monster attack type not caught in MonsterGenerator.baseAttack");
         }

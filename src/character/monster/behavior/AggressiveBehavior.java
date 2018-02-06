@@ -33,23 +33,22 @@ public class AggressiveBehavior extends MonsterBehavior {
             damageTaken = false;
         }
 
-        if (timer.done())
+        if (timer.done()) {
             wanderOrStand();
+            state = State.PASSIVE;
 
-        else if (state == State.HOSTILE) {
+        } else if (state == State.HOSTILE) {
             float flatDistanceSqr = MathNumbers.magnitudeSqr(dx, dy);
-            if (flatDistanceSqr < RETALIATE_DISTANCE_SQR)
+            if (flatDistanceSqr < RETALIATE_DISTANCE_SQR || attack.moveLocked())
                 motion.stand();
             else
                 motion.run(dx, dy, flatDistanceSqr * RETALIATE_DISTANCE_SPEED_MULT);
             if (flatDistanceSqr < detectionRangeSqr * 4)
                 timer.reset(RETALIATE_TIME);
+            attack.update();
         }
 
         motion.jet();
-
-        if (state == State.HOSTILE)
-            attack.update();
     }
 
     @Override

@@ -17,11 +17,6 @@ public class RetaliateBehavior extends MonsterBehavior {
 
     @Override
     public void update() {
-        float dx = human.getX() - monster.getX();
-        float dy = human.getY() - monster.getY();
-        float dz = human.getZ() - monster.getZ();
-        float distanceSqr = MathNumbers.magnitudeSqr(dx, dy, dz);
-
         timer.update();
 
         if (damageTaken) {
@@ -30,23 +25,25 @@ public class RetaliateBehavior extends MonsterBehavior {
             damageTaken = false;
         }
 
-        if (timer.done())
+        if (timer.done()) {
             wanderOrStand();
+            state = State.PASSIVE;
 
-        else if (state == State.HOSTILE) {
+        } else if (state == State.HOSTILE) {
+            float dx = human.getX() - monster.getX();
+            float dy = human.getY() - monster.getY();
             float flatDistanceSqr = MathNumbers.magnitudeSqr(dx, dy);
-            if (flatDistanceSqr < RETALIATE_DISTANCE_SQR)
+            
+            if (flatDistanceSqr < RETALIATE_DISTANCE_SQR || attack.moveLocked())
                 motion.stand();
             else
                 motion.run(dx, dy, flatDistanceSqr * RETALIATE_DISTANCE_SPEED_MULT);
             if (flatDistanceSqr < RETALIATE_FORGET_DISTANCE_SQR)
                 timer.reset(RETALIATE_TIME);
+            attack.update();
         }
 
         motion.jet();
-
-        if (state == State.HOSTILE)
-            attack.update();
     }
 
     @Override
