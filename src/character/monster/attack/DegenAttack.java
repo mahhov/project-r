@@ -9,6 +9,10 @@ public class DegenAttack extends MonsterAttack {
             human.takeDamage(attackDamage);
     }
 
+    public float getDistanceRequired() {
+        return attackAoe / 2;
+    }
+
     @Override
     public void draw() {
         cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, attackAoe * 2, attackAoe * 2, COLOR, false);

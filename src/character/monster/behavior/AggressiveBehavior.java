@@ -8,7 +8,6 @@ import util.MathNumbers;
 
 public class AggressiveBehavior extends MonsterBehavior {
     private static final int RETALIATE_TIME = 300;
-    private static final float RETALIATE_DISTANCE_SQR = 10;
     private static final float RETALIATE_DISTANCE_SPEED_MULT = .05f;
 
     private float detectionRangeSqr;
@@ -39,10 +38,13 @@ public class AggressiveBehavior extends MonsterBehavior {
 
         } else if (state == State.HOSTILE) {
             float flatDistanceSqr = MathNumbers.magnitudeSqr(dx, dy);
-            if (flatDistanceSqr < RETALIATE_DISTANCE_SQR || attack.moveLocked())
+            float attackDistance = attack.getDistanceRequired();
+
+            if (flatDistanceSqr < attackDistance || attack.moveLocked())
                 motion.stand();
             else
-                motion.run(dx, dy, flatDistanceSqr * RETALIATE_DISTANCE_SPEED_MULT);
+                motion.run(dx, dy, (flatDistanceSqr - attackDistance) * RETALIATE_DISTANCE_SPEED_MULT);
+            
             if (flatDistanceSqr < detectionRangeSqr * 4)
                 timer.reset(RETALIATE_TIME);
             attack.update();

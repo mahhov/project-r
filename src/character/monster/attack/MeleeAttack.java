@@ -49,5 +49,3 @@ public class MeleeAttack extends MonsterAttack {
         }
     }
 }
-
-// todo behavior approach distance based on attack range

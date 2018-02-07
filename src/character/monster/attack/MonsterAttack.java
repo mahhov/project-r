@@ -37,6 +37,10 @@ public class MonsterAttack {
         return false;
     }
 
+    public float getDistanceRequired() {
+        return attackRange / 2;
+    }
+
     public void draw() {
     }
 
