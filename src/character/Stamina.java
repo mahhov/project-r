@@ -4,7 +4,7 @@ import util.MathNumbers;
 
 class Stamina {
     enum StaminaCost {
-        JUMP(3), AIR_JUMP(90), JET(.11f), GLIDE(.07f), BOOST(5), THROW(0);
+        JUMP(3), AIR_JUMP(90), JET(.11f), GLIDE(.07f), BOOST(5), THROW(3);
 
         final float value;
 
