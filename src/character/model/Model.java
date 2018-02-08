@@ -5,17 +5,21 @@ import shape.CubeInstancedFaces;
 
 public class Model {
     private Character character;
-    private CubeInstancedFaces cubeInstancedFaces;
-    private float size, color[];
+    private Segment body, head;
 
     public Model(Character character, CubeInstancedFaces cubeInstancedFaces, float[] color) {
         this.character = character;
-        this.cubeInstancedFaces = cubeInstancedFaces;
-        this.color = color;
-        size = character.getSize();
+        float size = character.getSize();
+
+        body = new Segment(null, size, color, cubeInstancedFaces);
+        head = new Segment(body, size / 2, color, cubeInstancedFaces);
+        head.setTranslation(0, 0, size * .75f);
     }
 
     public void draw() {
-        cubeInstancedFaces.add(character.getX(), character.getZ(), -character.getY(), character.getTheta(), 0, size, color);
+        body.setTranslation(character.getX(), character.getY(), character.getZ());
+        body.setRotation(character.getTheta());
+        body.draw();
+        head.draw();
     }
 }
