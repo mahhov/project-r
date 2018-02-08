@@ -1,5 +1,6 @@
 package character;
 
+import character.model.Model;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.LList;
@@ -28,9 +29,7 @@ public abstract class Character implements WorldElement { // todo support human 
 
     private Health health;
 
-    private float[] color;
-
-    private CubeInstancedFaces cubeInstancedFaces;
+    private Model model;
 
     private CoordinateI3 worldCoordinate;
     private LList<WorldElement>.Node worldElementNode;
@@ -47,11 +46,9 @@ public abstract class Character implements WorldElement { // todo support human 
         this.size = size;
         this.intersectionMover = intersectionMover;
 
+        model = new Model(this, cubeInstancedFaces, color);
+
         this.health = new Health(stats);
-
-        this.color = color;
-
-        this.cubeInstancedFaces = cubeInstancedFaces;
     }
 
     @Override
@@ -165,7 +162,7 @@ public abstract class Character implements WorldElement { // todo support human 
 
     @Override
     public void draw() {
-        cubeInstancedFaces.add(x, z, -y, theta, thetaZ, size, color);
+        model.draw();
     }
 
     @Override
