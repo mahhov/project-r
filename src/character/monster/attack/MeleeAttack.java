@@ -2,7 +2,7 @@ package character.monster.attack;
 
 import character.monster.behavior.Timer;
 
-public class MeleeAttack extends MonsterAttack {
+public class MeleeAttack extends Attack {
     private static final int ATTACK_DELAY = 60;
     private static final float ATTACK_RANGE_HEIGHT = 3;
 

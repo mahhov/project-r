@@ -1,4 +1,4 @@
 package character.monster.attack;
 
-public class NoneAttack extends MonsterAttack {
+public class NoneAttack extends Attack {
 }

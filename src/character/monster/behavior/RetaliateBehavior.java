@@ -2,16 +2,16 @@ package character.monster.behavior;
 
 import character.Human;
 import character.Monster;
-import character.monster.attack.MonsterAttack;
-import character.monster.motion.MonsterMotion;
+import character.monster.attack.Attack;
+import character.monster.motion.Motion;
 import util.MathNumbers;
 
-public class RetaliateBehavior extends MonsterBehavior {
+public class RetaliateBehavior extends Behavior {
     private static final int RETALIATE_TIME = 300;
     private static final float RETALIATE_FORGET_DISTANCE_SQR = 100;
     private static final float RETALIATE_DISTANCE_SPEED_MULT = .05f;
 
-    public RetaliateBehavior(Monster monster, Human human, MonsterMotion motion, MonsterAttack attack) {
+    public RetaliateBehavior(Monster monster, Human human, Motion motion, Attack attack) {
         super(monster, human, motion, attack);
     }
 

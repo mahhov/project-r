@@ -1,6 +1,6 @@
 package character.monster.attack;
 
-public class DegenAttack extends MonsterAttack {
+public class DegenAttack extends Attack {
     private static final float[] COLOR = new float[] {1, 0, 0, .5f};
 
     @Override

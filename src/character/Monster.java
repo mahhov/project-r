@@ -3,7 +3,7 @@ package character;
 import character.monster.MonsterDetails;
 import character.monster.MonsterGenerator;
 import character.monster.MonsterRewards;
-import character.monster.behavior.MonsterBehavior;
+import character.monster.behavior.Behavior;
 import shape.CubeInstancedFaces;
 import util.intersection.IntersectionMover;
 import world.World;
@@ -11,7 +11,7 @@ import world.particle.SmokeParticle;
 
 public class Monster extends Character {
     // todo ai
-    private MonsterBehavior behavior;
+    private Behavior behavior;
     private MonsterRewards rewards;
 
     public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {

@@ -2,16 +2,16 @@ package character.monster.behavior;
 
 import character.Human;
 import character.Monster;
-import character.monster.attack.MonsterAttack;
-import character.monster.motion.MonsterMotion;
+import character.monster.attack.Attack;
+import character.monster.motion.Motion;
 import util.MathNumbers;
 
-public class RunawayBehavior extends MonsterBehavior {
+public class RunawayBehavior extends Behavior {
     private static final int RUNAWAY_TIME = 300;
 
     private float sightDistanceSqr, dangerDistanceSqr;
 
-    public RunawayBehavior(Monster monster, Human human, MonsterMotion motion, MonsterAttack attack, float sightDistance, float dangerDistance) {
+    public RunawayBehavior(Monster monster, Human human, Motion motion, Attack attack, float sightDistance, float dangerDistance) {
         super(monster, human, motion, attack);
         sightDistanceSqr = sightDistance * sightDistance;
         dangerDistanceSqr = dangerDistance * dangerDistance;

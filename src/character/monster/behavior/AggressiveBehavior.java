@@ -2,17 +2,17 @@ package character.monster.behavior;
 
 import character.Human;
 import character.Monster;
-import character.monster.attack.MonsterAttack;
-import character.monster.motion.MonsterMotion;
+import character.monster.attack.Attack;
+import character.monster.motion.Motion;
 import util.MathNumbers;
 
-public class AggressiveBehavior extends MonsterBehavior {
+public class AggressiveBehavior extends Behavior {
     private static final int RETALIATE_TIME = 300;
     private static final float RETALIATE_DISTANCE_SPEED_MULT = .05f;
 
     private float detectionRangeSqr;
 
-    public AggressiveBehavior(Monster monster, Human human, MonsterMotion motion, MonsterAttack attack, float detectionRange) {
+    public AggressiveBehavior(Monster monster, Human human, Motion motion, Attack attack, float detectionRange) {
         super(monster, human, motion, attack);
         detectionRangeSqr = detectionRange * detectionRange;
     }

@@ -3,11 +3,11 @@ package character.monster.behavior;
 import character.Human;
 import character.Monster;
 import character.MoveControl;
-import character.monster.attack.MonsterAttack;
-import character.monster.motion.MonsterMotion;
+import character.monster.attack.Attack;
+import character.monster.motion.Motion;
 import util.MathRandom;
 
-public class MonsterBehavior {
+public class Behavior {
     enum State {PASSIVE, CURIOUS, HOSTILE, FRIGHTENED}
 
     private static final int WANDER_TIME = 100;
@@ -15,14 +15,14 @@ public class MonsterBehavior {
 
     Monster monster;
     Human human;
-    MonsterMotion motion;
-    MonsterAttack attack;
+    Motion motion;
+    Attack attack;
 
     Timer timer;
     State state;
     boolean damageTaken;
 
-    MonsterBehavior(Monster monster, Human human, MonsterMotion motion, MonsterAttack attack) {
+    Behavior(Monster monster, Human human, Motion motion, Attack attack) {
         this.monster = monster;
         this.human = human;
         this.motion = motion;

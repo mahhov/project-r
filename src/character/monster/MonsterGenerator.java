@@ -4,13 +4,13 @@ import character.Human;
 import character.Monster;
 import character.monster.attack.DegenAttack;
 import character.monster.attack.MeleeAttack;
-import character.monster.attack.MonsterAttack;
+import character.monster.attack.Attack;
 import character.monster.attack.NoneAttack;
 import character.monster.behavior.AggressiveBehavior;
-import character.monster.behavior.MonsterBehavior;
+import character.monster.behavior.Behavior;
 import character.monster.behavior.RetaliateBehavior;
 import character.monster.behavior.RunawayBehavior;
-import character.monster.motion.MonsterMotion;
+import character.monster.motion.Motion;
 import shape.CubeInstancedFaces;
 import util.Distribution;
 import util.MathRandom;
@@ -116,13 +116,13 @@ public class MonsterGenerator {
         return details;
     }
 
-    public static MonsterBehavior createBehavior(Monster monster, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
-        MonsterMotion motion = createMotion(monster, human, details);
-        MonsterAttack attack = createAttack(monster, human, cubeInstancedFaces, details);
+    public static Behavior createBehavior(Monster monster, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
+        Motion motion = createMotion(monster, human, details);
+        Attack attack = createAttack(monster, human, cubeInstancedFaces, details);
         return createBehavior(monster, human, motion, attack, details);
     }
 
-    private static MonsterBehavior createBehavior(Monster monster, Human human, MonsterMotion motion, MonsterAttack attack, MonsterDetails details) {
+    private static Behavior createBehavior(Monster monster, Human human, Motion motion, Attack attack, MonsterDetails details) {
         switch (details.hostility) {
             case RUNAWAY:
                 return new RunawayBehavior(monster, human, motion, attack, details.hostilitySightDistance, details.hostilityDangerDistance);
@@ -135,22 +135,22 @@ public class MonsterGenerator {
         }
     }
 
-    private static MonsterMotion createMotion(Monster monster, Human human, MonsterDetails details) {
-        MonsterMotion motion = new MonsterMotion(monster);
+    private static Motion createMotion(Monster monster, Human human, MonsterDetails details) {
+        Motion motion = new Motion(monster);
         motion.setSpeeds(details.wanderSpeed, details.hostilitySpeed);
         if (details.movement == MonsterDetails.Movement.FLY)
             motion.setFlyHeight(100);
         return motion;
     }
 
-    private static MonsterAttack createAttack(Monster monster, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
-        MonsterAttack attack = baseAttack(details);
+    private static Attack createAttack(Monster monster, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
+        Attack attack = baseAttack(details);
         attack.setBase(monster, human, cubeInstancedFaces);
         attack.setParams(details.attackSpeed, details.attackDamage, details.attackRange, details.attackSize, details.attackAoe);
         return attack;
     }
 
-    private static MonsterAttack baseAttack(MonsterDetails details) {
+    private static Attack baseAttack(MonsterDetails details) {
         switch (details.attack) {
             case NONE:
                 return new NoneAttack();

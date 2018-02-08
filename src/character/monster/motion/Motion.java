@@ -8,7 +8,7 @@ import util.MathNumbers;
 import util.MathRandom;
 import world.WorldElement;
 
-public class MonsterMotion {
+public class Motion {
     private static final float FLY_SMOOTH_MULT = .001f;
 
     private Monster monster;
@@ -17,7 +17,7 @@ public class MonsterMotion {
     private float wanderSpeed, runSpeed;
     private float avgFlyHeight, flyHeight;
 
-    public MonsterMotion(Monster monster) {
+    public Motion(Monster monster) {
         this.monster = monster;
         moveControl = new MoveControl();
     }

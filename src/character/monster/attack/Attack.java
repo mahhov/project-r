@@ -5,7 +5,7 @@ import character.Monster;
 import shape.CubeInstancedFaces;
 import util.MathAngles;
 
-public class MonsterAttack {
+public class Attack {
     static final int BASE_ATTACK_TIME = 100 * 100;
 
     Monster monster;
@@ -30,7 +30,7 @@ public class MonsterAttack {
         this.attackRange = attackRange;
         this.attackSize = attackSize;
         this.attackAoe = attackAoe;
-        attackTime = (int) (MonsterAttack.BASE_ATTACK_TIME / attackSpeed) + 1;
+        attackTime = (int) (Attack.BASE_ATTACK_TIME / attackSpeed) + 1;
     }
 
     public boolean moveLocked() {
