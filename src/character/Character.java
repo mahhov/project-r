@@ -1,5 +1,6 @@
 package character;
 
+import character.model.GoatModel;
 import character.model.Model;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
@@ -46,7 +47,7 @@ public abstract class Character implements WorldElement { // todo support human 
         this.size = size;
         this.intersectionMover = intersectionMover;
 
-        model = new Model(this, cubeInstancedFaces, color);
+        model = new GoatModel(this, cubeInstancedFaces, color);
 
         this.health = new Health(stats);
     }

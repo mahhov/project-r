@@ -1,25 +1,23 @@
 package character.model;
 
 import character.Character;
-import shape.CubeInstancedFaces;
 
-public class Model {
-    private Character character;
-    private Segment body, head;
+public abstract class Model {
+    Character character;
+    private Segment segments[];
+    private int segmentCount;
 
-    public Model(Character character, CubeInstancedFaces cubeInstancedFaces, float[] color) {
+    Model(Character character, int segmentCount) {
         this.character = character;
-        float size = character.getSize();
+        segments = new Segment[segmentCount];
+    }
 
-        body = new Segment(null, size, color, cubeInstancedFaces);
-        head = new Segment(body, size / 2, color, cubeInstancedFaces);
-        head.setTranslation(0, 0, size * .75f);
+    void addSegment(Segment segment) {
+        segments[segmentCount++] = segment;
     }
 
     public void draw() {
-        body.setTranslation(character.getX(), character.getY(), character.getZ());
-        body.setRotation(character.getTheta());
-        body.draw();
-        head.draw();
+        for (Segment segment : segments)
+            segment.draw();
     }
 }
