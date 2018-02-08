@@ -69,7 +69,7 @@ void main() {
     vec4 mPosition = model * vec4(position, 1);
     vec4 vmPosition = view * mPosition;
     vec3 mVertexPosition = mPosition.xyz;
-    vec3 mVertexNormal = (model * vec4(normal, 0)).xyz;
+    vec3 mVertexNormal = normalize((model * vec4(normal, 0)).xyz);
 
     gl_Position = projection * vmPosition;
     

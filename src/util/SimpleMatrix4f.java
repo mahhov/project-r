@@ -96,24 +96,13 @@ public class SimpleMatrix4f {
         return rotation;
     }
 
-    public static SimpleMatrix4f scale(float scale) {
-        SimpleMatrix4f scaled = new SimpleMatrix4f();
-
-        scaled.m00 = 1;
-        scaled.m11 = 1;
-        scaled.m22 = 1;
-        scaled.m33 = 1 / scale;
-
-        return scaled;
-    }
-
     public static SimpleMatrix4f scale(float scaleX, float scaleY, float scaleZ) {
         SimpleMatrix4f scaled = new SimpleMatrix4f();
 
         scaled.m00 = scaleX;
         scaled.m11 = scaleY;
         scaled.m22 = scaleZ;
-        scaled.m33 = 1f;
+        scaled.m33 = 1;
 
         return scaled;
     }

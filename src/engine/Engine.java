@@ -129,3 +129,4 @@ public class Engine {
 // more efficient is(draw/world)empty tracking
 // shadows
 // try seinding vec3 for instanced world drawing instead of mat
+// replace `* .5` with `/ 2`
