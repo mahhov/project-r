@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class Engine {
+class Engine {
     private static final int WINDOW_SIZE = 1000;
     public static final int SCALE = 50, SCALE_Z = 16;
 
@@ -99,6 +99,9 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
+// models
+// complex monster
+// progression
 // randomly generated enemies
 // loot
 
