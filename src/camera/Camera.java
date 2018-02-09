@@ -49,7 +49,7 @@ public class Camera implements IntersectionPicker.Picker {
         viewPositionLoc = glGetUniformLocation(renderProgramId, "viewPosition");
 
         antialiasLoc = glGetUniformLocation(renderProgramId, "antialias");
-        setantialiasMode(antialiasValue = 1);
+        setAntialiasMode(antialiasValue = 1);
     }
 
     public void update(KeyControl keyControl) {
@@ -65,7 +65,7 @@ public class Camera implements IntersectionPicker.Picker {
         setViewPosition();
 
         if (keyControl.isKeyPressed(KeyButton.KEY_0))
-            setantialiasMode(antialiasValue = 1 - antialiasValue);
+            setAntialiasMode(antialiasValue = 1 - antialiasValue);
     }
 
     private void trail(KeyControl keyControl) {
@@ -147,9 +147,9 @@ public class Camera implements IntersectionPicker.Picker {
         glUniform3f(viewPositionLoc, x, y, z);
     }
 
-    private void setantialiasMode(int antiValue) {
+    private void setAntialiasMode(int antiValue) {
         glUniform1i(antialiasLoc, antiValue);
-    } // todo capitalize A
+    }
 
     public CoordinateI3 getWorldCoordinate() {
         return new CoordinateI3((int) x, (int) -z, (int) y);
