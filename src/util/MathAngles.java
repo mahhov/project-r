@@ -1,7 +1,7 @@
 package util;
 
 public class MathAngles {
-    public static final float PI = (float) Math.PI, PI2 = PI * 2;
+    public static final float PI = (float) Math.PI, PI2 = PI * 2, MAX_THETA_Z = PI / 2 - MathNumbers.BIG_EPSILON;
 
     private static float sinTable[];
     private static final int TRIG_ACCURACY = 500;

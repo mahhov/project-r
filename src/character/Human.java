@@ -19,7 +19,6 @@ import world.projectile.Projectile;
 public class Human implements WorldElement, Follow {
     private static final int WORLD_ELEMENT_ID = 0;
 
-    private static final float MAX_THETA_Z = MathAngles.PI / 2 - MathNumbers.BIG_EPSILON;
     private static final float ROTATE_SPEED_MOUSE = .008f;
     private static final float[] COLOR = new float[] {1, 1, 1, 1};
 
@@ -135,7 +134,7 @@ public class Human implements WorldElement, Follow {
 
     private void doRotations(MousePosControl mousePosControl) {
         theta -= ROTATE_SPEED_MOUSE * mousePosControl.getMoveX();
-        thetaZ = MathNumbers.minMax(thetaZ - ROTATE_SPEED_MOUSE * mousePosControl.getMoveY(), -MAX_THETA_Z, MAX_THETA_Z);
+        thetaZ = MathNumbers.minMax(thetaZ - ROTATE_SPEED_MOUSE * mousePosControl.getMoveY(), -MathAngles.MAX_THETA_Z, MathAngles.MAX_THETA_Z);
     }
 
     private void computeAxis() {
