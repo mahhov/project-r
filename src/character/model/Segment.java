@@ -4,7 +4,7 @@ import shape.CubeInstancedFaces;
 import util.MathAngles;
 import util.SimpleMatrix4f;
 
-class Segment {
+public class Segment {
     private Segment parent;
     private SimpleMatrix4f modelMatrix;
     private float size, color[];
@@ -12,7 +12,7 @@ class Segment {
     private Transformation transformation, compositeTransformation;
     private boolean stale;
 
-    Segment(Segment parent, float size, float[] color, CubeInstancedFaces cubeInstancedFaces) {
+    public Segment(Segment parent, float size, float[] color, CubeInstancedFaces cubeInstancedFaces) {
         this.parent = parent;
         this.size = size;
         this.color = color;
@@ -22,14 +22,14 @@ class Segment {
         stale = true;
     }
 
-    void setTranslation(float x, float y, float z) {
+    public void setTranslation(float x, float y, float z) {
         transformation.x = x;
         transformation.y = y;
         transformation.z = z;
         stale = true;
     }
 
-    void setRotation(float theta) {
+    public void setRotation(float theta) {
         transformation.theta = theta;
         stale = true;
     }

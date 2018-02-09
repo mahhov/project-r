@@ -149,7 +149,7 @@ public class Camera implements IntersectionPicker.Picker {
 
     private void setantialiasMode(int antiValue) {
         glUniform1i(antialiasLoc, antiValue);
-    }
+    } // todo capitalize A
 
     public CoordinateI3 getWorldCoordinate() {
         return new CoordinateI3((int) x, (int) -z, (int) y);
