@@ -34,7 +34,34 @@ public class ModelViewer {
         viewModel = new ViewModel();
         cubeInstancedFaces = new CubeInstancedFaces();
         float[] color = new float[] {1, 1, 1, 1};
-        viewModel.addSegment(new Segment(null, 1, color, cubeInstancedFaces));
+
+        Segment body = new Segment(null, color, cubeInstancedFaces);
+        Segment head = new Segment(body, color, cubeInstancedFaces);
+        Segment legFR = new Segment(body, color, cubeInstancedFaces);
+        Segment legFL = new Segment(body, color, cubeInstancedFaces);
+        Segment legBR = new Segment(body, color, cubeInstancedFaces);
+        Segment legBL = new Segment(body, color, cubeInstancedFaces);
+
+        body.setScale(2, 3, 2);
+        head.setScale(1.5f, 1.5f, 1.5f);
+        legFR.setScale(.8f, .8f, .8f);
+        legFL.setScale(.8f, .8f, .8f);
+        legBR.setScale(.8f, .8f, .8f);
+        legBL.setScale(.8f, .8f, .8f);
+
+        body.setTranslation(0, 0, 5);
+        head.setTranslation(0, 3, 2);
+        legFR.setTranslation(2, 2, -2);
+        legFL.setTranslation(-2, 2, -2);
+        legBR.setTranslation(2, -2, -2);
+        legBL.setTranslation(-2, -2, -2);
+
+        viewModel.addSegment(body);
+        viewModel.addSegment(head);
+        viewModel.addSegment(legFR);
+        viewModel.addSegment(legFL);
+        viewModel.addSegment(legBR);
+        viewModel.addSegment(legBL);
     }
 
     void loop() {

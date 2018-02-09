@@ -107,8 +107,8 @@ public class SimpleMatrix4f {
         return scaled;
     }
 
-    public static SimpleMatrix4f modelMatrix(float x, float y, float z, float theta, float thetaZ, float scale, float scaleHeight) {
-        SimpleMatrix4f scaleMatrix = SimpleMatrix4f.scale(scale, scaleHeight, scale);
+    public static SimpleMatrix4f modelMatrix(float x, float y, float z, float theta, float thetaZ, float scaleX, float scaleY, float scaleZ) {
+        SimpleMatrix4f scaleMatrix = SimpleMatrix4f.scale(scaleX, scaleY, scaleZ);
         SimpleMatrix4f thetaZMatrix = SimpleMatrix4f.rotate(thetaZ, 1, 0, 0);
         SimpleMatrix4f thetaMatrix = SimpleMatrix4f.rotate(theta, 0, 1, 0);
         SimpleMatrix4f moveMatrix = SimpleMatrix4f.translate(x, y, z);

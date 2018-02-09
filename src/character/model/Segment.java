@@ -7,19 +7,28 @@ import util.SimpleMatrix4f;
 public class Segment {
     private Segment parent;
     private SimpleMatrix4f modelMatrix;
-    private float size, color[];
+    private float scaleX, scaleY, scaleZ, color[];
     private CubeInstancedFaces cubeInstancedFaces;
     private Transformation transformation, compositeTransformation;
     private boolean stale;
 
-    public Segment(Segment parent, float size, float[] color, CubeInstancedFaces cubeInstancedFaces) {
+    public Segment(Segment parent, float[] color, CubeInstancedFaces cubeInstancedFaces) {
         this.parent = parent;
-        this.size = size;
         this.color = color;
         this.cubeInstancedFaces = cubeInstancedFaces;
         transformation = new Transformation();
         compositeTransformation = new Transformation();
         stale = true;
+    }
+
+    public void setScale(float scale) {
+        scaleX = scaleY = scaleZ = scale;
+    }
+
+    public void setScale(float scaleX, float scaleY, float scaleZ) {
+        this.scaleX = scaleX;
+        this.scaleY = scaleY;
+        this.scaleZ = scaleZ;
     }
 
     public void setTranslation(float x, float y, float z) {
@@ -35,8 +44,11 @@ public class Segment {
     }
 
     private Transformation getCompositeTransformation() {
-        if (parent == null)
-            return compositeTransformation = transformation;
+        if (parent == null) {
+            compositeTransformation = transformation;
+            MathAngles.norm(compositeTransformation.theta, compositeTransformation.norm);
+            return compositeTransformation;
+        }
 
         if (isStale()) {
             Transformation parentTransformation = parent.getCompositeTransformation();
@@ -57,7 +69,7 @@ public class Segment {
 
     void draw() {
         getCompositeTransformation();
-        cubeInstancedFaces.add(compositeTransformation.x, compositeTransformation.z, -compositeTransformation.y, compositeTransformation.theta, 0, size, color);
+        cubeInstancedFaces.add(compositeTransformation.x, compositeTransformation.z, -compositeTransformation.y, compositeTransformation.theta, 0, scaleX, scaleZ, scaleY, color, false);
     }
 
     private class Transformation {

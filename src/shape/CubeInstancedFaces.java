@@ -53,11 +53,11 @@ public class CubeInstancedFaces {
     // xyz, theta(z), sides, scale, scaleHeight, color, flipNormals
 
     public void add(float x, float y, float z, float theta, float thetaZ, float scale, float[] color) {
-        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ, scale, scale), color);
+        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ, scale, scale, scale), color);
     }
 
-    public void add(float x, float y, float z, float theta, float thetaZ, float scale, float scaleHeight, float[] color, boolean flipNormals) {
-        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ, scale, scaleHeight), color, flipNormals);
+    public void add(float x, float y, float z, float theta, float thetaZ, float scaleX, float scaleY, float scaleZ, float[] color, boolean flipNormals) {
+        add(SimpleMatrix4f.modelMatrix(x, y, z, theta, thetaZ, scaleX, scaleY, scaleZ), color, flipNormals);
     }
 
     public void add(float x, float y, float z, boolean sides[], float[] color) {

@@ -4,12 +4,14 @@ import character.monster.behavior.Timer;
 
 public class MeleeAttack extends Attack {
     private static final int ATTACK_DELAY = 60;
-    private static final float ATTACK_RANGE_HEIGHT = 3;
+    private static final float ATTACK_RANGE_HEIGHT = 3, ATTACK_RANGE_HEIGHT_TWO = ATTACK_RANGE_HEIGHT * 2;
 
+    private float size;
     private Timer attack, delay;
     private boolean attackInProgress;
 
     public MeleeAttack() {
+        size = attackRange * 2;
         attack = new Timer();
         delay = new Timer();
     }
@@ -44,8 +46,8 @@ public class MeleeAttack extends Attack {
         if (attackInProgress) {
             float prog1to0 = delay.getTime() / ATTACK_DELAY;
             float[] color = new float[] {prog1to0, 0, 0, .5f - prog1to0 / 2};
-            cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, attackRange * 2, ATTACK_RANGE_HEIGHT * 2, color, false);
-            cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, attackRange * 2, ATTACK_RANGE_HEIGHT * 2, color, true);
+            cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, size, ATTACK_RANGE_HEIGHT_TWO, size, color, false);
+            cubeInstancedFaces.add(monster.getX(), monster.getZ(), -monster.getY(), monster.getTheta(), 0, size, ATTACK_RANGE_HEIGHT_TWO, size, color, true);
         }
     }
 }
