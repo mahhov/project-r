@@ -27,7 +27,7 @@ public class ModelViewer {
 
         ShaderManager.setRenderShader();
 
-        camera = new Camera(ShaderManager.getRenderShaderProgramId());
+        camera = new Camera(ShaderManager.getRenderShaderProgramId(), 10, 0);
         follow = new FreeCameraFollow();
         camera.setFollow(follow);
 
@@ -42,19 +42,19 @@ public class ModelViewer {
         Segment legBR = new Segment(body, color, cubeInstancedFaces);
         Segment legBL = new Segment(body, color, cubeInstancedFaces);
 
-        body.setScale(2, 3, 2);
-        head.setScale(1.5f, 1.5f, 1.5f);
+        body.setScale(2, 2.5f, 2);
+        head.setScale(1.3f, 1.3f, 1.3f);
         legFR.setScale(.8f, .8f, .8f);
         legFL.setScale(.8f, .8f, .8f);
         legBR.setScale(.8f, .8f, .8f);
         legBL.setScale(.8f, .8f, .8f);
 
-        body.setTranslation(0, 0, 5);
-        head.setTranslation(0, 3, 2);
-        legFR.setTranslation(2, 2, -2);
-        legFL.setTranslation(-2, 2, -2);
-        legBR.setTranslation(2, -2, -2);
-        legBL.setTranslation(-2, -2, -2);
+        body.setTranslation(0, 0, 0);
+        head.setTranslation(0, 1.5f, 2);
+        legFR.setTranslation(1, 1, -1.4f);
+        legFL.setTranslation(-1, 1, -1.4f);
+        legBR.setTranslation(1, -1, -1.4f);
+        legBL.setTranslation(-1, -1, -1.4f);
 
         viewModel.addSegment(body);
         viewModel.addSegment(head);
@@ -66,7 +66,7 @@ public class ModelViewer {
 
     void loop() {
         ShaderManager.setRenderShader();
-        follow.update(keyControl);
+        follow.update(keyControl, mousePosControl);
         camera.update(keyControl);
 
         cubeInstancedFaces.reset();

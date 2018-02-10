@@ -32,7 +32,7 @@ public class Engine {
         modelViewer = new ModelViewer(keyControl, mousePosControl, mouseButtonControl);
     }
 
-    private void initLwjgl() {
+    private void initLwjgl() { // todo merge with engine duplicate code
         System.out.println("LWJGL " + Version.getVersion());
 
         GLFWErrorCallback.createPrint(System.err).set();

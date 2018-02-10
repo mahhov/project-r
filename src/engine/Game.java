@@ -27,7 +27,7 @@ public class Game {
         this.mouseButtonControl = mouseButtonControl;
 
         ShaderManager.setRenderShader();
-        camera = new Camera(ShaderManager.getRenderShaderProgramId());
+        camera = new Camera(ShaderManager.getRenderShaderProgramId(), 6, 1); // todo make static final
         map = new Map(this);
         loadMap(0);
     }

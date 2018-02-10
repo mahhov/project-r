@@ -2,27 +2,29 @@ package camera;
 
 import control.KeyButton;
 import control.KeyControl;
+import control.MousePosControl;
 import util.MathAngles;
 import util.MathNumbers;
 
 public class FreeCameraFollow implements Follow {
-    private static final float SPEED = .1f;
+    private static final float ROTATE_SPEED_MOUSE = .008f;
+    private static final float ROTATE_SPEED_KEY = .1f;
     private float theta, thetaZ;
 
-    public void update(KeyControl keyControl) {
-        if (keyControl.isKeyDown(KeyButton.KEY_W)) {
-            thetaZ -= SPEED;
-            thetaZ = MathNumbers.minMax(thetaZ, -MathAngles.MAX_THETA_Z, MathAngles.MAX_THETA_Z);
-        }
-        if (keyControl.isKeyDown(KeyButton.KEY_S)) {
-            thetaZ += SPEED;
-            thetaZ = MathNumbers.minMax(thetaZ, -MathAngles.MAX_THETA_Z, MathAngles.MAX_THETA_Z);
-        }
+    public void update(KeyControl keyControl, MousePosControl mousePosControl) {
+        if (keyControl.isKeyDown(KeyButton.KEY_W))
+            thetaZ -= ROTATE_SPEED_KEY;
+        if (keyControl.isKeyDown(KeyButton.KEY_S))
+            thetaZ += ROTATE_SPEED_KEY;
         if (keyControl.isKeyDown(KeyButton.KEY_A))
-            theta -= SPEED;
+            theta -= ROTATE_SPEED_KEY;
         if (keyControl.isKeyDown(KeyButton.KEY_D))
-            theta += SPEED;
+            theta += ROTATE_SPEED_KEY;
 
+        theta -= ROTATE_SPEED_MOUSE * mousePosControl.getMoveX();
+        thetaZ -= ROTATE_SPEED_MOUSE * mousePosControl.getMoveY();
+        
+        thetaZ = MathNumbers.minMax(thetaZ, -MathAngles.MAX_THETA_Z, MathAngles.MAX_THETA_Z);
     }
 
     @Override

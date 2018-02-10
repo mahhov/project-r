@@ -31,13 +31,13 @@ public class Camera implements IntersectionPicker.Picker {
     private FloatBuffer viewMatrixBuffer;
     private int antialiasValue;
 
-    public Camera(int renderProgramId) {
+    public Camera(int renderProgramId, float trailDistance, float trailVert) {
         x = 32 * Engine.SCALE;
         y = 16 * Engine.SCALE;
         theta = MathAngles.PI;
 
-        trailDistance = 6f;
-        trailVert = 1f;
+        this.trailDistance = trailDistance;
+        this.trailVert = trailVert;
 
         projectionMatrixLoc = glGetUniformLocation(renderProgramId, "projection");
         setupProjectionMatrix();
@@ -54,6 +54,7 @@ public class Camera implements IntersectionPicker.Picker {
 
     public void update(KeyControl keyControl) {
         trail(keyControl);
+
         if (follow.isFollowZoom()) {
             exactFollow();
             setViewMatrix(2);
