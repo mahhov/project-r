@@ -6,9 +6,10 @@ import control.KeyButton;
 import control.KeyControl;
 import modelviewer.Selector;
 import util.LList;
+import util.MathAngles;
 
 public class ViewModel {
-    private static final float TRANSLATION_SPEED = .5f, ROTATION_SPEED = .1f, SIZE_SPEED = .1f; // todo rename size -> scale
+    private static final float TRANSLATION_SPEED = .2f, ROTATION_SPEED = MathAngles.PI / 12, SIZE_SPEED = TRANSLATION_SPEED * 2; // todo rename size -> scale
     private static final float[] UNSELECTED_COLOR = new float[] {1, 1, 1, 1}, SELECTED_COLOR = new float[] {0, 0, 1, 1};
 
     private LList<SegmentEditable> segments;
@@ -58,28 +59,28 @@ public class ViewModel {
     private void updatePosition(KeyControl keyControl) {
         float dx = 0, dy = 0, dz = 0, dtheta = 0;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_W))
+        if (keyControl.isKeyPressed(KeyButton.KEY_W))
             dy += TRANSLATION_SPEED;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_S))
+        if (keyControl.isKeyPressed(KeyButton.KEY_S))
             dy -= TRANSLATION_SPEED;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_A))
+        if (keyControl.isKeyPressed(KeyButton.KEY_A))
             dx -= TRANSLATION_SPEED;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_D))
+        if (keyControl.isKeyPressed(KeyButton.KEY_D))
             dx += TRANSLATION_SPEED;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_SHIFT))
+        if (keyControl.isKeyPressed(KeyButton.KEY_SHIFT))
             dz -= TRANSLATION_SPEED;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_SPACE))
+        if (keyControl.isKeyPressed(KeyButton.KEY_SPACE))
             dz += TRANSLATION_SPEED;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_Q))
+        if (keyControl.isKeyPressed(KeyButton.KEY_Q))
             dtheta += ROTATION_SPEED;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_E))
+        if (keyControl.isKeyPressed(KeyButton.KEY_E))
             dtheta -= ROTATION_SPEED;
 
         selectedSegmentNode.getValue().addTranslation(dx, dy, dz);
@@ -89,31 +90,31 @@ public class ViewModel {
     private void updateSize(KeyControl keyControl) {
         float dx = 0, dy = 0, dz = 0;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_W))
+        if (keyControl.isKeyPressed(KeyButton.KEY_W))
             dy += SIZE_SPEED;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_S))
+        if (keyControl.isKeyPressed(KeyButton.KEY_S))
             dy -= SIZE_SPEED;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_A))
+        if (keyControl.isKeyPressed(KeyButton.KEY_A))
             dx -= SIZE_SPEED;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_D))
+        if (keyControl.isKeyPressed(KeyButton.KEY_D))
             dx += SIZE_SPEED;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_SHIFT))
+        if (keyControl.isKeyPressed(KeyButton.KEY_SHIFT))
             dz -= SIZE_SPEED;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_SPACE))
+        if (keyControl.isKeyPressed(KeyButton.KEY_SPACE))
             dz += SIZE_SPEED;
 
-        if (keyControl.isKeyDown(KeyButton.KEY_Q)) {
+        if (keyControl.isKeyPressed(KeyButton.KEY_Q)) {
             dx += SIZE_SPEED;
             dy += SIZE_SPEED;
             dz += SIZE_SPEED;
         }
 
-        if (keyControl.isKeyDown(KeyButton.KEY_E)) {
+        if (keyControl.isKeyPressed(KeyButton.KEY_E)) {
             dx -= SIZE_SPEED;
             dy -= SIZE_SPEED;
             dz -= SIZE_SPEED;
