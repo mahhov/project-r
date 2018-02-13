@@ -1,5 +1,7 @@
 package character.model;
 
+import character.model.segment.Segment;
+import character.model.segment.SegmentEditable;
 import control.KeyButton;
 import control.KeyControl;
 import modelviewer.Selector;
@@ -7,6 +9,7 @@ import util.LList;
 
 public class ViewModel {
     private static final float TRANSLATION_SPEED = .5f, ROTATION_SPEED = .1f, SIZE_SPEED = .1f; // todo rename size -> scale
+    private static final float[] UNSELECTED_COLOR = new float[] {1, 1, 1, 1}, SELECTED_COLOR = new float[] {0, 0, 1, 1};
 
     private LList<SegmentEditable> segments;
     private LList<SegmentEditable>.Node selectedSegmentNode;
@@ -16,14 +19,18 @@ public class ViewModel {
     }
 
     public void addSegment(SegmentEditable segment) {
-        selectedSegmentNode = segments.addTail(segment);
+        if (selectedSegmentNode == null) {
+            selectedSegmentNode = segments.addTail(segment);
+            segment.setColor(SELECTED_COLOR);
+
+        } else {
+            segments.addTail(segment);
+            segment.setColor(UNSELECTED_COLOR);
+        }
     }
 
     public void update(int selectedSegmentDelta, Selector.Tool tool, KeyControl keyControl) {
-        if (selectedSegmentDelta > 0 && selectedSegmentNode.getNext() != null)
-            selectedSegmentNode = selectedSegmentNode.getNext();
-        else if (selectedSegmentDelta < 0 && selectedSegmentNode.getPrev() != null)
-            selectedSegmentNode = selectedSegmentNode.getPrev();
+        updateSelectedSegment(selectedSegmentDelta);
 
         switch (tool) {
             case POSITION:
@@ -32,6 +39,19 @@ public class ViewModel {
             case SIZE:
                 updateSize(keyControl);
                 break;
+        }
+    }
+
+    private void updateSelectedSegment(int selectedSegmentDelta) {
+        if (selectedSegmentDelta > 0 && selectedSegmentNode.getNext() != null) {
+            selectedSegmentNode.getValue().setColor(UNSELECTED_COLOR);
+            selectedSegmentNode = selectedSegmentNode.getNext();
+            selectedSegmentNode.getValue().setColor(SELECTED_COLOR);
+
+        } else if (selectedSegmentDelta < 0 && selectedSegmentNode.getPrev() != null) {
+            selectedSegmentNode.getValue().setColor(UNSELECTED_COLOR);
+            selectedSegmentNode = selectedSegmentNode.getPrev();
+            selectedSegmentNode.getValue().setColor(SELECTED_COLOR);
         }
     }
 

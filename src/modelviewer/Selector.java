@@ -23,7 +23,9 @@ public class Selector {
     }
 
     int getSelectedSegmentDelta() {
-        return segmentDelta;
+        int returnSegmentDelta = segmentDelta;
+        segmentDelta = 0;
+        return returnSegmentDelta;
     }
 
     Tool getSelectedTool() {

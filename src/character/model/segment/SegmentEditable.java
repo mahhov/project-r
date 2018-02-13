@@ -1,4 +1,4 @@
-package character.model;
+package character.model.segment;
 
 import shape.CubeInstancedFaces;
 

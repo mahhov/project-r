@@ -1,4 +1,4 @@
-package character.model;
+package character.model.segment;
 
 import shape.CubeInstancedFaces;
 import util.MathAngles;
@@ -68,7 +68,7 @@ public class Segment {
         return stale || (parent != null && parent.isStale());
     }
 
-    void draw() {
+    public void draw() {
         getCompositeTransformation();
         cubeInstancedFaces.add(compositeTransformation.x, compositeTransformation.z, -compositeTransformation.y, compositeTransformation.theta, 0, scaleX, scaleZ, scaleY, color, false);
     }

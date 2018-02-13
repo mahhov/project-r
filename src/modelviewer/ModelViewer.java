@@ -2,8 +2,8 @@ package modelviewer;
 
 import camera.Camera;
 import camera.FreeCameraFollow;
-import character.model.SegmentEditable;
 import character.model.ViewModel;
+import character.model.segment.SegmentEditable;
 import control.KeyControl;
 import control.MouseButtonControl;
 import control.MousePosControl;
