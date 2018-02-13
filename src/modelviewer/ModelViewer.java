@@ -2,7 +2,7 @@ package modelviewer;
 
 import camera.Camera;
 import camera.FreeCameraFollow;
-import character.model.Segment;
+import character.model.SegmentEditable;
 import character.model.ViewModel;
 import control.KeyControl;
 import control.MouseButtonControl;
@@ -47,12 +47,12 @@ public class ModelViewer implements EngineRunnable {
         cubeInstancedFaces = new CubeInstancedFaces();
         float[] color = new float[] {1, 1, 1, 1};
 
-        Segment body = new Segment(null, color, cubeInstancedFaces);
-        Segment head = new Segment(body, color, cubeInstancedFaces);
-        Segment legFR = new Segment(body, color, cubeInstancedFaces);
-        Segment legFL = new Segment(body, color, cubeInstancedFaces);
-        Segment legBR = new Segment(body, color, cubeInstancedFaces);
-        Segment legBL = new Segment(body, color, cubeInstancedFaces);
+        SegmentEditable body = new SegmentEditable(null, color, cubeInstancedFaces);
+        SegmentEditable head = new SegmentEditable(body, color, cubeInstancedFaces);
+        SegmentEditable legFR = new SegmentEditable(body, color, cubeInstancedFaces);
+        SegmentEditable legFL = new SegmentEditable(body, color, cubeInstancedFaces);
+        SegmentEditable legBR = new SegmentEditable(body, color, cubeInstancedFaces);
+        SegmentEditable legBL = new SegmentEditable(body, color, cubeInstancedFaces);
 
         body.setScale(2, 2.5f, 2);
         head.setScale(1.3f, 1.3f, 1.3f);

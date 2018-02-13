@@ -7,10 +7,11 @@ import util.SimpleMatrix4f;
 public class Segment {
     private Segment parent;
     private SimpleMatrix4f modelMatrix;
-    private float scaleX, scaleY, scaleZ, color[];
+    float scaleX, scaleY, scaleZ, color[];
     private CubeInstancedFaces cubeInstancedFaces;
-    private Transformation transformation, compositeTransformation;
-    private boolean stale;
+    Transformation transformation;
+    private Transformation compositeTransformation;
+    boolean stale;
 
     public Segment(Segment parent, float[] color, CubeInstancedFaces cubeInstancedFaces) {
         this.parent = parent;
@@ -72,8 +73,8 @@ public class Segment {
         cubeInstancedFaces.add(compositeTransformation.x, compositeTransformation.z, -compositeTransformation.y, compositeTransformation.theta, 0, scaleX, scaleZ, scaleY, color, false);
     }
 
-    private class Transformation {
-        private float x, y, z, theta;
+    class Transformation {
+        float x, y, z, theta;
         private float[] norm;
 
         private Transformation() {
