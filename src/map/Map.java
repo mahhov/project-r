@@ -1,6 +1,6 @@
 package map;
 
-import engine.Game;
+import game.Game;
 
 public class Map {
     private Game game;

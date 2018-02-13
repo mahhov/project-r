@@ -24,14 +24,19 @@ public class Engine {
     private static final long NANOSECONDS_IN__SECOND = 1000000000L;
     private long window;
 
-    private Game game;
+    private EngineRunnable engineRunnable;
 
-    private Engine() {
+    public Engine(EngineRunnable engineRunnable) {
         initLwjgl();
+
         KeyControl keyControl = new KeyControl(window);
         MousePosControl mousePosControl = new MousePosControl(window);
         MouseButtonControl mouseButtonControl = new MouseButtonControl(window);
-        game = new Game(keyControl, mousePosControl, mouseButtonControl);
+
+        this.engineRunnable = engineRunnable;
+        engineRunnable.init(keyControl, mousePosControl, mouseButtonControl);
+
+        run();
     }
 
     private void initLwjgl() {
@@ -74,7 +79,7 @@ public class Engine {
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            game.loop();
+            engineRunnable.loop();
 
             glfwSwapBuffers(window);
             glfwPollEvents();
@@ -82,18 +87,14 @@ public class Engine {
             engineFrame++;
             endTime = System.nanoTime() + 1;
             if (endTime - beginTime > NANOSECONDS_IN__SECOND) {
-                game.updateFps(engineFrame);
+                engineRunnable.updateFps(engineFrame);
                 engineFrame = 0;
                 beginTime = endTime;
             }
         }
 
-        game.shutDown();
+        engineRunnable.shutDown();
         destroyLwjgl();
-    }
-
-    public static void main(String[] args) {
-        new Engine().run();
     }
 }
 

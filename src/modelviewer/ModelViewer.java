@@ -7,31 +7,43 @@ import character.model.ViewModel;
 import control.KeyControl;
 import control.MouseButtonControl;
 import control.MousePosControl;
+import engine.Engine;
+import engine.EngineRunnable;
 import shader.ShaderManager;
 import shape.CubeInstancedFaces;
+import ui.UiDrawerModelViewer;
 
-public class ModelViewer {
+public class ModelViewer implements EngineRunnable {
     private KeyControl keyControl;
     private MousePosControl mousePosControl;
     private MouseButtonControl mouseButtonControl;
 
     private CubeInstancedFaces cubeInstancedFaces;
-    public FreeCameraFollow follow;
+    private FreeCameraFollow follow;
     private Camera camera;
     private ViewModel viewModel;
+    private Selector selector;
+    private UiDrawerModelViewer uiDrawer;
 
-    ModelViewer(KeyControl keyControl, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
+    @Override
+    public void init(KeyControl keyControl, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
         this.keyControl = keyControl;
         this.mousePosControl = mousePosControl;
         this.mouseButtonControl = mouseButtonControl;
 
         ShaderManager.setRenderShader();
 
-        camera = new Camera(ShaderManager.getRenderShaderProgramId(), 10, 0);
+        camera = new Camera(ShaderManager.getRenderShaderProgramId(), 20, 0);
         follow = new FreeCameraFollow();
         camera.setFollow(follow);
+        selector = new Selector();
+        uiDrawer = new UiDrawerModelViewer(selector, keyControl, mousePosControl, mouseButtonControl);
 
-        viewModel = new ViewModel();
+        viewModel = createViewModel();
+    }
+
+    private ViewModel createViewModel() {
+        ViewModel viewModel = new ViewModel();
         cubeInstancedFaces = new CubeInstancedFaces();
         float[] color = new float[] {1, 1, 1, 1};
 
@@ -62,17 +74,41 @@ public class ModelViewer {
         viewModel.addSegment(legFL);
         viewModel.addSegment(legBR);
         viewModel.addSegment(legBL);
+
+        return viewModel;
     }
 
-    void loop() {
+    @Override
+    public void loop() {
         ShaderManager.setRenderShader();
-        follow.update(keyControl, mousePosControl);
+        follow.update(mousePosControl);
         camera.update(keyControl);
+        viewModel.update(selector.getSelectedTool(), keyControl);
 
         cubeInstancedFaces.reset();
         viewModel.draw();
         cubeInstancedFaces.doneAdding();
         cubeInstancedFaces.draw();
+
+        uiDrawer.update();
+        ShaderManager.setUiShader();
+        uiDrawer.draw();
+        ShaderManager.setTextShader();
+        uiDrawer.drawText();
+
         mouseButtonControl.next();
+    }
+
+    @Override
+    public void updateFps(int fps) {
+        uiDrawer.updateFps(fps);
+    }
+
+    @Override
+    public void shutDown() {
+    }
+
+    public static void main(String[] args) {
+        new Engine(new ModelViewer());
     }
 }

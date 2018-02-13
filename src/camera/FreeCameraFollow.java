@@ -1,6 +1,5 @@
 package camera;
 
-import control.KeyButton;
 import control.KeyControl;
 import control.MousePosControl;
 import util.MathAngles;
@@ -11,19 +10,10 @@ public class FreeCameraFollow implements Follow {
     private static final float ROTATE_SPEED_KEY = .1f;
     private float theta, thetaZ;
 
-    public void update(KeyControl keyControl, MousePosControl mousePosControl) {
-        if (keyControl.isKeyDown(KeyButton.KEY_W))
-            thetaZ -= ROTATE_SPEED_KEY;
-        if (keyControl.isKeyDown(KeyButton.KEY_S))
-            thetaZ += ROTATE_SPEED_KEY;
-        if (keyControl.isKeyDown(KeyButton.KEY_A))
-            theta -= ROTATE_SPEED_KEY;
-        if (keyControl.isKeyDown(KeyButton.KEY_D))
-            theta += ROTATE_SPEED_KEY;
-
+    public void update(MousePosControl mousePosControl) {
         theta -= ROTATE_SPEED_MOUSE * mousePosControl.getMoveX();
         thetaZ -= ROTATE_SPEED_MOUSE * mousePosControl.getMoveY();
-        
+
         thetaZ = MathNumbers.minMax(thetaZ, -MathAngles.MAX_THETA_Z, MathAngles.MAX_THETA_Z);
     }
 

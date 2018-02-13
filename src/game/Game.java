@@ -1,16 +1,18 @@
-package engine;
+package game;
 
 import camera.Camera;
 import character.Human;
 import control.KeyControl;
 import control.MouseButtonControl;
 import control.MousePosControl;
+import engine.Engine;
+import engine.EngineRunnable;
 import map.Map;
 import shader.ShaderManager;
 import ui.UiDrawer;
 import world.World;
 
-public class Game {
+public class Game implements EngineRunnable {
     private KeyControl keyControl;
     private MousePosControl mousePosControl;
     private MouseButtonControl mouseButtonControl;
@@ -21,7 +23,8 @@ public class Game {
     private Camera camera;
     private UiDrawer uiDrawer;
 
-    Game(KeyControl keyControl, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
+    @Override
+    public void init(KeyControl keyControl, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
         this.keyControl = keyControl;
         this.mousePosControl = mousePosControl;
         this.mouseButtonControl = mouseButtonControl;
@@ -44,7 +47,8 @@ public class Game {
         camera.setFollow(human);
     }
 
-    void loop() {
+    @Override
+    public void loop() {
         ShaderManager.setRenderShader();
         camera.update(keyControl);
         world.setCameraCoordinate(camera.getWorldCoordinate());
@@ -60,11 +64,17 @@ public class Game {
         mouseButtonControl.next();
     }
 
-    void updateFps(int fps) {
+    @Override
+    public void updateFps(int fps) {
         uiDrawer.updateFps(fps);
     }
 
-    void shutDown() {
+    @Override
+    public void shutDown() {
         world.shutDownGeneratorExecutors();
+    }
+
+    public static void main(String[] args) {
+        new Engine(new Game());
     }
 }
