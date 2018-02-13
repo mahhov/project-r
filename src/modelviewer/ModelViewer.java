@@ -36,10 +36,9 @@ public class ModelViewer implements EngineRunnable {
         camera = new Camera(ShaderManager.getRenderShaderProgramId(), 20, 0);
         follow = new FreeCameraFollow();
         camera.setFollow(follow);
+        viewModel = createViewModel();
         selector = new Selector();
         uiDrawer = new UiDrawerModelViewer(selector, keyControl, mousePosControl, mouseButtonControl);
-
-        viewModel = createViewModel();
     }
 
     private ViewModel createViewModel() {
@@ -83,7 +82,7 @@ public class ModelViewer implements EngineRunnable {
         ShaderManager.setRenderShader();
         follow.update(mousePosControl);
         camera.update(keyControl);
-        viewModel.update(selector.getSelectedTool(), keyControl);
+        viewModel.update(selector.getSelectedSegmentDelta(), selector.getSelectedTool(), keyControl);
 
         cubeInstancedFaces.reset();
         viewModel.draw();

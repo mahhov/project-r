@@ -9,18 +9,22 @@ public class ViewModel {
     private static final float TRANSLATION_SPEED = .5f, ROTATION_SPEED = .1f, SIZE_SPEED = .1f; // todo rename size -> scale
 
     private LList<SegmentEditable> segments;
-    private SegmentEditable selectedSegment;
+    private LList<SegmentEditable>.Node selectedSegmentNode;
 
     public ViewModel() {
         segments = new LList<>();
     }
 
     public void addSegment(SegmentEditable segment) {
-        segments.addTail(segment);
-        selectedSegment = segment;
+        selectedSegmentNode = segments.addTail(segment);
     }
 
-    public void update(Selector.Tool tool, KeyControl keyControl) {
+    public void update(int selectedSegmentDelta, Selector.Tool tool, KeyControl keyControl) {
+        if (selectedSegmentDelta > 0 && selectedSegmentNode.getNext() != null)
+            selectedSegmentNode = selectedSegmentNode.getNext();
+        else if (selectedSegmentDelta < 0 && selectedSegmentNode.getPrev() != null)
+            selectedSegmentNode = selectedSegmentNode.getPrev();
+
         switch (tool) {
             case POSITION:
                 updatePosition(keyControl);
@@ -58,8 +62,8 @@ public class ViewModel {
         if (keyControl.isKeyDown(KeyButton.KEY_E))
             dtheta -= ROTATION_SPEED;
 
-        selectedSegment.addTranslation(dx, dy, dz);
-        selectedSegment.addRotation(dtheta);
+        selectedSegmentNode.getValue().addTranslation(dx, dy, dz);
+        selectedSegmentNode.getValue().addRotation(dtheta);
     }
 
     private void updateSize(KeyControl keyControl) {
@@ -95,7 +99,7 @@ public class ViewModel {
             dz -= SIZE_SPEED;
         }
 
-        selectedSegment.addScale(dx, dy, dz);
+        selectedSegmentNode.getValue().addScale(dx, dy, dz);
     }
 
     public void draw() {

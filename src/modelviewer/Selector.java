@@ -15,10 +15,15 @@ public class Selector {
 
     private static final Tool[] TOOL_VALUES = Tool.values();
 
+    private int segmentDelta;
     private Tool tool;
 
     Selector() {
         this.tool = Tool.POSITION;
+    }
+
+    int getSelectedSegmentDelta() {
+        return segmentDelta;
     }
 
     Tool getSelectedTool() {
@@ -29,7 +34,15 @@ public class Selector {
         return tool.value;
     }
 
-    public void set(Tool tool) {
+    public void prevSegment() {
+        segmentDelta = -1;
+    }
+
+    public void nextSegment() {
+        segmentDelta = 1;
+    }
+
+    public void setTool(Tool tool) {
         this.tool = tool;
     }
 

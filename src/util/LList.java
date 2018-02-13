@@ -109,5 +109,13 @@ public class LList<T> implements Iterable<T> {
         public T getValue() {
             return value;
         }
+
+        public Node getPrev() {
+            return prev;
+        }
+
+        public Node getNext() {
+            return next;
+        }
     }
 }
