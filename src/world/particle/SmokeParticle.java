@@ -1,6 +1,6 @@
 package world.particle;
 
-import util.MathRandom;
+import util.math.MathRandom;
 import world.World;
 
 public class SmokeParticle extends Particle {

@@ -1,6 +1,6 @@
 package shape;
 
-import util.MathArrays;
+import util.math.MathArrays;
 
 class BasicShape {
     float[] vertices, colors, textureCoordinates;

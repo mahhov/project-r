@@ -4,7 +4,7 @@ import character.Human;
 import character.Monster;
 import character.monster.attack.Attack;
 import character.monster.motion.Motion;
-import util.MathNumbers;
+import util.math.MathNumbers;
 
 public class AggressiveBehavior extends Behavior {
     private static final int RETALIATE_TIME = 300;

@@ -1,7 +1,7 @@
 package character.model.segment;
 
 import shape.CubeInstancedFaces;
-import util.MathAngles;
+import util.math.MathAngles;
 import util.SimpleMatrix4f;
 
 public class Segment {

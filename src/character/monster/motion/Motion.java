@@ -3,9 +3,9 @@ package character.monster.motion;
 import character.Character;
 import character.Monster;
 import character.MoveControl;
-import util.MathAngles;
-import util.MathNumbers;
-import util.MathRandom;
+import util.math.MathAngles;
+import util.math.MathNumbers;
+import util.math.MathRandom;
 import world.WorldElement;
 
 public class Motion {

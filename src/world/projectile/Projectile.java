@@ -1,8 +1,8 @@
 package world.projectile;
 
 import shape.CubeInstancedFaces;
-import util.MathNumbers;
-import util.MathRandom;
+import util.math.MathNumbers;
+import util.math.MathRandom;
 import util.intersection.Intersection;
 import util.intersection.IntersectionHitter;
 import world.World;

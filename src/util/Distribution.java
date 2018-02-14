@@ -1,5 +1,7 @@
 package util;
 
+import util.math.MathRandom;
+
 public class Distribution {
     private int min, max;
 

@@ -1,8 +1,8 @@
 package ui;
 
 import shape.Rects;
-import util.MathNumbers;
-import util.MathUtil;
+import util.math.MathNumbers;
+import util.math.MathUtil;
 
 class UiBar {
     private static final float[] BORDER_COLOR = {0, 0, 0, .5f};

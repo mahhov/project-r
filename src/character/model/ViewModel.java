@@ -6,7 +6,7 @@ import control.KeyButton;
 import control.KeyControl;
 import modelviewer.Selector;
 import util.LList;
-import util.MathAngles;
+import util.math.MathAngles;
 
 public class ViewModel {
     private static final float TRANSLATION_SPEED = .2f, ROTATION_SPEED = MathAngles.PI / 12, SIZE_SPEED = TRANSLATION_SPEED * 2; // todo rename size -> scale

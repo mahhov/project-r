@@ -1,6 +1,6 @@
 package shape;
 
-import util.MathArrays;
+import util.math.MathArrays;
 import util.SimpleMatrix4f;
 
 public class CubeInstancedFaces {

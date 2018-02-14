@@ -1,6 +1,6 @@
 package world.particle;
 
-import util.MathRandom;
+import util.math.MathRandom;
 
 public class TrailParticle extends Particle {
     private static final float[] COLOR = new float[] {0, 0, 1, .5f};

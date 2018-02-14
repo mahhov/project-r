@@ -1,6 +1,6 @@
 package character;
 
-import util.MathNumbers;
+import util.math.MathNumbers;
 
 class Stamina {
     enum StaminaCost {

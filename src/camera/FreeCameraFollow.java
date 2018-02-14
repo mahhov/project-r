@@ -1,9 +1,8 @@
 package camera;
 
-import control.KeyControl;
 import control.MousePosControl;
-import util.MathAngles;
-import util.MathNumbers;
+import util.math.MathAngles;
+import util.math.MathNumbers;
 
 public class FreeCameraFollow implements Follow {
     private static final float ROTATE_SPEED_MOUSE = .008f;

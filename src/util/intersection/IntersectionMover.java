@@ -1,6 +1,6 @@
 package util.intersection;
 
-import util.MathNumbers;
+import util.math.MathNumbers;
 
 public class IntersectionMover extends Intersectioner {
     public IntersectionMover(Map map) {

@@ -1,6 +1,6 @@
 package util.intersection;
 
-import util.MathNumbers;
+import util.math.MathNumbers;
 import world.WorldElement;
 
 class Intersectioner {

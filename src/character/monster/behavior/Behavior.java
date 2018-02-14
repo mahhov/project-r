@@ -5,7 +5,7 @@ import character.Monster;
 import character.MoveControl;
 import character.monster.attack.Attack;
 import character.monster.motion.Motion;
-import util.MathRandom;
+import util.math.MathRandom;
 
 public class Behavior {
     enum State {PASSIVE, CURIOUS, HOSTILE, FRIGHTENED}

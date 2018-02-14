@@ -1,4 +1,4 @@
-package util;
+package util.math;
 
 public class MathArrays {
     public static float[] pluckArray3(float[] raw, int[] indicies) {

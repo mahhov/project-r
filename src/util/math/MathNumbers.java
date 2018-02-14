@@ -1,4 +1,4 @@
-package util;
+package util.math;
 
 public class MathNumbers {
     public static final float EPSILON = 0.001f, BIG_EPSILON = .01f;

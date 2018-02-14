@@ -3,7 +3,7 @@ package character;
 import item.gear.Gear;
 import item.gear.Property;
 import item.Item;
-import util.MathRandom;
+import util.math.MathRandom;
 
 public class Crafting {
     public enum Source {

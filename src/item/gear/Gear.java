@@ -3,11 +3,12 @@ package item.gear;
 import character.Crafting;
 import character.Equipment;
 import item.Item;
-import util.MathNumbers;
-import util.MathRandom;
+import util.math.MathNumbers;
+import util.math.MathRandom;
 
 public class Gear extends Item {
-    public static final int GEAR_MAX_PROPERTIES = 7, MIN_ENCHANTABILITY = 10;
+    public static final int GEAR_MAX_PROPERTIES = 7;
+    private static final int MIN_ENCHANTABILITY = 10;
 
     private Property.PropertyType[] primaryProperties, secondaryProperties;
 

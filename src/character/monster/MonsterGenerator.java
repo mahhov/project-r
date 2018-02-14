@@ -13,7 +13,7 @@ import character.monster.behavior.RunawayBehavior;
 import character.monster.motion.Motion;
 import shape.CubeInstancedFaces;
 import util.Distribution;
-import util.MathRandom;
+import util.math.MathRandom;
 
 public class MonsterGenerator {
     public static MonsterDetails createRandomDetails() {

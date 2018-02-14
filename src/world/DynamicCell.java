@@ -1,7 +1,7 @@
 package world;
 
 import util.LList;
-import util.MathNumbers;
+import util.math.MathNumbers;
 
 class DynamicCell {
     private LList<WorldElement> elements;

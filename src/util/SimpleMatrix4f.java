@@ -1,5 +1,7 @@
 package util;
 
+import util.math.MathAngles;
+
 import java.nio.FloatBuffer;
 
 public class SimpleMatrix4f {

@@ -5,8 +5,8 @@ import control.KeyControl;
 import engine.Engine;
 import geometry.CoordinateI3;
 import org.lwjgl.system.MemoryUtil;
-import util.MathAngles;
-import util.MathNumbers;
+import util.math.MathAngles;
+import util.math.MathNumbers;
 import util.SimpleMatrix4f;
 import util.intersection.IntersectionPicker;
 

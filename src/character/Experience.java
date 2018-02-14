@@ -1,6 +1,6 @@
 package character;
 
-import util.MathNumbers;
+import util.math.MathNumbers;
 
 public class Experience {
     private int maxExperience, level, experience;

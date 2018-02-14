@@ -1,6 +1,6 @@
 package world.particle;
 
-import util.MathRandom;
+import util.math.MathRandom;
 
 public class JetParticle extends Particle {
     private static final float[] COLOR = new float[] {1, 1, 1, .5f};

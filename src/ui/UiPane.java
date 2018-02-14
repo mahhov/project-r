@@ -2,7 +2,7 @@ package ui;
 
 import shape.Rects;
 import shape.Texts;
-import util.MathNumbers;
+import util.math.MathNumbers;
 
 abstract class UiPane {
     private static final float

@@ -3,10 +3,10 @@ package character.monster.attack;
 import character.Human;
 import character.Monster;
 import shape.CubeInstancedFaces;
-import util.MathAngles;
+import util.math.MathAngles;
 
 public class Attack {
-    static final int BASE_ATTACK_TIME = 100 * 100;
+    private static final int BASE_ATTACK_TIME = 100 * 100;
 
     Monster monster;
     Human human;

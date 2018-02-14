@@ -1,7 +1,7 @@
 package world.generator;
 
-import util.MathNumbers;
-import util.MathRandom;
+import util.math.MathNumbers;
+import util.math.MathRandom;
 
 public class HeightMapWorldGenerator {
     public static int[][][] generate(int width, int length, int maxHeight) {

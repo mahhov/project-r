@@ -5,7 +5,7 @@ import character.model.Model;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.LList;
-import util.MathNumbers;
+import util.math.MathNumbers;
 import util.intersection.Intersection;
 import util.intersection.IntersectionMover;
 import world.World;

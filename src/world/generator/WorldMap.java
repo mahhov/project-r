@@ -1,6 +1,6 @@
 package world.generator;
 
-import util.MathNumbers;
+import util.math.MathNumbers;
 
 public class WorldMap {
     private static final int MAX_TERRAIN = 8;

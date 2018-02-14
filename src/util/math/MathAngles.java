@@ -1,4 +1,6 @@
-package util;
+package util.math;
+
+import util.Timer;
 
 public class MathAngles {
     public static final float PI = (float) Math.PI, PI2 = PI * 2, MAX_THETA_Z = PI / 2 - MathNumbers.BIG_EPSILON;

@@ -1,7 +1,7 @@
 package world.particle;
 
 import shape.CubeInstancedFaces;
-import util.MathRandom;
+import util.math.MathRandom;
 import world.World;
 import world.WorldLightElement;
 

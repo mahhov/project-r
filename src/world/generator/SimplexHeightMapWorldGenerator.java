@@ -1,7 +1,7 @@
 package world.generator;
 
-import util.MathNumbers;
-import util.MathRandom;
+import util.math.MathNumbers;
+import util.math.MathRandom;
 import world.generator.simplex.SimplexNoiseHelper;
 
 public class SimplexHeightMapWorldGenerator implements WorldGenerator {

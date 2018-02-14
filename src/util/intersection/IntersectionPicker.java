@@ -1,6 +1,6 @@
 package util.intersection;
 
-import util.MathNumbers;
+import util.math.MathNumbers;
 
 public class IntersectionPicker extends Intersectioner {
     private static final float RANGE = .5f;
