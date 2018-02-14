@@ -11,9 +11,14 @@ public class MeleeAttack extends Attack {
     private boolean attackInProgress;
 
     public MeleeAttack() {
-        size = attackRange * 2;
         attack = new Timer();
         delay = new Timer();
+    }
+
+    @Override
+    public void setParams(float attackSpeed, float attackDamage, float attackRange, float attackSize, float attackAoe) {
+        super.setParams(attackSpeed, attackDamage, attackRange, attackSize, attackAoe);
+        size = attackRange * 2;
     }
 
     @Override
