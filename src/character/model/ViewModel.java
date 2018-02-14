@@ -8,7 +8,9 @@ import modelviewer.Selector;
 import util.LList;
 import util.math.MathAngles;
 
-public class ViewModel {
+import java.io.Serializable;
+
+public class ViewModel implements Serializable {
     private static final float TRANSLATION_SPEED = .2f, ROTATION_SPEED = MathAngles.PI / 12, SIZE_SPEED = TRANSLATION_SPEED * 2; // todo rename size -> scale
     private static final float[] UNSELECTED_COLOR = new float[] {1, 1, 1, 1}, SELECTED_COLOR = new float[] {0, 0, 1, 1};
 
