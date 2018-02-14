@@ -9,7 +9,7 @@ import engine.Engine;
 import engine.EngineRunnable;
 import map.Map;
 import shader.ShaderManager;
-import ui.UiDrawer;
+import ui.UiDrawerGame;
 import world.World;
 
 public class Game implements EngineRunnable {
@@ -21,7 +21,7 @@ public class Game implements EngineRunnable {
     private World world;
     private Human human;
     private Camera camera;
-    private UiDrawer uiDrawer;
+    private UiDrawerGame uiDrawer;
 
     @Override
     public void init(KeyControl keyControl, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
@@ -43,7 +43,7 @@ public class Game implements EngineRunnable {
         human = new Human(32 * Engine.SCALE, 1, 15 * Engine.SCALE_Z, 0, 0, world.getIntersectionMover(), world.getIntersectionPicker(), keyControl, mousePosControl, mouseButtonControl);
         world.setHuman(human);
         ShaderManager.setTextShader();
-        uiDrawer = new UiDrawer(human, map, keyControl, mousePosControl, mouseButtonControl);
+        uiDrawer = new UiDrawerGame(human, map, keyControl, mousePosControl, mouseButtonControl);
         camera.setFollow(human);
     }
 
