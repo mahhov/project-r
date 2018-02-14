@@ -82,6 +82,7 @@ public class ModelViewer implements EngineRunnable {
         ShaderManager.setRenderShader();
         follow.update(mousePosControl);
         camera.update(keyControl);
+        selector.update(keyControl);
         viewModel.update(selector.getSelectedSegmentDelta(), selector.getSelectedTool(), keyControl);
 
         cubeInstancedFaces.reset();

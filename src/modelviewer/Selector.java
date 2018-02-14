@@ -1,5 +1,8 @@
 package modelviewer;
 
+import control.KeyButton;
+import control.KeyControl;
+
 public class Selector {
     public enum Tool {
         POSITION("Position"), SIZE("Size");
@@ -20,6 +23,13 @@ public class Selector {
 
     Selector() {
         this.tool = Tool.POSITION;
+    }
+
+    void update(KeyControl keyControl) {
+        if (keyControl.isKeyPressed(KeyButton.KEY_N))
+            prevSegment();
+        else if (keyControl.isKeyPressed(KeyButton.KEY_M))
+            nextSegment();
     }
 
     int getSelectedSegmentDelta() {
