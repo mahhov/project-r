@@ -12,6 +12,7 @@ import engine.EngineRunnable;
 import shader.ShaderManager;
 import shape.CubeInstancedFaces;
 import ui.UiDrawerModelViewer;
+import util.Writer;
 
 public class ModelViewer implements EngineRunnable {
     private KeyControl keyControl;
@@ -36,22 +37,42 @@ public class ModelViewer implements EngineRunnable {
         camera = new Camera(ShaderManager.getRenderShaderProgramId(), 20, 0);
         follow = new FreeCameraFollow();
         camera.setFollow(follow);
+
         viewModel = createViewModel();
+
         selector = new Selector();
         uiDrawer = new UiDrawerModelViewer(selector, keyControl, mousePosControl, mouseButtonControl);
+    }
+
+    private void storeViewModel() {
+        viewModel.write(Writer.getWriteStream("viewModel.model"));
+    }
+
+    private ViewModel loadViewModel() {
+        ViewModel viewModel = new ViewModel();
+        cubeInstancedFaces = new CubeInstancedFaces();
+
+        viewModel.read(Writer.getReadStream("viewModel.model"), cubeInstancedFaces);
+        return viewModel;
     }
 
     private ViewModel createViewModel() {
         ViewModel viewModel = new ViewModel();
         cubeInstancedFaces = new CubeInstancedFaces();
-        float[] color = new float[] {1, 1, 1, 1};
 
-        SegmentEditable body = new SegmentEditable(null, color, cubeInstancedFaces);
-        SegmentEditable head = new SegmentEditable(body, color, cubeInstancedFaces);
-        SegmentEditable legFR = new SegmentEditable(body, color, cubeInstancedFaces);
-        SegmentEditable legFL = new SegmentEditable(body, color, cubeInstancedFaces);
-        SegmentEditable legBR = new SegmentEditable(body, color, cubeInstancedFaces);
-        SegmentEditable legBL = new SegmentEditable(body, color, cubeInstancedFaces);
+        SegmentEditable body = new SegmentEditable();
+        SegmentEditable head = new SegmentEditable();
+        SegmentEditable legFR = new SegmentEditable();
+        SegmentEditable legFL = new SegmentEditable();
+        SegmentEditable legBR = new SegmentEditable();
+        SegmentEditable legBL = new SegmentEditable();
+
+        body.init(null, cubeInstancedFaces);
+        head.init(body, cubeInstancedFaces);
+        legFR.init(body, cubeInstancedFaces);
+        legFL.init(body, cubeInstancedFaces);
+        legBR.init(body, cubeInstancedFaces);
+        legBL.init(body, cubeInstancedFaces);
 
         body.setScale(2, 2.5f, 2);
         head.setScale(1.3f, 1.3f, 1.3f);

@@ -1,16 +1,20 @@
 package character.model;
 
 import character.model.segment.Segment;
+import character.model.segment.SegmentData;
 import character.model.segment.SegmentEditable;
 import control.KeyButton;
 import control.KeyControl;
 import modelviewer.Selector;
+import shape.CubeInstancedFaces;
 import util.LList;
 import util.math.MathAngles;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-public class ViewModel implements Serializable {
+public class ViewModel {
     private static final float TRANSLATION_SPEED = .2f, ROTATION_SPEED = MathAngles.PI / 12, SIZE_SPEED = TRANSLATION_SPEED * 2; // todo rename size -> scale
     private static final float[] UNSELECTED_COLOR = new float[] {1, 1, 1, 1}, SELECTED_COLOR = new float[] {0, 0, 1, 1};
 
@@ -128,5 +132,58 @@ public class ViewModel implements Serializable {
     public void draw() {
         for (Segment segment : segments)
             segment.draw();
+    }
+
+    public void write(ObjectOutputStream out) {
+        try {
+            int segmentsCount = segments.size();
+            out.writeInt(segmentsCount);
+
+            int[] parents = new int[segmentsCount];
+            int segmentIndex = 0;
+            for (SegmentEditable segment : segments) {
+                parents[segmentIndex] = -1;
+                int match = 0;
+                for (SegmentEditable segmentInner : segments) {
+                    if (segment.getParent() == segmentInner) {
+                        parents[segmentIndex] = match;
+                        break;
+                    }
+                    match++;
+                }
+                segmentIndex++;
+            }
+
+            for (int i = 0; i < segmentsCount; i++)
+                out.writeInt(parents[i]);
+
+            for (SegmentEditable segment : segments)
+                out.writeObject(segment.getSegmentData());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void read(ObjectInputStream in, CubeInstancedFaces cubeInstancedFaces) {
+        try {
+            int segmentsCount = in.readInt();
+
+            int[] parents = new int[segmentsCount];
+            for (int i = 0; i < segmentsCount; i++)
+                parents[i] = in.readInt();
+
+            SegmentEditable segments[] = new SegmentEditable[segmentsCount];
+            for (int i = 0; i < segmentsCount; i++) {
+                segments[i] = new SegmentEditable((SegmentData) in.readObject());
+                addSegment(segments[i]);
+            }
+
+            for (int i = 0; i < segmentsCount; i++)
+                segments[i].init(parents[i] != -1 ? segments[parents[i]] : null, cubeInstancedFaces);
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

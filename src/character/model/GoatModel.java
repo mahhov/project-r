@@ -11,9 +11,13 @@ public class GoatModel extends Model {
         super(character, 2);
 
         float size = character.getSize();
-        body = new Segment(null, color, cubeInstancedFaces);
+
+        body = new Segment(color);
+        body.init(null, cubeInstancedFaces);
         body.setScale(size);
-        head = new Segment(body, color, cubeInstancedFaces);
+
+        head = new Segment(color);
+        head.init(body, cubeInstancedFaces);
         head.setScale(size / 2);
         head.setTranslation(0, 0, size * .75f);
 

@@ -1,10 +1,12 @@
 package character.model.segment;
 
-import shape.CubeInstancedFaces;
-
 public class SegmentEditable extends Segment {
-    public SegmentEditable(SegmentEditable parent, float[] color, CubeInstancedFaces cubeInstancedFaces) {
-        super(parent, color, cubeInstancedFaces);
+    public SegmentEditable() {
+        super(new float[0]);
+    }
+
+    public SegmentEditable(SegmentData segmentData) {
+        super(segmentData);
     }
 
     public void addScale(float scaleX, float scaleY, float scaleZ) {

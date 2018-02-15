@@ -2,24 +2,36 @@ package character.model.segment;
 
 import shape.CubeInstancedFaces;
 import util.math.MathAngles;
-import util.SimpleMatrix4f;
 
 public class Segment {
     private Segment parent;
-    private SimpleMatrix4f modelMatrix;
     float scaleX, scaleY, scaleZ, color[];
     private CubeInstancedFaces cubeInstancedFaces;
     Transformation transformation;
     private Transformation compositeTransformation;
     boolean stale;
 
-    public Segment(Segment parent, float[] color, CubeInstancedFaces cubeInstancedFaces) {
-        this.parent = parent;
+    public Segment(float[] color) {
         this.color = color;
-        this.cubeInstancedFaces = cubeInstancedFaces;
         transformation = new Transformation();
         compositeTransformation = new Transformation();
         stale = true;
+    }
+
+    public Segment(SegmentData segmentData) {
+        this(segmentData.color);
+        scaleX = segmentData.scaleX;
+        scaleY = segmentData.scaleY;
+        scaleZ = segmentData.scaleZ;
+        transformation.x = segmentData.transformationX;
+        transformation.y = segmentData.transformationY;
+        transformation.z = segmentData.transformationZ;
+        transformation.theta = segmentData.transformationTheta;
+    }
+
+    public void init(Segment parent, CubeInstancedFaces cubeInstancedFaces) {
+        this.parent = parent;
+        this.cubeInstancedFaces = cubeInstancedFaces;
     }
 
     public void setScale(float scale) {
@@ -78,7 +90,26 @@ public class Segment {
         private float[] norm;
 
         private Transformation() {
-            norm = new float[3];
+            norm = new float[2];
         }
+    }
+
+    public Segment getParent() {
+        return parent;
+    }
+
+    public SegmentData getSegmentData() {
+        SegmentData segmentData = new SegmentData();
+
+        segmentData.scaleX = scaleX;
+        segmentData.scaleY = scaleY;
+        segmentData.scaleZ = scaleZ;
+        segmentData.color = color;
+        segmentData.transformationX = transformation.x;
+        segmentData.transformationY = transformation.y;
+        segmentData.transformationZ = transformation.z;
+        segmentData.transformationTheta = transformation.theta;
+
+        return segmentData;
     }
 }
