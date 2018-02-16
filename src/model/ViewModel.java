@@ -15,7 +15,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class ViewModel {
-    private static final float TRANSLATION_SPEED = .2f, ROTATION_SPEED = MathAngles.PI / 12, SIZE_SPEED = TRANSLATION_SPEED * 2; // todo rename size -> scale
+    private static final float TRANSLATION_SPEED = .2f, ROTATION_SPEED = MathAngles.PI / 12, SCALE_SPEED = TRANSLATION_SPEED * 2;
     private static final float[] UNSELECTED_COLOR = new float[] {1, 1, 1, 1}, SELECTED_COLOR = new float[] {0, 0, 1, 1};
 
     private LList<SegmentEditable> segments;
@@ -43,8 +43,8 @@ public class ViewModel {
             case POSITION:
                 updatePosition(keyControl);
                 break;
-            case SIZE:
-                updateSize(keyControl);
+            case SCALE:
+                updateScale(keyControl);
                 break;
         }
     }
@@ -93,37 +93,37 @@ public class ViewModel {
         selectedSegmentNode.getValue().addRotation(dtheta);
     }
 
-    private void updateSize(KeyControl keyControl) {
+    private void updateScale(KeyControl keyControl) {
         float dx = 0, dy = 0, dz = 0;
 
         if (keyControl.isKeyPressed(KeyButton.KEY_W))
-            dy += SIZE_SPEED;
+            dy += SCALE_SPEED;
 
         if (keyControl.isKeyPressed(KeyButton.KEY_S))
-            dy -= SIZE_SPEED;
+            dy -= SCALE_SPEED;
 
         if (keyControl.isKeyPressed(KeyButton.KEY_A))
-            dx -= SIZE_SPEED;
+            dx -= SCALE_SPEED;
 
         if (keyControl.isKeyPressed(KeyButton.KEY_D))
-            dx += SIZE_SPEED;
+            dx += SCALE_SPEED;
 
         if (keyControl.isKeyPressed(KeyButton.KEY_SHIFT))
-            dz -= SIZE_SPEED;
+            dz -= SCALE_SPEED;
 
         if (keyControl.isKeyPressed(KeyButton.KEY_SPACE))
-            dz += SIZE_SPEED;
+            dz += SCALE_SPEED;
 
         if (keyControl.isKeyPressed(KeyButton.KEY_Q)) {
-            dx += SIZE_SPEED;
-            dy += SIZE_SPEED;
-            dz += SIZE_SPEED;
+            dx += SCALE_SPEED;
+            dy += SCALE_SPEED;
+            dz += SCALE_SPEED;
         }
 
         if (keyControl.isKeyPressed(KeyButton.KEY_E)) {
-            dx -= SIZE_SPEED;
-            dy -= SIZE_SPEED;
-            dz -= SIZE_SPEED;
+            dx -= SCALE_SPEED;
+            dy -= SCALE_SPEED;
+            dz -= SCALE_SPEED;
         }
 
         selectedSegmentNode.getValue().addScale(dx, dy, dz);

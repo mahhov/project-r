@@ -2,13 +2,13 @@ package modelviewer;
 
 import camera.Camera;
 import camera.FreeCameraFollow;
-import model.ViewModel;
-import model.segment.SegmentEditable;
 import control.KeyControl;
 import control.MouseButtonControl;
 import control.MousePosControl;
 import engine.Engine;
 import engine.EngineRunnable;
+import model.ViewModel;
+import model.segment.SegmentEditable;
 import shader.ShaderManager;
 import shape.CubeInstancedFaces;
 import ui.UiDrawerModelViewer;

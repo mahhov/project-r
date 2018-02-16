@@ -5,7 +5,7 @@ import control.KeyControl;
 
 public class Selector {
     public enum Tool {
-        POSITION("Position"), SIZE("Size");
+        POSITION("Position"), SCALE("Scale");
 
         public final String name;
         final int value;
