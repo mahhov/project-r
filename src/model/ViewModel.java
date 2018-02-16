@@ -134,7 +134,7 @@ public class ViewModel {
             segment.draw();
     }
 
-    public void write(ObjectOutputStream out) { // todo move these to Model & ViewModel common ancestor
+    public void write(ObjectOutputStream out) {
         try {
             int segmentsCount = segments.size();
             out.writeInt(segmentsCount);
@@ -165,25 +165,29 @@ public class ViewModel {
         }
     }
 
-    public void read(ObjectInputStream in, CubeInstancedFaces cubeInstancedFaces) {
+    public static ViewModel read(ObjectInputStream in, CubeInstancedFaces cubeInstancedFaces) {
         try {
+            ViewModel model = new ViewModel();
             int segmentsCount = in.readInt();
 
             int[] parents = new int[segmentsCount];
             for (int i = 0; i < segmentsCount; i++)
                 parents[i] = in.readInt();
 
-            SegmentEditable segments[] = new SegmentEditable[segmentsCount];
+            SegmentEditable[] segments = new SegmentEditable[segmentsCount];
             for (int i = 0; i < segmentsCount; i++) {
                 segments[i] = new SegmentEditable((SegmentData) in.readObject());
-                addSegment(segments[i]);
+                model.addSegment(segments[i]);
             }
 
             for (int i = 0; i < segmentsCount; i++)
                 segments[i].init(parents[i] != -1 ? segments[parents[i]] : null, cubeInstancedFaces);
 
+            return model;
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            return null;
         }
     }
 }

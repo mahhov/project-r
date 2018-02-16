@@ -1,10 +1,10 @@
 package character;
 
 import geometry.CoordinateI3;
-import model.GoatModel;
 import model.Model;
 import shape.CubeInstancedFaces;
 import util.LList;
+import util.Writer;
 import util.intersection.Intersection;
 import util.intersection.IntersectionMover;
 import util.math.MathNumbers;
@@ -47,7 +47,8 @@ public abstract class Character implements WorldElement { // todo support human 
         this.size = size;
         this.intersectionMover = intersectionMover;
 
-        model = new GoatModel(this, cubeInstancedFaces, color);
+        //        model = new GoatModel(this, cubeInstancedFaces, color);
+        model = Model.read(Writer.getReadStream("viewModel.model"), this, cubeInstancedFaces);
 
         this.health = new Health(stats);
     }

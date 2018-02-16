@@ -4,7 +4,7 @@ import model.segment.Segment;
 import shape.CubeInstancedFaces;
 import world.WorldElement;
 
-public class GoatModel extends WorldModel {
+public class GoatModel extends Model {
     private Segment body, head;
 
     public GoatModel(WorldElement worldElement, CubeInstancedFaces cubeInstancedFaces, float[] color) {

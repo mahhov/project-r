@@ -54,7 +54,7 @@ public class ModelViewer implements EngineRunnable {
         ViewModel viewModel = new ViewModel();
         cubeInstancedFaces = new CubeInstancedFaces();
 
-        viewModel.read(Writer.getReadStream("viewModel.model"), cubeInstancedFaces);
+        viewModel = ViewModel.read(Writer.getReadStream("viewModel.model"), cubeInstancedFaces);
         return viewModel;
     }
 
