@@ -1,4 +1,4 @@
-package character.model.segment;
+package model.segment;
 
 public class SegmentEditable extends Segment {
     public SegmentEditable() {

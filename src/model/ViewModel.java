@@ -1,8 +1,8 @@
-package character.model;
+package model;
 
-import character.model.segment.Segment;
-import character.model.segment.SegmentData;
-import character.model.segment.SegmentEditable;
+import model.segment.Segment;
+import model.segment.SegmentData;
+import model.segment.SegmentEditable;
 import control.KeyButton;
 import control.KeyControl;
 import modelviewer.Selector;

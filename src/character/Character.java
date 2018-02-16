@@ -1,7 +1,7 @@
 package character;
 
-import character.model.GoatModel;
-import character.model.Model;
+import model.GoatModel;
+import model.Model;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.LList;

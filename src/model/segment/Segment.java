@@ -1,4 +1,4 @@
-package character.model.segment;
+package model.segment;
 
 import shape.CubeInstancedFaces;
 import util.math.MathAngles;

@@ -1,4 +1,4 @@
-package character.model.segment;
+package model.segment;
 
 import java.io.Serializable;
 

@@ -1,7 +1,7 @@
-package character.model;
+package model;
 
 import character.Character;
-import character.model.segment.Segment;
+import model.segment.Segment;
 
 public abstract class Model {
     Character character;
