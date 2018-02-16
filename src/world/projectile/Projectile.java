@@ -1,10 +1,10 @@
 package world.projectile;
 
 import shape.CubeInstancedFaces;
-import util.math.MathNumbers;
-import util.math.MathRandom;
 import util.intersection.Intersection;
 import util.intersection.IntersectionHitter;
+import util.math.MathNumbers;
+import util.math.MathRandom;
 import world.World;
 import world.WorldElement;
 import world.particle.TrailParticle;
@@ -83,6 +83,11 @@ public class Projectile implements WorldElement {
     @Override
     public float getZ() {
         return z;
+    }
+
+    @Override
+    public float getTheta() {
+        return 0; // todo compute based on vx/vy on construction
     }
 
     @Override

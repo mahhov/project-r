@@ -6,11 +6,11 @@ import item.Item;
 import item.gear.Gear;
 import item.gear.Module;
 import shape.CubeInstancedFaces;
-import util.math.MathAngles;
-import util.math.MathNumbers;
 import util.intersection.Intersection;
 import util.intersection.IntersectionMover;
 import util.intersection.IntersectionPicker;
+import util.math.MathAngles;
+import util.math.MathNumbers;
 import world.World;
 import world.WorldElement;
 import world.particle.JetParticle;
@@ -362,8 +362,18 @@ public class Human implements WorldElement, Follow {
     }
 
     @Override
+    public float getTheta() {
+        return theta;
+    }
+
+    @Override
     public float getSize() {
         return SIZE;
+    }
+
+    @Override
+    public int getId() {
+        return WORLD_ELEMENT_ID;
     }
 
     // ui getters
@@ -433,12 +443,6 @@ public class Human implements WorldElement, Follow {
     }
 
     // other getters
-
-    @Override
-    public int getId() {
-        return WORLD_ELEMENT_ID;
-    }
-
 
     public boolean isDangerous() {
         return throwTimer.justActiveated();

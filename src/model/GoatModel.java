@@ -1,16 +1,16 @@
 package model;
 
-import character.Character;
 import model.segment.Segment;
 import shape.CubeInstancedFaces;
+import world.WorldElement;
 
-public class GoatModel extends Model {
+public class GoatModel extends WorldModel {
     private Segment body, head;
 
-    public GoatModel(Character character, CubeInstancedFaces cubeInstancedFaces, float[] color) {
-        super(character, 2);
+    public GoatModel(WorldElement worldElement, CubeInstancedFaces cubeInstancedFaces, float[] color) {
+        super(worldElement, 2);
 
-        float size = character.getSize();
+        float size = worldElement.getSize();
 
         body = new Segment(color);
         body.init(null, cubeInstancedFaces);
@@ -26,8 +26,8 @@ public class GoatModel extends Model {
     }
 
     public void draw() {
-        body.setTranslation(character.getX(), character.getY(), character.getZ());
-        body.setRotation(character.getTheta());
+        body.setTranslation(worldElement.getX(), worldElement.getY(), worldElement.getZ());
+        body.setRotation(worldElement.getTheta());
         super.draw();
     }
 }

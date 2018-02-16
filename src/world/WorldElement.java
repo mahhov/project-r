@@ -13,6 +13,8 @@ public interface WorldElement {
 
     float getZ();
 
+    float getTheta();
+
     float getSize();
 
     int getId();

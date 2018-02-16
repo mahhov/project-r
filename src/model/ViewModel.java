@@ -1,10 +1,10 @@
 package model;
 
+import control.KeyButton;
+import control.KeyControl;
 import model.segment.Segment;
 import model.segment.SegmentData;
 import model.segment.SegmentEditable;
-import control.KeyButton;
-import control.KeyControl;
 import modelviewer.Selector;
 import shape.CubeInstancedFaces;
 import util.LList;

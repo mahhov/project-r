@@ -1,13 +1,13 @@
 package character;
 
+import geometry.CoordinateI3;
 import model.GoatModel;
 import model.Model;
-import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.LList;
-import util.math.MathNumbers;
 import util.intersection.Intersection;
 import util.intersection.IntersectionMover;
+import util.math.MathNumbers;
 import world.World;
 import world.WorldElement;
 
@@ -181,6 +181,7 @@ public abstract class Character implements WorldElement { // todo support human 
         return z;
     }
 
+    @Override
     public float getTheta() {
         return theta;
     }
