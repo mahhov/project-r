@@ -3,16 +3,11 @@ package model;
 import control.KeyButton;
 import control.KeyControl;
 import model.segment.Segment;
-import model.segment.SegmentData;
 import model.segment.SegmentEditable;
 import modelviewer.Selector;
 import shape.CubeInstancedFaces;
 import util.LList;
 import util.math.MathAngles;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 public class ViewModel {
     private static final float TRANSLATION_SPEED = .2f, ROTATION_SPEED = MathAngles.PI / 12, SCALE_SPEED = TRANSLATION_SPEED * 2;
@@ -23,6 +18,18 @@ public class ViewModel {
 
     public ViewModel() {
         segments = new LList<>();
+    }
+
+    public ViewModel(ModelData modelData, CubeInstancedFaces cubeInstancedFaces) {
+        this();
+        SegmentEditable[] segments = new SegmentEditable[modelData.segmentCount];
+        for (int i = 0; i < modelData.segmentCount; i++) {
+            segments[i] = new SegmentEditable(modelData.segmentData[i]);
+            addSegment(segments[i]);
+        }
+
+        for (int i = 0; i < modelData.segmentCount; i++)
+            segments[i].init(modelData.parents[i] != -1 ? segments[modelData.parents[i]] : null, cubeInstancedFaces);
     }
 
     public void addSegment(SegmentEditable segment) {
@@ -134,60 +141,26 @@ public class ViewModel {
             segment.draw();
     }
 
-    public void write(ObjectOutputStream out) {
-        try {
-            int segmentsCount = segments.size();
-            out.writeInt(segmentsCount);
+    public ModelData getModelData() {
+        ModelData modelData = new ModelData(segments.size());
 
-            int[] parents = new int[segmentsCount];
-            int segmentIndex = 0;
-            for (SegmentEditable segment : segments) {
-                parents[segmentIndex] = -1;
-                int match = 0;
-                for (SegmentEditable segmentInner : segments) {
-                    if (segment.getParent() == segmentInner) {
-                        parents[segmentIndex] = match;
-                        break;
-                    }
-                    match++;
+        int segmentIndex = 0;
+        for (SegmentEditable segment : segments) {
+            modelData.parents[segmentIndex] = -1;
+            int match = 0;
+            for (SegmentEditable segmentInner : segments) {
+                if (segment.getParent() == segmentInner) {
+                    modelData.parents[segmentIndex] = match;
+                    break;
                 }
-                segmentIndex++;
+                match++;
             }
 
-            for (int i = 0; i < segmentsCount; i++)
-                out.writeInt(parents[i]);
+            modelData.segmentData[segmentIndex] = segment.getSegmentData();
 
-            for (SegmentEditable segment : segments)
-                out.writeObject(segment.getSegmentData());
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            segmentIndex++;
         }
-    }
 
-    public static ViewModel read(ObjectInputStream in, CubeInstancedFaces cubeInstancedFaces) {
-        try {
-            ViewModel model = new ViewModel();
-            int segmentsCount = in.readInt();
-
-            int[] parents = new int[segmentsCount];
-            for (int i = 0; i < segmentsCount; i++)
-                parents[i] = in.readInt();
-
-            SegmentEditable[] segments = new SegmentEditable[segmentsCount];
-            for (int i = 0; i < segmentsCount; i++) {
-                segments[i] = new SegmentEditable((SegmentData) in.readObject());
-                model.addSegment(segments[i]);
-            }
-
-            for (int i = 0; i < segmentsCount; i++)
-                segments[i].init(parents[i] != -1 ? segments[parents[i]] : null, cubeInstancedFaces);
-
-            return model;
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return modelData;
     }
 }

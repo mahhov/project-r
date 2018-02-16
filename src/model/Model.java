@@ -5,9 +5,6 @@ import model.segment.SegmentData;
 import shape.CubeInstancedFaces;
 import world.WorldElement;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 public class Model {
     private Segment segments[];
     private int segmentCount;
@@ -15,6 +12,17 @@ public class Model {
 
     Model(WorldElement worldElement, int segmentCount) {
         segments = new Segment[segmentCount];
+        this.worldElement = worldElement;
+    }
+
+    public Model(ModelData modelData, CubeInstancedFaces cubeInstancedFaces, WorldElement worldElement) {
+        segments = new Segment[modelData.segmentCount];
+        for (SegmentData segmentData : modelData.segmentData)
+            addSegment(new Segment(segmentData));
+
+        for (int i = 0; i < modelData.segmentCount; i++)
+            segments[i].init(modelData.parents[i] != -1 ? segments[modelData.parents[i]] : null, cubeInstancedFaces);
+
         this.worldElement = worldElement;
     }
 
@@ -27,28 +35,5 @@ public class Model {
         segments[0].setRotation(worldElement.getTheta());
         for (Segment segment : segments)
             segment.draw();
-    }
-
-    public static Model read(ObjectInputStream in, WorldElement worldElement, CubeInstancedFaces cubeInstancedFaces) {
-        try {
-            int segmentsCount = in.readInt();
-            Model model = new Model(worldElement, segmentsCount);
-
-            int[] parents = new int[segmentsCount];
-            for (int i = 0; i < segmentsCount; i++)
-                parents[i] = in.readInt();
-
-            for (int i = 0; i < segmentsCount; i++)
-                model.addSegment(new Segment((SegmentData) in.readObject()));
-
-            for (int i = 0; i < segmentsCount; i++)
-                model.segments[i].init(parents[i] != -1 ? model.segments[parents[i]] : null, cubeInstancedFaces);
-
-            return model;
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }

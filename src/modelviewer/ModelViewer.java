@@ -7,6 +7,7 @@ import control.MouseButtonControl;
 import control.MousePosControl;
 import engine.Engine;
 import engine.EngineRunnable;
+import model.ModelData;
 import model.ViewModel;
 import model.segment.SegmentEditable;
 import shader.ShaderManager;
@@ -14,7 +15,11 @@ import shape.CubeInstancedFaces;
 import ui.UiDrawerModelViewer;
 import util.Writer;
 
+import java.io.IOException;
+
 public class ModelViewer implements EngineRunnable {
+    private static final String MODEL_FILE = "viewModel.model";
+
     private KeyControl keyControl;
     private MousePosControl mousePosControl;
     private MouseButtonControl mouseButtonControl;
@@ -47,14 +52,21 @@ public class ModelViewer implements EngineRunnable {
     }
 
     private void storeViewModel() {
-        viewModel.write(Writer.getWriteStream("viewModel.model"));
+        try {
+            Writer.getWriteStream(MODEL_FILE).writeObject(viewModel.getModelData());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private ViewModel loadViewModel() {
         ViewModel viewModel = new ViewModel();
+        storeViewModel();
+
         cubeInstancedFaces = new CubeInstancedFaces();
 
-        viewModel = ViewModel.read(Writer.getReadStream("viewModel.model"), cubeInstancedFaces);
+        viewModel = new ViewModel(ModelData.readModelData(MODEL_FILE), cubeInstancedFaces);
+
         return viewModel;
     }
 
