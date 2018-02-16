@@ -16,8 +16,8 @@ public class ShaderManager {
         glEnable(GL_BLEND);
 
         // todo allow clear color to be set 
-                glClearColor(.5f, .8f, 1, 1);
-//        glClearColor(0, 0, 0, 1);
+        //                glClearColor(.5f, .8f, 1, 1);
+        glClearColor(0, 0, 0, 1);
     }
 
     public static int getRenderShaderProgramId() {

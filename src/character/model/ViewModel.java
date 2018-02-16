@@ -134,7 +134,7 @@ public class ViewModel {
             segment.draw();
     }
 
-    public void write(ObjectOutputStream out) {
+    public void write(ObjectOutputStream out) { // todo move these to Model & ViewModel common ancestor
         try {
             int segmentsCount = segments.size();
             out.writeInt(segmentsCount);
