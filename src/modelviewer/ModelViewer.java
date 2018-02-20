@@ -84,6 +84,7 @@ public class ModelViewer implements EngineRunnable {
 
         SegmentEditable body = new SegmentEditable();
         SegmentEditable head = new SegmentEditable();
+        SegmentEditable tail = new SegmentEditable();
         SegmentEditable legFR = new SegmentEditable();
         SegmentEditable legFL = new SegmentEditable();
         SegmentEditable legBR = new SegmentEditable();
@@ -91,6 +92,7 @@ public class ModelViewer implements EngineRunnable {
 
         body.init(null, cubeInstancedFaces);
         head.init(body, cubeInstancedFaces);
+        tail.init(body, cubeInstancedFaces);
         legFR.init(body, cubeInstancedFaces);
         legFL.init(body, cubeInstancedFaces);
         legBR.init(body, cubeInstancedFaces);
@@ -98,6 +100,7 @@ public class ModelViewer implements EngineRunnable {
 
         body.setScale(2, 2.5f, 2);
         head.setScale(1.3f, 1.3f, 1.3f);
+        tail.setScale(1.3f, 2f, .3f);
         legFR.setScale(.8f, .8f, .8f);
         legFL.setScale(.8f, .8f, .8f);
         legBR.setScale(.8f, .8f, .8f);
@@ -105,6 +108,7 @@ public class ModelViewer implements EngineRunnable {
 
         body.setTranslation(0, 0, 0);
         head.setTranslation(0, 1.5f, 2);
+        tail.setTranslation(0, -1.5f, .3f);
         legFR.setTranslation(1, 1, -1.4f);
         legFL.setTranslation(-1, 1, -1.4f);
         legBR.setTranslation(1, -1, -1.4f);
@@ -112,6 +116,7 @@ public class ModelViewer implements EngineRunnable {
 
         viewModel.addSegment(body);
         viewModel.addSegment(head);
+        viewModel.addSegment(tail);
         viewModel.addSegment(legFR);
         viewModel.addSegment(legFL);
         viewModel.addSegment(legBR);
