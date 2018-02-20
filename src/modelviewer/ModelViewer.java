@@ -2,10 +2,7 @@ package modelviewer;
 
 import camera.Camera;
 import camera.FreeCameraFollow;
-import control.KeyButton;
-import control.KeyControl;
-import control.MouseButtonControl;
-import control.MousePosControl;
+import control.*;
 import engine.Engine;
 import engine.EngineRunnable;
 import model.ModelData;
@@ -37,6 +34,7 @@ public class ModelViewer implements EngineRunnable {
         this.keyControl = keyControl;
         this.mousePosControl = mousePosControl;
         this.mouseButtonControl = mouseButtonControl;
+        mousePosControl.unlock();
 
         ShaderManager.setRenderShader();
 
@@ -61,6 +59,9 @@ public class ModelViewer implements EngineRunnable {
         System.out.println("B new");
         System.out.println("C load");
         System.out.println("V store");
+        System.out.println("DRAG MOUSE SECONDARY rotate camera");
+        System.out.println("Z X zoom camera");
+        System.out.println("R F move camera vertically");
     }
 
     private void storeViewModel() {
@@ -133,6 +134,12 @@ public class ModelViewer implements EngineRunnable {
             storeViewModel();
 
         ShaderManager.setRenderShader();
+
+        if (mouseButtonControl.isMousePressed(MouseButton.SECONDARY))
+            mousePosControl.lock();
+        else if (mouseButtonControl.isMouseReleased(MouseButton.SECONDARY))
+            mousePosControl.unlock();
+
         follow.update(mousePosControl);
         camera.update(keyControl);
         selector.update(keyControl);

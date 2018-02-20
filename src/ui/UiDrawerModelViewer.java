@@ -1,6 +1,9 @@
 package ui;
 
-import control.*;
+import control.KeyButton;
+import control.KeyControl;
+import control.MouseButtonControl;
+import control.MousePosControl;
 import modelviewer.Selector;
 
 public class UiDrawerModelViewer extends UiDrawer {
@@ -14,7 +17,7 @@ public class UiDrawerModelViewer extends UiDrawer {
 
     @Override
     public void update() {
-        if (keyControl.isKeyPressed(KeyButton.KEY_ENTER) || mouseButtonControl.isMousePressed(MouseButton.SECONDARY))
+        if (keyControl.isKeyPressed(KeyButton.KEY_ENTER))
             modelViewerSelector.toggle();
 
         modelViewerSelector.update();

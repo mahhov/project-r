@@ -26,6 +26,10 @@ public class MouseButtonControl implements GLFWMouseButtonCallbackI {
         return mouses[mouseButton.value].getState() == State.DOWN;
     }
 
+    public boolean isMouseReleased(MouseButton mouseButton) {
+        return mouses[mouseButton.value].getState() == State.RELEASED;
+    }
+
     public void next() {
         for (Mouse mouse : mouses)
             mouse.next();
