@@ -35,6 +35,10 @@ public class Game implements EngineRunnable {
         loadMap(0);
     }
 
+    @Override
+    public void printHelp() {
+    }
+
     public void loadMap(int selected) {
         mousePosControl.lock();
         if (world != null)

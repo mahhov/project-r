@@ -2,6 +2,7 @@ package modelviewer;
 
 import camera.Camera;
 import camera.FreeCameraFollow;
+import control.KeyButton;
 import control.KeyControl;
 import control.MouseButtonControl;
 import control.MousePosControl;
@@ -43,35 +44,40 @@ public class ModelViewer implements EngineRunnable {
         follow = new FreeCameraFollow();
         camera.setFollow(follow);
 
-        viewModel = createViewModel();
-        storeViewModel();
-        viewModel = loadViewModel();
+        createViewModel();
 
         selector = new Selector();
         uiDrawer = new UiDrawerModelViewer(selector, keyControl, mousePosControl, mouseButtonControl);
     }
 
+    @Override
+    public void printHelp() {
+        System.out.println("W A S D move / scale horizontally");
+        System.out.println("Q E rotate");
+        System.out.println("SPACE SHIFT move / scale vertically");
+        System.out.println("ENTER selector menu");
+        System.out.println("B new");
+        System.out.println("M save");
+        System.out.println("N load");
+    }
+
     private void storeViewModel() {
         try {
             Writer.getWriteStream(MODEL_FILE).writeObject(viewModel.getModelData());
+            System.out.println("stored view model " + MODEL_FILE);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private ViewModel loadViewModel() {
-        ViewModel viewModel = new ViewModel();
-        storeViewModel();
-
+    private void loadViewModel() {
         cubeInstancedFaces = new CubeInstancedFaces();
-
         viewModel = new ViewModel(ModelData.readModelData(MODEL_FILE), cubeInstancedFaces);
-
-        return viewModel;
+        System.out.println("loaded view model " + MODEL_FILE);
     }
 
-    private ViewModel createViewModel() {
-        ViewModel viewModel = new ViewModel();
+    private void createViewModel() {
+        viewModel = new ViewModel();
         cubeInstancedFaces = new CubeInstancedFaces();
 
         SegmentEditable body = new SegmentEditable();
@@ -108,12 +114,17 @@ public class ModelViewer implements EngineRunnable {
         viewModel.addSegment(legFL);
         viewModel.addSegment(legBR);
         viewModel.addSegment(legBL);
-
-        return viewModel;
     }
 
     @Override
     public void loop() {
+        if (keyControl.isKeyPressed(KeyButton.KEY_B))
+            createViewModel();
+        if (keyControl.isKeyPressed(KeyButton.KEY_N))
+            loadViewModel();
+        if (keyControl.isKeyPressed(KeyButton.KEY_M))
+            storeViewModel();
+
         ShaderManager.setRenderShader();
         follow.update(mousePosControl);
         camera.update(keyControl);

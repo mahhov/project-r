@@ -35,6 +35,7 @@ public class Engine {
 
         this.engineRunnable = engineRunnable;
         engineRunnable.init(keyControl, mousePosControl, mouseButtonControl);
+        engineRunnable.printHelp();
 
         run();
     }
