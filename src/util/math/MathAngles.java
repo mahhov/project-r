@@ -3,7 +3,7 @@ package util.math;
 import util.Timer;
 
 public class MathAngles {
-    public static final float PI = (float) Math.PI, PI2 = PI * 2, MAX_THETA_Z = PI / 2 - MathNumbers.BIG_EPSILON;
+    public static final float PI = (float) Math.PI, PI2 = PI * 2, PI_HALF = PI / 2, MAX_THETA_Z = PI_HALF - MathNumbers.BIG_EPSILON;
 
     private static float sinTable[];
     private static final int TRIG_ACCURACY = 500;

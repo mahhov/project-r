@@ -40,7 +40,11 @@ public class Motion {
     public void lookAt(WorldElement target) {
         float dx = target.getX() - monster.getX();
         float dy = target.getY() - monster.getY();
-        moveControl.theta = (float) Math.atan2(dy, dx);
+        setTheta(dy, dx);
+    }
+
+    private void setTheta(float dy, float dx) {
+        moveControl.theta = (float) Math.atan2(dy, dx) - MathAngles.PI_HALF;
     }
 
     public void wander() {
@@ -48,7 +52,7 @@ public class Motion {
         moveControl.dx = MathAngles.cos(angle);
         moveControl.dy = MathAngles.sin(angle);
         moveControl.speed = wanderSpeed;
-        moveControl.theta = (float) Math.atan2(moveControl.dy, moveControl.dx);
+        setTheta(moveControl.dy, moveControl.dx);
         flyHeight = MathRandom.random(avgFlyHeight, avgFlyHeight * 1.1f);
     }
 
@@ -56,14 +60,14 @@ public class Motion {
         moveControl.dx = dx;
         moveControl.dy = dy;
         moveControl.speed = runSpeed;
-        moveControl.theta = (float) Math.atan2(dy, dx);
+        setTheta(dy, dx);
     }
 
     public void run(float dx, float dy, float maxSpeed) {
         moveControl.dx = dx;
         moveControl.dy = dy;
         moveControl.speed = MathNumbers.min(runSpeed, maxSpeed);
-        moveControl.theta = (float) Math.atan2(dy, dx);
+        setTheta(dy, dx);
     }
 
     public void jet() {
