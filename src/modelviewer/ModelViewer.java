@@ -56,9 +56,11 @@ public class ModelViewer implements EngineRunnable {
         System.out.println("Q E rotate");
         System.out.println("SPACE SHIFT move / scale vertically");
         System.out.println("ENTER selector menu");
+        System.out.println("N prev segment");
+        System.out.println("M next segment");
         System.out.println("B new");
-        System.out.println("M save");
-        System.out.println("N load");
+        System.out.println("C load");
+        System.out.println("V store");
     }
 
     private void storeViewModel() {
@@ -120,9 +122,9 @@ public class ModelViewer implements EngineRunnable {
     public void loop() {
         if (keyControl.isKeyPressed(KeyButton.KEY_B))
             createViewModel();
-        if (keyControl.isKeyPressed(KeyButton.KEY_N))
+        if (keyControl.isKeyPressed(KeyButton.KEY_C))
             loadViewModel();
-        if (keyControl.isKeyPressed(KeyButton.KEY_M))
+        if (keyControl.isKeyPressed(KeyButton.KEY_V))
             storeViewModel();
 
         ShaderManager.setRenderShader();
