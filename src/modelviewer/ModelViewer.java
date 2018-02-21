@@ -60,6 +60,7 @@ public class ModelViewer implements EngineRunnable {
         System.out.println("C load");
         System.out.println("V store");
         System.out.println("DRAG MOUSE SECONDARY rotate camera");
+        System.out.println("DRAG MOUSE PRIMARY translate / rotate / scale segment");
         System.out.println("Z X zoom camera");
         System.out.println("R F move camera vertically");
     }
@@ -135,22 +136,27 @@ public class ModelViewer implements EngineRunnable {
 
         ShaderManager.setRenderShader();
 
-        if (mouseButtonControl.isMousePressed(MouseButton.SECONDARY))
-            mousePosControl.lock();
-        else if (mouseButtonControl.isMouseReleased(MouseButton.SECONDARY))
-            mousePosControl.unlock();
+        uiDrawer.update();
 
-        follow.update(mousePosControl);
+        if (mouseButtonControl.isMousePressed(MouseButton.PRIMARY) || mouseButtonControl.isMousePressed(MouseButton.SECONDARY))
+            mousePosControl.lock();
+        else if (mouseButtonControl.isMouseReleased(MouseButton.PRIMARY) || mouseButtonControl.isMouseReleased(MouseButton.SECONDARY))
+            mousePosControl.unlock();
+        if (mouseButtonControl.isMouseDown(MouseButton.PRIMARY))
+            viewModel.update(selector.getSelectedTool(), viewModel.normalizeControl(mousePosControl, keyControl.isKeyDown(KeyButton.KEY_SHIFT)));
+        if (mouseButtonControl.isMouseDown(MouseButton.SECONDARY))
+            follow.update(mousePosControl);
+
         camera.update(keyControl);
         selector.update(keyControl);
-        viewModel.update(selector.getSelectedSegmentDelta(), selector.getSelectedTool(), keyControl);
+        viewModel.update(selector.getSelectedTool(), viewModel.normalizeControl(keyControl));
+        viewModel.updtaeSelectedSegment(selector.getSelectedSegmentDelta());
 
         cubeInstancedFaces.reset();
         viewModel.draw();
         cubeInstancedFaces.doneAdding();
         cubeInstancedFaces.draw();
 
-        uiDrawer.update();
         ShaderManager.setUiShader();
         uiDrawer.draw();
         ShaderManager.setTextShader();

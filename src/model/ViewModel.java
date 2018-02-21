@@ -2,6 +2,7 @@ package model;
 
 import control.KeyButton;
 import control.KeyControl;
+import control.MousePosControl;
 import model.segment.Segment;
 import model.segment.SegmentEditable;
 import modelviewer.Selector;
@@ -43,17 +44,61 @@ public class ViewModel {
         }
     }
 
-    public void update(int selectedSegmentDelta, Selector.Tool tool, KeyControl keyControl) {
-        updateSelectedSegment(selectedSegmentDelta);
+    public float[] normalizeControl(KeyControl keyControl) {
+        float x = 0, y = 0, z = 0, theta = 0;
 
+        if (keyControl.isKeyPressed(KeyButton.KEY_W))
+            y += TRANSLATION_SPEED;
+
+        if (keyControl.isKeyPressed(KeyButton.KEY_S))
+            y -= TRANSLATION_SPEED;
+
+        if (keyControl.isKeyPressed(KeyButton.KEY_A))
+            x -= TRANSLATION_SPEED;
+
+        if (keyControl.isKeyPressed(KeyButton.KEY_D))
+            x += TRANSLATION_SPEED;
+
+        if (keyControl.isKeyPressed(KeyButton.KEY_SHIFT))
+            z -= TRANSLATION_SPEED;
+
+        if (keyControl.isKeyPressed(KeyButton.KEY_SPACE))
+            z += TRANSLATION_SPEED;
+
+        if (keyControl.isKeyPressed(KeyButton.KEY_Q))
+            theta += ROTATION_SPEED;
+
+        if (keyControl.isKeyPressed(KeyButton.KEY_E))
+            theta -= ROTATION_SPEED;
+
+        return new float[] {x, y, z, theta};
+    }
+
+    public float[] normalizeControl(MousePosControl mousePosControl, boolean shift) {
+        float x = 0, y = 0, z = 0;
+        if (shift)
+            z -= TRANSLATION_SPEED * mousePosControl.getMoveY();
+        else {
+            y -= TRANSLATION_SPEED * mousePosControl.getMoveY();
+            x += TRANSLATION_SPEED * mousePosControl.getMoveX();
+        }
+
+        return new float[] {x, y, z, 0};
+    }
+
+    public void update(Selector.Tool tool, float[] normalizedControl) {
         switch (tool) {
             case POSITION:
-                updatePosition(keyControl);
+                updatePosition(normalizedControl);
                 break;
             case SCALE:
-                updateScale(keyControl);
+                updateScale(normalizedControl);
                 break;
         }
+    }
+
+    public void updtaeSelectedSegment(int selectedSegmentDelta) {
+        updateSelectedSegment(selectedSegmentDelta);
     }
 
     private void updateSelectedSegment(int selectedSegmentDelta) {
@@ -69,71 +114,13 @@ public class ViewModel {
         }
     }
 
-    private void updatePosition(KeyControl keyControl) {
-        float dx = 0, dy = 0, dz = 0, dtheta = 0;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_W))
-            dy += TRANSLATION_SPEED;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_S))
-            dy -= TRANSLATION_SPEED;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_A))
-            dx -= TRANSLATION_SPEED;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_D))
-            dx += TRANSLATION_SPEED;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_SHIFT))
-            dz -= TRANSLATION_SPEED;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_SPACE))
-            dz += TRANSLATION_SPEED;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_Q))
-            dtheta += ROTATION_SPEED;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_E))
-            dtheta -= ROTATION_SPEED;
-
-        selectedSegmentNode.getValue().addTranslation(dx, dy, dz);
-        selectedSegmentNode.getValue().addRotation(dtheta);
+    private void updatePosition(float[] normalizedControl) {
+        selectedSegmentNode.getValue().addTranslation(normalizedControl[0] * TRANSLATION_SPEED, normalizedControl[1] * TRANSLATION_SPEED, normalizedControl[2] * TRANSLATION_SPEED);
+        selectedSegmentNode.getValue().addRotation(normalizedControl[3] * ROTATION_SPEED);
     }
 
-    private void updateScale(KeyControl keyControl) {
-        float dx = 0, dy = 0, dz = 0;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_W))
-            dy += SCALE_SPEED;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_S))
-            dy -= SCALE_SPEED;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_A))
-            dx -= SCALE_SPEED;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_D))
-            dx += SCALE_SPEED;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_SHIFT))
-            dz -= SCALE_SPEED;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_SPACE))
-            dz += SCALE_SPEED;
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_Q)) {
-            dx += SCALE_SPEED;
-            dy += SCALE_SPEED;
-            dz += SCALE_SPEED;
-        }
-
-        if (keyControl.isKeyPressed(KeyButton.KEY_E)) {
-            dx -= SCALE_SPEED;
-            dy -= SCALE_SPEED;
-            dz -= SCALE_SPEED;
-        }
-
-        selectedSegmentNode.getValue().addScale(dx, dy, dz);
+    private void updateScale(float[] normalizedControl) {
+        selectedSegmentNode.getValue().addScale((normalizedControl[0] + normalizedControl[3]) * SCALE_SPEED, (normalizedControl[1] + normalizedControl[3]) * SCALE_SPEED, (normalizedControl[2] + normalizedControl[3]) * SCALE_SPEED);
     }
 
     public void draw() {
