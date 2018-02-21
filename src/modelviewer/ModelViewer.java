@@ -2,7 +2,9 @@ package modelviewer;
 
 import camera.Camera;
 import camera.FreeCameraFollow;
-import control.*;
+import control.Controls;
+import control.KeyButton;
+import control.MouseButton;
 import engine.Engine;
 import engine.EngineRunnable;
 import model.ModelData;
@@ -18,9 +20,7 @@ import java.io.IOException;
 public class ModelViewer implements EngineRunnable {
     private static final String MODEL_FILE = "viewModel.model";
 
-    private KeyControl keyControl;
-    private MousePosControl mousePosControl;
-    private MouseButtonControl mouseButtonControl;
+    private Controls controls;
 
     private CubeInstancedFaces cubeInstancedFaces;
     private FreeCameraFollow follow;
@@ -30,11 +30,9 @@ public class ModelViewer implements EngineRunnable {
     private UiDrawerModelViewer uiDrawer;
 
     @Override
-    public void init(KeyControl keyControl, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
-        this.keyControl = keyControl;
-        this.mousePosControl = mousePosControl;
-        this.mouseButtonControl = mouseButtonControl;
-        mousePosControl.unlock();
+    public void init(Controls controls) {
+        this.controls = controls;
+        controls.mousePosControl.unlock();
 
         ShaderManager.setRenderShader();
 
@@ -45,7 +43,7 @@ public class ModelViewer implements EngineRunnable {
         createViewModel();
 
         selector = new Selector();
-        uiDrawer = new UiDrawerModelViewer(selector, keyControl, mousePosControl, mouseButtonControl);
+        uiDrawer = new UiDrawerModelViewer(selector, controls.keyControl, controls.mousePosControl, controls.mouseButtonControl);
     }
 
     @Override
@@ -63,6 +61,8 @@ public class ModelViewer implements EngineRunnable {
         System.out.println("DRAG MOUSE PRIMARY translate / rotate / scale segment");
         System.out.println("Z X zoom camera");
         System.out.println("R F move camera vertically");
+        System.out.println("SCROLL WHEEL change selected segment");
+        System.out.println("SCROLL WHEEL HORIZONTAL change selected tool");
     }
 
     private void storeViewModel() {
@@ -127,29 +127,29 @@ public class ModelViewer implements EngineRunnable {
 
     @Override
     public void loop() {
-        if (keyControl.isKeyPressed(KeyButton.KEY_B))
+        if (controls.keyControl.isKeyPressed(KeyButton.KEY_B))
             createViewModel();
-        if (keyControl.isKeyPressed(KeyButton.KEY_C))
+        if (controls.keyControl.isKeyPressed(KeyButton.KEY_C))
             loadViewModel();
-        if (keyControl.isKeyPressed(KeyButton.KEY_V))
+        if (controls.keyControl.isKeyPressed(KeyButton.KEY_V))
             storeViewModel();
 
         ShaderManager.setRenderShader();
 
         uiDrawer.update();
 
-        if (mouseButtonControl.isMousePressed(MouseButton.PRIMARY) || mouseButtonControl.isMousePressed(MouseButton.SECONDARY))
-            mousePosControl.lock();
-        else if (mouseButtonControl.isMouseReleased(MouseButton.PRIMARY) || mouseButtonControl.isMouseReleased(MouseButton.SECONDARY))
-            mousePosControl.unlock();
-        if (mouseButtonControl.isMouseDown(MouseButton.PRIMARY))
-            viewModel.update(selector.getSelectedTool(), viewModel.normalizeControl(mousePosControl, keyControl.isKeyDown(KeyButton.KEY_SHIFT)));
-        if (mouseButtonControl.isMouseDown(MouseButton.SECONDARY))
-            follow.update(mousePosControl);
+        if (controls.mouseButtonControl.isMousePressed(MouseButton.PRIMARY) || controls.mouseButtonControl.isMousePressed(MouseButton.SECONDARY))
+            controls.mousePosControl.lock();
+        else if (controls.mouseButtonControl.isMouseReleased(MouseButton.PRIMARY) || controls.mouseButtonControl.isMouseReleased(MouseButton.SECONDARY))
+            controls.mousePosControl.unlock();
+        if (controls.mouseButtonControl.isMouseDown(MouseButton.PRIMARY))
+            viewModel.update(selector.getSelectedTool(), viewModel.normalizeControl(controls.mousePosControl, controls.keyControl.isKeyDown(KeyButton.KEY_SHIFT)));
+        if (controls.mouseButtonControl.isMouseDown(MouseButton.SECONDARY))
+            follow.update(controls.mousePosControl);
 
-        camera.update(keyControl);
-        selector.update(keyControl);
-        viewModel.update(selector.getSelectedTool(), viewModel.normalizeControl(keyControl));
+        camera.update(controls.keyControl);
+        selector.update(controls.keyControl, controls.mouseScrollControl);
+        viewModel.update(selector.getSelectedTool(), viewModel.normalizeControl(controls.keyControl));
         viewModel.updtaeSelectedSegment(selector.getSelectedSegmentDelta());
 
         cubeInstancedFaces.reset();
@@ -162,7 +162,7 @@ public class ModelViewer implements EngineRunnable {
         ShaderManager.setTextShader();
         uiDrawer.drawText();
 
-        mouseButtonControl.next();
+        controls.mouseButtonControl.next();
     }
 
     @Override

@@ -2,6 +2,8 @@ package modelviewer;
 
 import control.KeyButton;
 import control.KeyControl;
+import control.MouseScrollControl;
+import util.math.MathNumbers;
 
 public class Selector {
     public enum Tool {
@@ -25,11 +27,19 @@ public class Selector {
         this.tool = Tool.POSITION;
     }
 
-    void update(KeyControl keyControl) {
-        if (keyControl.isKeyPressed(KeyButton.KEY_N))
+    void update(KeyControl keyControl, MouseScrollControl mouseScrollControl) {
+        int scroll = mouseScrollControl.getScroll();
+        int scrollX = mouseScrollControl.getScrollX();
+
+        if (keyControl.isKeyPressed(KeyButton.KEY_N) || scroll < 0)
             prevSegment();
-        else if (keyControl.isKeyPressed(KeyButton.KEY_M))
+        else if (keyControl.isKeyPressed(KeyButton.KEY_M) || scroll > 0)
             nextSegment();
+
+        if (scrollX < 0)
+            setTool(getTool(MathNumbers.max(tool.value - 1, 0)));
+        else if (scrollX > 0)
+            setTool(getTool(MathNumbers.min(tool.value + 1, getToolCount() - 1)));
     }
 
     int getSelectedSegmentDelta() {

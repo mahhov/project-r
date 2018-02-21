@@ -1,11 +1,9 @@
 package engine;
 
-import control.KeyControl;
-import control.MouseButtonControl;
-import control.MousePosControl;
+import control.Controls;
 
 public interface EngineRunnable {
-    void init(KeyControl keyControl, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl);
+    void init(Controls controls);
 
     void printHelp();
 

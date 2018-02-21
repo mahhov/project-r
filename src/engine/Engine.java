@@ -1,8 +1,6 @@
 package engine;
 
-import control.KeyControl;
-import control.MouseButtonControl;
-import control.MousePosControl;
+import control.Controls;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -28,13 +26,8 @@ public class Engine {
 
     public Engine(EngineRunnable engineRunnable) {
         initLwjgl();
-
-        KeyControl keyControl = new KeyControl(window);
-        MousePosControl mousePosControl = new MousePosControl(window);
-        MouseButtonControl mouseButtonControl = new MouseButtonControl(window);
-
         this.engineRunnable = engineRunnable;
-        engineRunnable.init(keyControl, mousePosControl, mouseButtonControl);
+        engineRunnable.init(new Controls(window));
         engineRunnable.printHelp();
 
         run();

@@ -2,9 +2,7 @@ package game;
 
 import camera.Camera;
 import character.Human;
-import control.KeyControl;
-import control.MouseButtonControl;
-import control.MousePosControl;
+import control.Controls;
 import engine.Engine;
 import engine.EngineRunnable;
 import map.Map;
@@ -13,9 +11,7 @@ import ui.UiDrawerGame;
 import world.World;
 
 public class Game implements EngineRunnable {
-    private KeyControl keyControl;
-    private MousePosControl mousePosControl;
-    private MouseButtonControl mouseButtonControl;
+    private Controls controls;
 
     private Map map;
     private World world;
@@ -24,11 +20,8 @@ public class Game implements EngineRunnable {
     private UiDrawerGame uiDrawer;
 
     @Override
-    public void init(KeyControl keyControl, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl) {
-        this.keyControl = keyControl;
-        this.mousePosControl = mousePosControl;
-        this.mouseButtonControl = mouseButtonControl;
-
+    public void init(Controls controls) {
+        this.controls = controls;
         ShaderManager.setRenderShader();
         camera = new Camera(ShaderManager.getRenderShaderProgramId(), 6, 1); // todo make static final
         map = new Map(this);
@@ -40,21 +33,21 @@ public class Game implements EngineRunnable {
     }
 
     public void loadMap(int selected) {
-        mousePosControl.lock();
+        controls.mousePosControl.lock();
         if (world != null)
             world.shutDownGeneratorExecutors();
         world = new World(64 * Engine.SCALE, 64 * Engine.SCALE, 16 * Engine.SCALE_Z, camera);
-        human = new Human(32 * Engine.SCALE, 1, 15 * Engine.SCALE_Z, 0, 0, world.getIntersectionMover(), world.getIntersectionPicker(), keyControl, mousePosControl, mouseButtonControl);
+        human = new Human(32 * Engine.SCALE, 1, 15 * Engine.SCALE_Z, 0, 0, world.getIntersectionMover(), world.getIntersectionPicker(), controls.keyControl, controls.mousePosControl, controls.mouseButtonControl);
         world.setHuman(human);
         ShaderManager.setTextShader();
-        uiDrawer = new UiDrawerGame(human, map, keyControl, mousePosControl, mouseButtonControl);
+        uiDrawer = new UiDrawerGame(human, map, controls.keyControl, controls.mousePosControl, controls.mouseButtonControl);
         camera.setFollow(human);
     }
 
     @Override
     public void loop() {
         ShaderManager.setRenderShader();
-        camera.update(keyControl);
+        camera.update(controls.keyControl);
         world.setCameraCoordinate(camera.getWorldCoordinate());
         world.update();
         world.draw();
@@ -65,7 +58,7 @@ public class Game implements EngineRunnable {
         ShaderManager.setTextShader();
         uiDrawer.drawText();
 
-        mouseButtonControl.next();
+        controls.mouseButtonControl.next();
     }
 
     @Override
