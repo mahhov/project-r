@@ -12,7 +12,7 @@ class UiModelViewerSelector extends UiInteractivePane {
     private Selector selector;
 
     UiModelViewerSelector(float[] backColor, Rects rects, Texts texts, MousePosControl mousePosControl, MouseButtonControl mouseButtonControl, Selector selector) {
-        super(SIZE, 2, false, Location.LEFT, backColor, rects, texts, mousePosControl, mouseButtonControl);
+        super(SIZE, 2, false, Location.BOTTOM, backColor, rects, texts, mousePosControl, mouseButtonControl);
         this.selector = selector;
         setText(-2, "SELECTOR");
         setText(TOOL_SIZE + 1, "Prev Segment");
