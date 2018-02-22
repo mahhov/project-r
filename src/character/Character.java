@@ -48,7 +48,7 @@ public abstract class Character implements WorldElement { // todo support human 
         this.intersectionMover = intersectionMover;
 
         //        model = new GoatModel(this, cubeInstancedFaces, color);
-        model = new Model(ModelData.readModelData("viewModel.model"), cubeInstancedFaces, this); // todo reuse modelData instead of creating new for each character
+        model = new Model(ModelData.readModelData("fourLeg.model"), cubeInstancedFaces, this); // todo reuse modelData instead of creating new for each character
 
         this.health = new Health(stats);
     }

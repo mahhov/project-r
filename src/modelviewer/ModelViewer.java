@@ -9,7 +9,6 @@ import engine.Engine;
 import engine.EngineRunnable;
 import model.ModelData;
 import model.ViewModel;
-import model.segment.SegmentEditable;
 import shader.ShaderManager;
 import shape.CubeInstancedFaces;
 import ui.UiDrawerModelViewer;
@@ -18,7 +17,7 @@ import util.Writer;
 import java.io.IOException;
 
 public class ModelViewer implements EngineRunnable {
-    private static final String MODEL_FILE = "viewModel.model";
+    private static final String MODEL_FILE = "temp.model";
 
     private Controls controls;
 
@@ -81,48 +80,8 @@ public class ModelViewer implements EngineRunnable {
     }
 
     private void createViewModel() {
-        viewModel = new ViewModel();
         cubeInstancedFaces = new CubeInstancedFaces();
-
-        SegmentEditable body = new SegmentEditable();
-        SegmentEditable head = new SegmentEditable();
-        SegmentEditable tail = new SegmentEditable();
-        SegmentEditable legFR = new SegmentEditable();
-        SegmentEditable legFL = new SegmentEditable();
-        SegmentEditable legBR = new SegmentEditable();
-        SegmentEditable legBL = new SegmentEditable();
-
-        body.init(null, cubeInstancedFaces);
-        head.init(body, cubeInstancedFaces);
-        tail.init(body, cubeInstancedFaces);
-        legFR.init(body, cubeInstancedFaces);
-        legFL.init(body, cubeInstancedFaces);
-        legBR.init(body, cubeInstancedFaces);
-        legBL.init(body, cubeInstancedFaces);
-
-        body.setScale(2, 2.5f, 2);
-        head.setScale(1.3f, 1.3f, 1.3f);
-        tail.setScale(1.3f, 2f, .3f);
-        legFR.setScale(.8f, .8f, .8f);
-        legFL.setScale(.8f, .8f, .8f);
-        legBR.setScale(.8f, .8f, .8f);
-        legBL.setScale(.8f, .8f, .8f);
-
-        body.setTranslation(0, 0, 0);
-        head.setTranslation(0, 1.5f, 2);
-        tail.setTranslation(0, -1.5f, .3f);
-        legFR.setTranslation(1, 1, -1.4f);
-        legFL.setTranslation(-1, 1, -1.4f);
-        legBR.setTranslation(1, -1, -1.4f);
-        legBL.setTranslation(-1, -1, -1.4f);
-
-        viewModel.addSegment(body);
-        viewModel.addSegment(head);
-        viewModel.addSegment(tail);
-        viewModel.addSegment(legFR);
-        viewModel.addSegment(legFL);
-        viewModel.addSegment(legBR);
-        viewModel.addSegment(legBL);
+        viewModel = ViewModelProvider.fourLeg(cubeInstancedFaces);
     }
 
     @Override
