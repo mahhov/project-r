@@ -17,7 +17,7 @@ import util.Writer;
 import java.io.IOException;
 
 public class ModelViewer implements EngineRunnable {
-    private static final String MODEL_FILE = "temp.model";
+    private final ViewModelProvider.ViewModelType VIEW_MODEL_TYPE = ViewModelProvider.ViewModelType.GOAT;
 
     private Controls controls;
 
@@ -66,8 +66,8 @@ public class ModelViewer implements EngineRunnable {
 
     private void storeViewModel() {
         try {
-            Writer.getWriteStream(MODEL_FILE).writeObject(viewModel.getModelData());
-            System.out.println("stored view model " + MODEL_FILE);
+            Writer.getWriteStream(VIEW_MODEL_TYPE.file).writeObject(viewModel.getModelData());
+            System.out.println("stored view model " + VIEW_MODEL_TYPE.file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,13 +75,13 @@ public class ModelViewer implements EngineRunnable {
 
     private void loadViewModel() {
         cubeInstancedFaces = new CubeInstancedFaces();
-        viewModel = new ViewModel(ModelData.readModelData(MODEL_FILE), cubeInstancedFaces);
-        System.out.println("loaded view model " + MODEL_FILE);
+        viewModel = new ViewModel(ModelData.readModelData(VIEW_MODEL_TYPE.file), cubeInstancedFaces);
+        System.out.println("loaded view model " + VIEW_MODEL_TYPE.file);
     }
 
     private void createViewModel() {
         cubeInstancedFaces = new CubeInstancedFaces();
-        viewModel = ViewModelProvider.fourLeg(cubeInstancedFaces);
+        viewModel = ViewModelProvider.getViewModel(VIEW_MODEL_TYPE, cubeInstancedFaces);
     }
 
     @Override

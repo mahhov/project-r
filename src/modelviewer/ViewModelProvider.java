@@ -5,7 +5,29 @@ import model.segment.SegmentEditable;
 import shape.CubeInstancedFaces;
 
 class ViewModelProvider {
-    static ViewModel goat(CubeInstancedFaces cubeInstancedFaces) {
+    enum ViewModelType {
+        GOAT("goat.model"),
+        FOUR_LEG("fourLeg.model");
+
+        final String file;
+
+        ViewModelType(String file) {
+            this.file = file;
+        }
+    }
+
+    static ViewModel getViewModel(ViewModelType viewModelType, CubeInstancedFaces cubeInstancedFaces) {
+        switch (viewModelType) {
+            case GOAT:
+                return goat(cubeInstancedFaces);
+            case FOUR_LEG:
+                return fourLeg(cubeInstancedFaces);
+            default:
+                throw new RuntimeException("view model type not caught in ViewModelProvider.getViewModel");
+        }
+    }
+
+    private static ViewModel goat(CubeInstancedFaces cubeInstancedFaces) {
         ViewModel viewModel = new ViewModel();
 
         SegmentEditable body = new SegmentEditable();
@@ -51,7 +73,7 @@ class ViewModelProvider {
         return viewModel;
     }
 
-    static ViewModel fourLeg(CubeInstancedFaces cubeInstancedFaces) {
+    private static ViewModel fourLeg(CubeInstancedFaces cubeInstancedFaces) {
         ViewModel viewModel = new ViewModel();
 
         SegmentEditable body = new SegmentEditable();
