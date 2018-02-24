@@ -7,7 +7,8 @@ import shape.CubeInstancedFaces;
 class ViewModelProvider {
     enum ViewModelType {
         GOAT("goat.model"),
-        FOUR_LEG("fourLeg.model");
+        FOUR_LEG("fourLeg.model"),
+        BIRD("bird.model");
 
         final String file;
 
@@ -22,6 +23,8 @@ class ViewModelProvider {
                 return goat(cubeInstancedFaces);
             case FOUR_LEG:
                 return fourLeg(cubeInstancedFaces);
+            case BIRD:
+                return bird(cubeInstancedFaces);
             default:
                 throw new RuntimeException("view model type not caught in ViewModelProvider.getViewModel");
         }
@@ -78,7 +81,6 @@ class ViewModelProvider {
 
         SegmentEditable body = new SegmentEditable();
         SegmentEditable head = new SegmentEditable();
-        SegmentEditable tail = new SegmentEditable();
         SegmentEditable legFR = new SegmentEditable();
         SegmentEditable legFL = new SegmentEditable();
         SegmentEditable legBR = new SegmentEditable();
@@ -107,6 +109,42 @@ class ViewModelProvider {
 
         viewModel.addSegment(body);
         viewModel.addSegment(head);
+        viewModel.addSegment(legFR);
+        viewModel.addSegment(legFL);
+        viewModel.addSegment(legBR);
+        viewModel.addSegment(legBL);
+
+        return viewModel;
+    }
+
+    private static ViewModel bird(CubeInstancedFaces cubeInstancedFaces) {
+        ViewModel viewModel = new ViewModel();
+
+        SegmentEditable body = new SegmentEditable();
+        SegmentEditable legFR = new SegmentEditable();
+        SegmentEditable legFL = new SegmentEditable();
+        SegmentEditable legBR = new SegmentEditable();
+        SegmentEditable legBL = new SegmentEditable();
+
+        body.init(null, cubeInstancedFaces);
+        legFR.init(body, cubeInstancedFaces);
+        legFL.init(body, cubeInstancedFaces);
+        legBR.init(body, cubeInstancedFaces);
+        legBL.init(body, cubeInstancedFaces);
+
+        body.setScale(1, 3, 1);
+        legFR.setScale(2, 2, 1);
+        legFL.setScale(2, 2, 1);
+        legBR.setScale(2, 2, 1);
+        legBL.setScale(2, 2, 1);
+
+        body.setTranslation(0, 0, 0);
+        legFR.setTranslation(1.5f, 1.5f, 0);
+        legFL.setTranslation(-1.5f, 1.5f, 0);
+        legBR.setTranslation(1.5f, -1.5f, 0);
+        legBL.setTranslation(-1.5f, -1.5f, 0);
+
+        viewModel.addSegment(body);
         viewModel.addSegment(legFR);
         viewModel.addSegment(legFL);
         viewModel.addSegment(legBR);

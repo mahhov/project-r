@@ -17,7 +17,7 @@ import util.Writer;
 import java.io.IOException;
 
 public class ModelViewer implements EngineRunnable {
-    private final ViewModelProvider.ViewModelType VIEW_MODEL_TYPE = ViewModelProvider.ViewModelType.GOAT;
+    private final ViewModelProvider.ViewModelType VIEW_MODEL_TYPE = ViewModelProvider.ViewModelType.BIRD;
 
     private Controls controls;
 
@@ -40,6 +40,7 @@ public class ModelViewer implements EngineRunnable {
         camera.setFollow(follow);
 
         createViewModel();
+        storeViewModel();
 
         selector = new Selector();
         uiDrawer = new UiDrawerModelViewer(selector, controls.keyControl, controls.mousePosControl, controls.mouseButtonControl);
