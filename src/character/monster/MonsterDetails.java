@@ -1,5 +1,6 @@
 package character.monster;
 
+import model.ModelData;
 import util.Distribution;
 
 public class MonsterDetails {
@@ -29,4 +30,6 @@ public class MonsterDetails {
 
     public Distribution metalReward, glowReward[], coinReward;
     public int experienceReward;
+
+    public ModelData modelData;
 }

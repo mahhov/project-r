@@ -2,15 +2,16 @@ package character.monster;
 
 import character.Human;
 import character.Monster;
+import character.monster.attack.Attack;
 import character.monster.attack.DegenAttack;
 import character.monster.attack.MeleeAttack;
-import character.monster.attack.Attack;
 import character.monster.attack.NoneAttack;
 import character.monster.behavior.AggressiveBehavior;
 import character.monster.behavior.Behavior;
 import character.monster.behavior.RetaliateBehavior;
 import character.monster.behavior.RunawayBehavior;
 import character.monster.motion.Motion;
+import model.ModelData;
 import shape.CubeInstancedFaces;
 import util.Distribution;
 import util.math.MathRandom;
@@ -46,6 +47,7 @@ public class MonsterGenerator {
         details.glowReward = new Distribution[] {};
         details.coinReward = new Distribution(10, 20);
         details.experienceReward = 10;
+        details.modelData = ModelData.ModelType.FOUR_LEG.modelData;
         return details;
     }
 
@@ -69,6 +71,7 @@ public class MonsterGenerator {
         details.glowReward = new Distribution[] {};
         details.coinReward = new Distribution(15, 25);
         details.experienceReward = 10;
+        details.modelData = ModelData.ModelType.BIRD.modelData;
         return details;
     }
 
@@ -90,6 +93,7 @@ public class MonsterGenerator {
         details.glowReward = new Distribution[] {};
         details.coinReward = new Distribution(20, 30);
         details.experienceReward = 50;
+        details.modelData = ModelData.ModelType.GOAT.modelData;
         return details;
     }
 
@@ -113,6 +117,7 @@ public class MonsterGenerator {
         details.glowReward = new Distribution[] {};
         details.coinReward = new Distribution(25, 35);
         details.experienceReward = 50;
+        details.modelData = ModelData.ModelType.GOAT.modelData;
         return details;
     }
 

@@ -35,7 +35,8 @@ public abstract class Character implements WorldElement { // todo support human 
     private CoordinateI3 worldCoordinate;
     private LList<WorldElement>.Node worldElementNode;
 
-    Character(float x, float y, float z, float theta, float thetaZ, float runAcc, float airAcc, float jetAcc, float size, IntersectionMover intersectionMover, Stats stats, float[] color, CubeInstancedFaces cubeInstancedFaces) {
+    // todo allow color override model data color
+    Character(float x, float y, float z, float theta, float thetaZ, float runAcc, float airAcc, float jetAcc, float size, IntersectionMover intersectionMover, Stats stats, float[] color, ModelData modelData, CubeInstancedFaces cubeInstancedFaces) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -47,8 +48,7 @@ public abstract class Character implements WorldElement { // todo support human 
         this.size = size;
         this.intersectionMover = intersectionMover;
 
-        //        model = new GoatModel(this, cubeInstancedFaces, color);
-        model = new Model(ModelData.readModelData("fourLeg.model"), cubeInstancedFaces, this); // todo reuse modelData instead of creating new for each character
+        model = new Model(modelData, cubeInstancedFaces, this);
 
         this.health = new Health(stats);
     }

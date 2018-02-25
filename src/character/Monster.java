@@ -15,7 +15,7 @@ public class Monster extends Character {
     private MonsterRewards rewards;
 
     public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
-        super(x, y, z, theta, thetaZ, details.runAcc, details.airAcc, details.jetAcc, details.size, intersectionMover, createStats(details), details.color, cubeInstancedFaces);
+        super(x, y, z, theta, thetaZ, details.runAcc, details.airAcc, details.jetAcc, details.size, intersectionMover, createStats(details), details.color, details.modelData, cubeInstancedFaces);
         behavior = MonsterGenerator.createBehavior(this, human, cubeInstancedFaces, details);
         rewards = new MonsterRewards(human, details);
     }
