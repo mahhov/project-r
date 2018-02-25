@@ -6,6 +6,7 @@ import control.Controls;
 import engine.Engine;
 import engine.EngineRunnable;
 import map.Map;
+import modelviewer.ModelGenerator;
 import shader.ShaderManager;
 import ui.UiDrawerGame;
 import world.World;
@@ -72,6 +73,7 @@ public class Game implements EngineRunnable {
     }
 
     public static void main(String[] args) {
+        ModelGenerator.generate();
         new Engine(new Game());
     }
 }

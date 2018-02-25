@@ -41,7 +41,7 @@ class ViewModelProvider {
         SegmentEditable legBR = new SegmentEditable();
         SegmentEditable legBL = new SegmentEditable();
 
-        float[] color = new float[] {1, 0, 0, 1};
+        float[] color = new float[] {0, 1, 0, 1};
         body.setColor(color);
         head.setColor(color);
         tail.setColor(color);
@@ -143,7 +143,7 @@ class ViewModelProvider {
         SegmentEditable legBR = new SegmentEditable();
         SegmentEditable legBL = new SegmentEditable();
 
-        float[] color = new float[] {1, 0, 0, 1};
+        float[] color = new float[] {0, 1, 0, 1};
         body.setColor(color);
         legFR.setColor(color);
         legFL.setColor(color);
