@@ -192,6 +192,11 @@ public abstract class Character implements WorldElement { // todo support human 
         return size;
     }
 
+    @Override
+    public int getId() {
+        return WORLD_ELEMENT_ID;
+    }
+
     public float getLifePercent() {
         return health.percentLife();
     }
@@ -200,7 +205,7 @@ public abstract class Character implements WorldElement { // todo support human 
         return health.percentShield();
     }
 
-    public int getId() {
-        return WORLD_ELEMENT_ID;
+    public Model getModel() {
+        return model;
     }
 }

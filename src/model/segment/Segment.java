@@ -8,12 +8,14 @@ public class Segment {
     float scaleX, scaleY, scaleZ, color[];
     private CubeInstancedFaces cubeInstancedFaces;
     Transformation transformation;
-    private Transformation compositeTransformation;
+    private Transformation animationTranformation, animatedTransformation, compositeTransformation;
     boolean stale;
 
     public Segment(float[] color) {
         this.color = color;
         transformation = new Transformation();
+        animationTranformation = new Transformation();
+        animatedTransformation = new Transformation();
         compositeTransformation = new Transformation();
         stale = true;
     }
@@ -56,19 +58,28 @@ public class Segment {
         stale = true;
     }
 
+    public void setAnimation(float x, float y, float z, float theta) {
+        animationTranformation.x = x;
+        animationTranformation.y = y;
+        animationTranformation.z = z;
+        animationTranformation.theta = theta;
+        stale = true;
+    }
+
     private Transformation getCompositeTransformation() {
         if (parent == null) {
-            compositeTransformation = transformation;
+            compositeTransformation.sum(animationTranformation, transformation);
             MathAngles.norm(compositeTransformation.theta, compositeTransformation.norm);
             return compositeTransformation;
         }
 
         if (isStale()) {
             Transformation parentTransformation = parent.getCompositeTransformation();
-            compositeTransformation.x = parentTransformation.x + parentTransformation.norm[0] * transformation.y + parentTransformation.norm[1] * transformation.x;
-            compositeTransformation.y = parentTransformation.y + parentTransformation.norm[1] * transformation.y - parentTransformation.norm[0] * transformation.x;
-            compositeTransformation.z = parentTransformation.z + transformation.z;
-            compositeTransformation.theta = parentTransformation.theta + transformation.theta;
+            animatedTransformation.sum(animationTranformation, transformation);
+            compositeTransformation.x = parentTransformation.x + parentTransformation.norm[0] * animatedTransformation.y + parentTransformation.norm[1] * animatedTransformation.x;
+            compositeTransformation.y = parentTransformation.y + parentTransformation.norm[1] * animatedTransformation.y - parentTransformation.norm[0] * animatedTransformation.x;
+            compositeTransformation.z = parentTransformation.z + animatedTransformation.z;
+            compositeTransformation.theta = parentTransformation.theta + animatedTransformation.theta;
             MathAngles.norm(compositeTransformation.theta, compositeTransformation.norm);
             stale = false;
         }
@@ -91,6 +102,13 @@ public class Segment {
 
         private Transformation() {
             norm = new float[2];
+        }
+
+        private void sum(Transformation transformation1, Transformation transformation2) {
+            x = transformation1.x + transformation2.x;
+            y = transformation1.y + transformation2.y;
+            z = transformation1.z + transformation2.z;
+            theta = transformation1.theta + transformation2.theta;
         }
     }
 

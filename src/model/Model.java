@@ -8,6 +8,7 @@ import world.WorldElement;
 public class Model {
     private Segment segments[];
     private int segmentCount;
+    private Animation animation;
     private WorldElement worldElement;
 
     public Model(ModelData modelData, CubeInstancedFaces cubeInstancedFaces, WorldElement worldElement) {
@@ -18,6 +19,8 @@ public class Model {
         for (int i = 0; i < modelData.segmentCount; i++)
             segments[i].init(modelData.parents[i] != -1 ? segments[modelData.parents[i]] : null, cubeInstancedFaces);
 
+        animation = new Animation(modelData.segmentCount);
+
         this.worldElement = worldElement;
     }
 
@@ -25,7 +28,12 @@ public class Model {
         segments[segmentCount++] = segment;
     }
 
+    public void animateWalk() {
+        animation.walk();
+    }
+
     public void draw() {
+        animation.apply(segments);
         segments[0].setTranslation(worldElement.getX(), worldElement.getY(), worldElement.getZ());
         segments[0].setRotation(worldElement.getTheta());
         for (Segment segment : segments)

@@ -218,7 +218,7 @@ public class World implements Map {
     }
 
     private void populateChunk(CoordinateI3 coordinate) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             int x = coordinate.x * CHUNK_SIZE + MathRandom.random(0, CHUNK_SIZE);
             int y = coordinate.y * CHUNK_SIZE + MathRandom.random(0, CHUNK_SIZE);
             int z = 8 * Engine.SCALE_Z;

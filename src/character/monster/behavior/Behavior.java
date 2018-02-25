@@ -5,6 +5,7 @@ import character.Monster;
 import character.MoveControl;
 import character.monster.attack.Attack;
 import character.monster.motion.Motion;
+import model.Model;
 import util.math.MathRandom;
 
 public class Behavior {
@@ -17,6 +18,7 @@ public class Behavior {
     Human human;
     Motion motion;
     Attack attack;
+    Model model;
 
     Timer timer;
     State state;
@@ -27,6 +29,7 @@ public class Behavior {
         this.human = human;
         this.motion = motion;
         this.attack = attack;
+        model = monster.getModel();
         timer = new Timer();
         state = State.PASSIVE;
     }

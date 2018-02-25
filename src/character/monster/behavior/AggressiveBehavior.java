@@ -44,7 +44,7 @@ public class AggressiveBehavior extends Behavior {
                 motion.stand();
             else
                 motion.run(dx, dy, (flatDistanceSqr - attackDistance) * RETALIATE_DISTANCE_SPEED_MULT);
-            
+
             if (flatDistanceSqr < detectionRangeSqr * 4)
                 timer.reset(RETALIATE_TIME);
             attack.update();
