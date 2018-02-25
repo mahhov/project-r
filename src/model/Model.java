@@ -8,12 +8,7 @@ import world.WorldElement;
 public class Model {
     private Segment segments[];
     private int segmentCount;
-    WorldElement worldElement;
-
-    Model(WorldElement worldElement, int segmentCount) {
-        segments = new Segment[segmentCount];
-        this.worldElement = worldElement;
-    }
+    private WorldElement worldElement;
 
     public Model(ModelData modelData, CubeInstancedFaces cubeInstancedFaces, WorldElement worldElement) {
         segments = new Segment[modelData.segmentCount];
@@ -26,7 +21,7 @@ public class Model {
         this.worldElement = worldElement;
     }
 
-    void addSegment(Segment segment) {
+    private void addSegment(Segment segment) {
         segments[segmentCount++] = segment;
     }
 
