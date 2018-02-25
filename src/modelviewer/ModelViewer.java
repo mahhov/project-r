@@ -40,7 +40,6 @@ public class ModelViewer implements EngineRunnable {
         camera.setFollow(follow);
 
         createViewModel();
-        storeViewModel();
 
         selector = new Selector();
         uiDrawer = new UiDrawerModelViewer(selector, controls.keyControl, controls.mousePosControl, controls.mouseButtonControl);

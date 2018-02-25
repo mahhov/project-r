@@ -41,6 +41,15 @@ class ViewModelProvider {
         SegmentEditable legBR = new SegmentEditable();
         SegmentEditable legBL = new SegmentEditable();
 
+        float[] color = new float[] {1, 0, 0, 1};
+        body.setColor(color);
+        head.setColor(color);
+        tail.setColor(color);
+        legFR.setColor(color);
+        legFL.setColor(color);
+        legBR.setColor(color);
+        legBL.setColor(color);
+
         body.init(null, cubeInstancedFaces);
         head.init(body, cubeInstancedFaces);
         tail.init(body, cubeInstancedFaces);
@@ -86,6 +95,14 @@ class ViewModelProvider {
         SegmentEditable legBR = new SegmentEditable();
         SegmentEditable legBL = new SegmentEditable();
 
+        float[] color = new float[] {1, 0, 0, 1};
+        body.setColor(color);
+        head.setColor(color);
+        legFR.setColor(color);
+        legFL.setColor(color);
+        legBR.setColor(color);
+        legBL.setColor(color);
+
         body.init(null, cubeInstancedFaces);
         head.init(body, cubeInstancedFaces);
         legFR.init(body, cubeInstancedFaces);
@@ -125,6 +142,13 @@ class ViewModelProvider {
         SegmentEditable legFL = new SegmentEditable();
         SegmentEditable legBR = new SegmentEditable();
         SegmentEditable legBL = new SegmentEditable();
+
+        float[] color = new float[] {1, 0, 0, 1};
+        body.setColor(color);
+        legFR.setColor(color);
+        legFL.setColor(color);
+        legBR.setColor(color);
+        legBL.setColor(color);
 
         body.init(null, cubeInstancedFaces);
         legFR.init(body, cubeInstancedFaces);

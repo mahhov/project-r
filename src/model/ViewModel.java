@@ -36,12 +36,9 @@ public class ViewModel {
     public void addSegment(SegmentEditable segment) {
         if (selectedSegmentNode == null) {
             selectedSegmentNode = segments.addTail(segment);
-            segment.setColor(SELECTED_COLOR);
 
-        } else {
+        } else
             segments.addTail(segment);
-            segment.setColor(UNSELECTED_COLOR);
-        }
     }
 
     public float[] normalizeControl(KeyControl keyControl) {
