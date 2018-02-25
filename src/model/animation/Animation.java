@@ -1,32 +1,25 @@
-package model;
+package model.animation;
 
 import model.segment.Segment;
 
-class Animation {
-    private static final int ANIMATION_COUNT = 2;
+public class Animation {
     private int prevFrameIndex, frameIndex, lapsedTime, totalTime[];
     private Frame[][] frames;
     private Frame[] frame;
 
-    Animation(int segmentCount) {
-        totalTime = new int[ANIMATION_COUNT];
-        frames = new Frame[ANIMATION_COUNT][segmentCount];
-        for (int i = 0; i < ANIMATION_COUNT; i++) {
-            totalTime[i] = 10;
-            for (int j = 0; j < segmentCount; j++)
-                frames[i][j] = new Frame();
-        }
-        frames[1][1].z = 1;
+    public Animation(AnimationData animationData) {
+        totalTime = animationData.totalTime;
+        frames = animationData.frames;
 
-        frame = new Frame[segmentCount];
-        for (int i = 0; i < segmentCount; i++)
+        frame = new Frame[animationData.segmentCount];
+        for (int i = 0; i < animationData.segmentCount; i++)
             frame[i] = new Frame();
 
         frameIndex = 1;
         lapsedTime = totalTime[0];
     }
 
-    void walk() {
+    public void walk() {
         if (--lapsedTime == 0) {
             prevFrameIndex = frameIndex;
             if (++frameIndex == frames.length)
@@ -47,12 +40,8 @@ class Animation {
         }
     }
 
-    void apply(Segment[] segments) {
+    public void apply(Segment[] segments) {
         for (int i = 0; i < segments.length; i++)
             segments[i].setAnimation(frame[i].x, frame[i].y, frame[i].z, frame[i].theta);
-    }
-
-    private static class Frame {
-        private float x, y, z, theta;
     }
 }
