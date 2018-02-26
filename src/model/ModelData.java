@@ -33,7 +33,7 @@ public class ModelData implements Serializable {
         segmentData = new SegmentData[segmentCount];
     }
 
-    public static ModelData readModelData(String fileName) {
+    private static ModelData readModelData(String fileName) {
         try {
             return (ModelData) Writer.getReadStream(fileName).readObject();
         } catch (IOException | ClassNotFoundException e) {

@@ -1,11 +1,13 @@
-package modelviewer;
+package model;
 
-import model.ViewModel;
 import model.animation.AnimationCreator;
 import model.segment.SegmentEditable;
-import shape.CubeInstancedFaces;
+import util.Writer;
 
-class ViewModelProvider {
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+public class ModelGenerator {
     enum ViewModelType {
         GOAT("goat.model"),
         FOUR_LEG("fourLeg.model"),
@@ -18,21 +20,21 @@ class ViewModelProvider {
         }
     }
 
-    static ViewModel getViewModel(ViewModelType viewModelType, CubeInstancedFaces cubeInstancedFaces) {
+    static ModelData getModelData(ViewModelType viewModelType) {
         switch (viewModelType) {
             case GOAT:
-                return goat(cubeInstancedFaces);
+                return goat();
             case FOUR_LEG:
-                return fourLeg(cubeInstancedFaces);
+                return fourLeg();
             case BIRD:
-                return bird(cubeInstancedFaces);
+                return bird();
             default:
-                throw new RuntimeException("view model type not caught in ViewModelProvider.getViewModel");
+                throw new RuntimeException("view model type not caught in ModelGenerator.getViewModel");
         }
     }
 
-    private static ViewModel goat(CubeInstancedFaces cubeInstancedFaces) {
-        ViewModel viewModel = new ViewModel();
+    private static ModelData goat() {
+        ModelCreator modelCreator = new ModelCreator();
 
         SegmentEditable body = new SegmentEditable();
         SegmentEditable head = new SegmentEditable();
@@ -51,13 +53,13 @@ class ViewModelProvider {
         legBR.setColor(color);
         legBL.setColor(color);
 
-        body.init(null, cubeInstancedFaces);
-        head.init(body, cubeInstancedFaces);
-        tail.init(body, cubeInstancedFaces);
-        legFR.init(body, cubeInstancedFaces);
-        legFL.init(body, cubeInstancedFaces);
-        legBR.init(body, cubeInstancedFaces);
-        legBL.init(body, cubeInstancedFaces);
+        body.init(null, null);
+        head.init(body, null);
+        tail.init(body, null);
+        legFR.init(body, null);
+        legFL.init(body, null);
+        legBR.init(body, null);
+        legBL.init(body, null);
 
         body.setScale(2, 2.5f, 2);
         head.setScale(1.3f, 1.3f, 1.3f);
@@ -75,26 +77,26 @@ class ViewModelProvider {
         legBR.setTranslation(1, -1, -1.4f);
         legBL.setTranslation(-1, -1, -1.4f);
 
-        viewModel.addSegment(body);
-        viewModel.addSegment(head);
-        viewModel.addSegment(tail);
-        viewModel.addSegment(legFR);
-        viewModel.addSegment(legFL);
-        viewModel.addSegment(legBR);
-        viewModel.addSegment(legBL);
+        modelCreator.addSegment(body);
+        modelCreator.addSegment(head);
+        modelCreator.addSegment(tail);
+        modelCreator.addSegment(legFR);
+        modelCreator.addSegment(legFL);
+        modelCreator.addSegment(legBR);
+        modelCreator.addSegment(legBL);
 
         AnimationCreator animationCreator = new AnimationCreator(2, 7);
         animationCreator.setTotalTime(0, 20);
         animationCreator.setTotalTime(1, 5);
         animationCreator.setFrame(0, 1, 0, 0, 1, 0);
         animationCreator.setFrame(1, 1, 0, 0, 0, 0);
-        viewModel.setAnimationCreator(animationCreator);
+        modelCreator.setAnimationData(animationCreator);
 
-        return viewModel;
+        return modelCreator.getModelData();
     }
 
-    private static ViewModel fourLeg(CubeInstancedFaces cubeInstancedFaces) {
-        ViewModel viewModel = new ViewModel();
+    private static ModelData fourLeg() {
+        ModelCreator modelCreator = new ModelCreator();
 
         SegmentEditable body = new SegmentEditable();
         SegmentEditable head = new SegmentEditable();
@@ -111,12 +113,12 @@ class ViewModelProvider {
         legBR.setColor(color);
         legBL.setColor(color);
 
-        body.init(null, cubeInstancedFaces);
-        head.init(body, cubeInstancedFaces);
-        legFR.init(body, cubeInstancedFaces);
-        legFL.init(body, cubeInstancedFaces);
-        legBR.init(body, cubeInstancedFaces);
-        legBL.init(body, cubeInstancedFaces);
+        body.init(null, null);
+        head.init(body, null);
+        legFR.init(body, null);
+        legFL.init(body, null);
+        legBR.init(body, null);
+        legBL.init(body, null);
 
         body.setScale(2, 6, 1);
         head.setScale(3, 1, 2);
@@ -132,20 +134,20 @@ class ViewModelProvider {
         legBR.setTranslation(1.5f, -1.5f, -1);
         legBL.setTranslation(-1.5f, -1.5f, -1);
 
-        viewModel.addSegment(body);
-        viewModel.addSegment(head);
-        viewModel.addSegment(legFR);
-        viewModel.addSegment(legFL);
-        viewModel.addSegment(legBR);
-        viewModel.addSegment(legBL);
+        modelCreator.addSegment(body);
+        modelCreator.addSegment(head);
+        modelCreator.addSegment(legFR);
+        modelCreator.addSegment(legFL);
+        modelCreator.addSegment(legBR);
+        modelCreator.addSegment(legBL);
 
-        viewModel.setAnimationCreator(new AnimationCreator(2, 6));
+        modelCreator.setAnimationData(new AnimationCreator(2, 6));
 
-        return viewModel;
+        return modelCreator.getModelData();
     }
 
-    private static ViewModel bird(CubeInstancedFaces cubeInstancedFaces) {
-        ViewModel viewModel = new ViewModel();
+    private static ModelData bird() {
+        ModelCreator modelCreator = new ModelCreator();
 
         SegmentEditable body = new SegmentEditable();
         SegmentEditable legFR = new SegmentEditable();
@@ -160,11 +162,11 @@ class ViewModelProvider {
         legBR.setColor(color);
         legBL.setColor(color);
 
-        body.init(null, cubeInstancedFaces);
-        legFR.init(body, cubeInstancedFaces);
-        legFL.init(body, cubeInstancedFaces);
-        legBR.init(body, cubeInstancedFaces);
-        legBL.init(body, cubeInstancedFaces);
+        body.init(null, null);
+        legFR.init(body, null);
+        legFL.init(body, null);
+        legBR.init(body, null);
+        legBL.init(body, null);
 
         body.setScale(1, 3, 1);
         legFR.setScale(2, 2, 1);
@@ -178,14 +180,24 @@ class ViewModelProvider {
         legBR.setTranslation(1.5f, -1.5f, 0);
         legBL.setTranslation(-1.5f, -1.5f, 0);
 
-        viewModel.addSegment(body);
-        viewModel.addSegment(legFR);
-        viewModel.addSegment(legFL);
-        viewModel.addSegment(legBR);
-        viewModel.addSegment(legBL);
+        modelCreator.addSegment(body);
+        modelCreator.addSegment(legFR);
+        modelCreator.addSegment(legFL);
+        modelCreator.addSegment(legBR);
+        modelCreator.addSegment(legBL);
 
-        viewModel.setAnimationCreator(new AnimationCreator(1, 5));
+        modelCreator.setAnimationData(new AnimationCreator(1, 5));
 
-        return viewModel;
+        return modelCreator.getModelData();
+    }
+
+    public static void generate() {
+        for (ViewModelType viewModelType : ViewModelType.values()) {
+            try (ObjectOutputStream objectOutputStream = Writer.getWriteStream(viewModelType.file)) {
+                objectOutputStream.writeObject(getModelData(viewModelType));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

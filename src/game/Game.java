@@ -6,7 +6,7 @@ import control.Controls;
 import engine.Engine;
 import engine.EngineRunnable;
 import map.Map;
-import modelviewer.ModelGenerator;
+import model.ModelGenerator;
 import shader.ShaderManager;
 import ui.UiDrawerGame;
 import world.World;
