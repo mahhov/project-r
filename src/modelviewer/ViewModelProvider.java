@@ -1,8 +1,7 @@
 package modelviewer;
 
 import model.ViewModel;
-import model.animation.Animation;
-import model.animation.AnimationData;
+import model.animation.AnimationCreator;
 import model.segment.SegmentEditable;
 import shape.CubeInstancedFaces;
 
@@ -84,7 +83,12 @@ class ViewModelProvider {
         viewModel.addSegment(legBR);
         viewModel.addSegment(legBL);
 
-        viewModel.setAnimation(new Animation(new AnimationData(2, 7)));
+        AnimationCreator animationCreator = new AnimationCreator(2, 7);
+        animationCreator.setTotalTime(0, 20);
+        animationCreator.setTotalTime(1, 5);
+        animationCreator.setFrame(0, 1, 0, 0, 1, 0);
+        animationCreator.setFrame(1, 1, 0, 0, 0, 0);
+        viewModel.setAnimationCreator(animationCreator);
 
         return viewModel;
     }
@@ -135,7 +139,7 @@ class ViewModelProvider {
         viewModel.addSegment(legBR);
         viewModel.addSegment(legBL);
 
-        viewModel.setAnimation(new Animation(new AnimationData(2, 6)));
+        viewModel.setAnimationCreator(new AnimationCreator(2, 6));
 
         return viewModel;
     }
@@ -180,8 +184,7 @@ class ViewModelProvider {
         viewModel.addSegment(legBR);
         viewModel.addSegment(legBL);
 
-        AnimationData animationData = new AnimationData(1, 5);
-        viewModel.setAnimation(new Animation(animationData));
+        viewModel.setAnimationCreator(new AnimationCreator(1, 5));
 
         return viewModel;
     }

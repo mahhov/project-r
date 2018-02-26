@@ -94,6 +94,8 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
+// animation creator
+// animation viewer
 // model animations
 // models normalize size
 // complex monster

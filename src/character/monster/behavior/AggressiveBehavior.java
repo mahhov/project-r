@@ -19,6 +19,8 @@ public class AggressiveBehavior extends Behavior {
 
     @Override
     public void update() {
+        model.animateWalk();
+        
         float dx = human.getX() - monster.getX();
         float dy = human.getY() - monster.getY();
         float dz = human.getZ() - monster.getZ();

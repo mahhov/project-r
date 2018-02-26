@@ -4,6 +4,7 @@ import control.KeyButton;
 import control.KeyControl;
 import control.MousePosControl;
 import model.animation.Animation;
+import model.animation.AnimationCreator;
 import model.segment.Segment;
 import model.segment.SegmentEditable;
 import modelviewer.Selector;
@@ -18,6 +19,7 @@ public class ViewModel {
     private LList<SegmentEditable> segments;
     private LList<SegmentEditable>.Node selectedSegmentNode;
     private Animation animation;
+    private AnimationCreator animationCreator;
 
     public ViewModel() {
         segments = new LList<>();
@@ -122,8 +124,9 @@ public class ViewModel {
         selectedSegmentNode.getValue().addScale((normalizedControl[0] + normalizedControl[3]) * SCALE_SPEED, (normalizedControl[1] + normalizedControl[3]) * SCALE_SPEED, (normalizedControl[2] + normalizedControl[3]) * SCALE_SPEED);
     }
 
-    public void setAnimation(Animation animation) {
-        this.animation = animation;
+    public void setAnimationCreator(AnimationCreator animationCreator) {
+        this.animationCreator = animationCreator;
+        animation = new Animation(animationCreator);
     }
 
     public void draw() {
@@ -151,7 +154,7 @@ public class ViewModel {
             segmentIndex++;
         }
 
-        modelData.animationData = animation.getAnimationData();
+        modelData.animationData = animationCreator;
 
         return modelData;
     }

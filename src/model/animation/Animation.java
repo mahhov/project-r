@@ -46,13 +46,4 @@ public class Animation {
         for (int i = 0; i < segments.length; i++)
             segments[i].setAnimation(frame[i].x, frame[i].y, frame[i].z, frame[i].theta);
     }
-
-    public AnimationData getAnimationData() {
-        AnimationData animationData = new AnimationData(frames.length, frames[0].length);
-
-        animationData.totalTime = totalTime;
-        animationData.frames = frames;
-
-        return animationData;
-    }
 }

@@ -17,6 +17,8 @@ public class RetaliateBehavior extends Behavior {
 
     @Override
     public void update() {
+        model.animateWalk();
+        
         timer.update();
 
         if (damageTaken) {
