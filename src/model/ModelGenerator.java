@@ -8,20 +8,20 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 public class ModelGenerator {
-    enum ViewModelType {
+    private enum ModelType {
         GOAT("goat.model"),
         FOUR_LEG("fourLeg.model"),
         BIRD("bird.model");
 
         final String file;
 
-        ViewModelType(String file) {
+        ModelType(String file) {
             this.file = file;
         }
     }
 
-    static ModelData getModelData(ViewModelType viewModelType) {
-        switch (viewModelType) {
+    private static ModelData getModelData(ModelType modelType) {
+        switch (modelType) {
             case GOAT:
                 return goat();
             case FOUR_LEG:
@@ -192,9 +192,9 @@ public class ModelGenerator {
     }
 
     public static void generate() {
-        for (ViewModelType viewModelType : ViewModelType.values()) {
-            try (ObjectOutputStream objectOutputStream = Writer.getWriteStream(viewModelType.file)) {
-                objectOutputStream.writeObject(getModelData(viewModelType));
+        for (ModelType modelType : ModelType.values()) {
+            try (ObjectOutputStream objectOutputStream = Writer.getWriteStream(modelType.file)) {
+                objectOutputStream.writeObject(getModelData(modelType));
             } catch (IOException e) {
                 e.printStackTrace();
             }

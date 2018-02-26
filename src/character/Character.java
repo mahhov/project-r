@@ -48,7 +48,7 @@ public abstract class Character implements WorldElement { // todo support human 
         this.size = size;
         this.intersectionMover = intersectionMover;
 
-        model = new Model(modelData, cubeInstancedFaces, this);
+        model = new Model(modelData, cubeInstancedFaces);
 
         this.health = new Health(stats);
     }
@@ -164,6 +164,7 @@ public abstract class Character implements WorldElement { // todo support human 
 
     @Override
     public void draw() {
+        model.setTransform(x, y, z, theta);
         model.draw();
     }
 
