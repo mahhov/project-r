@@ -38,22 +38,13 @@ public class ModelViewer implements EngineRunnable {
 
     @Override
     public void printHelp() {
-        System.out.println("TODO : REPLACE THIS HELP");
-        System.out.println("W A S D move / scale horizontally");
-        System.out.println("Q E rotate");
-        System.out.println("SPACE SHIFT move / scale vertically");
-        System.out.println("ENTER selector menu");
-        System.out.println("N prev segment");
-        System.out.println("M next segment");
-        System.out.println("B new");
-        System.out.println("C load");
-        System.out.println("V store");
-        System.out.println("DRAG MOUSE SECONDARY rotate camera");
-        System.out.println("DRAG MOUSE PRIMARY translate / rotate / scale segment");
-        System.out.println("Z X zoom camera");
-        System.out.println("R F move camera vertically");
-        System.out.println("SCROLL WHEEL change selected segment");
-        System.out.println("SCROLL WHEEL HORIZONTAL change selected tool");
+        System.out.println("--");
+        String format = "%-25s%s\n";
+        System.out.printf(format, "CLICK MOUSE PRIMARY", "play & pause animation");
+        System.out.printf(format, "DRAG MOUSE SECONDARY", "rotate camera");
+        System.out.printf(format, "Z X", "zoom camera");
+        System.out.printf(format, "SCROLL", "WHEEL zoom model");
+        System.out.printf(format, "R F", "move camera vertically");
     }
 
     @Override
