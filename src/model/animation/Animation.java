@@ -16,8 +16,9 @@ public class Animation {
         for (int i = 0; i < segmentCount; i++)
             frame[i] = new Frame();
 
-        frameIndex = 1;
-        lapsedTime = totalTime[0];
+        prevFrameIndex = frames.length - 1;
+        frameIndex = 0;
+        lapsedTime = totalTime[prevFrameIndex];
     }
 
     public void walk() {

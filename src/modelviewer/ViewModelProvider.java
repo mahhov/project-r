@@ -180,7 +180,8 @@ class ViewModelProvider {
         viewModel.addSegment(legBR);
         viewModel.addSegment(legBL);
 
-        viewModel.setAnimation(new Animation(new AnimationData(2, 5)));
+        AnimationData animationData = new AnimationData(1, 5);
+        viewModel.setAnimation(new Animation(animationData));
 
         return viewModel;
     }
