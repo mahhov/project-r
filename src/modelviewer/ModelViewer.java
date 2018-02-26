@@ -12,14 +12,15 @@ import shader.ShaderManager;
 import shape.CubeInstancedFaces;
 
 public class ModelViewer implements EngineRunnable {
-    private final ModelData.ModelType MODAL_TYPE = ModelData.ModelType.BIRD;
+    private final ModelData.ModelType MODAL_TYPE = ModelData.ModelType.GOAT;
 
     private Controls controls;
-
     private FreeCameraFollow follow;
     private Camera camera;
     private CubeInstancedFaces cubeInstancedFaces;
     private Model model;
+
+    private boolean animate;
 
     @Override
     public void init(Controls controls) {
@@ -61,11 +62,13 @@ public class ModelViewer implements EngineRunnable {
             controls.mousePosControl.lock();
         else if (controls.mouseButtonControl.isMouseReleased(MouseButton.SECONDARY))
             controls.mousePosControl.unlock();
-        //        if (controls.mouseButtonControl.isMouseDown(MouseButton.PRIMARY))
-        //            viewModel.update(selector.getSelectedTool(), viewModel.normalizeControl(controls.mousePosControl, controls.keyControl.isKeyDown(KeyButton.KEY_SHIFT)));
         if (controls.mouseButtonControl.isMouseDown(MouseButton.SECONDARY))
             follow.update(controls.mousePosControl);
+        if (controls.mouseButtonControl.isMouseReleased(MouseButton.PRIMARY))
+            animate = !animate;
 
+        if (animate)
+            model.animateWalk();
         camera.update(controls.keyControl, controls.mouseScrollControl);
 
         cubeInstancedFaces.reset();
