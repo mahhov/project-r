@@ -66,7 +66,7 @@ public class ModelViewer implements EngineRunnable {
         if (controls.mouseButtonControl.isMouseDown(MouseButton.SECONDARY))
             follow.update(controls.mousePosControl);
 
-        camera.update(controls.keyControl);
+        camera.update(controls.keyControl, controls.mouseScrollControl);
 
         cubeInstancedFaces.reset();
         model.draw();

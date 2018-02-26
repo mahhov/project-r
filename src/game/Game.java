@@ -31,6 +31,7 @@ public class Game implements EngineRunnable {
 
     @Override
     public void printHelp() {
+        // 0 to toggle anti alias
     }
 
     public void loadMap(int selected) {
@@ -48,7 +49,7 @@ public class Game implements EngineRunnable {
     @Override
     public void loop() {
         ShaderManager.setRenderShader();
-        camera.update(controls.keyControl);
+        camera.update(controls.keyControl, controls.mouseScrollControl);
         world.setCameraCoordinate(camera.getWorldCoordinate());
         world.update();
         world.draw();

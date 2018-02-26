@@ -2,13 +2,14 @@ package camera;
 
 import control.KeyButton;
 import control.KeyControl;
+import control.MouseScrollControl;
 import engine.Engine;
 import geometry.CoordinateI3;
 import org.lwjgl.system.MemoryUtil;
-import util.math.MathAngles;
-import util.math.MathNumbers;
 import util.SimpleMatrix4f;
 import util.intersection.IntersectionPicker;
+import util.math.MathAngles;
+import util.math.MathNumbers;
 
 import java.nio.FloatBuffer;
 
@@ -24,7 +25,7 @@ public class Camera implements IntersectionPicker.Picker {
     private Follow follow;
 
     private static final float TRAIL_DISTANCE_MIN = 3, TRAIL_DISTANCE_MAX = 60, TRAIL_DISTANCE_SPEED = .5f;
-    private static final float TRAIL_VERT_MIN = 0, TRAIL_VERT_MAX = 25, TRAIL_VERT_SPEED = .2f;
+    private static final float TRAIL_VERT_MIN = 0, TRAIL_VERT_MAX = 25, TRAIL_VERT_SPEED = .2f, TRAIL_DIStANCE_SCROLL_SPEED = 2;
     private float trailDistance, trailVert;
 
     private int projectionMatrixLoc, viewMatrixLoc, viewPositionLoc, antialiasLoc;
@@ -52,8 +53,8 @@ public class Camera implements IntersectionPicker.Picker {
         setAntialiasMode(antialiasValue = 1);
     }
 
-    public void update(KeyControl keyControl) {
-        trail(keyControl);
+    public void update(KeyControl keyControl, MouseScrollControl mouseScrollControl) {
+        trail(keyControl, mouseScrollControl);
 
         if (follow.isFollowZoom()) {
             exactFollow();
@@ -69,16 +70,19 @@ public class Camera implements IntersectionPicker.Picker {
             setAntialiasMode(antialiasValue = 1 - antialiasValue);
     }
 
-    private void trail(KeyControl keyControl) {
+    private void trail(KeyControl keyControl, MouseScrollControl mouseScrollControl) {
         if (keyControl.isKeyDown(KeyButton.KEY_R))
             trailVert = MathNumbers.min(trailVert + TRAIL_VERT_SPEED, TRAIL_VERT_MAX);
         if (keyControl.isKeyDown(KeyButton.KEY_F))
             trailVert = MathNumbers.max(trailVert - TRAIL_VERT_SPEED, TRAIL_VERT_MIN);
 
         if (keyControl.isKeyDown(KeyButton.KEY_Z))
-            trailDistance = MathNumbers.min(trailDistance + TRAIL_DISTANCE_SPEED, TRAIL_DISTANCE_MAX);
+            trailDistance += TRAIL_DISTANCE_SPEED;
         if (keyControl.isKeyDown(KeyButton.KEY_X))
-            trailDistance = MathNumbers.max(trailDistance - TRAIL_DISTANCE_SPEED, TRAIL_DISTANCE_MIN);
+            trailDistance -= TRAIL_DISTANCE_SPEED;
+
+        trailDistance += mouseScrollControl.getScroll() * TRAIL_DIStANCE_SCROLL_SPEED;
+        trailDistance = MathNumbers.minMax(trailDistance, TRAIL_DISTANCE_MIN, TRAIL_DISTANCE_MAX);
     }
 
     private void follow() {
