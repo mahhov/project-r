@@ -1,7 +1,6 @@
 package model;
 
 import model.animation.Animation;
-import model.animation.AnimationData;
 import model.segment.Segment;
 import model.segment.SegmentData;
 import shape.CubeInstancedFaces;
@@ -21,7 +20,7 @@ public class Model {
         for (int i = 0; i < modelData.segmentCount; i++)
             segments[i].init(modelData.parents[i] != -1 ? segments[modelData.parents[i]] : null, cubeInstancedFaces);
 
-        animation = new Animation(new AnimationData(2, modelData.segmentCount));
+        animation = new Animation(modelData.animationData);
 
         this.worldElement = worldElement;
     }

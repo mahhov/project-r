@@ -11,8 +11,9 @@ public class Animation {
         totalTime = animationData.totalTime;
         frames = animationData.frames;
 
-        frame = new Frame[animationData.segmentCount];
-        for (int i = 0; i < animationData.segmentCount; i++)
+        int segmentCount = animationData.frames[0].length;
+        frame = new Frame[segmentCount];
+        for (int i = 0; i < segmentCount; i++)
             frame[i] = new Frame();
 
         frameIndex = 1;
@@ -43,5 +44,14 @@ public class Animation {
     public void apply(Segment[] segments) {
         for (int i = 0; i < segments.length; i++)
             segments[i].setAnimation(frame[i].x, frame[i].y, frame[i].z, frame[i].theta);
+    }
+
+    public AnimationData getAnimationData() {
+        AnimationData animationData = new AnimationData(frames.length, frames[0].length);
+
+        animationData.totalTime = totalTime;
+        animationData.frames = frames;
+
+        return animationData;
     }
 }

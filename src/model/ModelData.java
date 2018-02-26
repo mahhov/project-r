@@ -1,5 +1,6 @@
 package model;
 
+import model.animation.AnimationData;
 import model.segment.SegmentData;
 import util.Writer;
 
@@ -24,6 +25,7 @@ public class ModelData implements Serializable {
     int segmentCount;
     int[] parents;
     SegmentData[] segmentData;
+    AnimationData animationData;
 
     ModelData(int segmentCount) {
         this.segmentCount = segmentCount;
