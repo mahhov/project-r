@@ -13,11 +13,9 @@ public class ModelData implements Serializable {
         FOUR_LEG("fourLeg.model"),
         BIRD("bird.model");
 
-        final String file;
         public final ModelData modelData;
 
         ModelType(String file) {
-            this.file = file;
             modelData = ModelData.readModelData(file);
         }
     }

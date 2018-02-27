@@ -9,27 +9,16 @@ import java.io.ObjectOutputStream;
 
 public class ModelGenerator {
     private enum ModelType {
-        GOAT("goat.model"),
-        FOUR_LEG("fourLeg.model"),
-        BIRD("bird.model");
+        GOAT("goat.model", goat()),
+        FOUR_LEG("fourLeg.model", fourLeg()),
+        BIRD("bird.model", bird());
 
-        final String file;
+        private final String file;
+        private final ModelData modelData;
 
-        ModelType(String file) {
+        ModelType(String file, ModelData modelData) {
             this.file = file;
-        }
-    }
-
-    private static ModelData getModelData(ModelType modelType) {
-        switch (modelType) {
-            case GOAT:
-                return goat();
-            case FOUR_LEG:
-                return fourLeg();
-            case BIRD:
-                return bird();
-            default:
-                throw new RuntimeException("view model type not caught in ModelGenerator.getViewModel");
+            this.modelData = modelData;
         }
     }
 
@@ -194,7 +183,7 @@ public class ModelGenerator {
     public static void generate() {
         for (ModelType modelType : ModelType.values()) {
             try (ObjectOutputStream objectOutputStream = Writer.getWriteStream(modelType.file)) {
-                objectOutputStream.writeObject(getModelData(modelType));
+                objectOutputStream.writeObject(modelType.modelData);
             } catch (IOException e) {
                 e.printStackTrace();
             }
