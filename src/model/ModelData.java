@@ -22,6 +22,8 @@ public class ModelData implements Serializable {
         }
     }
 
+    public static final ModelType[] MODEL_TYPE_VALUES = ModelType.values();
+
     int segmentCount;
     int[] parents;
     SegmentData[] segmentData;

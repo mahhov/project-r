@@ -8,6 +8,7 @@ import engine.Engine;
 import engine.EngineRunnable;
 import model.Model;
 import model.ModelData;
+import model.ModelGenerator;
 import shader.ShaderManager;
 import shape.CubeInstancedFaces;
 
@@ -20,6 +21,7 @@ public class ModelViewer implements EngineRunnable {
     private CubeInstancedFaces cubeInstancedFaces;
     private Model model;
 
+    private int modelIndex;
     private boolean animate;
 
     @Override
@@ -33,7 +35,7 @@ public class ModelViewer implements EngineRunnable {
         camera = new Camera(ShaderManager.getRenderShaderProgramId(), 20, 0);
         camera.setFollow(follow);
         cubeInstancedFaces = new CubeInstancedFaces();
-        model = new Model(MODAL_TYPE.modelData, cubeInstancedFaces);
+        loadModel();
     }
 
     @Override
@@ -58,6 +60,15 @@ public class ModelViewer implements EngineRunnable {
         if (controls.mouseButtonControl.isMouseReleased(MouseButton.PRIMARY))
             animate = !animate;
 
+        int scrollX = controls.mouseScrollControl.getScrollX();
+        if (scrollX > 0 && ++modelIndex == ModelData.MODEL_TYPE_VALUES.length) {
+            modelIndex = 0;
+            loadModel();
+        } else if (scrollX < 0 && --modelIndex == -1) {
+            modelIndex = ModelData.MODEL_TYPE_VALUES.length - 1;
+            loadModel();
+        }
+
         if (animate)
             model.animateWalk();
         camera.update(controls.keyControl, controls.mouseScrollControl);
@@ -78,7 +89,12 @@ public class ModelViewer implements EngineRunnable {
     public void shutDown() {
     }
 
+    private void loadModel() {
+        model = new Model(MODAL_TYPE.modelData, cubeInstancedFaces);
+    }
+
     public static void main(String[] args) {
+        ModelGenerator.generate();
         new Engine(new ModelViewer());
     }
 }

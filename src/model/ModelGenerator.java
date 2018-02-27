@@ -2,6 +2,7 @@ package model;
 
 import model.animation.AnimationCreator;
 import model.segment.SegmentEditable;
+import util.Timer;
 import util.Writer;
 
 import java.io.IOException;
@@ -192,6 +193,7 @@ public class ModelGenerator {
     }
 
     public static void generate() {
+        Timer.restart(0);
         for (ModelType modelType : ModelType.values()) {
             try (ObjectOutputStream objectOutputStream = Writer.getWriteStream(modelType.file)) {
                 objectOutputStream.writeObject(getModelData(modelType));
@@ -199,5 +201,6 @@ public class ModelGenerator {
                 e.printStackTrace();
             }
         }
+        Timer.time(0, "model generation");
     }
 }
