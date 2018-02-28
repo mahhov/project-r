@@ -8,11 +8,12 @@ import engine.Engine;
 import engine.EngineRunnable;
 import model.Model;
 import model.ModelData;
+import model.ModelGenerator;
 import shader.ShaderManager;
 import shape.CubeInstancedFaces;
 
 public class ModelViewer implements EngineRunnable {
-    private final ModelData.ModelType MODAL_TYPE = ModelData.ModelType.GOAT;
+    private final ModelData.ModelType MODAL_TYPE = ModelData.ModelType.PILLAR;
 
     private Controls controls;
     private FreeCameraFollow follow;
@@ -79,6 +80,7 @@ public class ModelViewer implements EngineRunnable {
     }
 
     public static void main(String[] args) {
+        ModelGenerator.generate();
         new Engine(new ModelViewer());
     }
 }

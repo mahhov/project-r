@@ -11,7 +11,8 @@ public class ModelData implements Serializable {
     public enum ModelType {
         GOAT("goat.model"),
         FOUR_LEG("fourLeg.model"),
-        BIRD("bird.model");
+        BIRD("bird.model"),
+        PILLAR("pillar.model");
 
         public final ModelData modelData;
 

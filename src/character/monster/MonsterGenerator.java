@@ -117,7 +117,7 @@ public class MonsterGenerator {
         details.glowReward = new Distribution[] {};
         details.coinReward = new Distribution(25, 35);
         details.experienceReward = 50;
-        details.modelData = ModelData.ModelType.GOAT.modelData;
+        details.modelData = ModelData.ModelType.PILLAR.modelData;
         return details;
     }
 

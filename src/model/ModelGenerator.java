@@ -11,7 +11,8 @@ public class ModelGenerator {
     private enum ModelType {
         GOAT("goat.model", goat()),
         FOUR_LEG("fourLeg.model", fourLeg()),
-        BIRD("bird.model", bird());
+        BIRD("bird.model", bird()),
+        PILLAR("pillar.model", pillar());
 
         private final String file;
         private final ModelData modelData;
@@ -176,6 +177,30 @@ public class ModelGenerator {
         modelCreator.addSegment(legBL);
 
         modelCreator.setAnimationData(new AnimationCreator(1, 5));
+
+        return modelCreator.getModelData();
+    }
+
+    private static ModelData pillar() {
+        System.out.println("creating pillar");
+
+        ModelCreator modelCreator = new ModelCreator();
+
+        SegmentEditable body = new SegmentEditable();
+
+        float[] color = new float[] {0, 0, .3f, 1};
+        body.setColor(color);
+
+        body.init(null, null);
+
+        body.setScale(1, 1, 10);
+
+        body.setTranslation(0, 0, 0);
+
+        modelCreator.addSegment(body);
+
+        AnimationCreator animationCreator = new AnimationCreator(1, 1);
+        modelCreator.setAnimationData(animationCreator);
 
         return modelCreator.getModelData();
     }
