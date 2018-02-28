@@ -13,7 +13,7 @@ import shader.ShaderManager;
 import shape.CubeInstancedFaces;
 
 public class ModelViewer implements EngineRunnable {
-    private final ModelData.ModelType MODAL_TYPE = ModelData.ModelType.PILLAR;
+    private final ModelData.ModelType MODAL_TYPE = ModelData.ModelType.BUG;
 
     private Controls controls;
     private FreeCameraFollow follow;

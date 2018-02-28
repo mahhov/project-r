@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 public class ModelData implements Serializable {
     public enum ModelType {
+        BUG("bug.model"),
         GOAT("goat.model"),
         FOUR_LEG("fourLeg.model"),
         BIRD("bird.model"),

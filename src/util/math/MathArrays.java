@@ -14,4 +14,9 @@ public class MathArrays {
             System.arraycopy(raw, 0, repeated, i * raw.length, raw.length);
         return repeated;
     }
+
+    public static void scale(float[] array, float scale) {
+        for (int i = 0; i < array.length; i++)
+            array[i] *= scale;
+    }
 }

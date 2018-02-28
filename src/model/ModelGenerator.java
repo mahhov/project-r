@@ -3,12 +3,14 @@ package model;
 import model.animation.AnimationCreator;
 import model.segment.SegmentEditable;
 import util.Writer;
+import util.math.MathArrays;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 public class ModelGenerator {
     private enum ModelType {
+        BUG("bug.model", bug()),
         GOAT("goat.model", goat()),
         FOUR_LEG("fourLeg.model", fourLeg()),
         BIRD("bird.model", bird()),
@@ -21,6 +23,108 @@ public class ModelGenerator {
             this.file = file;
             this.modelData = modelData;
         }
+    }
+
+    private static ModelData bug() {
+        ModelCreator modelCreator = new ModelCreator();
+
+        SegmentEditable body = new SegmentEditable(); // 0
+        SegmentEditable shell = new SegmentEditable(); // 1
+        SegmentEditable head = new SegmentEditable(); // 2
+        SegmentEditable horn = new SegmentEditable(); // 3
+        SegmentEditable eyeL = new SegmentEditable(); // 4
+        SegmentEditable eyeR = new SegmentEditable(); // 5
+        SegmentEditable legFL = new SegmentEditable(); // 6
+        SegmentEditable legFR = new SegmentEditable(); // 7
+        SegmentEditable legML = new SegmentEditable(); // 8
+        SegmentEditable legMR = new SegmentEditable(); // 9
+        SegmentEditable legBL = new SegmentEditable(); // 10
+        SegmentEditable legBR = new SegmentEditable(); // 11
+
+        float lightScale = 2;
+        float[] darkColor = new float[] {.4f, .2f, .1f, 1};
+        float[] lightColor = new float[] {.5f, .3f, .2f, 1};
+        MathArrays.scale(darkColor, lightScale);
+        MathArrays.scale(lightColor, lightScale);
+        body.setColor(darkColor);
+        shell.setColor(lightColor);
+        head.setColor(darkColor);
+        horn.setColor(darkColor);
+        eyeL.setColor(lightColor);
+        eyeR.setColor(lightColor);
+        legFL.setColor(lightColor);
+        legFR.setColor(lightColor);
+        legML.setColor(lightColor);
+        legMR.setColor(lightColor);
+        legBL.setColor(lightColor);
+        legBR.setColor(lightColor);
+
+        body.init(null, null);
+        shell.init(body, null);
+        head.init(body, null);
+        horn.init(body, null);
+        eyeL.init(body, null);
+        eyeR.init(body, null);
+        legFL.init(body, null);
+        legFR.init(body, null);
+        legML.init(body, null);
+        legMR.init(body, null);
+        legBL.init(body, null);
+        legBR.init(body, null);
+
+        body.setScale(3, 7.9f, 4);
+        shell.setScale(5, 7, 4);
+        head.setScale(3, 4, 3);
+        horn.setScale(1, 1, 4);
+        eyeL.setScale(1, 1, 1);
+        eyeR.setScale(1, 1, 1);
+        legFL.setScale(1, 1, 4);
+        legFR.setScale(1, 1, 4);
+        legML.setScale(1, 1, 4);
+        legMR.setScale(1, 1, 4);
+        legBL.setScale(1, 1, 4);
+        legBR.setScale(1, 1, 4);
+
+        body.setTranslation(0, 0, 0);
+        shell.setTranslation(0, .5f, 1);
+        head.setTranslation(0, 6, -.5f);
+        horn.setTranslation(0, 8.5f, 1);
+        eyeL.setTranslation(-2, 6.5f, -.5f);
+        eyeR.setTranslation(2, 6.5f, -.5f);
+        legFL.setTranslation(-3, 3.5f, -2);
+        legFR.setTranslation(3, 3.5f, -2);
+        legML.setTranslation(-3, .5f, -2);
+        legMR.setTranslation(3, .5f, -2);
+        legBL.setTranslation(-3, -2.5f, -2);
+        legBR.setTranslation(3, -2.5f, -2);
+
+        modelCreator.addSegment(body);
+        modelCreator.addSegment(shell);
+        modelCreator.addSegment(head);
+        modelCreator.addSegment(horn);
+        modelCreator.addSegment(eyeL);
+        modelCreator.addSegment(eyeR);
+        modelCreator.addSegment(legFL);
+        modelCreator.addSegment(legFR);
+        modelCreator.addSegment(legML);
+        modelCreator.addSegment(legMR);
+        modelCreator.addSegment(legBL);
+        modelCreator.addSegment(legBR);
+
+        AnimationCreator animationCreator = new AnimationCreator(4, 12);
+        animationCreator.setTotalTime(0, 10);
+        animationCreator.setTotalTime(1, 10);
+        animationCreator.setTotalTime(2, 10);
+        animationCreator.setTotalTime(3, 10);
+        animationCreator.setFrame(1, 6, 0, 1, 0, 0);
+        animationCreator.setFrame(1, 8, 0, 1, 0, 0);
+        animationCreator.setFrame(1, 10, 0, 1, 0, 0);
+        animationCreator.setFrame(3, 7, 0, 1, 0, 0);
+        animationCreator.setFrame(3, 9, 0, 1, 0, 0);
+        animationCreator.setFrame(3, 11, 0, 1, 0, 0);
+        modelCreator.setAnimationData(animationCreator);
+
+        return modelCreator.getModelData();
     }
 
     private static ModelData goat() {
@@ -75,11 +179,9 @@ public class ModelGenerator {
         modelCreator.addSegment(legBR);
         modelCreator.addSegment(legBL);
 
-        AnimationCreator animationCreator = new AnimationCreator(2, 7);
-        animationCreator.setTotalTime(0, 20);
-        animationCreator.setTotalTime(1, 5);
-        animationCreator.setFrame(0, 1, 0, 0, 1, 0);
-        animationCreator.setFrame(1, 1, 0, 0, 0, 0);
+        AnimationCreator animationCreator = new AnimationCreator(1, 7);
+        //        animationCreator.setTotalTime(0, 20);
+        //        animationCreator.setFrame(0, 1, 0, 0, 1, 0);
         modelCreator.setAnimationData(animationCreator);
 
         return modelCreator.getModelData();

@@ -19,14 +19,15 @@ import util.math.MathRandom;
 public class MonsterGenerator {
     public static MonsterDetails createRandomDetails() {
         float random = MathRandom.random(0, 1f);
-        if (random > .9f)
-            return createWolfDetails();
-        else if (random > .8)
-            return createGoatDetails();
-        else if (random > .4)
-            return createBugDetails();
-        else
-            return createBirdDetails();
+        //        if (random > .9f)
+        //            return createWolfDetails();
+        //        else if (random > .8)
+        //            return createGoatDetails();
+        //        else if (random > .4)
+        //            return createBugDetails();
+        //        else
+        //            return createBirdDetails();
+        return createBugDetails();
     }
 
     private static MonsterDetails createBugDetails() {
@@ -47,7 +48,7 @@ public class MonsterGenerator {
         details.glowReward = new Distribution[] {};
         details.coinReward = new Distribution(10, 20);
         details.experienceReward = 10;
-        details.modelData = ModelData.ModelType.FOUR_LEG.modelData;
+        details.modelData = ModelData.ModelType.BUG.modelData;
         return details;
     }
 
@@ -117,7 +118,7 @@ public class MonsterGenerator {
         details.glowReward = new Distribution[] {};
         details.coinReward = new Distribution(25, 35);
         details.experienceReward = 50;
-        details.modelData = ModelData.ModelType.PILLAR.modelData;
+        details.modelData = ModelData.ModelType.FOUR_LEG.modelData;
         return details;
     }
 
