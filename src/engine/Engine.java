@@ -94,14 +94,7 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
-// animation creator
-// animation viewer
-// model animations
 // models normalize size
-// complex monster
-// progression
-// randomly generated enemies
-// loot
 
 // ~~ high priority ~~
 // crafting enchant level / exp requirement
@@ -116,13 +109,17 @@ public class Engine {
 // replace string concat with builder
 // big monsters / gloob & doom / boss telegraphed abilities
 // supplies / consumables
-// ui log scrolling
-// redo ui
-// module and weapon weight system
 // unequiping goes to first empty inventory slot instead of clicked slot
-// include max weight limit on ui equipment
+// model multiple animations
+// complex monster
+// progression
+// randomly generated enemies
+// loot
 
 // ~~ low priority ~~
+// redo ui
+// ui log scrolling
+// module and weapon weight system / include max weight limit on ui equipment
 // camera culling
 // multi-light support
 // blur distant
