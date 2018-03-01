@@ -9,7 +9,8 @@ public class Segment {
     private CubeInstancedFaces cubeInstancedFaces;
     Transformation transformation;
     private Transformation animationTranformation, animatedTransformation, compositeTransformation;
-    boolean stale;
+    private float scale;
+    private boolean stale;
 
     public Segment(float[] color) {
         this.color = color;
@@ -20,15 +21,16 @@ public class Segment {
         stale = true;
     }
 
-    public Segment(SegmentData segmentData) {
+    public Segment(SegmentData segmentData, float scale) {
         this(segmentData.color);
-        scaleX = segmentData.scaleX;
-        scaleY = segmentData.scaleY;
-        scaleZ = segmentData.scaleZ;
-        transformation.x = segmentData.transformationX;
-        transformation.y = segmentData.transformationY;
-        transformation.z = segmentData.transformationZ;
+        scaleX = segmentData.scaleX * scale;
+        scaleY = segmentData.scaleY * scale;
+        scaleZ = segmentData.scaleZ * scale;
+        transformation.x = segmentData.transformationX * scale;
+        transformation.y = segmentData.transformationY * scale;
+        transformation.z = segmentData.transformationZ * scale;
         transformation.theta = segmentData.transformationTheta;
+        this.scale = scale;
     }
 
     public void init(Segment parent, CubeInstancedFaces cubeInstancedFaces) {
@@ -59,9 +61,9 @@ public class Segment {
     }
 
     public void setAnimation(float x, float y, float z, float theta) {
-        animationTranformation.x = x;
-        animationTranformation.y = y;
-        animationTranformation.z = z;
+        animationTranformation.x = x * scale;
+        animationTranformation.y = y * scale;
+        animationTranformation.z = z * scale;
         animationTranformation.theta = theta;
         stale = true;
     }

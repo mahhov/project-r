@@ -34,7 +34,7 @@ public class ModelViewer implements EngineRunnable {
         camera = new Camera(ShaderManager.getRenderShaderProgramId(), 20, 0);
         camera.setFollow(follow);
         cubeInstancedFaces = new CubeInstancedFaces();
-        model = new Model(MODAL_TYPE.modelData, cubeInstancedFaces);
+        model = new Model(MODAL_TYPE.modelData, cubeInstancedFaces, 10);
     }
 
     @Override

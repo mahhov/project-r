@@ -12,6 +12,10 @@ public class MathNumbers {
         return v1 > v2 ? v1 : v2;
     }
 
+    public static float max(float v1, float v2, float v3) {
+        return v1 > v2 ? (v1 > v3 ? v1 : v3) : (v2 > v3 ? v2 : v3);
+    }
+
     public static float min(float v1, float v2) {
         return v1 < v2 ? v1 : v2;
     }

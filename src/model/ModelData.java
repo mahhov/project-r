@@ -26,6 +26,7 @@ public class ModelData implements Serializable {
     int[] parents;
     SegmentData[] segmentData;
     AnimationData animationData;
+    float leftBoundary, rightBoundary, backBoundary, frontBoundary, bottomBoundary, topBoundary;
 
     ModelData(int segmentCount) {
         this.segmentCount = segmentCount;

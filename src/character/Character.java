@@ -48,7 +48,7 @@ public abstract class Character implements WorldElement { // todo support human 
         this.size = size;
         this.intersectionMover = intersectionMover;
 
-        model = new Model(modelData, cubeInstancedFaces);
+        model = new Model(modelData, cubeInstancedFaces, size);
 
         this.health = new Health(stats);
     }
