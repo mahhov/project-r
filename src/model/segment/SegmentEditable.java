@@ -5,26 +5,107 @@ public class SegmentEditable extends Segment {
         super(new float[0]);
     }
 
-    public SegmentEditable(SegmentData segmentData) {
-        super(segmentData);
+    public SegmentEditable leftOf(SegmentEditable relative) {
+        transformation.x = relative.transformation.x - relative.scaleX / 2 - scaleX / 2;
+        transformation.y = relative.transformation.y;
+        transformation.z = relative.transformation.z;
+        return this;
     }
 
-    public void addScale(float scaleX, float scaleY, float scaleZ) {
-        this.scaleX += scaleX;
-        this.scaleY += scaleY;
-        this.scaleZ += scaleZ;
+    public SegmentEditable rightOf(SegmentEditable relative) {
+        transformation.x = relative.transformation.x + relative.scaleX / 2 + scaleX / 2;
+        transformation.y = relative.transformation.y;
+        transformation.z = relative.transformation.z;
+        return this;
     }
 
-    public void addTranslation(float x, float y, float z) {
+    public SegmentEditable backOf(SegmentEditable relative) {
+        transformation.x = relative.transformation.x;
+        transformation.y = relative.transformation.y - relative.scaleY / 2 - scaleY / 2;
+        transformation.z = relative.transformation.z;
+        return this;
+    }
+
+    public SegmentEditable frontOf(SegmentEditable relative) {
+        transformation.x = relative.transformation.x;
+        transformation.y = relative.transformation.y + relative.scaleY / 2 + scaleY / 2;
+        transformation.z = relative.transformation.z;
+        return this;
+    }
+
+    public SegmentEditable bottomOf(SegmentEditable relative) {
+        transformation.x = relative.transformation.x;
+        transformation.y = relative.transformation.y;
+        transformation.z = relative.transformation.z - relative.scaleZ / 2 - scaleZ / 2;
+        return this;
+    }
+
+    public SegmentEditable topOf(SegmentEditable relative) {
+        transformation.x = relative.transformation.x;
+        transformation.y = relative.transformation.y;
+        transformation.z = relative.transformation.z + relative.scaleZ / 2 + scaleZ / 2;
+        return this;
+    }
+
+    public SegmentEditable leftAlign(float relative) {
+        transformation.x = relative + scaleX / 2;
+        return this;
+    }
+
+    public SegmentEditable rightAlign(float relative) {
+        transformation.x = relative - scaleX / 2;
+        return this;
+    }
+
+    public SegmentEditable backAlign(float relative) {
+        transformation.y = relative + scaleY / 2;
+        return this;
+    }
+
+    public SegmentEditable frontAlign(float relative) {
+        transformation.y = relative - scaleY / 2;
+        return this;
+    }
+
+    public SegmentEditable bottomAlign(float relative) {
+        transformation.z = relative + scaleZ / 2;
+        return this;
+    }
+
+    public SegmentEditable topAlign(float relative) {
+        transformation.z = relative - scaleZ / 2;
+        return this;
+    }
+
+    public float left() {
+        return transformation.x - scaleX / 2;
+    }
+
+    public float right() {
+        return transformation.x + scaleX / 2;
+    }
+
+    public float back() {
+        return transformation.y - scaleY / 2;
+    }
+
+    public float front() {
+        return transformation.y + scaleY / 2;
+    }
+
+    public float bottom() {
+        return transformation.z - scaleZ / 2;
+    }
+
+    public float top() {
+        return transformation.z + scaleZ / 2;
+    }
+
+    public SegmentEditable translate(float x, float y, float z) {
         transformation.x += x;
         transformation.y += y;
         transformation.z += z;
-        stale = true;
-    }
-
-    public void addRotation(float theta) {
-        transformation.theta += theta;
-        stale = true;
+        return this;
     }
 
     public void setColor(float[] color) {

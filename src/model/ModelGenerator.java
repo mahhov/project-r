@@ -72,8 +72,8 @@ public class ModelGenerator {
         legBL.init(body, null);
         legBR.init(body, null);
 
-        body.setScale(3, 7.9f, 4);
-        shell.setScale(5, 7, 4);
+        body.setScale(3, 8, 4);
+        shell.setScale(5, 8.1f, 4);
         head.setScale(3, 4, 3);
         horn.setScale(1, 1, 4);
         eyeL.setScale(1, 1, 1);
@@ -85,18 +85,17 @@ public class ModelGenerator {
         legBL.setScale(1, 1, 4);
         legBR.setScale(1, 1, 4);
 
-        body.setTranslation(0, 0, 0);
         shell.setTranslation(0, .5f, 1);
-        head.setTranslation(0, 6, -.5f);
-        horn.setTranslation(0, 8.5f, 1);
-        eyeL.setTranslation(-2, 6.5f, -.5f);
-        eyeR.setTranslation(2, 6.5f, -.5f);
-        legFL.setTranslation(-3, 3.5f, -2);
-        legFR.setTranslation(3, 3.5f, -2);
-        legML.setTranslation(-3, .5f, -2);
-        legMR.setTranslation(3, .5f, -2);
-        legBL.setTranslation(-3, -2.5f, -2);
-        legBR.setTranslation(3, -2.5f, -2);
+        head.frontOf(body).bottomAlign(body.bottom());
+        horn.frontOf(head).topAlign(shell.top());
+        eyeL.leftOf(head).translate(0, .5f, 0);
+        eyeR.rightOf(head).translate(0, .5f, 0);
+        legFL.leftOf(shell).translate(0, 3, -2);
+        legFR.rightOf(shell).translate(0, 3, -2);
+        legML.leftOf(shell).translate(0, 0, -2);
+        legMR.rightOf(shell).translate(0, 0, -2);
+        legBL.leftOf(shell).translate(0, -3, -2);
+        legBR.rightOf(shell).translate(0, -3, -2);
 
         modelCreator.addSegment(body);
         modelCreator.addSegment(shell);
