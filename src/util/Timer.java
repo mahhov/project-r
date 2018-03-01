@@ -3,7 +3,7 @@ package util;
 public class Timer {
     private static final int COUNT = 10;
     private static final long NANOSECONDS_IN__MILLISECOND = 1000000L;
-    private static long beginTime[] = new long[COUNT], totalTime[] = new long[COUNT];
+    private static long[] beginTime = new long[COUNT], totalTime = new long[COUNT];
 
     public static void restart(int i) {
         beginTime[i] = System.nanoTime();

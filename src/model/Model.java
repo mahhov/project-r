@@ -7,7 +7,7 @@ import shape.CubeInstancedFaces;
 import util.math.MathNumbers;
 
 public class Model {
-    private Segment segments[];
+    private Segment[] segments;
     private int segmentCount;
     private Animation animation;
 

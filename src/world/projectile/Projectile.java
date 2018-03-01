@@ -28,7 +28,7 @@ public class Projectile implements WorldElement {
         this.y = y;
         this.z = z;
 
-        float v[] = MathNumbers.setMagnitude(vx, vy, vz, SPEED);
+        float[] v = MathNumbers.setMagnitude(vx, vy, vz, SPEED);
         this.vx = v[0];
         this.vy = v[1];
         this.vz = v[2];
