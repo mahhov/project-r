@@ -15,7 +15,7 @@ public class Experience {
 
         Skill(String name) {
             this.name = name;
-            this.value = ordinal();
+            value = ordinal();
         }
     }
 

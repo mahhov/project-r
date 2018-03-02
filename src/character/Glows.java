@@ -20,16 +20,16 @@ public class Glows {
 
         Glow(String name, Crafting.Source source, int tier) {
             this.name = name;
-            this.value = ordinal();
+            value = ordinal();
             this.source = new Crafting.Source[] {source};
             this.tier = tier;
         }
 
         Glow(String name, Crafting.Source source1, Crafting.Source source2) {
             this.name = name;
-            this.value = ordinal();
+            value = ordinal();
             source = new Crafting.Source[] {source1, source2};
-            this.tier = 1;
+            tier = 1;
         }
     }
 

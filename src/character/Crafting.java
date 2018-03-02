@@ -14,7 +14,7 @@ public class Crafting {
 
         Source(String name) {
             this.name = name;
-            this.value = ordinal();
+            value = ordinal();
         }
     }
 

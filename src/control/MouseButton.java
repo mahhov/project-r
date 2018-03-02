@@ -6,6 +6,6 @@ public enum MouseButton {
     final int value;
 
     MouseButton() {
-        this.value = ordinal();
+        value = ordinal();
     }
 }

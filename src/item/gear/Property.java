@@ -15,7 +15,7 @@ public class Property {
 
         PropertyType(String name, Crafting.Source source) {
             this.name = name;
-            this.value = ordinal();
+            value = ordinal();
             this.source = source;
         }
     }

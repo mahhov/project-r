@@ -12,6 +12,6 @@ public enum KeyButton {
     final int value;
 
     KeyButton() {
-        this.value = ordinal();
+        value = ordinal();
     }
 }

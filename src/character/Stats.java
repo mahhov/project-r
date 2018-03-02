@@ -14,7 +14,7 @@ public class Stats {
 
         StatType(String name) {
             this.name = name;
-            this.value = ordinal();
+            value = ordinal();
         }
     }
 

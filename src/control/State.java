@@ -6,6 +6,6 @@ enum State {
     final int value;
 
     State() {
-        this.value = ordinal();
+        value = ordinal();
     }
 }

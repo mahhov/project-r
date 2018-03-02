@@ -13,7 +13,7 @@ public class Equipment {
 
         GearType(String name, int gearId, int metalCost) {
             this.name = name;
-            this.value = ordinal();
+            value = ordinal();
             this.gearId = gearId;
             this.metalCost = metalCost;
         }
