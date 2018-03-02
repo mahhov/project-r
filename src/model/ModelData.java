@@ -1,6 +1,6 @@
 package model;
 
-import model.animation.AnimationData;
+import model.animation.AnimationSetData;
 import model.segment.SegmentData;
 import util.Writer;
 
@@ -25,7 +25,7 @@ public class ModelData implements Serializable {
     int segmentCount;
     int[] parents;
     SegmentData[] segmentData;
-    AnimationData animationData;
+    AnimationSetData animationSetData;
     float leftBoundary, rightBoundary, backBoundary, frontBoundary, bottomBoundary, topBoundary;
 
     ModelData(int segmentCount) {

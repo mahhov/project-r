@@ -4,6 +4,7 @@ import character.Human;
 import character.Monster;
 import character.monster.attack.Attack;
 import character.monster.motion.Motion;
+import model.animation.AnimationSet;
 import util.math.MathNumbers;
 
 public class RetaliateBehavior extends Behavior {
@@ -17,7 +18,7 @@ public class RetaliateBehavior extends Behavior {
 
     @Override
     public void update() {
-        model.animateWalk();
+        model.animate(AnimationSet.AnimationType.WALK);
         
         timer.update();
 

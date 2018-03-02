@@ -2,12 +2,12 @@ package model.animation;
 
 import model.segment.Segment;
 
-public class Animation {
+class Animation {
     private int prevFrameIndex, frameIndex, lapsedTime, totalTime[];
     private Frame[][] frames;
     private Frame[] frame;
 
-    public Animation(AnimationData animationData) {
+    Animation(AnimationData animationData) {
         totalTime = animationData.totalTime;
         frames = animationData.frames;
 
@@ -16,12 +16,16 @@ public class Animation {
         for (int i = 0; i < segmentCount; i++)
             frame[i] = new Frame();
 
+        reset();
+    }
+
+    void reset() {
         prevFrameIndex = frames.length - 1;
         frameIndex = 0;
         lapsedTime = totalTime[prevFrameIndex];
     }
 
-    public void walk() {
+    void progress() {
         if (--lapsedTime == 0) {
             prevFrameIndex = frameIndex;
             if (++frameIndex == frames.length)
@@ -42,7 +46,7 @@ public class Animation {
         }
     }
 
-    public void apply(Segment[] segments) {
+    void apply(Segment[] segments) {
         for (int i = 0; i < segments.length; i++)
             segments[i].setAnimation(frame[i].x, frame[i].y, frame[i].z, frame[i].theta);
     }

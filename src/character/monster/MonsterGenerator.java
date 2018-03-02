@@ -33,7 +33,7 @@ public class MonsterGenerator {
     private static MonsterDetails createBugDetails() {
         MonsterDetails details = new MonsterDetails();
         details.color = new float[] {0, 1, 1, 1};
-        details.size = 1;
+        details.size = 3; // 1
         details.movement = MonsterDetails.Movement.WALK;
         details.runAcc = .07f;
         details.wanderSpeed = .1f;

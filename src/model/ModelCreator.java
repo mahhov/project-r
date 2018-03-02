@@ -1,6 +1,6 @@
 package model;
 
-import model.animation.AnimationData;
+import model.animation.AnimationSetData;
 import model.segment.Segment;
 import model.segment.SegmentEditable;
 import util.LList;
@@ -8,7 +8,7 @@ import util.math.MathNumbers;
 
 class ModelCreator {
     private LList<SegmentEditable> segments;
-    private AnimationData animationData;
+    private AnimationSetData animationSetData;
     private float leftBoundary, rightBoundary, backBoundary, frontBoundary, bottomBoundary, topBoundary;
 
     ModelCreator() {
@@ -26,8 +26,8 @@ class ModelCreator {
         topBoundary = MathNumbers.max(topBoundary, segment.top());
     }
 
-    void setAnimationData(AnimationData animationData) {
-        this.animationData = animationData;
+    void setAnimationSetData(AnimationSetData animationSetData) {
+        this.animationSetData = animationSetData;
     }
 
     ModelData getModelData() {
@@ -48,7 +48,7 @@ class ModelCreator {
             segmentIndex++;
         }
 
-        modelData.animationData = animationData;
+        modelData.animationSetData = animationSetData;
 
         modelData.leftBoundary = leftBoundary;
         modelData.rightBoundary = rightBoundary;

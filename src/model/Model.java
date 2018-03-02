@@ -1,6 +1,6 @@
 package model;
 
-import model.animation.Animation;
+import model.animation.AnimationSet;
 import model.segment.Segment;
 import model.segment.SegmentData;
 import shape.CubeInstancedFaces;
@@ -9,7 +9,7 @@ import util.math.MathNumbers;
 public class Model {
     private Segment[] segments;
     private int segmentCount;
-    private Animation animation;
+    private AnimationSet animations;
 
     public Model(ModelData modelData, CubeInstancedFaces cubeInstancedFaces, float size) {
         float modelSize = MathNumbers.max(modelData.rightBoundary - modelData.leftBoundary, modelData.frontBoundary - modelData.backBoundary, modelData.topBoundary - modelData.bottomBoundary);
@@ -22,15 +22,15 @@ public class Model {
         for (int i = 0; i < modelData.segmentCount; i++)
             segments[i].init(modelData.parents[i] != -1 ? segments[modelData.parents[i]] : null, cubeInstancedFaces);
 
-        animation = new Animation(modelData.animationData);
+        animations = new AnimationSet(modelData.animationSetData);
     }
 
     private void addSegment(Segment segment) {
         segments[segmentCount++] = segment;
     }
 
-    public void animateWalk() {
-        animation.walk();
+    public void animate(AnimationSet.AnimationType animationType) {
+        animations.animate(animationType);
     }
 
     public void setTransform(float x, float y, float z, float theta) {
@@ -39,7 +39,7 @@ public class Model {
     }
 
     public void draw() {
-        animation.apply(segments);
+        animations.apply(segments);
         for (Segment segment : segments)
             segment.draw();
     }

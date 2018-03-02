@@ -4,6 +4,7 @@ import character.Human;
 import character.Monster;
 import character.monster.attack.Attack;
 import character.monster.motion.Motion;
+import model.animation.AnimationSet;
 import util.math.MathNumbers;
 
 public class AggressiveBehavior extends Behavior {
@@ -19,7 +20,7 @@ public class AggressiveBehavior extends Behavior {
 
     @Override
     public void update() {
-        model.animateWalk();
+        model.animate(AnimationSet.AnimationType.WALK);
         
         float dx = human.getX() - monster.getX();
         float dy = human.getY() - monster.getY();

@@ -1,6 +1,8 @@
 package model;
 
 import model.animation.AnimationCreator;
+import model.animation.AnimationSet;
+import model.animation.AnimationSetCreator;
 import model.segment.SegmentEditable;
 import util.Writer;
 import util.math.MathArrays;
@@ -110,18 +112,21 @@ public class ModelGenerator {
         modelCreator.addSegment(legBL);
         modelCreator.addSegment(legBR);
 
-        AnimationCreator animationCreator = new AnimationCreator(4, 12);
-        animationCreator.setTotalTime(0, 10);
-        animationCreator.setTotalTime(1, 10);
-        animationCreator.setTotalTime(2, 10);
-        animationCreator.setTotalTime(3, 10);
-        animationCreator.setFrame(1, 6, 0, 1, 0, 0);
-        animationCreator.setFrame(1, 8, 0, 1, 0, 0);
-        animationCreator.setFrame(1, 10, 0, 1, 0, 0);
-        animationCreator.setFrame(3, 7, 0, 1, 0, 0);
-        animationCreator.setFrame(3, 9, 0, 1, 0, 0);
-        animationCreator.setFrame(3, 11, 0, 1, 0, 0);
-        modelCreator.setAnimationData(animationCreator);
+        AnimationCreator walkAnimationCreator = new AnimationCreator(4, 12);
+        walkAnimationCreator.setTotalTime(0, 10);
+        walkAnimationCreator.setTotalTime(1, 10);
+        walkAnimationCreator.setTotalTime(2, 10);
+        walkAnimationCreator.setTotalTime(3, 10);
+        walkAnimationCreator.setFrame(1, 6, 0, 1, 0, 0);
+        walkAnimationCreator.setFrame(1, 8, 0, 1, 0, 0);
+        walkAnimationCreator.setFrame(1, 10, 0, 1, 0, 0);
+        walkAnimationCreator.setFrame(3, 7, 0, 1, 0, 0);
+        walkAnimationCreator.setFrame(3, 9, 0, 1, 0, 0);
+        walkAnimationCreator.setFrame(3, 11, 0, 1, 0, 0);
+
+        AnimationSetCreator animationSetCreator = new AnimationSetCreator(12);
+        animationSetCreator.setAnimationData(AnimationSet.AnimationType.WALK, walkAnimationCreator);
+        modelCreator.setAnimationSetData(animationSetCreator);
 
         return modelCreator.getModelData();
     }
@@ -178,10 +183,8 @@ public class ModelGenerator {
         modelCreator.addSegment(legBR);
         modelCreator.addSegment(legBL);
 
-        AnimationCreator animationCreator = new AnimationCreator(1, 7);
-        //        animationCreator.setTotalTime(0, 20);
-        //        animationCreator.setFrame(0, 1, 0, 0, 1, 0);
-        modelCreator.setAnimationData(animationCreator);
+        AnimationSetCreator animationSetCreator = new AnimationSetCreator(7);
+        modelCreator.setAnimationSetData(animationSetCreator);
 
         return modelCreator.getModelData();
     }
@@ -232,7 +235,8 @@ public class ModelGenerator {
         modelCreator.addSegment(legBR);
         modelCreator.addSegment(legBL);
 
-        modelCreator.setAnimationData(new AnimationCreator(2, 6));
+        AnimationSetCreator animationSetCreator = new AnimationSetCreator(6);
+        modelCreator.setAnimationSetData(animationSetCreator);
 
         return modelCreator.getModelData();
     }
@@ -277,7 +281,8 @@ public class ModelGenerator {
         modelCreator.addSegment(legBR);
         modelCreator.addSegment(legBL);
 
-        modelCreator.setAnimationData(new AnimationCreator(1, 5));
+        AnimationSetCreator animationSetCreator = new AnimationSetCreator(5);
+        modelCreator.setAnimationSetData(animationSetCreator);
 
         return modelCreator.getModelData();
     }
@@ -300,8 +305,8 @@ public class ModelGenerator {
 
         modelCreator.addSegment(body);
 
-        AnimationCreator animationCreator = new AnimationCreator(1, 1);
-        modelCreator.setAnimationData(animationCreator);
+        AnimationSetCreator animationSetCreator = new AnimationSetCreator(1);
+        modelCreator.setAnimationSetData(animationSetCreator);
 
         return modelCreator.getModelData();
     }

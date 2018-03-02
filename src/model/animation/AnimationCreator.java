@@ -1,8 +1,8 @@
 package model.animation;
 
 public class AnimationCreator extends AnimationData {
-    public AnimationCreator(int animationCount, int segmentCount) {
-        super(animationCount, segmentCount);
+    public AnimationCreator(int frameCount, int segmentCount) {
+        super(frameCount, segmentCount);
     }
 
     public void setTotalTime(int frameIndex, int totalTime) {

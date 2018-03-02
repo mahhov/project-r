@@ -9,6 +9,7 @@ import engine.EngineRunnable;
 import model.Model;
 import model.ModelData;
 import model.ModelGenerator;
+import model.animation.AnimationSet;
 import shader.ShaderManager;
 import shape.CubeInstancedFaces;
 
@@ -60,7 +61,7 @@ public class ModelViewer implements EngineRunnable {
             animate = !animate;
 
         if (animate)
-            model.animateWalk();
+            model.animate(AnimationSet.AnimationType.WALK);
         camera.update(controls.keyControl, controls.mouseScrollControl);
 
         cubeInstancedFaces.reset();
