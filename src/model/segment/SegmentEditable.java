@@ -4,6 +4,12 @@ public class SegmentEditable extends Segment {
     public SegmentEditable() {
         super(new float[0]);
     }
+    
+    public void setScale(SegmentEditable relative) {
+        scaleX = relative.scaleX;
+        scaleY = relative.scaleY;
+        scaleZ = relative.scaleZ;
+    }
 
     public SegmentEditable leftOf(SegmentEditable relative) {
         transformation.x = relative.transformation.x - relative.scaleX / 2 - scaleX / 2;

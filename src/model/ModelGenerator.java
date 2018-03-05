@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 public class ModelGenerator {
     private enum ModelType {
         BUG("bug.model", bug()),
+        MECH("mech.model", mech()),
         GOAT("goat.model", goat()),
         FOUR_LEG("fourLeg.model", fourLeg()),
         BIRD("bird.model", bird()),
@@ -79,13 +80,13 @@ public class ModelGenerator {
         head.setScale(3, 4, 3);
         horn.setScale(1, 1, 4);
         eyeL.setScale(1, 1, 1);
-        eyeR.setScale(1, 1, 1);
+        eyeR.setScale(eyeL);
         legFL.setScale(1, 1, 4);
-        legFR.setScale(1, 1, 4);
-        legML.setScale(1, 1, 4);
-        legMR.setScale(1, 1, 4);
-        legBL.setScale(1, 1, 4);
-        legBR.setScale(1, 1, 4);
+        legFR.setScale(legFL);
+        legML.setScale(legFL);
+        legMR.setScale(legFL);
+        legBL.setScale(legFL);
+        legBR.setScale(legFL);
 
         shell.setTranslation(0, .5f, 1);
         head.frontOf(body).bottomAlign(body.bottom());
@@ -125,6 +126,119 @@ public class ModelGenerator {
         walkAnimationCreator.setFrame(3, 11, 0, 1, 0, 0);
 
         AnimationSetCreator animationSetCreator = new AnimationSetCreator(12);
+        animationSetCreator.setAnimationData(AnimationSet.AnimationType.WALK, walkAnimationCreator);
+        modelCreator.setAnimationSetData(animationSetCreator);
+
+        return modelCreator.getModelData();
+    }
+
+    private static ModelData mech() {
+        ModelCreator modelCreator = new ModelCreator();
+
+        SegmentEditable body = new SegmentEditable(); // 0
+        SegmentEditable head = new SegmentEditable(); // 1
+        SegmentEditable tail = new SegmentEditable(); // 2
+        SegmentEditable legL = new SegmentEditable(); // 3
+        SegmentEditable legR = new SegmentEditable(); // 4
+        SegmentEditable footL = new SegmentEditable(); // 5
+        SegmentEditable footR = new SegmentEditable(); // 6
+        SegmentEditable armL = new SegmentEditable(); // 7
+        SegmentEditable armR = new SegmentEditable(); // 8
+        SegmentEditable handL = new SegmentEditable(); // 9
+        SegmentEditable handR = new SegmentEditable(); // 10
+
+        float lightScale = 2;
+        float[] darkColor = new float[] {.3f, .3f, .3f, 1};
+        float[] lightColor = new float[] {.6f, .6f, .6f, 1};
+        MathArrays.scale(darkColor, lightScale);
+        MathArrays.scale(lightColor, lightScale);
+        body.setColor(darkColor);
+        head.setColor(darkColor);
+        tail.setColor(darkColor);
+        legL.setColor(lightColor);
+        legR.setColor(lightColor);
+        footL.setColor(lightColor);
+        footR.setColor(lightColor);
+        armL.setColor(lightColor);
+        armR.setColor(lightColor);
+        handL.setColor(lightColor);
+        handR.setColor(lightColor);
+
+        body.init(null, null);
+        head.init(body, null);
+        tail.init(body, null);
+        legL.init(body, null);
+        legR.init(body, null);
+        footL.init(body, null);
+        footR.init(body, null);
+        armL.init(body, null);
+        armR.init(body, null);
+        handL.init(body, null);
+        handR.init(body, null);
+
+        body.setScale(2, 2, 3);
+        head.setScale(2, 3, 2);
+        tail.setScale(2, 1, 2);
+        legL.setScale(1, 1, 3);
+        legR.setScale(legL);
+        footL.setScale(1, 4, 1);
+        footR.setScale(footL);
+        armL.setScale(1, 2, 1);
+        armR.setScale(armL);
+        handL.setScale(1, 4, 1);
+        handR.setScale(handL);
+
+        head.topOf(body).backAlign(body.back());
+        tail.backOf(head).translate(0, 0, -1);
+        legL.bottomOf(body).rightAlign(body.left()).backAlign(body.back()).translate(0, 0, 1);
+        legR.bottomOf(body).leftAlign(body.right()).backAlign(body.back()).translate(0, 0, 1);
+        footL.bottomOf(legL).backAlign(tail.back());
+        footR.bottomOf(legR).backAlign(tail.back());
+        armL.topOf(body).rightAlign(body.left());
+        armR.topOf(body).leftAlign(body.right());
+        handL.bottomOf(armL).backAlign(armL.back());
+        handR.bottomOf(armR).backAlign(armR.back());
+
+        modelCreator.addSegment(body);
+        modelCreator.addSegment(head);
+        modelCreator.addSegment(tail);
+        modelCreator.addSegment(legL);
+        modelCreator.addSegment(legR);
+        modelCreator.addSegment(footL);
+        modelCreator.addSegment(footR);
+        modelCreator.addSegment(armL);
+        modelCreator.addSegment(armR);
+        modelCreator.addSegment(handL);
+        modelCreator.addSegment(handR);
+
+        AnimationCreator walkAnimationCreator = new AnimationCreator(2, 11);
+        walkAnimationCreator.setTotalTime(0, 20);
+        walkAnimationCreator.setTotalTime(1, 20);
+
+        float legFront = .5f, legBack = 0;
+        float armFront = .25f, armBack = 0f;
+
+        walkAnimationCreator.setFrame(0, 3, 0, legFront, 0, 0);
+        walkAnimationCreator.setFrame(0, 5, 0, legFront, 0, 0);
+        walkAnimationCreator.setFrame(0, 8, 0, armFront, 0, 0);
+        walkAnimationCreator.setFrame(0, 10, 0, armFront, 0, 0);
+
+        walkAnimationCreator.setFrame(0, 4, 0, legBack, 0, 0);
+        walkAnimationCreator.setFrame(0, 6, 0, legBack, 0, 0);
+        walkAnimationCreator.setFrame(0, 7, 0, armBack, 0, 0);
+        walkAnimationCreator.setFrame(0, 9, 0, armBack, 0, 0);
+
+        walkAnimationCreator.setFrame(1, 3, 0, legBack, 0, 0);
+        walkAnimationCreator.setFrame(1, 5, 0, legBack, 0, 0);
+        walkAnimationCreator.setFrame(1, 8, 0, armBack, 0, 0);
+        walkAnimationCreator.setFrame(1, 10, 0, armBack, 0, 0);
+
+        walkAnimationCreator.setFrame(1, 4, 0, legFront, 0, 0);
+        walkAnimationCreator.setFrame(1, 6, 0, legFront, 0, 0);
+        walkAnimationCreator.setFrame(1, 7, 0, armFront, 0, 0);
+        walkAnimationCreator.setFrame(1, 9, 0, armFront, 0, 0);
+
+        AnimationSetCreator animationSetCreator = new AnimationSetCreator(11);
         animationSetCreator.setAnimationData(AnimationSet.AnimationType.WALK, walkAnimationCreator);
         modelCreator.setAnimationSetData(animationSetCreator);
 
