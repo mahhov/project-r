@@ -7,13 +7,13 @@ import engine.Engine;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.LList;
-import util.math.MathNumbers;
-import util.math.MathRandom;
 import util.Timer;
 import util.intersection.IntersectionHitter;
 import util.intersection.IntersectionMover;
 import util.intersection.IntersectionPicker;
 import util.intersection.Map;
+import util.math.MathNumbers;
+import util.math.MathRandom;
 import world.generator.SimplexHeightMapWorldGenerator;
 import world.generator.WorldGenerator;
 import world.particle.Particle;
@@ -24,19 +24,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class World implements Map {
-    static final float[] WORLD_COLOR = new float[] {1, 1, 1};
-    static final float[][] WORLD_COLOR_TERRAIN = new float[][] { // todo terrain significnace other than colors
-            new float[] {.3f, 0f, 0f, 1f}, // dark red
-            new float[] {.4f, .3f, .3f, 1f}, // dark gray
-            new float[] {.5f, .5f, .5f, 1f}, // gray
-            new float[] {.5f, .6f, .5f, 1f}, // green
-            new float[] {.5f, .8f, .6f, 1f}, // light green
-            new float[] {.5f, .8f, .8f, 1f}, // turquoise
-            new float[] {.5f, .8f, 1f, 1f}, // light blue
-            new float[] {.9f, .9f, 1f, 1f}, // blue white
-            new float[] {1f, 1f, 1f, 1f}, // white 
-    };
-
     static final int CHUNK_SIZE = 128;
     private static final int DRAW_CHUNKS = 3;
     private static final int THREAD_COUNT = 4;

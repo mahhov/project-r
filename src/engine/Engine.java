@@ -94,7 +94,9 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
-// models normalize size
+// trees
+// godzilla
+// texture
 
 // ~~ high priority ~~
 // crafting enchant level / exp requirement
