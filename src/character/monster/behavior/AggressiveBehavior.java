@@ -20,8 +20,6 @@ public class AggressiveBehavior extends Behavior {
 
     @Override
     public void update() {
-        model.animate(AnimationSet.AnimationType.WALK);
-        
         float dx = human.getX() - monster.getX();
         float dy = human.getY() - monster.getY();
         float dz = human.getZ() - monster.getZ();
@@ -51,7 +49,9 @@ public class AggressiveBehavior extends Behavior {
             if (flatDistanceSqr < detectionRangeSqr * 4)
                 timer.reset(RETALIATE_TIME);
             attack.update();
-        }
+
+        } else
+            model.animate(AnimationSet.AnimationType.STAND);
 
         motion.jet();
     }

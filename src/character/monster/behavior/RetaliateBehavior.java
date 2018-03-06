@@ -4,7 +4,6 @@ import character.Human;
 import character.Monster;
 import character.monster.attack.Attack;
 import character.monster.motion.Motion;
-import model.animation.AnimationSet;
 import util.math.MathNumbers;
 
 public class RetaliateBehavior extends Behavior {
@@ -18,8 +17,6 @@ public class RetaliateBehavior extends Behavior {
 
     @Override
     public void update() {
-        model.animate(AnimationSet.AnimationType.WALK);
-        
         timer.update();
 
         if (damageTaken) {
@@ -46,7 +43,9 @@ public class RetaliateBehavior extends Behavior {
             if (flatDistanceSqr < RETALIATE_FORGET_DISTANCE_SQR)
                 timer.reset(RETALIATE_TIME);
             attack.update();
-        }
+
+        } else
+            model.animate();
 
         motion.jet();
     }

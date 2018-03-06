@@ -32,6 +32,10 @@ public class Model {
     public void animate(AnimationSet.AnimationType animationType) {
         animations.animate(animationType);
     }
+    
+    public void animate() {
+        animations.animate();
+    }
 
     public void setTransform(float x, float y, float z, float theta) {
         segments[0].setTranslation(x, y, z);

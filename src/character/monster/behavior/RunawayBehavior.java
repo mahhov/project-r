@@ -4,7 +4,6 @@ import character.Human;
 import character.Monster;
 import character.monster.attack.Attack;
 import character.monster.motion.Motion;
-import model.animation.AnimationSet;
 import util.math.MathNumbers;
 
 public class RunawayBehavior extends Behavior {
@@ -20,8 +19,6 @@ public class RunawayBehavior extends Behavior {
 
     @Override
     public void update() {
-        model.animate(AnimationSet.AnimationType.WALK);
-        
         float dx = human.getX() - monster.getX();
         float dy = human.getY() - monster.getY();
         float dz = human.getZ() - monster.getZ();
@@ -33,11 +30,12 @@ public class RunawayBehavior extends Behavior {
             timer.reset(RUNAWAY_TIME);
             motion.run(-dx, -dy);
             damageTaken = false;
-        }
 
-        if (timer.done()) {
+        } else if (timer.done())
             wanderOrStand();
-        }
+
+        else
+            model.animate();
 
         motion.jet();
     }

@@ -32,6 +32,10 @@ public class AnimationSet {
         } else
             animations[currentAnimation.value].progress();
     }
+    
+    public void animate() {
+            animations[currentAnimation.value].progress();
+    }
 
     public void apply(Segment[] segments) {
         animations[currentAnimation.value].apply(segments);
