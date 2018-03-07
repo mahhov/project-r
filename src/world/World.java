@@ -1,6 +1,7 @@
 package world;
 
 import character.Human;
+import character.Monster;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.LList;
@@ -78,6 +79,11 @@ public class World implements Map {
     public void addParticle(Particle particle) {
         particle.connectWorld(dynamicCubeInstancedFaces);
         addWorldLightElement(particle);
+    }
+
+    void addMonster(Monster monster) {
+        monster.connectWorld(human, intersectionMover, dynamicCubeInstancedFaces);
+        addWorldElement(monster);
     }
 
     public LList<WorldElement>.Node addDynamicElement(CoordinateI3 coordinate, WorldElement element) {

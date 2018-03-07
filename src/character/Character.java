@@ -36,7 +36,7 @@ public abstract class Character implements WorldElement { // todo support human 
     private LList<WorldElement>.Node worldElementNode;
 
     // todo allow color override model data color
-    Character(float x, float y, float z, float theta, float thetaZ, float runAcc, float airAcc, float jetAcc, float size, IntersectionMover intersectionMover, Stats stats, float[] color, ModelData modelData, CubeInstancedFaces cubeInstancedFaces) {
+    Character(float x, float y, float z, float theta, float thetaZ, float runAcc, float airAcc, float jetAcc, float size, Stats stats, float[] color) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -46,11 +46,13 @@ public abstract class Character implements WorldElement { // todo support human 
         this.airAcc = airAcc;
         this.jetAcc = jetAcc;
         this.size = size;
+
+        health = new Health(stats);
+    }
+
+    void connectWorld(IntersectionMover intersectionMover, ModelData modelData, CubeInstancedFaces cubeInstancedFaces) {
         this.intersectionMover = intersectionMover;
-
         model = new Model(modelData, cubeInstancedFaces, size);
-
-        this.health = new Health(stats);
     }
 
     @Override

@@ -11,11 +11,17 @@ import world.particle.SmokeParticle;
 
 public class Monster extends Character {
     // todo ai
+    private MonsterDetails details;
     private Behavior behavior;
     private MonsterRewards rewards;
 
-    public Monster(float x, float y, float z, float theta, float thetaZ, IntersectionMover intersectionMover, Human human, CubeInstancedFaces cubeInstancedFaces, MonsterDetails details) {
-        super(x, y, z, theta, thetaZ, details.runAcc, details.airAcc, details.jetAcc, details.size, intersectionMover, createStats(details), details.color, details.modelData, cubeInstancedFaces);
+    public Monster(float x, float y, float z, float theta, float thetaZ, MonsterDetails details) {
+        super(x, y, z, theta, thetaZ, details.runAcc, details.airAcc, details.jetAcc, details.size, createStats(details), details.color);
+        this.details = details;
+    }
+
+    public void connectWorld(Human human, IntersectionMover intersectionMover, CubeInstancedFaces cubeInstancedFaces) {
+        super.connectWorld(intersectionMover, details.modelData, cubeInstancedFaces);
         behavior = MonsterGenerator.createBehavior(this, human, cubeInstancedFaces, details);
         rewards = new MonsterRewards(human, details);
     }

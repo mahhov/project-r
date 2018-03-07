@@ -1,5 +1,7 @@
 package world;
 
+import character.Monster;
+import character.monster.MonsterGenerator;
 import engine.Engine;
 import geometry.CoordinateI3;
 import util.LList;
@@ -56,7 +58,7 @@ class WorldGenerator {
             int x = coordinate.x * World.CHUNK_SIZE + MathRandom.random(0, World.CHUNK_SIZE);
             int y = coordinate.y * World.CHUNK_SIZE + MathRandom.random(0, World.CHUNK_SIZE);
             int z = 8 * Engine.SCALE_Z;
-            //            addWorldElement(new Monster(x, y, z, 0, 0, intersectionMover, human, dynamicCubeInstancedFaces, MonsterGenerator.createRandomDetails()));
+            world.addMonster(new Monster(x, y, z, 0, 0, MonsterGenerator.createRandomDetails()));
         }
     }
 
