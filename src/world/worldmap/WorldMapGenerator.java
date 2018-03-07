@@ -1,5 +1,5 @@
-package world.generator;
+package world.worldmap;
 
-public interface WorldGenerator {
+public interface WorldMapGenerator {
     WorldMap generate(int startX, int startY, int startZ);
 }

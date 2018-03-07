@@ -1,9 +1,6 @@
 package world;
 
 import character.Human;
-import character.Monster;
-import character.monster.MonsterGenerator;
-import engine.Engine;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.LList;
@@ -13,22 +10,12 @@ import util.intersection.IntersectionMover;
 import util.intersection.IntersectionPicker;
 import util.intersection.Map;
 import util.math.MathNumbers;
-import util.math.MathRandom;
-import world.generator.SimplexHeightMapWorldGenerator;
-import world.generator.WorldGenerator;
 import world.particle.Particle;
 import world.projectile.Projectile;
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class World implements Map {
     static final int CHUNK_SIZE = 128;
     private static final int DRAW_CHUNKS = 3;
-    private static final int THREAD_COUNT = 4;
-
-    private ExecutorService generatorExecutors;
 
     private int width, length, height;
     private int chunkWidth, chunkLength, chunkHeight;
@@ -48,7 +35,6 @@ public class World implements Map {
 
     public World(int width, int length, int height, IntersectionPicker.Picker picker) {
         Timer.restart(0);
-        generatorExecutors = Executors.newFixedThreadPool(THREAD_COUNT);
 
         this.width = width;
         this.length = length;
@@ -58,7 +44,8 @@ public class World implements Map {
         chunkHeight = (height - 1) / CHUNK_SIZE + 1;
         chunks = new WorldChunk[chunkWidth][chunkLength][chunkHeight];
         System.out.println("chunks: [" + chunkWidth + " x " + chunkLength + " x " + chunkHeight + "] total " + chunkWidth * chunkLength * chunkHeight);
-        worldGenerator = new SimplexHeightMapWorldGenerator(CHUNK_SIZE, CHUNK_SIZE, CHUNK_SIZE, height / 2);
+
+        worldGenerator = new WorldGenerator(this, height / 2);
 
         elements = new LList<>();
         lightElements = new LList<>();
@@ -131,7 +118,7 @@ public class World implements Map {
     }
 
     public void update() {
-        generateChunks();
+        worldGenerator.generateChunks(viewStart, viewEnd);
 
         for (LList<WorldElement>.Node elementNode : elements.nodeIterator())
             if (elementNode.getValue().update(this))
@@ -142,14 +129,12 @@ public class World implements Map {
                 lightElements.remove(elementNode);
     }
 
-    public void doDamage(float x, float y, float z, float range, float amount) {
-        WorldElement hit = hit(x, y, z, range);
-        if (hit != null)
-            hit.takeDamage(amount);
+    WorldChunk getChunk(CoordinateI3 chunkCoordinate) {
+        return chunks[chunkCoordinate.x][chunkCoordinate.y][chunkCoordinate.z];
     }
 
-    private WorldChunk getChunk(CoordinateI3 chunkCoordinate) {
-        return chunks[chunkCoordinate.x][chunkCoordinate.y][chunkCoordinate.z];
+    void setChunk(CoordinateI3 chunkCoordinate, WorldChunk chunk) {
+        chunks[chunkCoordinate.x][chunkCoordinate.y][chunkCoordinate.z] = chunk;
     }
 
     private boolean inBounds(CoordinateI3 coordinate) {
@@ -178,43 +163,8 @@ public class World implements Map {
         dynamicCubeInstancedFaces.draw();
     }
 
-    private void generateChunks() {
-        Timer.restart(0);
-        LList<WorldChunkGenerator> generators = new LList<>();
-
-        for (int chunkX = viewStart.x; chunkX < viewEnd.x; chunkX++)
-            for (int chunkY = viewStart.y; chunkY < viewEnd.y; chunkY++)
-                for (int chunkZ = viewStart.z; chunkZ < viewEnd.z; chunkZ++) {
-                    CoordinateI3 coordinate = new CoordinateI3(chunkX, chunkY, chunkZ);
-                    if (getChunk(coordinate) == null)
-                        generators.addTail(new WorldChunkGenerator(generatorExecutors, coordinate, worldGenerator));
-                }
-
-        for (WorldChunkGenerator generator : generators)
-            try {
-                CoordinateI3 coordinate = generator.getCoordinate();
-                chunks[coordinate.x][coordinate.y][coordinate.z] = generator.getFuture().get();
-                generator.complete();
-                populateChunk(coordinate);
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-
-        if (generators.size() > 0)
-            Timer.time(0, "Chunk creation " + generators.size());
-    }
-
-    private void populateChunk(CoordinateI3 coordinate) {
-        for (int i = 0; i < 3; i++) {
-            int x = coordinate.x * CHUNK_SIZE + MathRandom.random(0, CHUNK_SIZE);
-            int y = coordinate.y * CHUNK_SIZE + MathRandom.random(0, CHUNK_SIZE);
-            int z = 8 * Engine.SCALE_Z;
-            addWorldElement(new Monster(x, y, z, 0, 0, intersectionMover, human, dynamicCubeInstancedFaces, MonsterGenerator.createRandomDetails()));
-        }
-    }
-
     public void shutDownGeneratorExecutors() {
-        generatorExecutors.shutdown();
+        worldGenerator.shutDownGeneratorExecutors();
     }
 
     @Override

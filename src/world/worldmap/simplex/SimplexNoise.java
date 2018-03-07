@@ -1,4 +1,4 @@
-package world.generator.simplex;
+package world.worldmap.simplex;
 
 import java.util.Random;
 

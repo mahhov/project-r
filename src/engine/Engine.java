@@ -95,10 +95,11 @@ public class Engine {
 // todo
 // ~~ ordered ~~
 // trees
-// godzilla
+// godzilla / more monsters
 // texture
 
 // ~~ high priority ~~
+// human model
 // crafting enchant level / exp requirement
 // crafting help text on posible properties and # of glows consumed
 // weapon equipment & crafting (modules, weapon max weight, module base weight .5 + .25 per property, module properties random 1-4)

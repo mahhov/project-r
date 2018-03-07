@@ -1,4 +1,4 @@
-package world.generator;
+package world.worldmap;
 
 import util.math.MathNumbers;
 import util.math.MathRandom;

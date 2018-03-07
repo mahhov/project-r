@@ -1,6 +1,6 @@
-package world.generator;
+package world.worldmap;
 
-import world.generator.simplex.SimplexNoiseHelper;
+import world.worldmap.simplex.SimplexNoiseHelper;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;

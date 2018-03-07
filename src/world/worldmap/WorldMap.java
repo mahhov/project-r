@@ -1,4 +1,4 @@
-package world.generator;
+package world.worldmap;
 
 import util.math.MathNumbers;
 
@@ -19,7 +19,7 @@ public class WorldMap {
 
         Terrain(float[] color, boolean tree) {
             this.color = color;
-            this.tree = tree || true;
+            this.tree = tree;
         }
     }
 
@@ -28,7 +28,7 @@ public class WorldMap {
     private static final int MIN_ENVIRONMENT = 20, DELTA_ENVIRONMENT = 60, WEIGHT_ENVIRONMENT = 5;
 
     public byte[][][] map;
-    private int[][] heightMap;
+    public int[][] heightMap;
     private byte[][] environment;
 
     WorldMap(byte[][][] map, int[][] heightMap, byte[][] environment) {

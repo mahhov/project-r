@@ -1,17 +1,17 @@
-package world.generator;
+package world.worldmap;
 
 import util.math.MathNumbers;
 import util.math.MathRandom;
-import world.generator.simplex.SimplexNoiseHelper;
+import world.worldmap.simplex.SimplexNoiseHelper;
 
-public class SimplexHeightMapWorldGenerator implements WorldGenerator {
+public class SimplexHeightWorldMapGenerator implements WorldMapGenerator {
     private final SimplexNoiseHelper noiseHeight;
     private final SimplexNoiseHelper noiseEnvironment;
     private final SimplexNoiseHelper noiseRockyness;
     private final int width, length, height;
     private final float heightMult;
 
-    public SimplexHeightMapWorldGenerator(int width, int length, int height, int maxHeight) {
+    public SimplexHeightWorldMapGenerator(int width, int length, int height, int maxHeight) {
         noiseHeight = new SimplexNoiseHelper(1000, .5, MathRandom.random(0, Integer.MAX_VALUE));
         noiseEnvironment = new SimplexNoiseHelper(1000, .5, MathRandom.random(0, Integer.MAX_VALUE));
         noiseRockyness = new SimplexNoiseHelper(1000, .5, MathRandom.random(0, Integer.MAX_VALUE));

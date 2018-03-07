@@ -3,8 +3,8 @@ package world;
 import geometry.CoordinateI3;
 import shape.CubeInstancedFaces;
 import util.LList;
-import world.generator.WorldGenerator;
-import world.generator.WorldMap;
+import world.worldmap.WorldMapGenerator;
+import world.worldmap.WorldMap;
 
 class WorldChunk {
     private CubeInstancedFaces cubeInstancedFaces;
@@ -13,7 +13,7 @@ class WorldChunk {
     private boolean drawEmpty;
     private DynamicCell dynamicCells;
 
-    WorldChunk(CubeInstancedFaces cubeInstancedFaces, CoordinateI3 coordinate, WorldGenerator generator) {
+    WorldChunk(CubeInstancedFaces cubeInstancedFaces, CoordinateI3 coordinate, WorldMapGenerator generator) {
         this.cubeInstancedFaces = cubeInstancedFaces;
         offsetX = coordinate.x * World.CHUNK_SIZE;
         offsetY = coordinate.y * World.CHUNK_SIZE;
@@ -27,6 +27,9 @@ class WorldChunk {
     }
 
     private void fill() {
+        //        final boolean[] true6 = new boolean[] {true, true, true, true, true, true};
+        //        final float[] white = new float[] {1, 1, 1, 1};
+
         boolean[] sides;
 
         for (int x = 0; x < World.CHUNK_SIZE; x++)
@@ -38,6 +41,16 @@ class WorldChunk {
                             drawEmpty = false;
                             cubeInstancedFaces.add(x + .5f + offsetX, z + .5f + offsetZ, -(y + .5f + offsetY), sides, terrain.color);
                         }
+
+                //                int height = worldMap.heightMap[x + 1][y + 1] + 1;
+                //                int z = height - offsetZ;
+                //
+                //                if (terrain == WorldMap.Terrain.GREEN && MathRandom.random(.1f)) {
+                //                    if (z >= 0 && z < World.CHUNK_SIZE)
+                //                        cubeInstancedFaces.add(x + .5f + offsetX, height + .5f, -(y + .5f + offsetY), true6, white);
+                //                    if (z >= -1 && z < World.CHUNK_SIZE + 1)
+                //                        worldMap.map[x + 1][y + 1][z + 1] = 1;
+                //                }
             }
     }
 
