@@ -7,7 +7,9 @@ import geometry.CoordinateI3;
 import util.LList;
 import util.Timer;
 import util.math.MathRandom;
+import world.element.ElementBox;
 import world.worldmap.SimplexHeightWorldMapGenerator;
+import world.worldmap.WorldMap;
 import world.worldmap.WorldMapGenerator;
 
 import java.util.concurrent.ExecutionException;
@@ -42,9 +44,10 @@ class WorldGenerator {
         for (WorldChunkGenerator generator : generators)
             try {
                 CoordinateI3 coordinate = generator.getCoordinate();
-                world.setChunk(coordinate, generator.getFuture().get());
+                WorldChunk chunk = generator.getFuture().get();
+                world.setChunk(coordinate, chunk);
                 generator.complete();
-                populateChunk(coordinate);
+                populateChunk(chunk, coordinate);
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
@@ -53,13 +56,28 @@ class WorldGenerator {
             Timer.time(0, "Chunk creation " + generators.size());
     }
 
-    private void populateChunk(CoordinateI3 coordinate) {
+    private void populateChunk(WorldChunk chunk, CoordinateI3 coordinate) {
+        WorldMap worldMap = chunk.getWorldMap();
+
         for (int i = 0; i < 3; i++) {
             int x = coordinate.x * World.CHUNK_SIZE + MathRandom.random(0, World.CHUNK_SIZE);
             int y = coordinate.y * World.CHUNK_SIZE + MathRandom.random(0, World.CHUNK_SIZE);
             int z = 8 * Engine.SCALE_Z;
             world.addMonster(new Monster(x, y, z, 0, 0, MonsterGenerator.createRandomDetails()));
         }
+
+        for (int x = 0; x < World.CHUNK_SIZE; x++)
+            for (int y = 0; y < World.CHUNK_SIZE; y++) {
+                WorldMap.Terrain terrain = worldMap.getTerrain(x, y);
+                int height = worldMap.heightMap[x + 1][y + 1] + 1;
+                int z = height - chunk.offsetZ;
+
+                if (z >= 0 && z < World.CHUNK_SIZE && terrain == WorldMap.Terrain.GREEN && MathRandom.random(.03)) {
+                    int worldX = coordinate.x * World.CHUNK_SIZE + x;
+                    int worldY = coordinate.y * World.CHUNK_SIZE + y;
+                    world.addElement(new ElementBox(worldX + .5f, worldY + .5f, height + .5f));
+                }
+            }
     }
 
     void shutDownGeneratorExecutors() {

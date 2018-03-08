@@ -131,3 +131,4 @@ public class Engine {
 // shadows
 // try seinding vec3 for instanced world drawing instead of mat
 // replace `* .5` with `/ 2`
+// use finals where applicable

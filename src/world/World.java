@@ -11,6 +11,7 @@ import util.intersection.IntersectionMover;
 import util.intersection.IntersectionPicker;
 import util.intersection.Map;
 import util.math.MathNumbers;
+import world.element.Element;
 import world.particle.Particle;
 import world.projectile.Projectile;
 
@@ -86,6 +87,11 @@ public class World implements Map {
         addWorldElement(monster);
     }
 
+    void addElement(Element element) {
+        element.connectWorld(this, dynamicCubeInstancedFaces);
+        addWorldLightElement(element);
+    }
+
     public LList<WorldElement>.Node addDynamicElement(CoordinateI3 coordinate, WorldElement element) {
         CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE); // todo find replicates of these 3 lines and extract
         if (getChunk(chunkCoordinate) == null)
@@ -151,6 +157,20 @@ public class World implements Map {
         CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
         CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
         return getChunk(chunkCoordinate) == null || getChunk(chunkCoordinate).hasCube(cubeCoordinate);
+    }
+
+    public void addCube(int x, int y, int z) {
+        CoordinateI3 coordinate = new CoordinateI3(x, y, z);
+        CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
+        CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
+        getChunk(chunkCoordinate).incrementCube(cubeCoordinate);
+    }
+
+    public void removeCube(int x, int y, int z) {
+        CoordinateI3 coordinate = new CoordinateI3(x, y, z);
+        CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
+        CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
+        getChunk(chunkCoordinate).decrementCube(cubeCoordinate);
     }
 
     public void draw() {

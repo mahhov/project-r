@@ -5,7 +5,7 @@ import util.math.MathRandom;
 import world.World;
 import world.WorldLightElement;
 
-public class Particle implements WorldLightElement {
+public abstract class Particle implements WorldLightElement {
     private float x, y, z;
     float vx, vy, vz;
     private int time;
@@ -40,6 +40,7 @@ public class Particle implements WorldLightElement {
         return time-- <= 0;
     }
 
+    @Override
     public void draw() {
         cubeInstancedFaces.add(x, z, -y, theta, thetaZ, size, color);
     }
