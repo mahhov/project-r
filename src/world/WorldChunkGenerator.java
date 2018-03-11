@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 class WorldChunkGenerator implements Callable<WorldChunk> {
+    private World world;
     private CubeInstancedFaces cubeInstancedFaces;
     private CoordinateI3 coordinate;
     private WorldMapGenerator generator;
@@ -16,7 +17,8 @@ class WorldChunkGenerator implements Callable<WorldChunk> {
     private Future<WorldChunk> future;
     private WorldChunk worldChunk;
 
-    WorldChunkGenerator(ExecutorService executor, CoordinateI3 coordinate, WorldMapGenerator generator) {
+    WorldChunkGenerator(ExecutorService executor, World world, CoordinateI3 coordinate, WorldMapGenerator generator) {
+        this.world = world;
         this.cubeInstancedFaces = new CubeInstancedFaces();
         this.coordinate = coordinate;
         this.generator = generator;
@@ -37,6 +39,8 @@ class WorldChunkGenerator implements Callable<WorldChunk> {
 
     @Override
     public WorldChunk call() throws Exception {
-        return worldChunk = new WorldChunk(cubeInstancedFaces, coordinate, generator);
+        worldChunk = world.createChunk(coordinate);
+        worldChunk.generate(cubeInstancedFaces, generator);
+        return worldChunk;
     }
 }

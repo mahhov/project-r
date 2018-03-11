@@ -37,15 +37,14 @@ class WorldGenerator {
             for (int chunkY = start.y; chunkY < end.y; chunkY++)
                 for (int chunkZ = start.z; chunkZ < end.z; chunkZ++) {
                     CoordinateI3 coordinate = new CoordinateI3(chunkX, chunkY, chunkZ);
-                    if (world.getChunk(coordinate) == null)
-                        generators.addTail(new WorldChunkGenerator(generatorExecutors, coordinate, worldMapGenerator));
+                    if (!world.isChunkGenerated(coordinate))
+                        generators.addTail(new WorldChunkGenerator(generatorExecutors, world, coordinate, worldMapGenerator));
                 }
 
         for (WorldChunkGenerator generator : generators)
             try {
                 CoordinateI3 coordinate = generator.getCoordinate();
                 WorldChunk chunk = generator.getFuture().get();
-                world.setChunk(coordinate, chunk);
                 generator.complete();
                 populateChunk(chunk, coordinate);
             } catch (InterruptedException | ExecutionException e) {

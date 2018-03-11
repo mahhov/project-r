@@ -141,12 +141,26 @@ public class World implements Map {
                 lightElements.remove(elementNode);
     }
 
-    WorldChunk getChunk(CoordinateI3 chunkCoordinate) {
+    private WorldChunk getChunk(CoordinateI3 chunkCoordinate) {
         return chunks[chunkCoordinate.x][chunkCoordinate.y][chunkCoordinate.z];
     }
 
-    void setChunk(CoordinateI3 chunkCoordinate, WorldChunk chunk) {
+    private void setChunk(CoordinateI3 chunkCoordinate, WorldChunk chunk) {
         chunks[chunkCoordinate.x][chunkCoordinate.y][chunkCoordinate.z] = chunk;
+    }
+
+    WorldChunk createChunk(CoordinateI3 coordinate) {
+        WorldChunk chunk = getChunk(coordinate);
+        if (chunk == null) {
+            chunk = new WorldChunk(coordinate);
+            setChunk(coordinate, chunk);
+        }
+        return chunk;
+    }
+
+    boolean isChunkGenerated(CoordinateI3 coordinate) {
+        WorldChunk chunk = getChunk(coordinate);
+        return chunk != null && chunk.isGenerated();
     }
 
     private boolean inBounds(CoordinateI3 coordinate) {
@@ -156,18 +170,22 @@ public class World implements Map {
     private boolean hasCube(CoordinateI3 coordinate) {
         CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
         CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
-        return getChunk(chunkCoordinate) == null || getChunk(chunkCoordinate).hasCube(cubeCoordinate);
+        return getChunk(chunkCoordinate) == null || !getChunk(chunkCoordinate).isGenerated() || getChunk(chunkCoordinate).hasCube(cubeCoordinate);
     }
 
     public void addCube(int x, int y, int z) {
         CoordinateI3 coordinate = new CoordinateI3(x, y, z);
+        if (!inBounds(coordinate))
+            return;
         CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
         CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
-        getChunk(chunkCoordinate).incrementCube(cubeCoordinate);
+        createChunk(chunkCoordinate).incrementCube(cubeCoordinate);
     }
 
     public void removeCube(int x, int y, int z) {
         CoordinateI3 coordinate = new CoordinateI3(x, y, z);
+        if (!inBounds(coordinate))
+            return;
         CoordinateI3 chunkCoordinate = coordinate.divide(CHUNK_SIZE);
         CoordinateI3 cubeCoordinate = coordinate.subtract(chunkCoordinate, CHUNK_SIZE);
         getChunk(chunkCoordinate).decrementCube(cubeCoordinate);
