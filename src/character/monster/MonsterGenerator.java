@@ -19,15 +19,10 @@ import util.math.MathRandom;
 public class MonsterGenerator {
     public static MonsterDetails createRandomDetails() {
         float random = MathRandom.random(0, 1f);
-        //        if (random > .9f)
-        //            return createWolfDetails();
-        //        else if (random > .8)
-        //            return createGoatDetails();
-        //        else if (random > .4)
-        //            return createBugDetails();
-        //        else
-        //            return createBirdDetails();
-        return createBugDetails();
+        if (random > .95f)
+            return createWolfDetails();
+        else
+            return createBugDetails();
     }
 
     private static MonsterDetails createBugDetails() {

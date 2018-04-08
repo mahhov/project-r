@@ -94,6 +94,7 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
+// models for world element
 // trees
 // godzilla / more monsters
 // texture

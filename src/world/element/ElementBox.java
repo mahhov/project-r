@@ -18,6 +18,9 @@ public class ElementBox extends Element {
     public void connectWorld(World world, CubeInstancedFaces cubeInstancedFaces) {
         super.connectWorld(world, cubeInstancedFaces);
         world.addCube((int) x, (int) y, (int) z);
+        world.addCube((int) x, (int) y, (int) z + 1);
+        world.addCube((int) x, (int) y, (int) z + 2);
+        world.addCube((int) x, (int) y, (int) z + 3);
     }
 
     @Override
@@ -27,6 +30,6 @@ public class ElementBox extends Element {
 
     @Override
     public void draw() {
-        cubeInstancedFaces.add(x, z, -y, 0, 0, 1, color);
+        cubeInstancedFaces.add(x, z + 1.5f, -y, 0, 0, 1, 4, 1, color, false);
     }
 }
