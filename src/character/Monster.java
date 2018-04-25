@@ -10,7 +10,6 @@ import world.World;
 import world.particle.SmokeParticle;
 
 public class Monster extends Character {
-    // todo ai
     private MonsterDetails details;
     private Behavior behavior;
     private MonsterRewards rewards;
@@ -20,8 +19,8 @@ public class Monster extends Character {
         this.details = details;
     }
 
-    public void connectWorld(Human human, IntersectionMover intersectionMover, CubeInstancedFaces cubeInstancedFaces) {
-        super.connectWorld(intersectionMover, details.modelData, cubeInstancedFaces);
+    public void connectWorld(World world, Human human, IntersectionMover intersectionMover, CubeInstancedFaces cubeInstancedFaces) {
+        super.connectWorld(world, intersectionMover, details.modelData, cubeInstancedFaces);
         behavior = MonsterGenerator.createBehavior(this, human, cubeInstancedFaces, details);
         rewards = new MonsterRewards(human, details);
     }

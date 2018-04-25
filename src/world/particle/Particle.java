@@ -28,7 +28,7 @@ public abstract class Particle implements WorldLightElement {
         thetaZ = MathRandom.randomAngle();
     }
 
-    public void connectWorld(CubeInstancedFaces cubeInstancedFaces) {
+    public void connectWorld(World world, CubeInstancedFaces cubeInstancedFaces) {
         this.cubeInstancedFaces = cubeInstancedFaces;
     }
 

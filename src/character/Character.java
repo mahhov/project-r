@@ -35,6 +35,8 @@ public abstract class Character implements WorldElement { // todo support human 
     private CoordinateI3 worldCoordinate;
     private LList<WorldElement>.Node worldElementNode;
 
+    private CharacterShield characterShield;
+
     // todo allow color override model data color
     Character(float x, float y, float z, float theta, float thetaZ, float runAcc, float airAcc, float jetAcc, float size, Stats stats, float[] color) {
         this.x = x;
@@ -48,11 +50,14 @@ public abstract class Character implements WorldElement { // todo support human 
         this.size = size;
 
         health = new Health(stats);
+
+        characterShield = new CharacterShield(5);
     }
 
-    void connectWorld(IntersectionMover intersectionMover, ModelData modelData, CubeInstancedFaces cubeInstancedFaces) {
+    void connectWorld(World world, IntersectionMover intersectionMover, ModelData modelData, CubeInstancedFaces cubeInstancedFaces) {
         this.intersectionMover = intersectionMover;
         model = new Model(modelData, cubeInstancedFaces, size);
+        world.addCharacterShield(characterShield);
     }
 
     @Override
@@ -63,6 +68,7 @@ public abstract class Character implements WorldElement { // todo support human 
         }
         updateBehavior();
         move(getMoveControl());
+        characterShield.move(world, x, y, z, theta);
         if (world.movable((int) x, (int) y, (int) z))
             moveInWorld(world);
         return false;

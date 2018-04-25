@@ -34,7 +34,7 @@ public class Projectile implements WorldElement {
         this.vz = v[2];
     }
 
-    public void connectWorld(IntersectionHitter intersectionHitter, CubeInstancedFaces cubeInstancedFaces) {
+    public void connectWorld(World world, IntersectionHitter intersectionHitter, CubeInstancedFaces cubeInstancedFaces) {
         this.intersectionHitter = intersectionHitter;
         this.cubeInstancedFaces = cubeInstancedFaces;
     }

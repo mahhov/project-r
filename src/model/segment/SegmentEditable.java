@@ -11,6 +11,7 @@ public class SegmentEditable extends Segment {
         scaleZ = relative.scaleZ;
     }
 
+    // todo: leftOf and relative positioning should consider that parents of the 2 segments may be different resulting in different origin
     public SegmentEditable leftOf(SegmentEditable relative) {
         transformation.x = relative.transformation.x - relative.scaleX / 2 - scaleX / 2;
         transformation.y = relative.transformation.y;

@@ -1,5 +1,6 @@
 package world;
 
+import character.CharacterShield;
 import character.Human;
 import character.Monster;
 import geometry.CoordinateI3;
@@ -73,23 +74,28 @@ public class World implements Map {
     }
 
     public void addProjectile(Projectile projectile) {
-        projectile.connectWorld(intersectionHitter, dynamicCubeInstancedFaces);
+        projectile.connectWorld(this, intersectionHitter, dynamicCubeInstancedFaces);
         addWorldElement(projectile);
     }
 
     public void addParticle(Particle particle) {
-        particle.connectWorld(dynamicCubeInstancedFaces);
+        particle.connectWorld(this, dynamicCubeInstancedFaces);
         addWorldLightElement(particle);
     }
 
     void addMonster(Monster monster) {
-        monster.connectWorld(human, intersectionMover, dynamicCubeInstancedFaces);
+        monster.connectWorld(this, human, intersectionMover, dynamicCubeInstancedFaces);
         addWorldElement(monster);
     }
 
     void addElement(Element element) {
         element.connectWorld(this, dynamicCubeInstancedFaces);
         addWorldLightElement(element);
+    }
+
+    public void addCharacterShield(CharacterShield element) {
+        element.connectWorld(this, dynamicCubeInstancedFaces);
+        addWorldElement(element);
     }
 
     public LList<WorldElement>.Node addDynamicElement(CoordinateI3 coordinate, WorldElement element) {

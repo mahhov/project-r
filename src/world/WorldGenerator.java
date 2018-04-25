@@ -58,7 +58,7 @@ class WorldGenerator {
     private void populateChunk(WorldChunk chunk, CoordinateI3 coordinate) {
         WorldMap worldMap = chunk.getWorldMap();
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 10; i++) {
             int x = coordinate.x * World.CHUNK_SIZE + MathRandom.random(0, World.CHUNK_SIZE);
             int y = coordinate.y * World.CHUNK_SIZE + MathRandom.random(0, World.CHUNK_SIZE);
             int z = 8 * Engine.SCALE_Z;
