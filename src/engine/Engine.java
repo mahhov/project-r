@@ -94,6 +94,8 @@ public class Engine {
 
 // todo
 // ~~ ordered ~~
+// hide world elements when world chunk not rendered
+// character shield (stash)
 // models for world element
 // trees
 // godzilla / more monsters
