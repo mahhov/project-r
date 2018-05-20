@@ -14,7 +14,7 @@ import shader.ShaderManager;
 import shape.CubeInstancedFaces;
 
 public class ModelViewer implements EngineRunnable {
-    private final ModelData.ModelType MODAL_TYPE = ModelData.ModelType.MECH;
+    private final ModelData.ModelType MODAL_TYPE = ModelData.ModelType.RHINO;
 
     private Controls controls;
     private FreeCameraFollow follow;

@@ -14,7 +14,8 @@ public class ModelData implements Serializable {
         GOAT("goat.model"),
         FOUR_LEG("fourLeg.model"),
         BIRD("bird.model"),
-        PILLAR("pillar.model");
+        PILLAR("pillar.model"),
+        RHINO("rhino.model");
 
         public final ModelData modelData;
 

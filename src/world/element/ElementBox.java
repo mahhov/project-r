@@ -11,7 +11,7 @@ public class ElementBox extends Element {
         this.x = x;
         this.y = y;
         this.z = z;
-        color = new float[] {1, 1, 1, 1};
+        color = new float[] {1, 1, 1, 1}; // todo staitc final
     }
 
     @Override

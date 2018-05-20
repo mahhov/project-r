@@ -17,7 +17,7 @@ import world.projectile.Projectile;
 
 public class World implements Map {
     static final int CHUNK_SIZE = 128;
-    private static final int DRAW_CHUNKS = 3;
+    private static final int DRAW_CHUNKS = 1; // todo 3
 
     private int width, length, height;
     private int chunkWidth, chunkLength, chunkHeight;

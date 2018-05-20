@@ -10,7 +10,6 @@ import world.World;
 import world.particle.SmokeParticle;
 
 public class Monster extends Character {
-    // todo ai
     private MonsterDetails details;
     private Behavior behavior;
     private MonsterRewards rewards;

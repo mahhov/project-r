@@ -17,7 +17,8 @@ public class ModelGenerator {
         GOAT("goat.model", goat()),
         FOUR_LEG("fourLeg.model", fourLeg()),
         BIRD("bird.model", bird()),
-        PILLAR("pillar.model", pillar());
+        PILLAR("pillar.model", pillar()),
+        RHINO("rhino.model", rhino());
 
         private final String file;
         private final ModelData modelData;
@@ -420,6 +421,70 @@ public class ModelGenerator {
         modelCreator.addSegment(body);
 
         AnimationSetCreator animationSetCreator = new AnimationSetCreator(1);
+        modelCreator.setAnimationSetData(animationSetCreator);
+
+        return modelCreator.getModelData();
+    }
+
+    private static ModelData rhino() {
+        ModelCreator modelCreator = new ModelCreator();
+
+        SegmentEditable body = new SegmentEditable();
+        SegmentEditable backBody = new SegmentEditable();
+        SegmentEditable head = new SegmentEditable();
+        SegmentEditable horn = new SegmentEditable();
+        SegmentEditable legFR = new SegmentEditable();
+        SegmentEditable legFL = new SegmentEditable();
+        SegmentEditable legBR = new SegmentEditable();
+        SegmentEditable legBL = new SegmentEditable();
+
+        float[] color = new float[] {1, 1, 1, 1};
+        body.setColor(color);
+        backBody.setColor(color);
+        head.setColor(color);
+        horn.setColor(color);
+        legFR.setColor(color);
+        legFL.setColor(color);
+        legBR.setColor(color);
+        legBL.setColor(color);
+
+        body.init(null, null);
+        backBody.init(body, null);
+        head.init(body, null);
+        horn.init(body, null);
+        legFR.init(body, null);
+        legFL.init(body, null);
+        legBR.init(body, null);
+        legBL.init(body, null);
+
+        body.setScale(3, 2, 3);
+        backBody.setScale(3.5f, 4, 3.5f);
+        head.setScale(2, 2, 2);
+        horn.setScale(.5f, .5f, 1);
+        legFR.setScale(1, 1, 2);
+        legFL.setScale(1, 1, 2);
+        legBR.setScale(1.25f, 1.25f, 1.75f);
+        legBL.setScale(1.25f, 1.25f, 1.75f);
+
+        body.setTranslation(0, 0, 0);
+        backBody.backOf(body);
+        head.frontOf(body).translate(0, 0, -.25f);
+        horn.topOf(head).translate(0, .25f, 0);
+        legFR.bottomOf(body).frontAlign(body.front()).rightAlign(body.right());
+        legFL.bottomOf(body).frontAlign(body.front()).leftAlign(body.left());
+        legBR.backAlign(backBody.back()).topAlign(backBody.bottom()).rightAlign(backBody.right()).translate(0, .5f, 0);
+        legBL.backAlign(backBody.back()).topAlign(backBody.bottom()).leftAlign(backBody.left()).translate(0, .5f, 0);
+
+        modelCreator.addSegment(body);
+        modelCreator.addSegment(backBody);
+        modelCreator.addSegment(head);
+        modelCreator.addSegment(horn);
+        modelCreator.addSegment(legFR);
+        modelCreator.addSegment(legFL);
+        modelCreator.addSegment(legBR);
+        modelCreator.addSegment(legBL);
+
+        AnimationSetCreator animationSetCreator = new AnimationSetCreator(8);
         modelCreator.setAnimationSetData(animationSetCreator);
 
         return modelCreator.getModelData();

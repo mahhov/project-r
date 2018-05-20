@@ -14,15 +14,10 @@ import character.monster.motion.Motion;
 import model.ModelData;
 import shape.CubeInstancedFaces;
 import util.Distribution;
-import util.math.MathRandom;
 
 public class MonsterGenerator {
     public static MonsterDetails createRandomDetails() {
-        float random = MathRandom.random(0, 1f);
-        if (random > .95f)
-            return createWolfDetails();
-        else
-            return createBugDetails();
+        return createRhinoDetails();
     }
 
     private static MonsterDetails createBugDetails() {
@@ -114,6 +109,30 @@ public class MonsterGenerator {
         details.coinReward = new Distribution(25, 35);
         details.experienceReward = 50;
         details.modelData = ModelData.ModelType.FOUR_LEG.modelData;
+        return details;
+    }
+
+    private static MonsterDetails createRhinoDetails() {
+        MonsterDetails details = new MonsterDetails();
+        details.color = new float[] {1, 0, 0, 1};
+        details.size = 2;
+        details.movement = MonsterDetails.Movement.WALK;
+        details.runAcc = .07f;
+        details.wanderSpeed = .1f;
+        details.hostilitySpeed = 1;
+        details.hostility = MonsterDetails.Hostility.AGGRESSIVE;
+        details.hostilitySightDistance = 20;
+        details.armour = MonsterDetails.Armour.NONE;
+        details.life = 50;
+        details.attack = MonsterDetails.Attack.MELEE;
+        details.attackSpeed = 100;
+        details.attackDamage = 50;
+        details.attackRange = 10;
+        details.metalReward = new Distribution(0, 0);
+        details.glowReward = new Distribution[] {};
+        details.coinReward = new Distribution(25, 35);
+        details.experienceReward = 50;
+        details.modelData = ModelData.ModelType.RHINO.modelData;
         return details;
     }
 
