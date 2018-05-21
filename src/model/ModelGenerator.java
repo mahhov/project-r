@@ -403,8 +403,6 @@ public class ModelGenerator {
     }
 
     private static ModelData pillar() {
-        System.out.println("creating pillar");
-
         ModelCreator modelCreator = new ModelCreator();
 
         SegmentEditable body = new SegmentEditable();
